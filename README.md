@@ -1,7 +1,9 @@
 
 ## Arduino Audio Driver
 
-I was never quite happy with my [AudioKit project](https://github.com/pschatzmann/arduino-audiokit), that was a quick and dirty adaptation of the Espressif IDF Drivers for Arduino. In this project I finally implemented some clean and simple C++ classes. This reduced the complexity considerably and increased the flexibility tremendously!
+I was never quite happy with my [AudioKit project](https://github.com/pschatzmann/arduino-audiokit), that was a quick and dirty adaptation of the Espressif IDF Drivers for Arduino. 
+
+In this project I finally implemented some clean and simple C++ classes. This reduced the complexity considerably and increased the flexibility tremendously!
 
 The goal of this project is to provide an easy API to configure different audio codec chips. After setting up the codec, you can use the I2S functionality provided by your microcontroller.
 
@@ -14,7 +16,7 @@ Supported audio codec chips are e.g
 - ES7243
 - etc
 
-While you can use this library stand alone, I recommend to use it together with my AudioTools project which provides a nice integration with it's I2SCodecStream class.
+While you can use this library stand alone, I recommend to use it together with my [AudioTools](https://github.com/pschatzmann/arduino-audio-tools) project which provides a nice integration with it's I2SCodecStream class.
 
 ## AudioTools
 
@@ -37,10 +39,10 @@ void setup() {
 }  
 
 ```
-You can use the I2SCodecStream like the I2SStream but it provides some additional functionality, like setting the volume via the codec. In the constructor you need to provide an audio board object.
+You can use the [I2SCodecStream](https://pschatzmann.github.io/arduino-audio-tools/classaudio__tools_1_1_i2_s_codec_stream.html) like the I2SStream but it provides some additional functionality, like setting the volume via the codec. In the __constructor__ you need to provide an __audio board__ object.
 
 
-## Predefined Boards
+## Stand-Alone: Predefined Boards
 
 A board definition consists of a driver class and pin definitions for that specific board. You can easily use the predefined boards. E.g. the following code is setting up and starting the codec on a Lyrat board:
 
@@ -65,9 +67,9 @@ void setup() {
 Check the documentation for all available boards.
 
 
-## Custom Boards
+## Stand-Alone: Custom Boards
 
-You can also easily define your custom boards by defining the driver and your specifc pins
+You can also easily define your custom boards by defining the __driver__ and your __specifc pins__
 
 ```C++
 
@@ -93,7 +95,6 @@ void setup() {
   //cfg.i2s.fmt = I2S_NORMAL;
   //cfg.i2s.mode = MODE_SLAVE; 
   board.begin(cfg);   
-
 }
 
 ```
