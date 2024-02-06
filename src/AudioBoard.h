@@ -1,11 +1,8 @@
 #pragma once
 #include "Driver.h"
-#include "Pins.h"
+#include "DriverPins.h"
 
 namespace audio_driver {
-
-/// @ingroup audio_driver @brief Pins need to be set up in the sketch
-static DriverPins NoPins;
 
 /**
  * @brief Defitintion for audio board pins and an audio driver
@@ -48,34 +45,6 @@ protected:
   AudioDriver* driver = nullptr;
 };
 
-// -- Drivers
-/// @ingroup audio_driver
-static AudioDriverES8388Class AudioDriverES8388;
-/// @ingroup audio_driver
-static AudioDriverAC101Class AudioDriverAC101;
-/// @ingroup audio_driver
-static AudioDriverCS43l22Class AudioDriverCS43l22;
-/// @ingroup audio_driver
-static AudioDriverES8311Class AudioDriverES8311;
-/// @ingroup audio_driver
-static AudioDriverES7243Class AudioDriverES7243;
-/// @ingroup audio_driver
-static AudioDriverLyratMiniClass AudioDriverLyratMini;
-
-// -- Pins 
-/// @ingroup audio_driver
-static PinsLyrat43Class PinsLyrat43;
-/// @ingroup audio_driver
-static PinsLyrat42Class PinsLyrat42;
-/// @ingroup audio_driver
-static PinsLyratMiniClass PinsLyratMini;
-/// @ingroup audio_driver
-static PinsAudioKitEs8388v1Class PinsAudioKitEs8388v1;
-/// @ingroup audio_driver
-static PinsAudioKitEs8388v2Class PinsAudioKitEs8388v2;
-/// @ingroup audio_driver
-static PinsAudioKitAC101Class PinsAudioKitAC101;
-
 // -- Boards
 /// @ingroup audio_driver
 static AudioBoard AudioKitEs8388V1{&AudioDriverES8388, PinsAudioKitEs8388v1};
@@ -89,5 +58,6 @@ static AudioBoard LyratV43{&AudioDriverES8388, PinsLyrat43};
 static AudioBoard LyratV42{&AudioDriverES8388, PinsLyrat42};
 /// @ingroup audio_driver
 static AudioBoard LyratMini{&AudioDriverLyratMini, PinsLyratMini};
+
 
 }

@@ -517,4 +517,25 @@ public:
 
 #endif
 
+
+// -- Pins 
+/**
+ * @brief Pins need to be set up in the sketch
+ * @ingroup audio_driver 
+ */
+static DriverPins NoPins;
+/// @ingroup audio_driver
+static PinsLyrat43Class PinsLyrat43;
+/// @ingroup audio_driver
+static PinsLyrat42Class PinsLyrat42;
+/// @ingroup audio_driver
+static PinsLyratMiniClass PinsLyratMini;
+/// @ingroup audio_driver
+static PinsAudioKitEs8388v1Class PinsAudioKitEs8388v1;
+/// @ingroup audio_driver
+static PinsAudioKitEs8388v2Class PinsAudioKitEs8388v2;
+/// @ingroup audio_driver
+static PinsAudioKitAC101Class PinsAudioKitAC101;
+
+
 } // namespace audio_driver

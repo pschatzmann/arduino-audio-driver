@@ -6,7 +6,7 @@
 #include "Driver/es7243/es7243.h"
 #include "Driver/es8311/es8311.h"
 #include "Driver/es8388/es8388.h"
-#include "Pins.h"
+#include "DriverPins.h"
 
 namespace audio_driver {
 
@@ -389,5 +389,21 @@ protected:
     return OUTPUT_DEVICE_BOTH;
   }
 };
+
+// -- Drivers
+/// @ingroup audio_driver
+static AudioDriverES8388Class AudioDriverES8388;
+/// @ingroup audio_driver
+static AudioDriverAC101Class AudioDriverAC101;
+/// @ingroup audio_driver
+static AudioDriverCS43l22Class AudioDriverCS43l22;
+/// @ingroup audio_driver
+static AudioDriverES8311Class AudioDriverES8311;
+/// @ingroup audio_driver
+static AudioDriverES7243Class AudioDriverES7243;
+/// @ingroup audio_driver
+static AudioDriverLyratMiniClass AudioDriverLyratMini;
+
+
 
 } // namespace audio_driver
