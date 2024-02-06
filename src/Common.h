@@ -11,7 +11,7 @@
 #define RESULT_OK 0    /*!< error_t value indicating success (no error) */
 #define RESULT_FAIL -1 /*!< Generic error_t code indicating failure */
 #define ERROR_INVALID_ARG 1
-#define END true
+#define I2C_END true
 
 // Define the default gain for the microphone amp (see values from
 // es_mic_gain_t) Alternativly you can call es8388_set_mic_gain(es_mic_gain_t

@@ -24,6 +24,7 @@
 
 #include <string.h>
 #include "es7243.h"
+#include "Utils/etc.h"
 #include "Arduino.h"
 
 #define MCLK_PULSES_NUMBER    (20)
@@ -68,7 +69,7 @@ error_t es7243_adc_set_addr(int addr)
 
 static error_t es7243_mclk_active(uint8_t mclk_gpio)
 {
-    pinMode(mclk_gpio, OUTPUT);
+    arduino_pin_mode(mclk_gpio, OUTPUT);
     /*
         Before initializing es7243, it is necessary to output
         mclk to es7243 to activate the I2C configuration.

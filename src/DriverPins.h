@@ -107,7 +107,7 @@ struct PinsSPI {
              cs);
         p_spi->begin(clk, miso, mosi, cs);
 #elif defined(ARDUINO_ARCH_AVR)
-        LOGW("setting up SPI w/o pins");
+        AUDIODRIVER_LOGW("setting up SPI w/o pins");
         p_spi->begin();
 #endif
       }
@@ -168,7 +168,6 @@ struct PinsI2C {
 #else
         AUDIODRIVER_LOGW("setting up I2C w/o pins");
         p_wire->begin();
-      }
 #endif
       }
       AUDIODRIVER_LOGI("Setting i2c clock: %u", frequency);

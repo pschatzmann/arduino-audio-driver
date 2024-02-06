@@ -18,7 +18,7 @@ error_t i2c_bus_write_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
   p_wire->beginTransmission(addr >> 1);
   p_wire->write(reg[0]);
   p_wire->write(data[0]);
-  int rc = p_wire->endTransmission(END);
+  int rc = p_wire->endTransmission(I2C_END);
   if (rc != 0) {
     AUDIODRIVER_LOGE("->p_wire->endTransmission: %d", rc);
     result = RESULT_FAIL;
@@ -36,7 +36,7 @@ error_t i2c_bus_write_data(i2c_bus_handle_t bus, int addr, uint8_t *data,
   int result = RESULT_OK;
   p_wire->beginTransmission(addr >> 1);
   p_wire->write(data, datalen);
-  int rc = p_wire->endTransmission(END);
+  int rc = p_wire->endTransmission(I2C_END);
   if (rc != 0) {
     AUDIODRIVER_LOGE("->p_wire->endTransmission: %d", rc);
     result = RESULT_FAIL;

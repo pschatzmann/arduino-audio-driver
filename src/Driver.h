@@ -29,7 +29,7 @@ public:
     i2s.mode = MODE_SLAVE;
   }
   codec_mode_t get_mode() {
-    codec_mode_t mode;
+    //codec_mode_t mode;
     bool is_input = false;
     bool is_output = false;
 
