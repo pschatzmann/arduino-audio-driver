@@ -16,6 +16,11 @@ public:
     this->pins = pins;
     this->driver = driver;
   }
+  
+  AudioBoard(AudioDriver &driver, DriverPins pins=NoPins) {
+    this->pins = pins;
+    this->driver = &driver;
+  }
 
   bool begin(){
     return pins.begin() && driver->begin(codec_cfg, pins);

@@ -69,17 +69,17 @@ public:
     codec_cfg = codecCfg;
     p_pins = &pins;
     if (!init(codec_cfg)){
-      TRACEE();
+      AUDIODRIVER_LOGE("init failed");
       return false;
     }
     codec_mode_t codec_mode = codec_cfg.get_mode();
     if(!controlState(codec_mode)){
-      TRACEE();
+      AUDIODRIVER_LOGE("controlState failed");
       return false;
     }
     bool result = configInterface(codec_mode, codec_cfg.i2s);
     if(!result){
-      TRACEE();
+      AUDIODRIVER_LOGE("configInterface failed");
     }
     setPAPower(true);
     return result;

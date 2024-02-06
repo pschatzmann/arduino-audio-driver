@@ -95,7 +95,7 @@ struct PinsSPI {
       } else {
 // begin spi and set up pins if supported
 #if defined(ARDUINO_ARCH_STM32)
-        LAUDIODRIVER_LOGIOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso, mosi, clk,
+        AUDIODRIVER_LOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso, mosi, clk,
              cs);
         p_spi->setMISO(miso);
         p_spi->setMOSI(mosi);
@@ -166,12 +166,12 @@ struct PinsI2C {
         p_wire->setSDA(sda);
         p_wire->begin();
 #else
-        LOGW("setting up I2C w/o pins");
+        AUDIODRIVER_LOGW("setting up I2C w/o pins");
         p_wire->begin();
       }
 #endif
       }
-      LOGI("Setting i2c clock: %u", frequency);
+      AUDIODRIVER_LOGI("Setting i2c clock: %u", frequency);
       p_wire->setClock(frequency);
     }
     return true;
