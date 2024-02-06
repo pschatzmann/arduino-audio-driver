@@ -13,6 +13,8 @@ namespace audio_driver {
 /**
  * @brief I2S configuration and defition of input and output with default values
  * @ingroup audio_driver
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 class CodecConfig : public codec_config_t {
 public:
@@ -58,6 +60,8 @@ public:
 /**
  * @brief Abstract Driver API for codec chips
  * @ingroup audio_driver
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 class AudioDriver {
 public:
@@ -126,6 +130,8 @@ protected:
 
 /**
  * @brief Driver API for ES8388 codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 class AudioDriverES8388Class : public AudioDriver {
 public:
@@ -174,6 +180,8 @@ protected:
 
 /**
  * @brief Driver API for Lyrat  ES8311 codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 class AudioDriverES8311Class : public AudioDriver {
 public:
@@ -211,6 +219,8 @@ protected:
 
 /**
  * @brief Driver API for Lyrat  ES7243 codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 class AudioDriverES7243Class : public AudioDriver {
 public:
@@ -246,6 +256,8 @@ protected:
 
 /**
  * @brief Driver API for Lyrat Mini with a ES8311 and a ES7243 codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 class AudioDriverLyratMiniClass : public AudioDriver {
 public:
@@ -277,6 +289,8 @@ protected:
 
 /**
  * @brief Driver API for AC101 codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 class AudioDriverAC101Class : public AudioDriver {
 public:
@@ -309,6 +323,8 @@ protected:
 
 /**
  * @brief Driver API for the CS43l22 codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 class AudioDriverCS43l22Class : public AudioDriver {
 public:

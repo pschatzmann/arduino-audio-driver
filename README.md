@@ -16,100 +16,14 @@ Supported audio codec chips are e.g
 - ES7243
 - etc
 
-While you can use this library stand alone, I recommend to use it together with my [AudioTools](https://github.com/pschatzmann/arduino-audio-tools) project which provides a nice integration with it's [I2SCodecStream](https://pschatzmann.github.io/arduino-audio-tools/classaudio__tools_1_1_i2_s_codec_stream.html) class.
-
-## AudioTools
-
-```C++
-
-#include "AudioTools.h"
-#include "AudioLibs/I2SCodecStream.h"
-
-I2SCodecStream i2s(LyratV43);
-
-void setup() {
-  // setup i2s and codec
-  auto cfg = i2s.defaultConfig();
-  cfg.sample_rate = 44100;
-  cfg.bits_per_sample = 16;
-  cfg.channels = 1;
-  i2s.begin();
-  // set volume
-  i2s.setVolume(0.5);
-}  
-
-```
-You can use the [I2SCodecStream](https://pschatzmann.github.io/arduino-audio-tools/classaudio__tools_1_1_i2_s_codec_stream.html) like the I2SStream but it provides some additional functionality, like setting the volume via the codec. In the __constructor__ you need to provide an __audio board__ object.
+While you can use this library stand alone, I recommend to use it together with my [AudioTools](https://github.com/pschatzmann/arduino-audio-tools) project which provides a nice integration with it's [I2SCodecStream](https://pschatzmann.github.io/arduino-audio-tools/classaudio__tools_1_1_i2_s_codec_stream.html) class. Further information can be found in the [Wiki](https://github.com/pschatzmann/arduino-audio-driver/wiki).
 
 
-## Stand-Alone: Predefined Boards
-
-A board definition consists of a driver class and pin definitions for that specific board. You can easily use the predefined boards. E.g. the following code is setting up and starting the codec on a Lyrat board:
-
-```C++
-
-#include "AudioBoard.h"
-
-void setup() {
-  CodecConfig cfg;
-  cfg.adc_input = ADC_INPUT_LINE1;
-  cfg.dac_output = DAC_OUTPUT_ALL;
-  cfg.i2s.bits = BIT_LENGTH_16BITS;
-  cfg.i2s.rate = RATE_44K;
-  //cfg.i2s.fmt = I2S_NORMAL;
-  //cfg.i2s.mode = MODE_SLAVE; 
-  LyratV43.begin(cfg);   
-
-}
-
-```
-
-Check the documentation for all available boards.
-
-
-## Stand-Alone: Custom Boards
-
-You can also easily define your custom boards by defining the __driver__ and your __specifc pins__
-
-```C++
-
-#include "AudioBoard.h"
-
-DriverPins my_pins;
-AudioBoard board(&AudioDriverES8388, my_pins);
-
-void setup() {
-  // add i2c codec pins: scl, sda, port
-  my_pins.addI2C(CODEC, 32, 22, 0x20);
-  // add i2s pins: mclk, bclk, ws, data_out, data_in
-  my_pins.addI2S(CODEC, 0, 27, 26, 25, 35);
-  // add other pins: PA on gpio 21
-  my_pins.addPin(PA, 21);
-
-  // configure codec
-  CodecConfig cfg;
-  cfg.adc_input = ADC_INPUT_LINE1;
-  cfg.dac_output = DAC_OUTPUT_ALL;
-  cfg.i2s.bits = BIT_LENGTH_16BITS;
-  cfg.i2s.rate = RATE_44K;
-  //cfg.i2s.fmt = I2S_NORMAL;
-  //cfg.i2s.mode = MODE_SLAVE; 
-  board.begin(cfg);   
-}
-
-```
-## Logging
-
-The functionality has a built in logger. The default log level has been set to Warning. You can change it like this:
-
-```C++
-
-  LOGLEVEL_AUDIODRIVER = AudioDriverDebug; // or AudiDriverInfo, AudioDriverWarning, AudioDriverError
-
-```
 ## Documentation
 
+- [Wiki](https://github.com/pschatzmann/arduino-audio-driver/wiki)
 - [Classes and Objects](https://pschatzmann.github.io/arduino-audio-driver/html/group__audio__driver.html)
+- [Examples](https://github.com/pschatzmann/arduino-audio-driver/tree/main/examples)
 
 ## Support
 

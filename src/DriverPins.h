@@ -31,6 +31,8 @@ enum PinFunctionEnum {
 
 /**
  * @brief I2S pins
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 struct PinsI2S {
   PinsI2S() = default;
@@ -55,6 +57,8 @@ struct PinsI2S {
 
 /**
  * @brief SPI pins
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 struct PinsSPI {
   PinsSPI() = default;
@@ -120,6 +124,8 @@ PinsSPI ESP32PinsSD{SD, 14, 2, 15, 13, SPI};
 
 /**
  * @brief I2C pins
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 struct PinsI2C {
   PinsI2C() = default;
@@ -175,6 +181,8 @@ struct PinsI2C {
 
 /**
  * @brief Pins for LED, Buttons, AMP etc
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 struct PinsFunction {
   PinsFunction() = default;
@@ -191,6 +199,8 @@ struct PinsFunction {
 /**
  * @brief All pins for i2s, spi, i2c and other pins
  * @ingroup audio_driver
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 class DriverPins {
 public:
@@ -328,6 +338,8 @@ protected:
 
 /**
  * @brief Pins for Lyrat 4.3 - use the PinsLyrat43 object!
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 class PinsLyrat43Class : public DriverPins {
 public:
@@ -355,6 +367,8 @@ public:
 
 /**
  * @brief Pins for Lyrat 4.2 - use the PinsLyrat42 object!
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 class PinsLyrat42Class : public DriverPins {
 public:
@@ -382,6 +396,8 @@ public:
 
 /**
  * @brief Pins for Lyrat Mini - use the PinsLyratMini object!
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 class PinsLyratMiniClass : public DriverPins {
 public:
@@ -411,6 +427,8 @@ public:
 
 /**
  * @brief Pins for Es8388 AudioDriver - use the PinsAudioKitEs8388v1 object!
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 class PinsAudioKitEs8388v1Class : public DriverPins {
 public:
@@ -438,6 +456,8 @@ public:
 
 /**
  * @brief Pins for alt Es8388 AudioDriver - use the PinsAudioKitEs8388v2 object!
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 class PinsAudioKitEs8388v2Class : public DriverPins {
 public:
@@ -465,6 +485,8 @@ public:
 
 /**
  * @brief Pins for alt AC101 AudioDriver - use the PinsAudioKitAC101 object!
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 class PinsAudioKitAC101Class : public DriverPins {
 public:
@@ -494,6 +516,8 @@ public:
 
 /**
  * @brief Pins for alt AC101 AudioDriver - use the PinsAudioKitAC101 object!
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 class PinsSTM32F411DiscoClass : public DriverPins {
 public:

@@ -7,6 +7,8 @@ namespace audio_driver {
 /**
  * @brief Defitintion for audio board pins and an audio driver
  * @ingroup audio_driver
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
 class AudioBoard {
 public:
