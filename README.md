@@ -106,6 +106,9 @@ The functionality has a built in logger. The default log level has been set to W
   LOGLEVEL_AUDIODRIVER = AudioDriverDebug; // or AudiDriverInfo, AudioDriverWarning, AudioDriverError
 
 ```
+## Documentation
+
+- [Classes and Objects](https://pschatzmann.github.io/arduino-audio-driver/html/group__audio__driver.html)
 
 ## Support
 

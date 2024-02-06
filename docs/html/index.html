@@ -67,7 +67,37 @@ $(function() {
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_README"></a> I was never quite happy with my <a href="https://github.com/pschatzmann/arduino-audiokit">AudioKit project</a>, that was a quick and dirty adaptation of the Espressif IDF Drivers for Arduino. In this project I finally implemented some clean and simple C++ classes. This reduced the complexity considerably and increased the flexibility tremendously!</p>
 <p>The goal of this project is to provide an easy API to configure different audio codec chips. After setting up the codec, you can use the I2S functionality provided by your microcontroller.</p>
+<p>Supported audio codec chips are e.g</p>
+<ul>
+<li>AC101</li>
+<li>ES8388</li>
+<li>ES8311</li>
+<li>CS43l22</li>
+<li>ES7243</li>
+<li>etc</li>
+</ul>
+<p>While you can use this library stand alone, I recommend to use it together with my AudioTools project which provides a nice integration with it's I2SCodecStream class.</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
+AudioTools</h1>
+<div class="fragment"><div class="line"> {C++}</div>
+<div class="line"> </div>
+<div class="line">#include &quot;AudioTools.h&quot;</div>
+<div class="line">#include &quot;AudioLibs/I2SCodecStream.h&quot;</div>
+<div class="line"> </div>
+<div class="line">I2SCodecStream i2s(LyratV43);</div>
+<div class="line"> </div>
+<div class="line">void setup() {</div>
+<div class="line">  // setup i2s and codec</div>
+<div class="line">  auto cfg = i2s.defaultConfig();</div>
+<div class="line">  cfg.sample_rate = 44100;</div>
+<div class="line">  cfg.bits_per_sample = 16;</div>
+<div class="line">  cfg.channels = 1;</div>
+<div class="line">  i2s.begin();</div>
+<div class="line">  // set volume</div>
+<div class="line">  i2s.setVolume(0.5);</div>
+<div class="line">}  </div>
+</div><!-- fragment --><p> You can use the I2SCodecStream like the I2SStream but it provides some additional functionality, like setting the volume via the codec. In the constructor you need to provide an audio board object.</p>
+<h1><a class="anchor" id="autotoc_md2"></a>
 Predefined Boards</h1>
 <p>A board definition consists of a driver class and pin definitions for that specific board. You can easily use the predefined boards. E.g. the following code is setting up and starting the codec on a Lyrat board:</p>
 <div class="fragment"><div class="line"> {C++}</div>
@@ -85,7 +115,8 @@ Predefined Boards</h1>
 <div class="line">  LyratV43.begin(cfg);   </div>
 <div class="line"> </div>
 <div class="line">}</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md2"></a>
+</div><!-- fragment --><p>Check the documentation for all available boards.</p>
+<h1><a class="anchor" id="autotoc_md3"></a>
 Custom Boards</h1>
 <p>You can also easily define your custom boards by defining the driver and your specifc pins</p>
 <div class="fragment"><div class="line"> {C++}</div>
@@ -114,13 +145,18 @@ Custom Boards</h1>
 <div class="line">  board.begin(cfg);   </div>
 <div class="line"> </div>
 <div class="line">}</div>
-</div><!-- fragment --> <h1><a class="anchor" id="autotoc_md3"></a>
+</div><!-- fragment --> <h1><a class="anchor" id="autotoc_md4"></a>
 Logging</h1>
 <p>The functionality has a built in logger. The default log level has been set to Warning. You can change it like this:</p>
 <div class="fragment"><div class="line">{C++}</div>
 <div class="line"> </div>
 <div class="line"> LOGLEVEL_AUDIODRIVER = AudioDriverDebug; // or AudiDriverInfo, AudioDriverWarning, AudioDriverError</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md4"></a>
+</div><!-- fragment --> <h1><a class="anchor" id="autotoc_md5"></a>
+Documentation</h1>
+<ul>
+<li><a href="https://pschatzmann.github.io/arduino-audio-driver/html/group__audio__driver.html">Classes and Objects</a></li>
+</ul>
+<h1><a class="anchor" id="autotoc_md6"></a>
 Support</h1>
 <p>I spent a lot of time to provide a comprehensive and complete documentation. So please read the documentation first and check the issues and discussions before posting any new ones on Github.</p>
 <p>Open issues only for bugs and if it is not a bug, use a discussion: Provide enough information about</p><ul>
@@ -132,7 +168,7 @@ Support</h1>
 </ul>
 <p>to enable others to understand and reproduce your issue.</p>
 <p>Finally, <b>don't</b> send me any e-mails or post questions on my personal website!</p>
-<h1><a class="anchor" id="autotoc_md5"></a>
+<h1><a class="anchor" id="autotoc_md7"></a>
 Installation in Arduino</h1>
 <p>You can download the library as zip and call include Library -&gt; zip library. Or you can git clone this project into the Arduino libraries folder e.g. with</p>
 <div class="fragment"><div class="line">cd  ~/Documents/Arduino/libraries</div>
