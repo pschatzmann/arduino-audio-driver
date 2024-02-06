@@ -16,7 +16,7 @@ Supported audio codec chips are e.g
 - ES7243
 - etc
 
-While you can use this library stand alone, I recommend to use it together with my [AudioTools](https://github.com/pschatzmann/arduino-audio-tools) project which provides a nice integration with it's I2SCodecStream class.
+While you can use this library stand alone, I recommend to use it together with my [AudioTools](https://github.com/pschatzmann/arduino-audio-tools) project which provides a nice integration with it's [I2SCodecStream](https://pschatzmann.github.io/arduino-audio-tools/classaudio__tools_1_1_i2_s_codec_stream.html) class.
 
 ## AudioTools
 
@@ -75,8 +75,8 @@ You can also easily define your custom boards by defining the __driver__ and you
 
 #include "AudioBoard.h"
 
-Pins my_pins;
-AudioBoard board(my_pins, &AudioDriverES8388);
+DriverPins my_pins;
+AudioBoard board(&AudioDriverES8388, my_pins);
 
 void setup() {
   // add i2c codec pins: scl, sda, port

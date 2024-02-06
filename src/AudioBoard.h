@@ -4,15 +4,18 @@
 
 namespace audio_driver {
 
+/// @ingroup audio_driver @brief Pins need to be set up in the sketch
+static DriverPins NoPins;
+
 /**
  * @brief Defitintion for audio board pins and an audio driver
  * @ingroup audio_driver
  */
 class AudioBoard {
 public:
-  AudioBoard(Pins pins, AudioDriver *driver) {
+  AudioBoard(AudioDriver *driver, DriverPins pins=NoPins) {
     this->pins = pins;
-    this->driver =driver;
+    this->driver = driver;
   }
 
   bool begin(){
@@ -30,7 +33,7 @@ public:
   bool setMute(bool enable) { return driver->setMute(enable); }
   bool setVolume(int volume) { return driver->setVolume(volume); }
   int getVolume() { return driver->getVolume(); }
-  Pins& getPins() { return pins; }
+  DriverPins& getPins() { return pins; }
   bool setPAPower(bool enable) { return driver->setPAPower(enable); }
   /// set volume for adc: this is only supported on some defined codecs
   bool setInputVolume(int volume) {return driver->setInputVolume(volume);}
@@ -40,51 +43,51 @@ public:
   }
 
 protected:
-  Pins pins;
+  DriverPins pins;
   CodecConfig codec_cfg;
   AudioDriver* driver = nullptr;
 };
 
 // -- Drivers
 /// @ingroup audio_driver
-AudioDriverES8388Class AudioDriverES8388;
+static AudioDriverES8388Class AudioDriverES8388;
 /// @ingroup audio_driver
-AudioDriverAC101Class AudioDriverAC101;
+static AudioDriverAC101Class AudioDriverAC101;
 /// @ingroup audio_driver
-AudioDriverCS43l22Class AudioDriverCS43l22;
+static AudioDriverCS43l22Class AudioDriverCS43l22;
 /// @ingroup audio_driver
-AudioDriverES8311Class AudioDriverES8311;
+static AudioDriverES8311Class AudioDriverES8311;
 /// @ingroup audio_driver
-AudioDriverES7243Class AudioDriverES7243;
+static AudioDriverES7243Class AudioDriverES7243;
 /// @ingroup audio_driver
-AudioDriverLyratMiniClass AudioDriverLyratMini;
+static AudioDriverLyratMiniClass AudioDriverLyratMini;
 
 // -- Pins 
 /// @ingroup audio_driver
-PinsLyrat43Class PinsLyrat43;
+static PinsLyrat43Class PinsLyrat43;
 /// @ingroup audio_driver
-PinsLyrat42Class PinsLyrat42;
+static PinsLyrat42Class PinsLyrat42;
 /// @ingroup audio_driver
-PinsLyratMiniClass PinsLyratMini;
+static PinsLyratMiniClass PinsLyratMini;
 /// @ingroup audio_driver
-PinsAudioKitEs8388v1Class PinsAudioKitEs8388v1;
+static PinsAudioKitEs8388v1Class PinsAudioKitEs8388v1;
 /// @ingroup audio_driver
-PinsAudioKitEs8388v2Class PinsAudioKitEs8388v2;
+static PinsAudioKitEs8388v2Class PinsAudioKitEs8388v2;
 /// @ingroup audio_driver
-PinsAudioKitAC101Class PinsAudioKitAC101;
+static PinsAudioKitAC101Class PinsAudioKitAC101;
 
 // -- Boards
 /// @ingroup audio_driver
-AudioBoard AudioKitEs8388V1{PinsAudioKitEs8388v1, &AudioDriverES8388};
+static AudioBoard AudioKitEs8388V1{&AudioDriverES8388, PinsAudioKitEs8388v1};
 /// @ingroup audio_driver
-AudioBoard AudioKitEs8388V2{PinsAudioKitEs8388v2, &AudioDriverES8388};
+static AudioBoard AudioKitEs8388V2{&AudioDriverES8388, PinsAudioKitEs8388v2};
 /// @ingroup audio_driver
-AudioBoard AudioKitAC101{PinsAudioKitAC101, &AudioDriverAC101};
+static AudioBoard AudioKitAC101{&AudioDriverAC101, PinsAudioKitAC101};
 /// @ingroup audio_driver
-AudioBoard LyratV43{PinsLyrat43, &AudioDriverES8388};
+static AudioBoard LyratV43{&AudioDriverES8388, PinsLyrat43};
 /// @ingroup audio_driver
-AudioBoard LyratV42{PinsLyrat42, &AudioDriverES8388};
+static AudioBoard LyratV42{&AudioDriverES8388, PinsLyrat42};
 /// @ingroup audio_driver
-AudioBoard LyratMini{PinsLyratMini, &AudioDriverLyratMini};
+static AudioBoard LyratMini{&AudioDriverLyratMini, PinsLyratMini};
 
 }

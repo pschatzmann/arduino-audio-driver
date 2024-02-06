@@ -192,7 +192,7 @@ struct PinsFunction {
  * @brief All pins for i2s, spi, i2c and other pins
  * @ingroup audio_driver
  */
-class Pins {
+class DriverPins {
 public:
   void addI2S(PinsI2S pin) { i2s.push_back(pin); }
   void addI2S(PinFunctionEnum function, Pin mclk, Pin bck, Pin ws, Pin data_out,
@@ -209,7 +209,7 @@ public:
 
   void addI2C(PinsI2C pin) { i2c.push_back(pin); }
   void addI2C(PinFunctionEnum function, Pin scl, Pin sda, int port = -1,
-              uint32_t frequency = 100000) {
+          uint32_t frequency = 100000, TwoWire &wire = Wire) {
     PinsI2C pin(function, scl, sda, port, frequency);
     addI2C(pin);
   }
@@ -329,7 +329,7 @@ protected:
 /**
  * @brief Pins for Lyrat 4.3 - use the PinsLyrat43 object!
  */
-class PinsLyrat43Class : public Pins {
+class PinsLyrat43Class : public DriverPins {
 public:
   PinsLyrat43Class() {
     // sd pins
@@ -356,7 +356,7 @@ public:
 /**
  * @brief Pins for Lyrat 4.2 - use the PinsLyrat42 object!
  */
-class PinsLyrat42Class : public Pins {
+class PinsLyrat42Class : public DriverPins {
 public:
   PinsLyrat42Class() {
     // sd pins
@@ -383,7 +383,7 @@ public:
 /**
  * @brief Pins for Lyrat Mini - use the PinsLyratMini object!
  */
-class PinsLyratMiniClass : public Pins {
+class PinsLyratMiniClass : public DriverPins {
 public:
   PinsLyratMiniClass() {
     // sd pins
@@ -412,7 +412,7 @@ public:
 /**
  * @brief Pins for Es8388 AudioDriver - use the PinsAudioKitEs8388v1 object!
  */
-class PinsAudioKitEs8388v1Class : public Pins {
+class PinsAudioKitEs8388v1Class : public DriverPins {
 public:
   PinsAudioKitEs8388v1Class() {
     // sd pins
@@ -439,7 +439,7 @@ public:
 /**
  * @brief Pins for alt Es8388 AudioDriver - use the PinsAudioKitEs8388v2 object!
  */
-class PinsAudioKitEs8388v2Class : public Pins {
+class PinsAudioKitEs8388v2Class : public DriverPins {
 public:
   PinsAudioKitEs8388v2Class() {
     // sd pins
@@ -466,7 +466,7 @@ public:
 /**
  * @brief Pins for alt AC101 AudioDriver - use the PinsAudioKitAC101 object!
  */
-class PinsAudioKitAC101Class : public Pins {
+class PinsAudioKitAC101Class : public DriverPins {
 public:
   PinsAudioKitAC101Class() {
     // sd pins
@@ -495,7 +495,7 @@ public:
 /**
  * @brief Pins for alt AC101 AudioDriver - use the PinsAudioKitAC101 object!
  */
-class PinsSTM32F411DiscoClass : public Pins {
+class PinsSTM32F411DiscoClass : public DriverPins {
 public:
   PinsSTM32F411DiscoClass() {
     // add i2c codec pins: scl, sda, port, frequency

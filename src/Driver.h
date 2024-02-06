@@ -61,7 +61,7 @@ public:
  */
 class AudioDriver {
 public:
-  virtual bool begin(CodecConfig codecCfg, Pins &pins) {
+  virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
     codec_cfg = codecCfg;
     p_pins = &pins;
     if (!init(codec_cfg)){
@@ -89,7 +89,7 @@ public:
   virtual bool isVolumeSupported() { return true; }
   virtual bool isInputVolumeSupported() { return false; }
 
-  Pins &pins() { return *p_pins; }
+  DriverPins &pins() { return *p_pins; }
 
   /// Sets the PA Power pin to active or inactive
   bool setPAPower(bool enable) {
@@ -103,7 +103,7 @@ public:
 
 protected:
   CodecConfig codec_cfg;
-  Pins *p_pins = nullptr;
+  DriverPins *p_pins = nullptr;
 
   virtual bool init(codec_config_t codec_cfg) { return false; }
   virtual bool deinit() { return false; }
@@ -249,7 +249,7 @@ protected:
  */
 class AudioDriverLyratMiniClass : public AudioDriver {
 public:
-  bool begin(CodecConfig codecCfg, Pins &pins) {
+  bool begin(CodecConfig codecCfg, DriverPins &pins) {
     int rc = 0;
     if (codecCfg.dac_output != DAC_OUTPUT_NONE)
       rc += !dac.begin(codecCfg, pins);
@@ -318,7 +318,7 @@ public:
 
   void setI2CAddress(uint16_t adr) { deviceAddr = adr; }
 
-  virtual bool begin(CodecConfig codecCfg, Pins &pins) {
+  virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
     codec_cfg = codecCfg;
     // manage reset pin -> acive high
     setPAPower(true);

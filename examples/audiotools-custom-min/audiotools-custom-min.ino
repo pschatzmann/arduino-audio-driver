@@ -1,6 +1,6 @@
 /**
- * @brief We use a predefined AudioKitEs8388V1 board and output a sine wave via i2s
- * using the AudioTools I2SCodecStream
+ * @brief We define a custom board w/o any pins and output a sine tone
+ * with the help of the AudioTools I2SCodecStream
  * @author phil schatzmann
  */
 
@@ -8,30 +8,33 @@
 #include "AudioLibs/I2SCodecStream.h"
 
 AudioInfo info(44100, 2, 16);
-SineWaveGenerator<int16_t> sineWave(32000); 
-GeneratedSoundStream<int16_t>sound(sineWave); 
-I2SCodecStream out(AudioKitEs8388V1);
-StreamCopy copier(out, sound); 
+SineWaveGenerator<int16_t> sineWave(32000);
+GeneratedSoundStream<int16_t> sound(sineWave);
+AudioBoard board(&AudioDriverES8388);
+I2SCodecStream out(board);
+StreamCopy copier(out, sound);
 
-// Arduino Setup
-void setup(void) {
+void setup() {
   // Setup logging
   Serial.begin(115200);
   AudioLogger::instance().begin(Serial, AudioLogger::Info);
   LOGLEVEL_AUDIODRIVER = AudioDriverInfo;
 
+  // initialize i2c because board has no i2c definition
+  Wire.begin();
+
   // start I2S & codec
   Serial.println("starting I2S...");
   auto config = out.defaultConfig();
   config.copyFrom(info);
+  // define your i2s pins if you dont want to use the default pins
+  config.pin_bck = 14;
+  config.pin_ws = 15;
+  config.pin_data = 22;
   out.begin(config);
-
-  // set volume
-  out.setVolume(1.0);
 
   // Setup sine wave
   sineWave.begin(info, N_B4);
-  Serial.println("started...");
 }
 
 // Arduino loop - copy sound to out
