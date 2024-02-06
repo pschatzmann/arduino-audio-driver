@@ -77,7 +77,7 @@ $(function() {
 <li>ES7243</li>
 <li>etc</li>
 </ul>
-<p>While you can use this library stand alone, I recommend to use it together with my <a href="https://github.com/pschatzmann/arduino-audio-tools">AudioTools</a> project which provides a nice integration with it's I2SCodecStream class.</p>
+<p>While you can use this library stand alone, I recommend to use it together with my <a href="https://github.com/pschatzmann/arduino-audio-tools">AudioTools</a> project which provides a nice integration with it's <a href="https://pschatzmann.github.io/arduino-audio-tools/classaudio__tools_1_1_i2_s_codec_stream.html">I2SCodecStream</a> class.</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
 AudioTools</h1>
 <div class="fragment"><div class="line"> {C++}</div>
@@ -124,8 +124,8 @@ Stand-Alone: Custom Boards</h1>
 <div class="line"> </div>
 <div class="line">#include &quot;AudioBoard.h&quot;</div>
 <div class="line"> </div>
-<div class="line">Pins my_pins;</div>
-<div class="line">AudioBoard board(my_pins, &amp;AudioDriverES8388);</div>
+<div class="line">DriverPins my_pins;</div>
+<div class="line">AudioBoard board(&amp;AudioDriverES8388, my_pins);</div>
 <div class="line"> </div>
 <div class="line">void setup() {</div>
 <div class="line">  // add i2c codec pins: scl, sda, port</div>

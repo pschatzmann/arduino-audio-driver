@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['pins_361',['pins',['../classaudio__driver_1_1_audio_driver.html#a442c670f12c972b1701609070f85ea94',1,'audio_driver::AudioDriver']]],
+  ['pins_361',['pins',['../classaudio__driver_1_1_audio_driver.html#a42db9a98715e0b6383cd493d5ca06a8e',1,'audio_driver::AudioDriver']]],
   ['pinsaudiokitac101class_362',['PinsAudioKitAC101Class',['../class_pins_audio_kit_a_c101_class.html#af8047f806dd07e4e7fb9af3b1046445c',1,'PinsAudioKitAC101Class']]],
   ['pinsaudiokites8388v1class_363',['PinsAudioKitEs8388v1Class',['../class_pins_audio_kit_es8388v1_class.html#ad2457c35beb9c8bc89440e0fb8ce98b2',1,'PinsAudioKitEs8388v1Class']]],
   ['pinsaudiokites8388v2class_364',['PinsAudioKitEs8388v2Class',['../class_pins_audio_kit_es8388v2_class.html#ae3b3d5b5559c7f0b13071e5c885c6499',1,'PinsAudioKitEs8388v2Class']]],

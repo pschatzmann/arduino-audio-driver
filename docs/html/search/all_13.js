@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['_7evector_263',['~Vector',['../classaudio__driver_1_1_vector.html#a33fc4934cb870683ae08af71594844c7',1,'audio_driver::Vector']]]
+  ['ws_262',['ws',['../structaudio__driver_1_1_pins_i2_s.html#ac32cdca204c897f8cfdba3e0017b9b82',1,'audio_driver::PinsI2S']]]
 ];
