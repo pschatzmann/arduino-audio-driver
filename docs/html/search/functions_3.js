@@ -1,0 +1,5 @@
+var searchData=
+[
+  ['data_311',['data',['../classaudio__driver_1_1_vector.html#a1699472936b80a88d3fc8096975d21b2',1,'audio_driver::Vector']]],
+  ['deinit_312',['deinit',['../classaudio__driver_1_1_audio_driver.html#a5e9dd2cbb2377c5ac866a5ccc26ff497',1,'audio_driver::AudioDriver::deinit()'],['../classaudio__driver_1_1_audio_driver_e_s8388_class.html#a5117a0a714bc6ffce07a792ca2b5c872',1,'audio_driver::AudioDriverES8388Class::deinit()'],['../classaudio__driver_1_1_audio_driver_e_s8311_class.html#a5117a0a714bc6ffce07a792ca2b5c872',1,'audio_driver::AudioDriverES8311Class::deinit()'],['../classaudio__driver_1_1_audio_driver_e_s7243_class.html#a5117a0a714bc6ffce07a792ca2b5c872',1,'audio_driver::AudioDriverES7243Class::deinit()'],['../classaudio__driver_1_1_audio_driver_a_c101_class.html#a5117a0a714bc6ffce07a792ca2b5c872',1,'audio_driver::AudioDriverAC101Class::deinit()'],['../classaudio__driver_1_1_audio_driver_c_s43l22_class.html#a5117a0a714bc6ffce07a792ca2b5c872',1,'audio_driver::AudioDriverCS43l22Class::deinit()']]]
+];

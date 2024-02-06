@@ -1,0 +1,170 @@
+#pragma once
+#include <stdint.h>
+#include "Utils/Logger.h"
+/*!
+ * @file
+ * @defgroup audio_driver Audio Driver
+ * @defgroup enumerations Public enumeration types
+ */
+
+/// Definitions for error constants.
+#define RESULT_OK 0    /*!< error_t value indicating success (no error) */
+#define RESULT_FAIL -1 /*!< Generic error_t code indicating failure */
+#define ERROR_INVALID_ARG 1
+#define END true
+
+// Define the default gain for the microphone amp (see values from
+// es_mic_gain_t) Alternativly you can call es8388_set_mic_gain(es_mic_gain_t
+// gain) if you prefer to use value from an comprehensive enum
+#ifndef ES8388_DEFAULT_INPUT_GAIN
+#define ES8388_DEFAULT_INPUT_GAIN 25
+#endif
+
+#ifdef __cplusplus
+namespace audio_driver {
+#endif
+
+typedef int error_t;
+typedef void *i2c_bus_handle_t;
+typedef void *i2c_cmd_handle_t;
+
+/**
+ * @enum adc_input_t
+ * @brief Select adc channel for input mic signal
+ * @ingroup enumerations
+ */
+typedef enum {
+  ADC_INPUT_NONE = 0x00, /*!< no input */
+  ADC_INPUT_LINE1,       /*!< mic input to adc channel 1 */
+  ADC_INPUT_LINE2,       /*!< mic input to adc channel 2 */
+  ADC_INPUT_LINE3,       /*!< mic input to adc channel 3 */
+  ADC_INPUT_ALL,         /*!< mic input to both channels of adc */
+  ADC_INPUT_DIFFERENCE,  /*!< mic input to adc difference channel */
+} adc_input_t;
+
+/**
+ * @enum dac_output_t
+ * @brief Select channel for dac output
+ * @ingroup enumerations
+ */
+typedef enum {
+  DAC_OUTPUT_NONE = 0x00, /*!< no output */
+  DAC_OUTPUT_LINE1,       /*!< dac output signal to channel 1 */
+  DAC_OUTPUT_LINE2,       /*!< dac output signal to channel 2 */
+  DAC_OUTPUT_ALL,         /*!< dac output signal to both channels */
+} dac_output_t;
+
+/**
+ * @enum i2s_mode_t
+ * @brief Select I2S interface operating mode i.e. master or slave for audio
+ * codec chip
+ * @ingroup enumerations
+ */
+typedef enum {
+  MODE_SLAVE = 0x00,  /*!< set slave mode */
+  MODE_MASTER = 0x01, /*!< set master mode */
+} i2s_mode_t;
+
+/**
+ * @enum samplerate_t
+ * @brief Select I2S interface samples per second
+ * @ingroup enumerations
+ */
+typedef enum {
+  RATE_08K = 0, /*!< set to  8k samples per second */
+  RATE_11K,     /*!< set to 11.025k samples per second */
+  RATE_16K,     /*!< set to 16k samples in per second */
+  RATE_22K,     /*!< set to 22.050k samples per second */
+  RATE_24K,     /*!< set to 24k samples in per second */
+  RATE_32K,     /*!< set to 32k samples in per second */
+  RATE_44K,     /*!< set to 44.1k samples per second */
+  RATE_48K,     /*!< set to 48k samples per second */
+} samplerate_t;
+
+/**
+ * @enum sample_bits_t
+ * @brief Select I2S interface number of bits per sample
+ * @ingroup enumerations
+ */
+typedef enum {
+  BIT_LENGTH_16BITS = 1, /*!< set 16 bits per sample */
+  BIT_LENGTH_24BITS,     /*!< set 24 bits per sample */
+  BIT_LENGTH_32BITS,     /*!< set 32 bits per sample */
+} sample_bits_t;
+
+/**
+ * @enum i2s_format_t
+ * @brief Select I2S interface format for audio codec chip
+ * @ingroup enumerations
+ */
+typedef enum {
+  I2S_NORMAL = 0, /*!< set normal I2S format */
+  I2S_LEFT,       /*!< set all left format */
+  I2S_RIGHT,      /*!< set all right format */
+  I2S_DSP,        /*!< set dsp/pcm format */
+} i2s_format_t;
+
+/**
+ * @enum es_mic_gain_t
+ * @brief Microphone Gain
+ * @ingroup enumerations
+ */
+typedef enum {
+    MIC_GAIN_MIN = -1,
+    MIC_GAIN_0DB = 0,
+    MIC_GAIN_3DB = 3,
+    MIC_GAIN_6DB = 6,
+    MIC_GAIN_9DB = 9,
+    MIC_GAIN_12DB = 12,
+    MIC_GAIN_15DB = 15,
+    MIC_GAIN_18DB = 18,
+    MIC_GAIN_21DB = 21,
+    MIC_GAIN_24DB = 24,
+    MIC_GAIN_MAX,
+} es_mic_gain_t;
+
+
+/**
+ * @enum codec_mode_t
+ * @brief Select media hal codec mode
+ * @ingroup enumerations
+ */
+typedef enum {
+  CODEC_MODE_NONE = 0,
+  CODEC_MODE_ENCODE = 1, /*!< select adc */
+  CODEC_MODE_DECODE,     /*!< select dac */
+  CODEC_MODE_BOTH,       /*!< select both adc and dac */
+  CODEC_MODE_LINE_IN,    /*!< set adc channel */
+} codec_mode_t;
+
+/**
+ * @brief I2s interface configuration for audio codec chip
+ * @ingroup audio_driver
+ */
+typedef struct {
+  /*!< Audio codec chip mode: if the microcontroller is master the codec must be slave! */
+  i2s_mode_t mode;
+  /*!< I2S interface format */
+  i2s_format_t fmt;
+  /*!< I2S sample rate in samples per second */
+  samplerate_t rate;
+  /*!< i2s number of bits per sample */
+  sample_bits_t bits;
+} I2SDefinition;
+
+/**
+ * @brief Configure media hal for initialization of audio codec chip
+ */
+typedef struct {
+  adc_input_t adc_input;   /*!< set adc channel */
+  dac_output_t dac_output; /*!< set dac channel */
+  I2SDefinition i2s;   /*!< set I2S interface configuration */
+} codec_config_t;
+
+#ifdef __cplusplus
+}
+// automatically use namespace
+using namespace audio_driver;
+#endif
+
+

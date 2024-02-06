@@ -1,0 +1,14 @@
+var searchData=
+[
+  ['addi2c_292',['addI2C',['../class_pins.html#a6e8bad54f1b87d63d01bc3e9101ffa6a',1,'Pins::addI2C(PinFunctionEnum function, Pin scl, Pin sda, int port=-1, uint32_t frequency=100000)'],['../class_pins.html#a490f85a68f3a18a47bf5de4de4c2cce4',1,'Pins::addI2C(PinsI2C pin)']]],
+  ['addi2s_293',['addI2S',['../class_pins.html#a2cf8a5567d24dcc073cd836df6c0d16c',1,'Pins::addI2S(PinsI2S pin)'],['../class_pins.html#abdc5479249d6020db5be831e0c82862b',1,'Pins::addI2S(PinFunctionEnum function, Pin mclk, Pin bck, Pin ws, Pin data_out, Pin data_in=-1, int port=0)']]],
+  ['addpin_294',['addPin',['../class_pins.html#a722e56e8d76666b0937b157c765f0a3a',1,'Pins::addPin(PinsFunction pin)'],['../class_pins.html#aedb77ae3bd69931ff80d786bc7900bb7',1,'Pins::addPin(PinFunctionEnum function, Pin pinNo, int index=0)']]],
+  ['addspi_295',['addSPI',['../class_pins.html#a34d4832fe16477602735e9295c025f2f',1,'Pins::addSPI(PinsSPI pin)'],['../class_pins.html#acfd126803bc7df716be7cae95609b3c7',1,'Pins::addSPI(PinFunctionEnum function, Pin clk, Pin miso, Pin mosi, Pin cs, SPIClass &amp;spi=SPI)']]],
+  ['assign_296',['assign',['../classaudio__driver_1_1_vector.html#ab96ed9df4d126c9b75b554303495543c',1,'audio_driver::Vector::assign(iterator v1, iterator v2)'],['../classaudio__driver_1_1_vector.html#a3a28528a91fb041474f2f784aacfc89a',1,'audio_driver::Vector::assign(size_t number, T value)']]],
+  ['audioboard_297',['AudioBoard',['../classaudio__driver_1_1_audio_board.html#a6143d29f6f7ccdebdd880ad69d5759ec',1,'audio_driver::AudioBoard']]],
+  ['audiodriver_5flogd_298',['AUDIODRIVER_LOGD',['../_logger_8c.html#a249a099b55491f372a5482a3528f37fc',1,'AUDIODRIVER_LOGD(const char *fmr,...):&#160;Logger.c'],['../_logger_8h.html#a249a099b55491f372a5482a3528f37fc',1,'AUDIODRIVER_LOGD(const char *fmr,...):&#160;Logger.c']]],
+  ['audiodriver_5floge_299',['AUDIODRIVER_LOGE',['../_logger_8c.html#aea8c7f87059310d64025f347548228b6',1,'AUDIODRIVER_LOGE(const char *fmr,...):&#160;Logger.c'],['../_logger_8h.html#aea8c7f87059310d64025f347548228b6',1,'AUDIODRIVER_LOGE(const char *fmr,...):&#160;Logger.c']]],
+  ['audiodriver_5flogi_300',['AUDIODRIVER_LOGI',['../_logger_8c.html#a0f6014490e4228fc8d23f63c35480620',1,'AUDIODRIVER_LOGI(const char *fmr,...):&#160;Logger.c'],['../_logger_8h.html#a0f6014490e4228fc8d23f63c35480620',1,'AUDIODRIVER_LOGI(const char *fmr,...):&#160;Logger.c']]],
+  ['audiodriver_5flogw_301',['AUDIODRIVER_LOGW',['../_logger_8c.html#aa5d905d57d480cfb608fc5f4a8fe6a6b',1,'AUDIODRIVER_LOGW(const char *fmr,...):&#160;Logger.c'],['../_logger_8h.html#aa5d905d57d480cfb608fc5f4a8fe6a6b',1,'AUDIODRIVER_LOGW(const char *fmr,...):&#160;Logger.c']]],
+  ['audiodrivercs43l22class_302',['AudioDriverCS43l22Class',['../classaudio__driver_1_1_audio_driver_c_s43l22_class.html#a81bf489d026fa74ecbaa6a76cdd11b1b',1,'audio_driver::AudioDriverCS43l22Class']]]
+];
