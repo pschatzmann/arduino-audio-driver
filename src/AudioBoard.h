@@ -30,7 +30,7 @@ public:
   bool setMute(bool enable) { return driver->setMute(enable); }
   bool setVolume(int volume) { return driver->setVolume(volume); }
   int getVolume() { return driver->getVolume(); }
-  Pins getPins() { return pins; }
+  Pins& getPins() { return pins; }
   bool setPAPower(bool enable) { return driver->setPAPower(enable); }
   /// set volume for adc: this is only supported on some defined codecs
   bool setInputVolume(int volume) {return driver->setInputVolume(volume);}

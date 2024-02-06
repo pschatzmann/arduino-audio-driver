@@ -75,7 +75,8 @@ struct PinsSPI {
   Pin mosi = -1;
   Pin cs = -1;
   bool set_active = true;
-  operator bool() { return clk != -1 && miso != -1 && mosi != -1; }
+  bool pinsAvailable() { return clk != -1 && miso != -1 && mosi != -1; }
+  operator bool() { return pinsAvailable(); }
   bool begin() {
     if (set_active) {
       // setup chip select
@@ -84,21 +85,27 @@ struct PinsSPI {
         digitalWrite(cs, HIGH);
       }
       // if no pins are defined, just call begin
-      if (!*this) {
+      if (!pinsAvailable()) {
+        LOGI("setting up SPI w/o pins");
         p_spi->begin();
       } else {
-      // begin spi and set up pins if supported
-      #if defined(ARDUINO_ARCH_STM32)
-            p_spi->setMISO(miso);
-            p_spi->setMOSI(mosi);
-            p_spi->setSCLK(clk);
-            p_spi->setSSEL(cs);
-            p_spi->begin();
-      #elif defined(ESP32)
-            p_spi->begin(clk, miso, mosi, cs);
-      #elif defined(ARDUINO_ARCH_AVR)
-            p_spi->begin();
-      #endif
+// begin spi and set up pins if supported
+#if defined(ARDUINO_ARCH_STM32)
+        LOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso, mosi, clk,
+             cs);
+        p_spi->setMISO(miso);
+        p_spi->setMOSI(mosi);
+        p_spi->setSCLK(clk);
+        p_spi->setSSEL(cs);
+        p_spi->begin();
+#elif defined(ESP32)
+        LOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso, mosi, clk,
+             cs);
+        p_spi->begin(clk, miso, mosi, cs);
+#elif defined(ARDUINO_ARCH_AVR)
+        LOGW("setting up SPI w/o pins");
+        p_spi->begin();
+#endif
       }
     }
     return true;
@@ -109,7 +116,7 @@ struct PinsSPI {
 /**
  * @brief Default SPI pins for ESP32 Lyrat, AudioDriver etc
  */
-PinsSPI ESP32PinsSD{SD, 13, 2, 15, 14, SPI};
+PinsSPI ESP32PinsSD{SD, 14, 2, 15, 13, SPI};
 
 /**
  * @brief I2C pins
@@ -133,27 +140,33 @@ struct PinsI2C {
   Pin sda = -1;
   bool set_active = true;
   TwoWire *p_wire;
-  operator bool() { return scl != -1 && sda != -1 && frequency != 0; }
+  bool pinsAvailable() { return scl != -1 && sda != -1 && frequency != 0; }
+  operator bool() { return pinsAvailable(); }
 
   bool begin() {
     if (set_active) {
-      p_wire->setClock(frequency);
       // if no pins are defined, just call begin
-      if (!*this)
+      if (!pinsAvailable()) {
+        LOGI("setting up I2C w/o pins");
         p_wire->begin();
-      else {
-      // begin with defined pins, if supported
-        #if defined(ESP32) || defined(ARDUINO_ARCH_STM32)
-                p_wire->begin(sda, scl);
-        #elif defined(ARDUINO_ARCH_RP2040)
-                p_wire->setSCL(scl);
-                p_wire->setSDA(sda);
-                p_wire->begin();
-        #else
-                p_wire->begin();
-              }
-        #endif
+      } else {
+        // begin with defined pins, if supported
+#if defined(ESP32) || defined(ARDUINO_ARCH_STM32)
+        LOGI("setting up I2C scl: %d, sda: %d", scl, sda);
+        p_wire->begin(sda, scl);
+#elif defined(ARDUINO_ARCH_RP2040)
+        LOGI("setting up I2C scl: %d, sda: %d", scl, sda);
+        p_wire->setSCL(scl);
+        p_wire->setSDA(sda);
+        p_wire->begin();
+#else
+        LOGW("setting up I2C w/o pins");
+        p_wire->begin();
       }
+#endif
+      }
+      LOGI("Setting i2c clock: %u", frequency);
+      p_wire->setClock(frequency);
     }
     return true;
   }
@@ -321,9 +334,9 @@ public:
   PinsLyrat43Class() {
     // sd pins
     addSPI(ESP32PinsSD);
-    // add i2c codec pins
+    // add i2c codec pins: scl, sda, port, frequency
     addI2C(CODEC, 23, 18, 0x20);
-    // add i2s pins
+    // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
     addI2S(CODEC, 0, 5, 25, 26, 35);
 
     // add other pins
@@ -348,9 +361,9 @@ public:
   PinsLyrat42Class() {
     // sd pins
     addSPI(ESP32PinsSD);
-    // add i2c codec pins
+    // add i2c codec pins: scl, sda, port, frequency
     addI2C(CODEC, 23, 18, 0x20);
-    // add i2s pins
+    // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
     addI2S(CODEC, 0, 5, 25, 26, 35);
 
     // add other pins
@@ -375,9 +388,9 @@ public:
   PinsLyratMiniClass() {
     // sd pins
     addSPI(ESP32PinsSD);
-    // add i2c codec pins
+    // add i2c codec pins: scl, sda, port, frequency
     addI2C(CODEC, 23, 18, 0x20);
-    // add i2s pins
+    // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
     addI2S(CODEC, 0, 5, 25, 26, 35, 0);
     addI2S(CODEC_ADC, 0, 32, 33, -1, 36, 1);
 
@@ -404,9 +417,9 @@ public:
   PinsAudioKitEs8388v1Class() {
     // sd pins
     addSPI(ESP32PinsSD);
-    // add i2c codec pins
-    addI2C(CODEC, 32, 22, 0x20);
-    // add i2s pins
+    // add i2c codec pins: scl, sda, port, frequency
+    addI2C(CODEC, 32, 33, 0x20);
+    // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
     addI2S(CODEC, 0, 27, 25, 26, 35);
 
     // add other pins
@@ -431,9 +444,9 @@ public:
   PinsAudioKitEs8388v2Class() {
     // sd pins
     addSPI(ESP32PinsSD);
-    // add i2c codec pins
+    // add i2c codec pins: scl, sda, port, frequency
     addI2C(CODEC, 23, 18, 0x20);
-    // add i2s pins
+    // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
     addI2S(CODEC, 0, 5, 25, 26, 35);
 
     // add other pins
@@ -458,9 +471,9 @@ public:
   PinsAudioKitAC101Class() {
     // sd pins
     addSPI(ESP32PinsSD);
-    // add i2c codec pins
+    // add i2c codec pins: scl, sda, port, frequency
     addI2C(CODEC, 32, 22, 0x20);
-    // add i2s pins
+    // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
     addI2S(CODEC, 0, 27, 26, 25, 35);
 
     // add other pins
@@ -485,19 +498,19 @@ public:
 class PinsSTM32F411DiscoClass : public Pins {
 public:
   PinsSTM32F411DiscoClass() {
-    // add i2c codec pins
+    // add i2c codec pins: scl, sda, port, frequency
     addI2C(CODEC, PB6, PB9, 0x25);
-    // add i2s pins
+    // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
     addI2S(CODEC, PC7, PC10, PA4, PC3, PC12);
 
     // add other pins
-    addPin(KEY, PA0); // user button
-    addPin(LED, PD12, 0); // green
-    addPin(LED, PD5, 1);  // red
-    addPin(LED, PD13, 2); // orange
-    addPin(LED, PD14, 3); // red
-    addPin(LED, PD15, 4); // blue
-    addPin(PA, PD4);      // reset pin (active high)
+    addPin(KEY, PA0);       // user button
+    addPin(LED, PD12, 0);   // green
+    addPin(LED, PD5, 1);    // red
+    addPin(LED, PD13, 2);   // orange
+    addPin(LED, PD14, 3);   // red
+    addPin(LED, PD15, 4);   // blue
+    addPin(PA, PD4);        // reset pin (active high)
     addPin(CODEC_ADC, PC3); // Microphone
   }
 } PinsSTM32F411Disco;
