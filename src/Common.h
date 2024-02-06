@@ -87,9 +87,13 @@ typedef enum {
  * @ingroup enumerations
  */
 typedef enum {
-  BIT_LENGTH_16BITS = 1, /*!< set 16 bits per sample */
-  BIT_LENGTH_24BITS,     /*!< set 24 bits per sample */
-  BIT_LENGTH_32BITS,     /*!< set 32 bits per sample */
+    BIT_LENGTH_MIN = -1,
+    BIT_LENGTH_16BITS = 0x03,
+    BIT_LENGTH_18BITS = 0x02,
+    BIT_LENGTH_20BITS = 0x01,
+    BIT_LENGTH_24BITS = 0x00,
+    BIT_LENGTH_32BITS = 0x04,
+    BIT_LENGTH_MAX,
 } sample_bits_t;
 
 /**
@@ -99,9 +103,9 @@ typedef enum {
  */
 typedef enum {
   I2S_NORMAL = 0, /*!< set normal I2S format */
-  I2S_LEFT,       /*!< set all left format */
-  I2S_RIGHT,      /*!< set all right format */
-  I2S_DSP,        /*!< set dsp/pcm format */
+  I2S_LEFT = 1,       /*!< set all left format */
+  I2S_RIGHT = 2,      /*!< set all right format */
+  I2S_DSP = 3,        /*!< set dsp/pcm format */
 } i2s_format_t;
 
 /**
@@ -130,11 +134,13 @@ typedef enum {
  * @ingroup enumerations
  */
 typedef enum {
-  CODEC_MODE_NONE = 0,
-  CODEC_MODE_ENCODE = 1, /*!< select adc */
-  CODEC_MODE_DECODE,     /*!< select dac */
-  CODEC_MODE_BOTH,       /*!< select both adc and dac */
-  CODEC_MODE_LINE_IN,    /*!< set adc channel */
+  CODEC_MODE_MIN = -1,
+  CODEC_MODE_NONE = 0x00,
+  CODEC_MODE_ENCODE = 0x01, /*!< select adc */
+  CODEC_MODE_DECODE = 0x02,     /*!< select dac */
+  CODEC_MODE_BOTH = 0x03,       /*!< select both adc and dac */
+  CODEC_MODE_LINE_IN = 0x04,    /*!< set adc channel */
+  CODEC_MODE_MAX
 } codec_mode_t;
 
 /**

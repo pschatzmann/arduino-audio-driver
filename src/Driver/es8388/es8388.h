@@ -129,7 +129,7 @@ error_t es8388_deinit(void);
  *     - RESULT_OK
  *     - RESULT_FAIL
  */
-error_t es8388_config_fmt(codec_mode_t mod, es_i2s_fmt_t cfg);
+error_t es8388_config_fmt(codec_mode_t mod, i2s_format_t cfg);
 
 /**
  * @brief Configure I2s clock in MSATER mode
@@ -152,7 +152,7 @@ error_t es8388_i2s_config_clock(es_i2s_clock_t cfg);
  *     - RESULT_OK
  *     - RESULT_FAIL
  */
-error_t es8388_set_bits_per_sample(codec_mode_t mode, es_bits_length_t bit_per_sample);
+error_t es8388_set_bits_per_sample(codec_mode_t mode, sample_bits_t bit_per_sample);
 
 /**
  * @brief  Start ES8388 codec chip

@@ -93,14 +93,14 @@ $(function() {
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    _BIT_LENGTH_24BITS = 0x00,</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    _BIT_LENGTH_32BITS = 0x04,</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    _BIT_LENGTH_MAX,</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;} es_bits_length_t;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;} sample_bits_t;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">typedef</span> <span class="keyword">enum</span> {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    _ES_MODULE_MIN = -1,</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    _ES_MODULE_ADC = 0x01,</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    _ES_MODULE_DAC = 0x02,</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    _ES_MODULE_ADC_DAC = 0x03,</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    _ES_MODULE_LINE = 0x04,</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    CODEC_MODE_MIN = -1,</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    CODEC_MODE_ENCODE = 0x01,</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    CODEC_MODE_DECODE = 0x02,</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    CODEC_MODE_BOTH = 0x03,</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    CODEC_MODE_LINE_IN = 0x04,</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    _ES_MODULE_MAX</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;} es_module_t;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
@@ -134,7 +134,7 @@ $(function() {
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    _ES_I2S_RIGHT = 2,</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    _ES_I2S_DSP = 3,</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    _ES_I2S_MAX</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;} es_i2s_fmt_t;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;} i2s_format_t;</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>

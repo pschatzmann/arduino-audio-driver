@@ -551,23 +551,23 @@ error_t es8311_codec_config_i2s(codec_mode_t mode, I2SDefinition *iface)
 error_t es8311_codec_ctrl_state_active(codec_mode_t mode, bool ctrl_state_active)
 {
     error_t ret = RESULT_OK;
-    codec_mode_t es_mode = _ES_MODULE_MIN;
+    codec_mode_t es_mode = CODEC_MODE_MIN;
 
     switch (mode) {
         case CODEC_MODE_ENCODE:
-            es_mode  = _ES_MODULE_ADC;
+            es_mode  = CODEC_MODE_ENCODE;
             break;
         case CODEC_MODE_LINE_IN:
-            es_mode  = _ES_MODULE_LINE;
+            es_mode  = CODEC_MODE_LINE_IN;
             break;
         case CODEC_MODE_DECODE:
-            es_mode  = _ES_MODULE_DAC;
+            es_mode  = CODEC_MODE_DECODE;
             break;
         case CODEC_MODE_BOTH:
-            es_mode  = _ES_MODULE_ADC_DAC;
+            es_mode  = CODEC_MODE_BOTH;
             break;
         default:
-            es_mode = _ES_MODULE_DAC;
+            es_mode = CODEC_MODE_DECODE;
             AUDIODRIVER_LOGW("Codec mode not support, default is decode mode");
             break;
     }
@@ -593,14 +593,14 @@ error_t es8311_start(codec_mode_t mode)
     adc_iface |= BIT(6);
     dac_iface |= BIT(6);
 
-    if (mode == _ES_MODULE_LINE) {
-        AUDIODRIVER_LOGE( "The codec es8311 doesn't support _ES_MODULE_LINE mode");
+    if (mode == CODEC_MODE_LINE_IN) {
+        AUDIODRIVER_LOGE( "The codec es8311 doesn't support CODEC_MODE_LINE_IN mode");
         return RESULT_FAIL;
     }
-    if (mode == _ES_MODULE_ADC || mode == _ES_MODULE_ADC_DAC) {
+    if (mode == CODEC_MODE_ENCODE || mode == CODEC_MODE_BOTH) {
         adc_iface &= ~(BIT(6));
     }
-    if (mode == _ES_MODULE_DAC || mode == _ES_MODULE_ADC_DAC) {
+    if (mode == CODEC_MODE_DECODE || mode == CODEC_MODE_BOTH) {
         dac_iface &= ~(BIT(6));
     }
 

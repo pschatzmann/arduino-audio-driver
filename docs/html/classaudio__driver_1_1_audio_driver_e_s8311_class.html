@@ -124,8 +124,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:a5117a0a714bc6ffce07a792ca2b5c872"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52e4f3e14150fab743955aa7fb4a6af6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_e_s8311_class.html#a52e4f3e14150fab743955aa7fb4a6af6">init</a> (<a class="el" href="structcodec__config__t.html">codec_config_t</a> <a class="el" href="classaudio__driver_1_1_audio_driver.html#a4296f334f4441aae57fb5f43a0b77968">codec_cfg</a>)</td></tr>
 <tr class="separator:a52e4f3e14150fab743955aa7fb4a6af6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae840bcd60e058aa2f5a49bebd8ab8caa"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#ae840bcd60e058aa2f5a49bebd8ab8caa">limitVolume</a> (int volume)</td></tr>
-<tr class="separator:ae840bcd60e058aa2f5a49bebd8ab8caa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ccd7088966e3cee97a0ded68e58d8a4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a8ccd7088966e3cee97a0ded68e58d8a4">limitVolume</a> (int volume, int min=0, int max=100)</td></tr>
+<tr class="separator:a8ccd7088966e3cee97a0ded68e58d8a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -407,8 +407,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ae840bcd60e058aa2f5a49bebd8ab8caa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae840bcd60e058aa2f5a49bebd8ab8caa">&#9670;&nbsp;</a></span>limitVolume()</h2>
+<a id="a8ccd7088966e3cee97a0ded68e58d8a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ccd7088966e3cee97a0ded68e58d8a4">&#9670;&nbsp;</a></span>limitVolume()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -420,8 +420,24 @@ Protected Attributes</h2></td></tr>
           <td class="memname">int limitVolume </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>volume</em></td><td>)</td>
+          <td class="paramname"><em>volume</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>min</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>max</em> = <code>100</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -430,6 +446,14 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>make sure that value is in range </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">volume</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><br  />
+ </dd></dl>
 
 </div>
 </div>

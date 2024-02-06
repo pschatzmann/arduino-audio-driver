@@ -65,7 +65,8 @@ $(function() {
 <div class="title">Arduino Audio Driver </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_README"></a> I was never quite happy with my <a href="https://github.com/pschatzmann/arduino-audiokit">AudioKit project</a>, that was a quick and dirty adaptation of the Espressif IDF Drivers for Arduino. In this project I finally implemented some clean and simple C++ classes. This reduced the complexity considerably and increased the flexibility tremendously!</p>
+<div class="textblock"><p><a class="anchor" id="md_README"></a> I was never quite happy with my <a href="https://github.com/pschatzmann/arduino-audiokit">AudioKit project</a>, that was a quick and dirty adaptation of the Espressif IDF Drivers for Arduino.</p>
+<p>In this project I finally implemented some clean and simple C++ classes. This reduced the complexity considerably and increased the flexibility tremendously!</p>
 <p>The goal of this project is to provide an easy API to configure different audio codec chips. After setting up the codec, you can use the I2S functionality provided by your microcontroller.</p>
 <p>Supported audio codec chips are e.g</p>
 <ul>
@@ -76,7 +77,7 @@ $(function() {
 <li>ES7243</li>
 <li>etc</li>
 </ul>
-<p>While you can use this library stand alone, I recommend to use it together with my AudioTools project which provides a nice integration with it's I2SCodecStream class.</p>
+<p>While you can use this library stand alone, I recommend to use it together with my <a href="https://github.com/pschatzmann/arduino-audio-tools">AudioTools</a> project which provides a nice integration with it's I2SCodecStream class.</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
 AudioTools</h1>
 <div class="fragment"><div class="line"> {C++}</div>
@@ -96,9 +97,9 @@ AudioTools</h1>
 <div class="line">  // set volume</div>
 <div class="line">  i2s.setVolume(0.5);</div>
 <div class="line">}  </div>
-</div><!-- fragment --><p> You can use the I2SCodecStream like the I2SStream but it provides some additional functionality, like setting the volume via the codec. In the constructor you need to provide an audio board object.</p>
+</div><!-- fragment --><p> You can use the <a href="https://pschatzmann.github.io/arduino-audio-tools/classaudio__tools_1_1_i2_s_codec_stream.html">I2SCodecStream</a> like the I2SStream but it provides some additional functionality, like setting the volume via the codec. In the <b>constructor</b> you need to provide an <b>audio board</b> object.</p>
 <h1><a class="anchor" id="autotoc_md2"></a>
-Predefined Boards</h1>
+Stand-Alone: Predefined Boards</h1>
 <p>A board definition consists of a driver class and pin definitions for that specific board. You can easily use the predefined boards. E.g. the following code is setting up and starting the codec on a Lyrat board:</p>
 <div class="fragment"><div class="line"> {C++}</div>
 <div class="line"> </div>
@@ -117,8 +118,8 @@ Predefined Boards</h1>
 <div class="line">}</div>
 </div><!-- fragment --><p>Check the documentation for all available boards.</p>
 <h1><a class="anchor" id="autotoc_md3"></a>
-Custom Boards</h1>
-<p>You can also easily define your custom boards by defining the driver and your specifc pins</p>
+Stand-Alone: Custom Boards</h1>
+<p>You can also easily define your custom boards by defining the <b>driver</b> and your <b>specifc pins</b></p>
 <div class="fragment"><div class="line"> {C++}</div>
 <div class="line"> </div>
 <div class="line">#include &quot;AudioBoard.h&quot;</div>
@@ -143,7 +144,6 @@ Custom Boards</h1>
 <div class="line">  //cfg.i2s.fmt = I2S_NORMAL;</div>
 <div class="line">  //cfg.i2s.mode = MODE_SLAVE; </div>
 <div class="line">  board.begin(cfg);   </div>
-<div class="line"> </div>
 <div class="line">}</div>
 </div><!-- fragment --> <h1><a class="anchor" id="autotoc_md4"></a>
 Logging</h1>

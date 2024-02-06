@@ -89,7 +89,7 @@ error_t es8374_i2s_config_clock(es_i2s_clock_t cfg);
  *     - RESULT_OK
  *     - RESULT_FAIL
  */
-error_t es8374_set_bits_per_sample(codec_mode_t mode, es_bits_length_t bit_per_sample);
+error_t es8374_set_bits_per_sample(codec_mode_t mode, sample_bits_t bit_per_sample);
 
 /**
  * @brief  Start ES8374 codec chip

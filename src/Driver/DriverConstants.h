@@ -1,24 +1,5 @@
 #pragma once
 
-typedef enum {
-    _BIT_LENGTH_MIN = -1,
-    _BIT_LENGTH_16BITS = 0x03,
-    _BIT_LENGTH_18BITS = 0x02,
-    _BIT_LENGTH_20BITS = 0x01,
-    _BIT_LENGTH_24BITS = 0x00,
-    _BIT_LENGTH_32BITS = 0x04,
-    _BIT_LENGTH_MAX,
-} es_bits_length_t;
-
-typedef enum {
-    _ES_MODULE_MIN = -1,
-    _ES_MODULE_ADC = 0x01,
-    _ES_MODULE_DAC = 0x02,
-    _ES_MODULE_ADC_DAC = 0x03,
-    _ES_MODULE_LINE = 0x04,
-    _ES_MODULE_MAX
-} es_module_t;
-
 
 typedef enum {
     _DAC_OUTPUT_MIN = -1,
@@ -41,15 +22,6 @@ typedef enum {
     _ADC_INPUT_MAX,
 } es_adc_input_t;
 
-
-typedef enum {
-    _ES_I2S_MIN = -1,
-    _ES_I2S_NORMAL = 0,
-    _ES_I2S_LEFT = 1,
-    _ES_I2S_RIGHT = 2,
-    _ES_I2S_DSP = 3,
-    _ES_I2S_MAX
-} es_i2s_fmt_t;
 
 typedef enum {
     _D2SE_PGA_GAIN_MIN = -1,

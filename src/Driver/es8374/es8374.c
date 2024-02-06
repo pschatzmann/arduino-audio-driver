@@ -120,20 +120,20 @@ error_t es8374_get_voice_mute(void)
     return res == RESULT_OK ? reg : res;
 }
 
-error_t es8374_set_bits_per_sample(codec_mode_t mode, es_bits_length_t bit_per_sample)
+error_t es8374_set_bits_per_sample(codec_mode_t mode, sample_bits_t bit_per_sample)
 {
     error_t res = RESULT_OK;
     uint8_t reg = 0;
     int bits = (int)bit_per_sample & 0x0f;
 
-    if (mode == _ES_MODULE_ADC || mode == _ES_MODULE_ADC_DAC) {
+    if (mode == CODEC_MODE_ENCODE || mode == CODEC_MODE_BOTH) {
         res |= es8374_read_reg(0x10, &reg);
         if (res == 0) {
             reg = reg & 0xe3;
             res |=  es8374_write_reg(0x10, reg | (bits << 2));
         }
     }
-    if (mode == _ES_MODULE_DAC || mode == _ES_MODULE_ADC_DAC) {
+    if (mode == CODEC_MODE_DECODE || mode == CODEC_MODE_BOTH) {
         res |= es8374_read_reg(0x11, &reg);
         if (res == 0) {
             reg = reg & 0xe3;
@@ -152,7 +152,7 @@ error_t es8374_config_fmt(codec_mode_t mode, i2s_format_t fmt)
 
     fmt_tmp = ((fmt & 0xf0) >> 4);
     fmt_i2s =  fmt & 0x0f;
-    if (mode == _ES_MODULE_ADC || mode == _ES_MODULE_ADC_DAC) {
+    if (mode == CODEC_MODE_ENCODE || mode == CODEC_MODE_BOTH) {
         res |= es8374_read_reg(0x10, &reg);
         if (res == 0) {
             reg = reg & 0xfc;
@@ -160,7 +160,7 @@ error_t es8374_config_fmt(codec_mode_t mode, i2s_format_t fmt)
             res |= es8374_set_bits_per_sample(mode, fmt_tmp);
         }
     }
-    if (mode == _ES_MODULE_DAC || mode == _ES_MODULE_ADC_DAC) {
+    if (mode == CODEC_MODE_DECODE || mode == CODEC_MODE_BOTH) {
         res |= es8374_read_reg(0x11, &reg);
         if (res == 0) {
             reg = reg & 0xfc;
@@ -177,7 +177,7 @@ error_t es8374_start(codec_mode_t mode)
     error_t res = RESULT_OK;
     uint8_t reg = 0;
 
-    if (mode == _ES_MODULE_LINE) {
+    if (mode == CODEC_MODE_LINE_IN) {
         res |= es8374_read_reg(0x1a, &reg);       //set monomixer
         reg |= 0x60;
         reg |= 0x20;
@@ -190,7 +190,7 @@ error_t es8374_start(codec_mode_t mode)
         res |= es8374_write_reg(0x1F, 0x00);      // spk set
         res |= es8374_write_reg(0x1E, 0xA0);      // spk on
     }
-    if (mode == _ES_MODULE_ADC || mode == _ES_MODULE_ADC_DAC || mode == _ES_MODULE_LINE) {
+    if (mode == CODEC_MODE_ENCODE || mode == CODEC_MODE_BOTH || mode == CODEC_MODE_LINE_IN) {
         res |= es8374_read_reg(0x21, &reg);       //power up adc and input
         reg &= 0x3f;
         res |= es8374_write_reg(0x21, reg);
@@ -199,7 +199,7 @@ error_t es8374_start(codec_mode_t mode)
         res |= es8374_write_reg(0x10, reg);
     }
 
-    if (mode == _ES_MODULE_DAC || mode == _ES_MODULE_ADC_DAC || mode == _ES_MODULE_LINE) {
+    if (mode == CODEC_MODE_DECODE || mode == CODEC_MODE_BOTH || mode == CODEC_MODE_LINE_IN) {
         res |= es8374_read_reg(0x1a, &reg);       //disable lout
         reg |= 0x08;
         res |= es8374_write_reg( 0x1a, reg);
@@ -229,7 +229,7 @@ error_t es8374_stop(codec_mode_t mode)
     error_t res = RESULT_OK;
     uint8_t reg = 0;
 
-    if (mode == _ES_MODULE_LINE) {
+    if (mode == CODEC_MODE_LINE_IN) {
         res |= es8374_read_reg(0x1a, &reg);       //disable lout
         reg |= 0x08;
         res |= es8374_write_reg( 0x1a, reg);
@@ -242,7 +242,7 @@ error_t es8374_stop(codec_mode_t mode)
         res |= es8374_write_reg( 0x1c, reg);
         res |= es8374_write_reg(0x1F, 0x00);      // spk set
     }
-    if (mode == _ES_MODULE_DAC || mode == _ES_MODULE_ADC_DAC) {
+    if (mode == CODEC_MODE_DECODE || mode == CODEC_MODE_BOTH) {
         res |= es8374_set_voice_mute(true);
 
         res |= es8374_read_reg(0x1a, &reg);        //disable lout
@@ -256,7 +256,7 @@ error_t es8374_stop(codec_mode_t mode)
         reg |= 0x20;
         res |= es8374_write_reg(0x15, reg);
     }
-    if (mode == _ES_MODULE_ADC || mode == _ES_MODULE_ADC_DAC) {
+    if (mode == CODEC_MODE_ENCODE || mode == CODEC_MODE_BOTH) {
 
         res |= es8374_read_reg(0x10, &reg);       //power up adc and input
         reg |= 0xc0;
@@ -589,10 +589,10 @@ static int es8374_set_adc_dac_volume(int mode, int volume, int dot)
     }
     dot = (dot >= 5 ? 1 : 0);
     volume = (-volume << 1) + dot;
-    if (mode == _ES_MODULE_ADC || mode == _ES_MODULE_ADC_DAC) {
+    if (mode == CODEC_MODE_ENCODE || mode == CODEC_MODE_BOTH) {
         res |= es8374_write_reg(0x25, volume);
     }
-    if (mode == _ES_MODULE_DAC || mode == _ES_MODULE_ADC_DAC) {
+    if (mode == CODEC_MODE_DECODE || mode == CODEC_MODE_BOTH) {
         res |= es8374_write_reg(0x38, volume);
     }
 
@@ -649,8 +649,8 @@ static int es8374_init_reg(codec_mode_t ms_mode, i2s_format_t fmt, es_i2s_clock_
     res |= es8374_write_reg(0x13, 0x20); //timming set
 
     // TODO
-    res |= es8374_config_fmt(_ES_MODULE_ADC, fmt);
-    res |= es8374_config_fmt(_ES_MODULE_DAC, fmt);
+    res |= es8374_config_fmt(CODEC_MODE_ENCODE, fmt);
+    res |= es8374_config_fmt(CODEC_MODE_DECODE, fmt);
 
     res |= es8374_write_reg(0x21, 0x50); //adc set: SEL LIN1 CH+PGAGAIN=0DB
     res |= es8374_write_reg(0x22, 0xFF); //adc set: PGA GAIN=0DB
@@ -659,8 +659,8 @@ static int es8374_init_reg(codec_mode_t ms_mode, i2s_format_t fmt, es_i2s_clock_
     res |= es8374_write_reg(0x08, 0x21); //set class d divider = 33, to avoid the high frequency tone on laudspeaker
     res |= es8374_write_reg(0x00, 0x80); // IC START
 
-    res |= es8374_set_adc_dac_volume(_ES_MODULE_ADC, 0, 0);      // 0db
-    res |= es8374_set_adc_dac_volume(_ES_MODULE_DAC, 0, 0);      // 0db
+    res |= es8374_set_adc_dac_volume(CODEC_MODE_ENCODE, 0, 0);      // 0db
+    res |= es8374_set_adc_dac_volume(CODEC_MODE_DECODE, 0, 0);      // 0db
 
     res |= es8374_write_reg(0x14, 0x8A); // IC START
     res |= es8374_write_reg(0x15, 0x40); // IC START
@@ -720,7 +720,7 @@ error_t es8374_codec_config_i2s(codec_mode_t mode, I2SDefinition *iface)
 {
     error_t res = RESULT_OK;
     int tmp = 0;
-    res |= es8374_config_fmt(_ES_MODULE_ADC_DAC, iface->fmt);
+    res |= es8374_config_fmt(CODEC_MODE_BOTH, iface->fmt);
     if (iface->bits == BIT_LENGTH_16BITS) {
         tmp = BIT_LENGTH_16BITS;
     } else if (iface->bits == BIT_LENGTH_24BITS) {
@@ -728,7 +728,7 @@ error_t es8374_codec_config_i2s(codec_mode_t mode, I2SDefinition *iface)
     } else {
         tmp = BIT_LENGTH_32BITS;
     }
-    res |= es8374_set_bits_per_sample(_ES_MODULE_ADC_DAC, tmp);
+    res |= es8374_set_bits_per_sample(CODEC_MODE_BOTH, tmp);
     return res;
 }
 
@@ -738,19 +738,19 @@ error_t es8374_codec_ctrl_state_active(codec_mode_t mode, bool ctrl_state_active
     int es_mode_t = 0;
     switch (mode) {
         case CODEC_MODE_ENCODE:
-            es_mode_t  = _ES_MODULE_ADC;
+            es_mode_t  = CODEC_MODE_ENCODE;
             break;
         case CODEC_MODE_LINE_IN:
-            es_mode_t  = _ES_MODULE_LINE;
+            es_mode_t  = CODEC_MODE_LINE_IN;
             break;
         case CODEC_MODE_DECODE:
-            es_mode_t  = _ES_MODULE_DAC;
+            es_mode_t  = CODEC_MODE_DECODE;
             break;
         case CODEC_MODE_BOTH:
-            es_mode_t  = _ES_MODULE_ADC_DAC;
+            es_mode_t  = CODEC_MODE_BOTH;
             break;
         default:
-            es_mode_t = _ES_MODULE_DAC;
+            es_mode_t = CODEC_MODE_DECODE;
             AUDIODRIVER_LOGW( "Codec mode not support, default is decode mode");
             break;
     }
