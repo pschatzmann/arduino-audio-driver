@@ -73,7 +73,7 @@ error_t es8388_write_reg(uint8_t reg_add, uint8_t data)
  */
 static int es8388_set_adc_dac_volume(int mode, int volume, int dot)
 {
-    AUDIODRIVER_LOGD("es8388_set_adc_dac_volume: %d", volume);
+    AUDIODRIVER_LOGD("es8388_set_adc_dac_volume: %d.%d", volume,dot);
     int res = 0;
     if ( volume < -96 || volume > 0 ) {
         AUDIODRIVER_LOGW("Warning: volume < -96! or > 0!\n");
@@ -255,7 +255,7 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle)
     res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL23, 0x00);   //vroi=0
     res |= es8388_set_adc_dac_volume(_ES_MODULE_DAC, 0, 0);          // 0db
     dac_power = 0;
-    AUDIODRIVER_LOGI("_DAC_OUTPUT %d",cfg->dac_output);
+    AUDIODRIVER_LOGI("dac_output: %d",cfg->dac_output);
     if (DAC_OUTPUT_LINE2 == cfg->dac_output) {
         dac_power = _DAC_OUTPUT_LOUT1 | _DAC_OUTPUT_ROUT1;
     } else if (DAC_OUTPUT_LINE1 == cfg->dac_output) {
@@ -524,7 +524,7 @@ error_t es8388_config_adc_input(es_adc_input_t input)
  */
 error_t es8388_set_mic_gain(es_mic_gain_t gain)
 {
-    AUDIODRIVER_LOGD(LOG_METHOD);
+    AUDIODRIVER_LOGD("es8388_set_mic_gain: %d", gain);
     error_t res, gain_n;
     gain_n = (int)gain / 3;
     gain_n = (gain_n << 4) + gain_n;
@@ -534,7 +534,7 @@ error_t es8388_set_mic_gain(es_mic_gain_t gain)
 
 int es8388_ctrl_state_active(codec_mode_t mode, bool ctrl_state_active)
 {
-    AUDIODRIVER_LOGD(LOG_METHOD);
+    AUDIODRIVER_LOGD("es8388_ctrl_state_active: %d, %d", mode, ctrl_state_active);
     int res = 0;
     int es_mode_t = 0;
     switch (mode) {

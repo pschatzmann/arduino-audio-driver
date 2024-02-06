@@ -491,7 +491,7 @@ error_t es8374_i2s_config_clock(es_i2s_clock_t cfg)
     return res;
 }
 
-error_t es8374_config_DAC_OUTPUT(es_dac_output_t output)
+error_t es8374_config_dac_output(es_dac_output_t output)
 {
     error_t res = RESULT_OK;
     uint8_t reg = 0;
@@ -678,7 +678,7 @@ static int es8374_init_reg(codec_mode_t ms_mode, i2s_format_t fmt, es_i2s_clock_
     res |= es8374_write_reg(0x71, 0x05); //for automute setting
     res |= es8374_write_reg(0x73, 0x70);
 
-    res |= es8374_config_DAC_OUTPUT(out_channel);  //0x3c Enable DAC and Enable Lout/Rout/1/2
+    res |= es8374_config_dac_output(out_channel);  //0x3c Enable DAC and Enable Lout/Rout/1/2
     res |= es8374_config_adc_input(in_channel);  //0x00 LINSEL & RINSEL, LIN1/RIN1 as ADC Input; DSSEL,use one DS Reg11; DSR, LINPUT1-RINPUT1
     res |= es8374_codec_set_voice_volume(0);
 

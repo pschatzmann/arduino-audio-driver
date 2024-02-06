@@ -86,12 +86,12 @@ struct PinsSPI {
       }
       // if no pins are defined, just call begin
       if (!pinsAvailable()) {
-        LOGI("setting up SPI w/o pins");
+        AUDIODRIVER_LOGI("setting up SPI w/o pins");
         p_spi->begin();
       } else {
 // begin spi and set up pins if supported
 #if defined(ARDUINO_ARCH_STM32)
-        LOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso, mosi, clk,
+        LAUDIODRIVER_LOGIOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso, mosi, clk,
              cs);
         p_spi->setMISO(miso);
         p_spi->setMOSI(mosi);
@@ -99,7 +99,7 @@ struct PinsSPI {
         p_spi->setSSEL(cs);
         p_spi->begin();
 #elif defined(ESP32)
-        LOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso, mosi, clk,
+        AUDIODRIVER_LOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso, mosi, clk,
              cs);
         p_spi->begin(clk, miso, mosi, cs);
 #elif defined(ARDUINO_ARCH_AVR)
@@ -147,15 +147,15 @@ struct PinsI2C {
     if (set_active) {
       // if no pins are defined, just call begin
       if (!pinsAvailable()) {
-        LOGI("setting up I2C w/o pins");
+        AUDIODRIVER_LOGI("setting up I2C w/o pins");
         p_wire->begin();
       } else {
         // begin with defined pins, if supported
 #if defined(ESP32) || defined(ARDUINO_ARCH_STM32)
-        LOGI("setting up I2C scl: %d, sda: %d", scl, sda);
+        AUDIODRIVER_LOGI("setting up I2C scl: %d, sda: %d", scl, sda);
         p_wire->begin(sda, scl);
 #elif defined(ARDUINO_ARCH_RP2040)
-        LOGI("setting up I2C scl: %d, sda: %d", scl, sda);
+        AUDIODRIVER_LOGI("setting up I2C scl: %d, sda: %d", scl, sda);
         p_wire->setSCL(scl);
         p_wire->setSDA(sda);
         p_wire->begin();

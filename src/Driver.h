@@ -38,15 +38,19 @@ public:
       is_output = true;
 
     if (is_input && is_output) {
+      AUDIODRIVER_LOGD("CODEC_MODE_BOTH");
       return CODEC_MODE_BOTH;
     }
 
-    if (is_input)
-      return CODEC_MODE_ENCODE;
-
     if (is_output)
+      AUDIODRIVER_LOGD("CODEC_MODE_DECODE");
       return CODEC_MODE_DECODE;
 
+    if (is_input)
+      AUDIODRIVER_LOGD("CODEC_MODE_ENCODE");
+      return CODEC_MODE_ENCODE;
+
+    AUDIODRIVER_LOGD("CODEC_MODE_NONE");
     return CODEC_MODE_NONE;
   }
 };
@@ -60,10 +64,19 @@ public:
   virtual bool begin(CodecConfig codecCfg, Pins &pins) {
     codec_cfg = codecCfg;
     p_pins = &pins;
-    init(codec_cfg);
+    if (!init(codec_cfg)){
+      TRACEE();
+      return false;
+    }
     codec_mode_t codec_mode = codec_cfg.get_mode();
-    controlState(codec_mode);
+    if(!controlState(codec_mode)){
+      TRACEE();
+      return false;
+    }
     bool result = configInterface(codec_mode, codec_cfg.i2s);
+    if(!result){
+      TRACEE();
+    }
     setPAPower(true);
     return result;
   }
@@ -83,6 +96,7 @@ public:
     Pin pin = pins().getPin(PA);
     if (pin == -1)
       return false;
+    AUDIODRIVER_LOGI("setPAPower pin %d -> %d", pin, enable);
     digitalWrite(pin, enable ? HIGH : LOW);
     return true;
   }
@@ -98,11 +112,14 @@ protected:
     return false;
   };
 
-  int limitVolume(int volume) {
-    if (volume > 100)
-      volume = 100;
-    if (volume < 0)
-      volume = 0;
+  /// make sure that value is in range
+  /// @param volume 
+  /// @return  
+  int limitVolume(int volume, int min=0, int max=100) {
+    if (volume > max)
+      volume = max;
+    if (volume < min)
+      volume = min;
     return volume;
   }
 };
@@ -114,6 +131,7 @@ class AudioDriverES8388Class : public AudioDriver {
 public:
   bool setMute(bool mute) { return es8388_set_voice_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
+    AUDIODRIVER_LOGD("volume %d", volume);
     return es8388_set_voice_volume(limitVolume(volume)) == RESULT_OK;
   }
   int getVolume() {
@@ -125,6 +143,7 @@ public:
   bool setInputVolume(int volume) {
     // map values from 0 - 100 to 0 to 10
     es_mic_gain_t gain = (es_mic_gain_t)(limitVolume(volume) / 10);
+    AUDIODRIVER_LOGD("input volume: %d -> gain %d", volume, gain);
     return setMicrophoneGain(gain);
   }
 

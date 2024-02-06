@@ -186,7 +186,7 @@ error_t es8374_config_adc_input(es_adc_input_t input);
  *     - RESULT_FAIL Parameter error
  *     - RESULT_OK   Success
  */
-error_t es8374_config_DAC_OUTPUT(es_dac_output_t output);
+error_t es8374_config_dac_output(es_dac_output_t output);
 
 /**
  * @brief Write ES8374 register
