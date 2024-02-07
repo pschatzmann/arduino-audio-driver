@@ -120,10 +120,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a06a94f81c993096632740b75d6c63daf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classaudio__driver_1_1_optional.html">Optional</a>&lt; <a class="el" href="structaudio__driver_1_1_pins_i2_s.html">PinsI2S</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a06a94f81c993096632740b75d6c63daf">getI2SPins</a> (<a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2d">PinFunctionEnum</a> function=<a class="el" href="_common_8h.html#ga51b3e3c8b963c44ee453d086e36fbc2da3b1d027ef0c7749664aa744ad5e4f937">CODEC</a>)</td></tr>
 <tr class="memdesc:a06a94f81c993096632740b75d6c63daf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the I2S pins with the help of the function.  <a href="classaudio__driver_1_1_driver_pins.html#a06a94f81c993096632740b75d6c63daf">More...</a><br /></td></tr>
 <tr class="separator:a06a94f81c993096632740b75d6c63daf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3e7f4941201bc846b0947b5101920d2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classaudio__driver_1_1_optional.html">Optional</a>&lt; <a class="el" href="structaudio__driver_1_1_pins_function.html">PinsFunction</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#ad3e7f4941201bc846b0947b5101920d2">getPin</a> (<a class="el" href="namespaceaudio__driver.html#ab6aa72f571ce70030fe5f9dcba7e7d3b">Pin</a> pinId)</td></tr>
+<tr class="memdesc:ad3e7f4941201bc846b0947b5101920d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get pin information by pin ID.  <a href="classaudio__driver_1_1_driver_pins.html#ad3e7f4941201bc846b0947b5101920d2">More...</a><br /></td></tr>
+<tr class="separator:ad3e7f4941201bc846b0947b5101920d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27f845f86e6e04bdbae597dbaf94f638"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classaudio__driver_1_1_optional.html">Optional</a>&lt; <a class="el" href="structaudio__driver_1_1_pins_function.html">PinsFunction</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a27f845f86e6e04bdbae597dbaf94f638">getPin</a> (<a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2d">PinFunctionEnum</a> function, int pos=0)</td></tr>
+<tr class="memdesc:a27f845f86e6e04bdbae597dbaf94f638"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get pin information by function.  <a href="classaudio__driver_1_1_driver_pins.html#a27f845f86e6e04bdbae597dbaf94f638">More...</a><br /></td></tr>
 <tr class="separator:a27f845f86e6e04bdbae597dbaf94f638"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac76788adcd396d121cd3061394b8ffef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__enumerations.html#ga3098d145f4ed28b89663ca540fd5cecb">ActiveLogic</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#ac76788adcd396d121cd3061394b8ffef">getPinActiveLogic</a> (<a class="el" href="namespaceaudio__driver.html#ab6aa72f571ce70030fe5f9dcba7e7d3b">Pin</a> pinId)</td></tr>
-<tr class="separator:ac76788adcd396d121cd3061394b8ffef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7154a01dbe248170ce0334042c94cf61"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceaudio__driver.html#ab6aa72f571ce70030fe5f9dcba7e7d3b">Pin</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a7154a01dbe248170ce0334042c94cf61">getPinID</a> (<a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2d">PinFunctionEnum</a> function, int pos=0)</td></tr>
 <tr class="separator:a7154a01dbe248170ce0334042c94cf61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a389a81a6a8575f68f6a3aed265b91158"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classaudio__driver_1_1_optional.html">Optional</a>&lt; <a class="el" href="structaudio__driver_1_1_pins_s_p_i.html">PinsSPI</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a389a81a6a8575f68f6a3aed265b91158">getSPIPins</a> (<a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2d">PinFunctionEnum</a> function)</td></tr>
@@ -641,8 +643,36 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ad3e7f4941201bc846b0947b5101920d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3e7f4941201bc846b0947b5101920d2">&#9670;&nbsp;</a></span>getPin() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_optional.html">Optional</a>&lt;<a class="el" href="structaudio__driver_1_1_pins_function.html">PinsFunction</a>&gt; getPin </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceaudio__driver.html#ab6aa72f571ce70030fe5f9dcba7e7d3b">Pin</a>&#160;</td>
+          <td class="paramname"><em>pinId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get pin information by pin ID. </p>
+
+</div>
+</div>
 <a id="a27f845f86e6e04bdbae597dbaf94f638"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a27f845f86e6e04bdbae597dbaf94f638">&#9670;&nbsp;</a></span>getPin()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a27f845f86e6e04bdbae597dbaf94f638">&#9670;&nbsp;</a></span>getPin() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -675,31 +705,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="ac76788adcd396d121cd3061394b8ffef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac76788adcd396d121cd3061394b8ffef">&#9670;&nbsp;</a></span>getPinActiveLogic()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__enumerations.html#ga3098d145f4ed28b89663ca540fd5cecb">ActiveLogic</a> getPinActiveLogic </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespaceaudio__driver.html#ab6aa72f571ce70030fe5f9dcba7e7d3b">Pin</a>&#160;</td>
-          <td class="paramname"><em>pinId</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p>Get pin information by function. </p>
 
 </div>
 </div>
