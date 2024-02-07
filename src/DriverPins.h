@@ -78,16 +78,16 @@ struct PinsSPI {
       } else {
 // begin spi and set up pins if supported
 #if defined(ARDUINO_ARCH_STM32)
-        AUDIODRIVER_LOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso, mosi, clk,
-             cs);
+        AUDIODRIVER_LOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso,
+                         mosi, clk, cs);
         p_spi->setMISO(miso);
         p_spi->setMOSI(mosi);
         p_spi->setSCLK(clk);
         p_spi->setSSEL(cs);
         p_spi->begin();
 #elif defined(ESP32)
-        AUDIODRIVER_LOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso, mosi, clk,
-             cs);
+        AUDIODRIVER_LOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso,
+                         mosi, clk, cs);
         p_spi->begin(clk, miso, mosi, cs);
 #elif defined(ARDUINO_ARCH_AVR)
         AUDIODRIVER_LOGW("setting up SPI w/o pins");
@@ -168,14 +168,17 @@ struct PinsI2C {
  */
 struct PinsFunction {
   PinsFunction() = default;
-  PinsFunction(PinFunctionEnum function, Pin pin, int index = 0) {
+  PinsFunction(PinFunctionEnum function, Pin pin, int index = 0,
+               ActiveLogic active = ActiveLogic::ActiveLow) {
     this->function = function;
     this->pin = pin;
     this->index = index;
+    this->active_logic = active;
   }
   PinFunctionEnum function;
   int pin = -1;
   int index = 0;
+  ActiveLogic active_logic;
 };
 
 /**
@@ -201,31 +204,30 @@ public:
 
   void addI2C(PinsI2C pin) { i2c.push_back(pin); }
   void addI2C(PinFunctionEnum function, Pin scl, Pin sda, int port = -1,
-          uint32_t frequency = 100000, TwoWire &wire = Wire) {
+              uint32_t frequency = 100000, TwoWire &wire = Wire) {
     PinsI2C pin(function, scl, sda, port, frequency);
     addI2C(pin);
   }
 
   void addPin(PinsFunction pin) { pins.push_back(pin); }
 
-  void addPin(PinFunctionEnum function, Pin pinNo, int index = 0) {
-    PinsFunction pin(function, pinNo, index);
+  void addPin(PinFunctionEnum function, Pin pinNo, int index = 0,
+              ActiveLogic logic = ActiveLogic::ActiveLow) {
+    PinsFunction pin(function, pinNo, index, logic);
     addPin(pin);
   }
 
-  Pin getPin(PinFunctionEnum function) {
-    for (PinsFunction &pin : pins) {
-      if (pin.function == function)
-        return pin.pin;
-    }
-    return -1;
-  }
-
-  Pin getPin(PinFunctionEnum function, int pos) {
+  Optional<PinsFunction> getPin(PinFunctionEnum function, int pos = 0) {
     for (PinsFunction &pin : pins) {
       if (pin.function == function && pin.index == pos)
-        return pin.pin;
+        return pin;
     }
+    return {};
+  }
+
+  Pin getPinID(PinFunctionEnum function, int pos = 0) {
+    auto pin = getPin(function, pos);
+    if (pin) return pin.value().pin;
     return -1;
   }
 
@@ -526,11 +528,10 @@ public:
 
 #endif
 
-
-// -- Pins 
+// -- Pins
 /**
  * @brief Pins need to be set up in the sketch
- * @ingroup audio_driver 
+ * @ingroup audio_driver
  */
 static DriverPins NoPins;
 /// @ingroup audio_driver
@@ -545,6 +546,5 @@ static PinsAudioKitEs8388v1Class PinsAudioKitEs8388v1;
 static PinsAudioKitEs8388v2Class PinsAudioKitEs8388v2;
 /// @ingroup audio_driver
 static PinsAudioKitAC101Class PinsAudioKitAC101;
-
 
 } // namespace audio_driver

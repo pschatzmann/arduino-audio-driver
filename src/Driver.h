@@ -97,7 +97,7 @@ public:
 
   /// Sets the PA Power pin to active or inactive
   bool setPAPower(bool enable) {
-    Pin pin = pins().getPin(PA);
+    Pin pin = pins().getPinID(PA);
     if (pin == -1)
       return false;
     AUDIODRIVER_LOGI("setPAPower pin %d -> %d", pin, enable);
@@ -202,7 +202,7 @@ protected:
       AUDIODRIVER_LOGE("i2c pins not defined");
       return false;
     }
-    int mclk_src = pins().getPin(MCLK_SOURCE);
+    int mclk_src = pins().getPinID(MCLK_SOURCE);
     if (mclk_src == -1)
       return false;
     return es8311_codec_init(&codec_cfg, i2c.value().p_wire, mclk_src) ==
