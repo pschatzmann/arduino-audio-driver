@@ -216,10 +216,19 @@ public:
     PinsFunction pin(function, pinNo, index, logic);
     addPin(pin);
   }
-
+  /// Get pin information by function
   Optional<PinsFunction> getPin(PinFunctionEnum function, int pos = 0) {
     for (PinsFunction &pin : pins) {
       if (pin.function == function && pin.index == pos)
+        return pin;
+    }
+    return {};
+  }
+
+  /// Get pin information by pin ID
+  Optional<PinsFunction> getPin(Pin pinId){
+    for (PinsFunction &pin : pins) {
+      if (pin.pin == pinId)
         return pin;
     }
     return {};
@@ -231,13 +240,6 @@ public:
     return -1;
   }
 
-  ActiveLogic getPinActiveLogic(Pin pinId){
-    for (PinsFunction &pin : pins) {
-      if (pin.pin == pinId)
-        return pin.active_logic;
-    }
-    return ActiveLogic::ActiveUndefined;
-  }
 
   Optional<PinsI2C> getI2CPins(PinFunctionEnum function) {
     for (PinsI2C &pin : i2c) {
