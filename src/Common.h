@@ -169,15 +169,6 @@ typedef enum {
   CODEC_MODE_MAX
 } codec_mode_t;
 
-/**
- * @enum ActiveLogic
- * @brief Select media hal codec mode
- * @ingroup enumerations
- */
-
-enum ActiveLogic {
-  ActiveHigh, ActiveLow, ActiveTouch, ActiveUndefined,
-};
 
 /**
  * @brief I2s interface configuration for audio codec chip

@@ -13,6 +13,16 @@ namespace audio_driver {
 using Pin = int16_t;
 
 /**
+ * @enum PinLogic
+ * @brief input or output
+ * @ingroup enumerations
+ */
+
+enum class PinLogic {
+  InputActiveHigh, InputActiveLow, InputActiveTouch, Input, Output,
+};
+
+/**
  * @brief I2S pins
  * @author Phil Schatzmann
  * @copyright GPLv3
@@ -168,17 +178,17 @@ struct PinsI2C {
  */
 struct PinsFunction {
   PinsFunction() = default;
-  PinsFunction(PinFunctionEnum function, Pin pin, int index = 0,
-               ActiveLogic active = ActiveLogic::ActiveLow) {
+  PinsFunction(PinFunctionEnum function, Pin pin, PinLogic logic,
+               int index = 0) {
     this->function = function;
     this->pin = pin;
     this->index = index;
-    this->active_logic = active;
+    this->pin_logic = logic;
   }
   PinFunctionEnum function;
   int pin = -1;
   int index = 0;
-  ActiveLogic active_logic;
+  PinLogic pin_logic;
 };
 
 /**
@@ -211,9 +221,9 @@ public:
 
   void addPin(PinsFunction pin) { pins.push_back(pin); }
 
-  void addPin(PinFunctionEnum function, Pin pinNo, int index = 0,
-              ActiveLogic logic = ActiveLogic::ActiveLow) {
-    PinsFunction pin(function, pinNo, index, logic);
+  void addPin(PinFunctionEnum function, Pin pinNo, PinLogic logic,
+              int index = 0) {
+    PinsFunction pin(function, pinNo, logic, index);
     addPin(pin);
   }
   /// Get pin information by function
@@ -226,7 +236,7 @@ public:
   }
 
   /// Get pin information by pin ID
-  Optional<PinsFunction> getPin(Pin pinId){
+  Optional<PinsFunction> getPin(Pin pinId) {
     for (PinsFunction &pin : pins) {
       if (pin.pin == pinId)
         return pin;
@@ -236,10 +246,10 @@ public:
 
   Pin getPinID(PinFunctionEnum function, int pos = 0) {
     auto pin = getPin(function, pos);
-    if (pin) return pin.value().pin;
+    if (pin)
+      return pin.value().pin;
     return -1;
   }
-
 
   Optional<PinsI2C> getI2CPins(PinFunctionEnum function) {
     for (PinsI2C &pin : i2c) {
@@ -288,23 +298,18 @@ public:
     // setup pins
     for (auto &tmp : pins) {
       if (tmp.pin != -1) {
-
-        switch (tmp.function) {
-        case HEADPHONE_DETECT:
-          pinMode(tmp.pin, INPUT_PULLUP);
-          break;
-        case AUXIN_DETECT:
-          pinMode(tmp.pin, INPUT_PULLUP);
-          break;
-        case KEY:
+        switch (tmp.pin_logic) {
+        case PinLogic::InputActiveHigh:
           pinMode(tmp.pin, INPUT);
           break;
-        case LED:
-          pinMode(tmp.pin, OUTPUT);
+        case PinLogic::InputActiveLow:
+          pinMode(tmp.pin, INPUT_PULLUP);
           break;
-        case PA:
+        case PinLogic::Input:
+          pinMode(tmp.pin, INPUT);
+          break;
+        case PinLogic::Output:
           pinMode(tmp.pin, OUTPUT);
-          digitalWrite(tmp.pin, HIGH);
           break;
         default:
           // do nothing
@@ -349,16 +354,16 @@ public:
     addI2S(CODEC, 0, 5, 25, 26, 35);
 
     // add other pins
-    addPin(KEY, 36, 1);
-    addPin(KEY, 39, 2);
-    addPin(KEY, 33, 3);
-    addPin(KEY, 32, 4);
-    addPin(KEY, 13, 5);
-    addPin(KEY, 27, 6);
-    addPin(AUXIN_DETECT, 12);
-    addPin(HEADPHONE_DETECT, 19);
-    addPin(PA, 21);
-    addPin(LED, 22);
+    addPin(KEY, 36, PinLogic::Input, 1);
+    addPin(KEY, 39, PinLogic::Input, 2);
+    addPin(KEY, 33, PinLogic::Input, 3);
+    addPin(KEY, 32, PinLogic::Input, 4);
+    addPin(KEY, 13, PinLogic::Input, 5);
+    addPin(KEY, 27, PinLogic::Input, 6);
+    addPin(AUXIN_DETECT, 12, PinLogic::InputActiveHigh);
+    addPin(HEADPHONE_DETECT, 19, PinLogic::InputActiveHigh);
+    addPin(PA, 21, PinLogic::Output);
+    addPin(LED, 22, PinLogic::Output);
   }
 };
 
@@ -378,16 +383,16 @@ public:
     addI2S(CODEC, 0, 5, 25, 26, 35);
 
     // add other pins
-    addPin(KEY, 36, 1);
-    addPin(KEY, 39, 2);
-    addPin(KEY, 33, 3);
-    addPin(KEY, 32, 4);
-    addPin(KEY, 13, 5);
-    addPin(KEY, 27, 6);
-    addPin(AUXIN_DETECT, 12);
-    addPin(PA, 21);
-    addPin(LED, 22, 1);
-    addPin(LED, 19, 2);
+    addPin(KEY, 36, PinLogic::Input,1);
+    addPin(KEY, 39, PinLogic::Input,2);
+    addPin(KEY, 33, PinLogic::Input,3);
+    addPin(KEY, 32, PinLogic::Input,4);
+    addPin(KEY, 13, PinLogic::Input,5);
+    addPin(KEY, 27, PinLogic::Input,6);
+    addPin(AUXIN_DETECT, 12, PinLogic::InputActiveLow);
+    addPin(PA, 21, PinLogic::Output);
+    addPin(LED, 22, PinLogic::Output, 1);
+    addPin(LED, 19, PinLogic::Output, 2);
   }
 };
 
@@ -408,17 +413,17 @@ public:
     addI2S(CODEC_ADC, 0, 32, 33, -1, 36, 1);
 
     // add other pins
-    addPin(KEY, 5, 1);
-    addPin(KEY, 4, 2);
-    addPin(KEY, 2, 3);
-    addPin(KEY, 3, 4);
-    addPin(KEY, 1, 5);
+    addPin(KEY, 5, PinLogic::Input, 1);
+    addPin(KEY, 4, PinLogic::Input, 2);
+    addPin(KEY, 2, PinLogic::Input, 3);
+    addPin(KEY, 3, PinLogic::Input, 4);
+    addPin(KEY, 1, PinLogic::Input, 5);
     //    addPin(KEY, 0, 6};
-    addPin(HEADPHONE_DETECT, 19);
-    addPin(PA, 21);
-    addPin(LED, 22, 1);
-    addPin(LED, 27, 2);
-    addPin(MCLK_SOURCE, 0);
+    addPin(HEADPHONE_DETECT, 19, PinLogic::InputActiveLow);
+    addPin(PA, 21, PinLogic::Output);
+    addPin(LED, 22, PinLogic::Output, 1);
+    addPin(LED, 27, PinLogic::Output, 2);
+    addPin(MCLK_SOURCE, 0, PinLogic::Output);
   }
 };
 
@@ -438,16 +443,16 @@ public:
     addI2S(CODEC, 0, 27, 25, 26, 35);
 
     // add other pins
-    addPin(KEY, 36, 1);
-    addPin(KEY, 13, 2);
-    addPin(KEY, 19, 3);
-    addPin(KEY, 23, 4);
-    addPin(KEY, 18, 5);
-    addPin(KEY, 5, 6);
-    addPin(AUXIN_DETECT, 12);
-    addPin(HEADPHONE_DETECT, 39);
-    addPin(PA, 21);
-    addPin(LED, 22);
+    addPin(KEY, 36, PinLogic::Input, 1);
+    addPin(KEY, 13, PinLogic::Input, 2);
+    addPin(KEY, 19, PinLogic::Input, 3);
+    addPin(KEY, 23, PinLogic::Input, 4);
+    addPin(KEY, 18, PinLogic::Input, 5);
+    addPin(KEY, 5, PinLogic::Input, 6);
+    addPin(AUXIN_DETECT, 12, PinLogic::InputActiveLow);
+    addPin(HEADPHONE_DETECT, 39, PinLogic::InputActiveLow);
+    addPin(PA, 21, PinLogic::Output);
+    addPin(LED, 22, PinLogic::Output);
   }
 };
 
@@ -467,16 +472,16 @@ public:
     addI2S(CODEC, 0, 5, 25, 26, 35);
 
     // add other pins
-    addPin(KEY, 36, 1);
-    addPin(KEY, 13, 2);
-    addPin(KEY, 19, 3);
-    addPin(KEY, 23, 4);
-    addPin(KEY, 18, 5);
-    addPin(KEY, 5, 6);
-    addPin(AUXIN_DETECT, 12);
-    addPin(HEADPHONE_DETECT, 39);
-    addPin(PA, 21);
-    addPin(LED, 22);
+    addPin(KEY, 36, PinLogic::Input, 1);
+    addPin(KEY, 13, PinLogic::Input, 2);
+    addPin(KEY, 19, PinLogic::Input, 3);
+    addPin(KEY, 23, PinLogic::Input, 4);
+    addPin(KEY, 18, PinLogic::Input, 5);
+    addPin(KEY, 5, PinLogic::Input, 6);
+    addPin(AUXIN_DETECT, 12, PinLogic::InputActiveLow);
+    addPin(HEADPHONE_DETECT, 39, PinLogic::InputActiveLow);
+    addPin(PA, 21, PinLogic::Output);
+    addPin(LED, 22, PinLogic::Output);
   }
 };
 
@@ -496,16 +501,16 @@ public:
     addI2S(CODEC, 0, 27, 26, 25, 35);
 
     // add other pins
-    addPin(KEY, 36, 1);
-    addPin(KEY, 13, 2);
-    addPin(KEY, 19, 3);
-    addPin(KEY, 23, 4);
-    addPin(KEY, 18, 5);
-    addPin(KEY, 5, 6);
-    addPin(LED, 22);
-    addPin(LED, 19);
-    addPin(HEADPHONE_DETECT, 5);
-    addPin(PA, 21);
+    addPin(KEY, 36, PinLogic::Input, 1);
+    addPin(KEY, 13, PinLogic::Input, 2);
+    addPin(KEY, 19, PinLogic::Input, 3);
+    addPin(KEY, 23, PinLogic::Input, 4);
+    addPin(KEY, 18, PinLogic::Input, 5);
+    addPin(KEY, 5, PinLogic::Input, 6);
+    addPin(LED, 22, PinLogic::Output, 0);
+    addPin(LED, 19, PinLogic::Output, 1);
+    addPin(HEADPHONE_DETECT, 5, PinLogic::InputActiveLow);
+    addPin(PA, 21, PinLogic::Output );
   }
 };
 
@@ -525,14 +530,14 @@ public:
     addI2S(CODEC, PC7, PC10, PA4, PC3, PC12);
 
     // add other pins
-    addPin(KEY, PA0);       // user button
-    addPin(LED, PD12, 0);   // green
-    addPin(LED, PD5, 1);    // red
-    addPin(LED, PD13, 2);   // orange
-    addPin(LED, PD14, 3);   // red
-    addPin(LED, PD15, 4);   // blue
-    addPin(PA, PD4);        // reset pin (active high)
-    addPin(CODEC_ADC, PC3); // Microphone
+    addPin(KEY, PA0, PinLogic::Output);      // user button
+    addPin(LED, PD12, PinLogic::Output, 0);  // green
+    addPin(LED, PD5, PinLogic::Output, 1);   // red
+    addPin(LED, PD13, PinLogic::Output, 2);  // orange
+    addPin(LED, PD14, PinLogic::Output, 3);  // red
+    addPin(LED, PD15, PinLogic::Output, 4);  // blue
+    addPin(PA, PD4, PinLogic::Output, );     // reset pin (active high)
+    addPin(CODEC_ADC, PC3, PinLogic::Input); // Microphone
   }
 } PinsSTM32F411Disco;
 

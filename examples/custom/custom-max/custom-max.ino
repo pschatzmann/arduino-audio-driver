@@ -18,7 +18,7 @@ void setup() {
   // add i2c codec pins: scl, sda, port
   my_pins.addI2C(CODEC, 32, 22, 0x20);
   // example add other pins: PA on gpio 21
-  my_pins.addPin(PA, 21);
+  my_pins.addPin(PA, 21, PinLogic::Output);
 
   // configure codec
   CodecConfig cfg;
