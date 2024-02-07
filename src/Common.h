@@ -176,7 +176,7 @@ typedef enum {
  */
 
 enum ActiveLogic {
-  ActiveHigh, ActiveLow, ActiveTouch,
+  ActiveHigh, ActiveLow, ActiveTouch, ActiveUndefined,
 };
 
 /**

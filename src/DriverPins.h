@@ -231,6 +231,14 @@ public:
     return -1;
   }
 
+  ActiveLogic getPinActiveLogic(Pin pinId){
+    for (PinsFunction &pin : pins) {
+      if (pin.pin == pinId)
+        return pin.active_logic;
+    }
+    return ActiveLogic::ActiveUndefined;
+  }
+
   Optional<PinsI2C> getI2CPins(PinFunctionEnum function) {
     for (PinsI2C &pin : i2c) {
       if (pin.function == function)
