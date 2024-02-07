@@ -61,10 +61,12 @@
 /***************************  Codec User defines ******************************/
 /******************************************************************************/
 /* Codec output DEVICE */
-#define OUTPUT_DEVICE_SPEAKER                 ((uint16_t)0x0001)
-#define OUTPUT_DEVICE_HEADPHONE               ((uint16_t)0x0002)
-#define OUTPUT_DEVICE_BOTH                    ((uint16_t)0x0003)
-#define OUTPUT_DEVICE_AUTO                    ((uint16_t)0x0004)
+#ifndef OUTPUT_DEVICE_SPEAKER
+#  define OUTPUT_DEVICE_SPEAKER                 ((uint16_t)0x0001)
+#  define OUTPUT_DEVICE_HEADPHONE               ((uint16_t)0x0002)
+#  define OUTPUT_DEVICE_BOTH                    ((uint16_t)0x0003)
+#  define OUTPUT_DEVICE_AUTO                    ((uint16_t)0x0004)
+#endif
 #define INPUT_DEVICE_DIGITAL_MICROPHONE_1     ((uint16_t)0x0100)
 #define INPUT_DEVICE_DIGITAL_MICROPHONE_2     ((uint16_t)0x0200)
 #define INPUT_DEVICE_INPUT_LINE_1             ((uint16_t)0x0300)

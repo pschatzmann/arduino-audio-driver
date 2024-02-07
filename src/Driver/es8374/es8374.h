@@ -45,7 +45,7 @@ extern "C" {
  *     - RESULT_OK
  *     - RESULT_FAIL
  */
-error_t es8374_codec_init(codec_config_t *cfg, codec_mode_t codec_mode);
+error_t es8374_codec_init(codec_config_t *cfg, codec_mode_t codec_mode, void *i2c);
 
 /**
  * @brief Deinitialize ES8374 codec chip

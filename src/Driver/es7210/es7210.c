@@ -201,13 +201,13 @@ error_t es7210_config_sample(samplerate_t sample)
             sample_fre = 48000;
             break;
         default:
-            AUDIODRIVER_LOGE( "Unable to configure sample rate %dHz", sample_fre);
+            AD_LOGE( "Unable to configure sample rate %dHz", sample_fre);
             break;
     }
     mclk_fre = sample_fre * MCLK_DIV_FRE;
     coeff = get_coeff(mclk_fre, sample_fre);
     if (coeff < 0) {
-        AUDIODRIVER_LOGE( "Unable to configure sample rate %dHz with %dHz MCLK", sample_fre, mclk_fre);
+        AD_LOGE( "Unable to configure sample rate %dHz with %dHz MCLK", sample_fre, mclk_fre);
         return RESULT_FAIL;
     }
     /* Set clock parammeters */
@@ -236,43 +236,44 @@ error_t es7210_mic_select(es7210_input_mics_t mic)
     mic_select = mic;
     if (mic_select & (ES7210_INPUT_MIC1 | ES7210_INPUT_MIC2 | ES7210_INPUT_MIC3 | ES7210_INPUT_MIC4)) {
         for (int i = 0; i < 4; i++) {
-            ret |= es7210_update_reg_bit(ES7210_MIC1_GAIN_REG43 + i, 0x10, 0x00);
+            ret |= es7210_update_reg_bit(ES7210_MIC1_ES7210_GAIN_REG43 + i, 0x10, 0x00);
         }
         ret |= es7210_write_reg(ES7210_MIC12_POWER_REG4B, 0xff);
         ret |= es7210_write_reg(ES7210_MIC34_POWER_REG4C, 0xff);
         if (mic_select & ES7210_INPUT_MIC1) {
-            AUDIODRIVER_LOGI( "Enable ES7210_INPUT_MIC1");
+            AD_LOGI( "Enable ES7210_INPUT_MIC1");
             ret |= es7210_update_reg_bit(ES7210_CLOCK_OFF_REG01, 0x0b, 0x00);
             ret |= es7210_write_reg(ES7210_MIC12_POWER_REG4B, 0x00);
-            ret |= es7210_update_reg_bit(ES7210_MIC1_GAIN_REG43, 0x10, 0x10);
+            ret |= es7210_update_reg_bit(ES7210_MIC1_ES7210_GAIN_REG43, 0x10, 0x10);
         }
         if (mic_select & ES7210_INPUT_MIC2) {
-            AUDIODRIVER_LOGI( "Enable ES7210_INPUT_MIC2");
+            AD_LOGI( "Enable ES7210_INPUT_MIC2");
             ret |= es7210_update_reg_bit(ES7210_CLOCK_OFF_REG01, 0x0b, 0x00);
             ret |= es7210_write_reg(ES7210_MIC12_POWER_REG4B, 0x00);
-            ret |= es7210_update_reg_bit(ES7210_MIC2_GAIN_REG44, 0x10, 0x10);
+            ret |= es7210_update_reg_bit(ES7210_MIC2_ES7210_GAIN_REG44, 0x10, 0x10);
         }
         if (mic_select & ES7210_INPUT_MIC3) {
-            AUDIODRIVER_LOGI( "Enable ES7210_INPUT_MIC3");
+            AD_LOGI( "Enable ES7210_INPUT_MIC3");
             ret |= es7210_update_reg_bit(ES7210_CLOCK_OFF_REG01, 0x15, 0x00);
             ret |= es7210_write_reg(ES7210_MIC34_POWER_REG4C, 0x00);
-            ret |= es7210_update_reg_bit(ES7210_MIC3_GAIN_REG45, 0x10, 0x10);
+            ret |= es7210_update_reg_bit(ES7210_MIC3_ES7210_GAIN_REG45, 0x10, 0x10);
         }
         if (mic_select & ES7210_INPUT_MIC4) {
-            AUDIODRIVER_LOGI( "Enable ES7210_INPUT_MIC4");
+            AD_LOGI( "Enable ES7210_INPUT_MIC4");
             ret |= es7210_update_reg_bit(ES7210_CLOCK_OFF_REG01, 0x15, 0x00);
             ret |= es7210_write_reg(ES7210_MIC34_POWER_REG4C, 0x00);
-            ret |= es7210_update_reg_bit(ES7210_MIC4_GAIN_REG46, 0x10, 0x10);
+            ret |= es7210_update_reg_bit(ES7210_MIC4_ES7210_GAIN_REG46, 0x10, 0x10);
         }
     } else {
-        AUDIODRIVER_LOGE( "Microphone selection error");
+        AD_LOGE( "Microphone selection error");
         return RESULT_FAIL;
     }
     return ret;
 }
 
-error_t es7210_adc_init(codec_config_t *codec_cfg)
+error_t es7210_adc_init(codec_config_t *codec_cfg, void* i2c)
 {
+    i2c_handle = i2c;
     error_t ret = RESULT_OK;
     ret |= es7210_write_reg(ES7210_RESET_REG00, 0xff);
     ret |= es7210_write_reg(ES7210_RESET_REG00, 0x41);
@@ -287,7 +288,7 @@ error_t es7210_adc_init(codec_config_t *codec_cfg)
     I2SDefinition *i2s_cfg = & (codec_cfg->i2s);
     switch (i2s_cfg->mode) {
         case MODE_MASTER:    /* MASTER MODE */
-            AUDIODRIVER_LOGI( "ES7210 in Master mode");
+            AD_LOGI( "ES7210 in Master mode");
             ret |= es7210_update_reg_bit(ES7210_MODE_CONFIG_REG08, 0x01, 0x01);
             /* Select clock source for internal mclk */
             switch (get_es7210_mclk_src()) {
@@ -303,7 +304,7 @@ error_t es7210_adc_init(codec_config_t *codec_cfg)
             }
             break;
         case MODE_SLAVE:    /* SLAVE MODE */
-            AUDIODRIVER_LOGI( "ES7210 in Slave mode");
+            AD_LOGI( "ES7210 in Slave mode");
             ret |= es7210_update_reg_bit(ES7210_MODE_CONFIG_REG08, 0x01, 0x00);
             break;
         default:
@@ -316,7 +317,7 @@ error_t es7210_adc_init(codec_config_t *codec_cfg)
     ret |= es7210_write_reg(ES7210_MAINCLK_REG02, 0xc1);              /* Set the frequency division coefficient and use dll except clock doubler, and need to set 0xc1 to clear the state */
     ret |= es7210_config_sample(i2s_cfg->rate);
     ret |= es7210_mic_select(mic_select);
-    ret |= es7210_adc_set_gain(GAIN_30DB);
+    ret |= es7210_adc_set_gain(ES7210_GAIN_30DB);
     return RESULT_OK;
 }
 
@@ -333,20 +334,20 @@ error_t es7210_config_fmt(i2s_format_t fmt)
     adc_iface &= 0xfc;
     switch (fmt) {
         case I2S_NORMAL:
-            AUDIODRIVER_LOGD( "ES7210 in I2S Format");
+            AD_LOGD( "ES7210 in I2S Format");
             adc_iface |= 0x00;
             break;
         case I2S_LEFT:
         case I2S_RIGHT:
-            AUDIODRIVER_LOGD( "ES7210 in LJ Format");
+            AD_LOGD( "ES7210 in LJ Format");
             adc_iface |= 0x01;
             break;
         case I2S_DSP:
             if (I2S_DSP_MODE) {
-                AUDIODRIVER_LOGD( "ES7210 in DSP-A Format");
+                AD_LOGD( "ES7210 in DSP-A Format");
                 adc_iface |= 0x13;
             } else {
-                AUDIODRIVER_LOGD( "ES7210 in DSP-B Format");
+                AD_LOGD( "ES7210 in DSP-B Format");
                 adc_iface |= 0x03;
             }
             break;
@@ -424,16 +425,16 @@ error_t es7210_adc_ctrl_state_active(codec_mode_t mode, bool ctrl_state_active)
 {
     static uint8_t regv;
     error_t ret = RESULT_OK;
-    AUDIODRIVER_LOGW("ES7210 only supports ADC mode");
+    AD_LOGW("ES7210 only supports ADC mode");
     ret = es7210_read_reg(ES7210_CLOCK_OFF_REG01);
     if ((ret != 0x7f) && (ret != 0xff)) {
         regv = es7210_read_reg(ES7210_CLOCK_OFF_REG01);
     }
     if (ctrl_state_active) {
-        AUDIODRIVER_LOGI( "The ES7210_CLOCK_OFF_REG01 value before stop is %x",regv);
+        AD_LOGI( "The ES7210_CLOCK_OFF_REG01 value before stop is %x",regv);
         ret |= es7210_start(regv);
     } else {
-        AUDIODRIVER_LOGW("The codec is about to stop");
+        AD_LOGW("The codec is about to stop");
         regv = es7210_read_reg(ES7210_CLOCK_OFF_REG01);
         ret |= es7210_stop();
     }
@@ -449,18 +450,18 @@ error_t es7210_adc_set_gain(es7210_gain_value_t gain)
     } else if (gain > max_gain_vaule) {
         gain = max_gain_vaule;
     }
-    AUDIODRIVER_LOGD( "SET: gain:%d", gain);
+    AD_LOGD( "SET: gain:%d", gain);
     if (mic_select & ES7210_INPUT_MIC1) {
-        ret |= es7210_update_reg_bit(ES7210_MIC1_GAIN_REG43, 0x0f, gain);
+        ret |= es7210_update_reg_bit(ES7210_MIC1_ES7210_GAIN_REG43, 0x0f, gain);
     }
     if (mic_select & ES7210_INPUT_MIC2) {
-        ret |= es7210_update_reg_bit(ES7210_MIC2_GAIN_REG44, 0x0f, gain);
+        ret |= es7210_update_reg_bit(ES7210_MIC2_ES7210_GAIN_REG44, 0x0f, gain);
     }
     if (mic_select & ES7210_INPUT_MIC3) {
-        ret |= es7210_update_reg_bit(ES7210_MIC3_GAIN_REG45, 0x0f, gain);
+        ret |= es7210_update_reg_bit(ES7210_MIC3_ES7210_GAIN_REG45, 0x0f, gain);
     }
     if (mic_select & ES7210_INPUT_MIC4) {
-        ret |= es7210_update_reg_bit(ES7210_MIC4_GAIN_REG46, 0x0f, gain);
+        ret |= es7210_update_reg_bit(ES7210_MIC4_ES7210_GAIN_REG46, 0x0f, gain);
     }
     return ret;
 }
@@ -470,35 +471,35 @@ error_t es7210_adc_get_gain(void)
     int regv = 0;
     uint8_t gain_value;
     if (mic_select & ES7210_INPUT_MIC1) {
-        regv = es7210_read_reg(ES7210_MIC1_GAIN_REG43);
+        regv = es7210_read_reg(ES7210_MIC1_ES7210_GAIN_REG43);
     } else if (mic_select & ES7210_INPUT_MIC2) {
-        regv = es7210_read_reg(ES7210_MIC2_GAIN_REG44);
+        regv = es7210_read_reg(ES7210_MIC2_ES7210_GAIN_REG44);
     } else if (mic_select & ES7210_INPUT_MIC3) {
-        regv = es7210_read_reg(ES7210_MIC3_GAIN_REG45);
+        regv = es7210_read_reg(ES7210_MIC3_ES7210_GAIN_REG45);
     } else if (mic_select & ES7210_INPUT_MIC4) {
-        regv = es7210_read_reg(ES7210_MIC4_GAIN_REG46);
+        regv = es7210_read_reg(ES7210_MIC4_ES7210_GAIN_REG46);
     } else {
-        AUDIODRIVER_LOGE( "No MIC selected");
+        AD_LOGE( "No MIC selected");
         return RESULT_FAIL;
     }
     if (regv == RESULT_FAIL) {
         return regv;
     }
     gain_value = (regv & 0x0f);     /* Retain the last four bits for gain */
-    AUDIODRIVER_LOGI( "GET: gain_value:%d", gain_value);
+    AD_LOGI( "GET: gain_value:%d", gain_value);
     return gain_value;
 }
 
 error_t es7210_adc_set_volume(int volume)
 {
     error_t ret = RESULT_OK;
-    AUDIODRIVER_LOGD( "ADC can adjust gain");
+    AD_LOGD( "ADC can adjust gain");
     return ret;
 }
 
 error_t es7210_set_mute(bool enable)
 {
-    AUDIODRIVER_LOGD( "ES7210 SetMute :%d", enable);
+    AD_LOGD( "ES7210 SetMute :%d", enable);
     return RESULT_OK;
 }
 
@@ -506,6 +507,6 @@ void es7210_read_all(void)
 {
     for (int i = 0; i <= 0x4E; i++) {
         uint8_t reg = es7210_read_reg(i);
-        AUDIODRIVER_LOGI("REG:%02x, %02x\n", reg, i);
+        AD_LOGI("REG:%02x, %02x\n", reg, i);
     }
 }

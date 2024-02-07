@@ -34,7 +34,7 @@
 
 #define TAS5805M_ASSERT(a, format, b, ...) \
     if ((a) != 0) { \
-        AUDIODRIVER_LOGE( format, ##__VA_ARGS__); \
+        AD_LOGE( format, ##__VA_ARGS__); \
         return b;\
     }
 
@@ -90,7 +90,7 @@ static error_t tas5805m_transmit_registers(const tas5805m_cfg_reg_t *conf_buf, i
                 break;
             case CFG_END_1:
                 if (CFG_END_2 == conf_buf[i + 1].offset && CFG_END_3 == conf_buf[i + 2].offset) {
-                    AUDIODRIVER_LOGI( "End of tms5805m reg: %d\n", i);
+                    AD_LOGI( "End of tms5805m reg: %d\n", i);
                 }
                 break;
             default:
@@ -100,17 +100,18 @@ static error_t tas5805m_transmit_registers(const tas5805m_cfg_reg_t *conf_buf, i
         i++;
     }
     if (ret != RESULT_OK) {
-        AUDIODRIVER_LOGE( "Fail to load configuration to tas5805m");
+        AD_LOGE( "Fail to load configuration to tas5805m");
         return RESULT_FAIL;
     }
-    AUDIODRIVER_LOGI( "%s:  write %d reg done", __FUNCTION__, i);
+    AD_LOGI( "%s:  write %d reg done", __FUNCTION__, i);
     return ret;
 }
 
-error_t tas5805m_init(codec_config_t *codec_cfg)
+error_t tas5805m_init(codec_config_t *codec_cfg,  void* i2c)
 {
+    i2c_handler = i2c;
     error_t ret = RESULT_OK;
-    AUDIODRIVER_LOGI( "Power ON CODEC with GPIO %d", power_pin);
+    AD_LOGI( "Power ON CODEC with GPIO %d", power_pin);
     pinMode(power_pin, OUTPUT);
     digitalWrite(power_pin, 0);
     delay(20);
@@ -141,7 +142,7 @@ error_t tas5805m_set_volume(int vol)
     cmd[0] = MASTER_VOL_REG_ADDR;
     cmd[1] = tas5805m_volume[vol_idx];
     ret = i2c_bus_write_bytes(i2c_handler, TAS5805M_ADDR, &cmd[0], 1, &cmd[1], 1);
-    AUDIODRIVER_LOGW("volume = 0x%x", cmd[1]);
+    AD_LOGW("volume = 0x%x", cmd[1]);
     return ret;
 }
 
@@ -156,7 +157,7 @@ error_t tas5805m_get_volume(int *value)
         if (cmd[1] >= tas5805m_volume[i])
             break;
     }
-    AUDIODRIVER_LOGI( "Volume is %d", i * 5);
+    AD_LOGI( "Volume is %d", i * 5);
     *value = 5 * i;
     return ret;
 }
@@ -186,7 +187,7 @@ error_t tas5805m_get_mute(int *value)
 
     TAS5805M_ASSERT(ret, "Fail to get mute", RESULT_FAIL);
     *value = (cmd[1] & 0x08) >> 4;
-    AUDIODRIVER_LOGI( "Get mute value: 0x%x", *value);
+    AD_LOGI( "Get mute value: 0x%x", *value);
     return ret;
 }
 
@@ -225,7 +226,7 @@ error_t tas5805m_set_mute_fade(int value)
 
     ret |= i2c_bus_write_bytes(i2c_handler, TAS5805M_ADDR, &cmd[0], 1, &cmd[1], 1);
     TAS5805M_ASSERT(ret, "Fail to set mute fade", RESULT_FAIL);
-    AUDIODRIVER_LOGI( "Set mute fade, value:%d, 0x%x", value, cmd[1]);
+    AD_LOGI( "Set mute fade, value:%d, 0x%x", value, cmd[1]);
     return ret;
 }
 

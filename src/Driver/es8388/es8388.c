@@ -30,7 +30,7 @@ static int dac_power = 0x3c;
 
 #define ES_ASSERT(a, format, b, ...) \
     if ((a) != 0) { \
-        AUDIODRIVER_LOGE( format, ##__VA_ARGS__); \
+        AD_LOGE( format, ##__VA_ARGS__); \
         return b;\
     }
 
@@ -47,11 +47,11 @@ static error_t es_read_reg(uint8_t reg_add, uint8_t *p_data)
 
 void es8388_read_all()
 {
-    AUDIODRIVER_LOGD(LOG_METHOD);
+    AD_LOGD(LOG_METHOD);
     for (int i = 0; i < 50; i++) {
         uint8_t reg = 0;
         es_read_reg(i, &reg);
-        AUDIODRIVER_LOGI("%x: %x\n", i, reg);
+        AD_LOGI("%x: %x\n", i, reg);
     }
 }
 
@@ -73,10 +73,10 @@ error_t es8388_write_reg(uint8_t reg_add, uint8_t data)
  */
 static int es8388_set_adc_dac_volume(int mode, int volume, int dot)
 {
-    AUDIODRIVER_LOGD("es8388_set_adc_dac_volume: %d.%d", volume,dot);
+    AD_LOGD("es8388_set_adc_dac_volume: %d.%d", volume,dot);
     int res = 0;
     if ( volume < -96 || volume > 0 ) {
-        AUDIODRIVER_LOGW("Warning: volume < -96! or > 0!\n");
+        AD_LOGW("Warning: volume < -96! or > 0!\n");
         if (volume < -96)
             volume = -96;
         else
@@ -108,7 +108,7 @@ static int es8388_set_adc_dac_volume(int mode, int volume, int dot)
  */
 error_t es8388_start(codec_mode_t mode)
 {
-    AUDIODRIVER_LOGD(LOG_METHOD);
+    AD_LOGD(LOG_METHOD);
     error_t res = RESULT_OK;
     uint8_t prev_data = 0, data = 0;
     es_read_reg(ES8388_DACCONTROL21, &prev_data);
@@ -129,12 +129,12 @@ error_t es8388_start(codec_mode_t mode)
     }
     if (mode == CODEC_MODE_ENCODE || mode == CODEC_MODE_BOTH || mode == CODEC_MODE_LINE_IN) {
         res |= es_write_reg(ES8388_ADDR, ES8388_ADCPOWER, 0x00);   //power up adc and line in
-        AUDIODRIVER_LOGD("es8388_start default is mode:%d", mode);
+        AD_LOGD("es8388_start default is mode:%d", mode);
     }
     if (mode == CODEC_MODE_DECODE || mode == CODEC_MODE_BOTH || mode == CODEC_MODE_LINE_IN) {
         res |= es_write_reg(ES8388_ADDR, ES8388_DACPOWER, dac_power);   //power up dac and line out
         res |= es8388_set_voice_mute(false);
-        AUDIODRIVER_LOGD("es8388_start default is mode:%d", mode);
+        AD_LOGD("es8388_start default is mode:%d", mode);
     }
 
     return res;
@@ -152,7 +152,7 @@ error_t es8388_start(codec_mode_t mode)
  */
 error_t es8388_stop(codec_mode_t mode)
 {
-    AUDIODRIVER_LOGD(LOG_METHOD);
+    AD_LOGD(LOG_METHOD);
     error_t res = RESULT_OK;
     if (mode == CODEC_MODE_LINE_IN) {
         res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL21, 0x80); //enable dac
@@ -194,7 +194,7 @@ error_t es8388_stop(codec_mode_t mode)
  */
 error_t es8388_i2s_config_clock(es_i2s_clock_t cfg)
 {
-    AUDIODRIVER_LOGD(LOG_METHOD);
+    AD_LOGD(LOG_METHOD);
     error_t res = RESULT_OK;
     res |= es_write_reg(ES8388_ADDR, ES8388_MASTERMODE, cfg.sclk_div);
     res |= es_write_reg(ES8388_ADDR, ES8388_ADCCONTROL5, cfg.lclk_div);  //ADCFsMode,singel SPEED,RATIO=256
@@ -204,7 +204,7 @@ error_t es8388_i2s_config_clock(es_i2s_clock_t cfg)
 
 error_t es8388_deinit(void)
 {
-    AUDIODRIVER_LOGD(LOG_METHOD);
+    AD_LOGD(LOG_METHOD);
     int res = 0;
     res = es_write_reg(ES8388_ADDR, ES8388_CHIPPOWER, 0xFF);  //reset and stop es8388
 #ifdef CONFIG_ESP_LYRAT_V4_3_BOARD
@@ -221,7 +221,7 @@ error_t es8388_deinit(void)
  */
 error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle)
 {
-    AUDIODRIVER_LOGD(LOG_METHOD);
+    AD_LOGD(LOG_METHOD);
     i2c_handle = handle;
 
     int res = 0;
@@ -255,7 +255,7 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle)
     res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL23, 0x00);   //vroi=0
     res |= es8388_set_adc_dac_volume(CODEC_MODE_DECODE, 0, 0);          // 0db
     dac_power = 0;
-    AUDIODRIVER_LOGI("dac_output: %d",cfg->dac_output);
+    AD_LOGI("dac_output: %d",cfg->dac_output);
     if (DAC_OUTPUT_LINE2 == cfg->dac_output) {
         dac_power = _DAC_OUTPUT_LOUT1 | _DAC_OUTPUT_ROUT1;
     } else if (DAC_OUTPUT_LINE1 == cfg->dac_output) {
@@ -296,7 +296,7 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle)
     res |= es8388_set_adc_dac_volume(CODEC_MODE_ENCODE, 0, 0);      // 0db
     res |= es_write_reg(ES8388_ADDR, ES8388_ADCPOWER, 0x09); //Power on ADC, Enable LIN&RIN, Power off MICBIAS, set int1lp to low power mode
     //es8388_pa_power(cfg->_DAC_OUTPUT!=_DAC_OUTPUT_LINE2);
-    // AUDIODRIVER_LOGI("init,out:%02x, in:%02x", cfg->_DAC_OUTPUT, cfg->adc_input);
+    // AD_LOGI("init,out:%02x, in:%02x", cfg->_DAC_OUTPUT, cfg->adc_input);
     return res;
 }
 
@@ -312,7 +312,7 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle)
  */
 error_t es8388_config_fmt(codec_mode_t mode, i2s_format_t fmt)
 {
-    AUDIODRIVER_LOGD(LOG_METHOD);
+    AD_LOGD(LOG_METHOD);
     error_t res = RESULT_OK;
     uint8_t reg = 0;
     if (mode == CODEC_MODE_ENCODE || mode == CODEC_MODE_BOTH) {
@@ -339,7 +339,7 @@ error_t es8388_config_fmt(codec_mode_t mode, i2s_format_t fmt)
 #if AI_THINKER_ES8388_VOLUME_HACK==1
 
 error_t es8388_set_voice_volume(int volume) {
-  AUDIODRIVER_LOGD("es8388_set_voice_volume (HACK 1): %d", volume);
+  AD_LOGD("es8388_set_voice_volume (HACK 1): %d", volume);
   error_t res = RESULT_OK;
   if (volume < 0) volume = 0;
   else if (volume > 100) volume = 100;
@@ -358,7 +358,7 @@ error_t es8388_set_voice_volume(int volume) {
 #elif AI_THINKER_ES8388_VOLUME_HACK==2
 
 error_t es8388_set_voice_volume(int volume) {
-    AUDIODRIVER_LOGD("es8388_set_voice_volume (HACK 2): %d", volume);
+    AD_LOGD("es8388_set_voice_volume (HACK 2): %d", volume);
     error_t res = RESULT_OK;
     if (volume < 0) volume = 0;
     else if (volume > 100) volume = 100;
@@ -378,7 +378,7 @@ error_t es8388_set_voice_volume(int volume) {
 #else
 
 error_t es8388_set_voice_volume(int volume) {
-    AUDIODRIVER_LOGD("es8388_set_voice_volume: %d", volume);
+    AD_LOGD("es8388_set_voice_volume: %d", volume);
     error_t res = RESULT_OK;
     if (volume < 0)
         volume = 0;
@@ -402,7 +402,7 @@ error_t es8388_set_voice_volume(int volume) {
  */
 error_t es8388_get_voice_volume(int *volume)
 {
-    AUDIODRIVER_LOGD(LOG_METHOD);
+    AD_LOGD(LOG_METHOD);
     error_t res = RESULT_OK;
     uint8_t reg = 0;
     res = es_read_reg(ES8388_DACCONTROL24, &reg);
@@ -429,7 +429,7 @@ error_t es8388_get_voice_volume(int *volume)
  */
 error_t es8388_set_bits_per_sample(codec_mode_t mode, sample_bits_t bits_length)
 {
-    AUDIODRIVER_LOGD(LOG_METHOD);
+    AD_LOGD(LOG_METHOD);
     error_t res = RESULT_OK;
     uint8_t reg = 0;
     int bits = (int)bits_length;
@@ -458,7 +458,7 @@ error_t es8388_set_bits_per_sample(codec_mode_t mode, sample_bits_t bits_length)
  */
 error_t es8388_set_voice_mute(bool enable)
 {
-    AUDIODRIVER_LOGD(LOG_METHOD);
+    AD_LOGD(LOG_METHOD);
     error_t res = RESULT_OK;
     uint8_t reg = 0;
     res = es_read_reg(ES8388_DACCONTROL3, &reg);
@@ -469,7 +469,7 @@ error_t es8388_set_voice_mute(bool enable)
 
 error_t es8388_get_voice_mute(void)
 {
-    AUDIODRIVER_LOGD(LOG_METHOD);
+    AD_LOGD(LOG_METHOD);
     error_t res = RESULT_OK;
     uint8_t reg = 0;
     res = es_read_reg(ES8388_DACCONTROL3, &reg);
@@ -488,7 +488,7 @@ error_t es8388_get_voice_mute(void)
  */
 error_t es8388_config_dac_output(es_dac_output_t output)
 {
-    AUDIODRIVER_LOGD(LOG_METHOD);
+    AD_LOGD(LOG_METHOD);
     error_t res;
     uint8_t reg = 0;
     res = es_read_reg(ES8388_DACPOWER, &reg);
@@ -506,7 +506,7 @@ error_t es8388_config_dac_output(es_dac_output_t output)
  */
 error_t es8388_config_adc_input(es_adc_input_t input)
 {
-    AUDIODRIVER_LOGD(LOG_METHOD);
+    AD_LOGD(LOG_METHOD);
     error_t res;
     uint8_t reg = 0;
     res = es_read_reg(ES8388_ADCCONTROL2, &reg);
@@ -524,7 +524,7 @@ error_t es8388_config_adc_input(es_adc_input_t input)
  */
 error_t es8388_set_mic_gain(es_mic_gain_t gain)
 {
-    AUDIODRIVER_LOGD("es8388_set_mic_gain: %d", gain);
+    AD_LOGD("es8388_set_mic_gain: %d", gain);
     error_t res, gain_n;
     gain_n = (int)gain / 3;
     gain_n = (gain_n << 4) + gain_n;
@@ -534,7 +534,7 @@ error_t es8388_set_mic_gain(es_mic_gain_t gain)
 
 int es8388_ctrl_state_active(codec_mode_t mode, bool ctrl_state_active)
 {
-    AUDIODRIVER_LOGD("es8388_ctrl_state_active: %d, %d", mode, ctrl_state_active);
+    AD_LOGD("es8388_ctrl_state_active: %d, %d", mode, ctrl_state_active);
     int res = 0;
     int es_mode_t = 0;
     switch (mode) {
@@ -552,21 +552,21 @@ int es8388_ctrl_state_active(codec_mode_t mode, bool ctrl_state_active)
             break;
         default:
             es_mode_t = CODEC_MODE_DECODE;
-            AUDIODRIVER_LOGW("Codec mode not support, default is decode mode");
+            AD_LOGW("Codec mode not support, default is decode mode");
             break;
     }
     if (!ctrl_state_active) {
         res = es8388_stop(es_mode_t);
     } else {
         res = es8388_start(es_mode_t);
-        AUDIODRIVER_LOGD("start default is decode mode:%d", es_mode_t);
+        AD_LOGD("start default is decode mode:%d", es_mode_t);
     }
     return res;
 }
 
 error_t es8388_config_i2s(codec_mode_t mode, I2SDefinition *iface)
 {
-    AUDIODRIVER_LOGD(LOG_METHOD);
+    AD_LOGD(LOG_METHOD);
     error_t res = RESULT_OK;
     int tmp = 0;
     res |= es8388_config_fmt(CODEC_MODE_BOTH, iface->fmt);

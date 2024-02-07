@@ -4,8 +4,15 @@
 #include "Driver/ac101/ac101.h"
 #include "Driver/cs43l22/cs43l22.h"
 #include "Driver/es7243/es7243.h"
+#include "Driver/es7243e/es7243e.h"
+#include "Driver/es7210/es7210.h"
+#include "Driver/es8156/es8156.h"
 #include "Driver/es8311/es8311.h"
+#include "Driver/es8374/es8374.h"
 #include "Driver/es8388/es8388.h"
+#include "Driver/tas5805m/tas5805m.h"
+#include "Driver/wm8994/wm8994.h"
+
 #include "DriverPins.h"
 
 namespace audio_driver {
@@ -40,19 +47,19 @@ public:
       is_output = true;
 
     if (is_input && is_output) {
-      AUDIODRIVER_LOGD("CODEC_MODE_BOTH");
+      AD_LOGD("CODEC_MODE_BOTH");
       return CODEC_MODE_BOTH;
     }
 
     if (is_output)
-      AUDIODRIVER_LOGD("CODEC_MODE_DECODE");
+      AD_LOGD("CODEC_MODE_DECODE");
       return CODEC_MODE_DECODE;
 
     if (is_input)
-      AUDIODRIVER_LOGD("CODEC_MODE_ENCODE");
+      AD_LOGD("CODEC_MODE_ENCODE");
       return CODEC_MODE_ENCODE;
 
-    AUDIODRIVER_LOGD("CODEC_MODE_NONE");
+    AD_LOGD("CODEC_MODE_NONE");
     return CODEC_MODE_NONE;
   }
 };
@@ -69,17 +76,17 @@ public:
     codec_cfg = codecCfg;
     p_pins = &pins;
     if (!init(codec_cfg)){
-      AUDIODRIVER_LOGE("init failed");
+      AD_LOGE("init failed");
       return false;
     }
     codec_mode_t codec_mode = codec_cfg.get_mode();
     if(!controlState(codec_mode)){
-      AUDIODRIVER_LOGE("controlState failed");
+      AD_LOGE("controlState failed");
       return false;
     }
     bool result = configInterface(codec_mode, codec_cfg.i2s);
     if(!result){
-      AUDIODRIVER_LOGE("configInterface failed");
+      AD_LOGE("configInterface failed");
     }
     setPAPower(true);
     return result;
@@ -100,7 +107,7 @@ public:
     Pin pin = pins().getPinID(PA);
     if (pin == -1)
       return false;
-    AUDIODRIVER_LOGI("setPAPower pin %d -> %d", pin, enable);
+    AD_LOGI("setPAPower pin %d -> %d", pin, enable);
     digitalWrite(pin, enable ? HIGH : LOW);
     return true;
   }
@@ -128,164 +135,6 @@ protected:
   }
 };
 
-/**
- * @brief Driver API for ES8388 codec chip
- * @author Phil Schatzmann
- * @copyright GPLv3
- */
-class AudioDriverES8388Class : public AudioDriver {
-public:
-  bool setMute(bool mute) { return es8388_set_voice_mute(mute) == RESULT_OK; }
-  bool setVolume(int volume) {
-    AUDIODRIVER_LOGD("volume %d", volume);
-    return es8388_set_voice_volume(limitVolume(volume)) == RESULT_OK;
-  }
-  int getVolume() {
-    int vol;
-    es8388_get_voice_volume(&vol);
-    return vol;
-  }
-
-  bool setInputVolume(int volume) {
-    // map values from 0 - 100 to 0 to 10
-    es_mic_gain_t gain = (es_mic_gain_t)(limitVolume(volume) / 10);
-    AUDIODRIVER_LOGD("input volume: %d -> gain %d", volume, gain);
-    return setMicrophoneGain(gain);
-  }
-
-  bool setMicrophoneGain(es_mic_gain_t gain) {
-    return es8388_set_mic_gain(gain) == RESULT_OK;
-  }
-
-  bool isInputVolumeSupported() { return true; }
-
-protected:
-  bool init(codec_config_t codec_cfg) {
-    auto i2c = pins().getI2CPins(CODEC);
-    if (!i2c) {
-      AUDIODRIVER_LOGE("i2c pins not defined");
-      return false;
-    }
-
-    return es8388_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
-  }
-  bool deinit() { return es8388_deinit() == RESULT_OK; }
-  bool controlState(codec_mode_t mode) {
-    return es8388_ctrl_state_active(mode, true) == RESULT_OK;
-  }
-  bool configInterface(codec_mode_t mode, I2SDefinition iface) {
-    return es8388_config_i2s(mode, &iface) == RESULT_OK;
-  }
-};
-
-/**
- * @brief Driver API for Lyrat  ES8311 codec chip
- * @author Phil Schatzmann
- * @copyright GPLv3
- */
-class AudioDriverES8311Class : public AudioDriver {
-public:
-  bool setMute(bool mute) { return es8311_set_voice_mute(mute) == RESULT_OK; }
-  bool setVolume(int volume) {
-    return es8311_codec_set_voice_volume(limitVolume(volume)) == RESULT_OK;
-  }
-  int getVolume() {
-    int vol;
-    es8311_codec_get_voice_volume(&vol);
-    return vol;
-  }
-
-protected:
-  bool init(codec_config_t codec_cfg) {
-    auto i2c = pins().getI2CPins(CODEC);
-    if (!i2c) {
-      AUDIODRIVER_LOGE("i2c pins not defined");
-      return false;
-    }
-    int mclk_src = pins().getPinID(MCLK_SOURCE);
-    if (mclk_src == -1)
-      return false;
-    return es8311_codec_init(&codec_cfg, i2c.value().p_wire, mclk_src) ==
-           RESULT_OK;
-  }
-  bool deinit() { return es8311_codec_deinit() == RESULT_OK; }
-  bool controlState(codec_mode_t mode) {
-    return es8311_codec_ctrl_state_active(mode, true) == RESULT_OK;
-  }
-  bool configInterface(codec_mode_t mode, I2SDefinition iface) {
-    return es8311_codec_config_i2s(mode, &iface) == RESULT_OK;
-  }
-};
-
-/**
- * @brief Driver API for Lyrat  ES7243 codec chip
- * @author Phil Schatzmann
- * @copyright GPLv3
- */
-class AudioDriverES7243Class : public AudioDriver {
-public:
-  bool setMute(bool mute) {
-    return es7243_adc_set_voice_mute(mute) == RESULT_OK;
-  }
-  bool setVolume(int volume) {
-    return es7243_adc_set_voice_volume(limitVolume(volume)) == RESULT_OK;
-  }
-  int getVolume() {
-    int vol;
-    es7243_adc_get_voice_volume(&vol);
-    return vol;
-  }
-
-protected:
-  bool init(codec_config_t codec_cfg) {
-    auto i2c = pins().getI2CPins(CODEC);
-    if (!i2c) {
-      AUDIODRIVER_LOGE("i2c pins not defined");
-      return false;
-    }
-    return es7243_adc_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
-  }
-  bool deinit() { return es7243_adc_deinit() == RESULT_OK; }
-  bool controlState(codec_mode_t mode) {
-    return es7243_adc_ctrl_state_active(mode, true) == RESULT_OK;
-  }
-  bool configInterface(codec_mode_t mode, I2SDefinition iface) {
-    return es7243_adc_config_i2s(mode, &iface) == RESULT_OK;
-  }
-};
-
-/**
- * @brief Driver API for Lyrat Mini with a ES8311 and a ES7243 codec chip
- * @author Phil Schatzmann
- * @copyright GPLv3
- */
-class AudioDriverLyratMiniClass : public AudioDriver {
-public:
-  bool begin(CodecConfig codecCfg, DriverPins &pins) {
-    int rc = 0;
-    if (codecCfg.dac_output != DAC_OUTPUT_NONE)
-      rc += !dac.begin(codecCfg, pins);
-    if (codecCfg.adc_input != ADC_INPUT_NONE)
-      rc += !adc.begin(codecCfg, pins);
-    return rc == 0;
-  }
-  bool end(void) {
-    int rc = 0;
-    rc += dac.end();
-    rc += adc.end();
-    return rc == 0;
-  }
-  bool setMute(bool enable) { return dac.setMute(enable); }
-  bool setVolume(int volume) { return dac.setVolume(volume); }
-  int getVolume() { return dac.getVolume(); }
-  bool setInputVolume(int volume) { return adc.setVolume(volume); }
-  int getInputVolume() { return adc.getVolume(); }
-  bool isInputVolumeSupported() { return true; }
-
-protected:
-  AudioDriverES8311Class dac;
-  AudioDriverES7243Class adc;
-};
 
 /**
  * @brief Driver API for AC101 codec chip
@@ -306,7 +155,7 @@ protected:
   bool init(codec_config_t codec_cfg) {
     auto i2c = pins().getI2CPins(CODEC);
     if (!i2c) {
-      AUDIODRIVER_LOGE("i2c pins not defined");
+      AD_LOGE("i2c pins not defined");
       return false;
     }
     ac101_set_i2c_handle(i2c.value().p_wire);
@@ -320,6 +169,7 @@ protected:
     return ac101_config_i2s(mode, &iface) == RESULT_OK;
   }
 };
+
 
 /**
  * @brief Driver API for the CS43l22 codec chip
@@ -406,17 +256,453 @@ protected:
   }
 };
 
+
+/**
+ * @brief Driver API for ES7210 codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class AudioDriverES7210Class : public AudioDriver {
+public:
+  bool setMute(bool mute) {
+    return es7210_set_mute(mute) == RESULT_OK;
+  }
+  bool setVolume(int volume) {
+    this->volume = volume;
+    return es7210_adc_set_volume(limitVolume(volume)) == RESULT_OK;
+  }
+  int getVolume() {
+    return volume;
+  }
+
+protected:
+  int volume;
+
+  bool init(codec_config_t codec_cfg) {
+    auto i2c = pins().getI2CPins(CODEC);
+    if (!i2c) {
+      AD_LOGE("i2c pins not defined");
+      return false;
+    }
+    return es7210_adc_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
+  }
+  bool deinit() { return es7210_adc_deinit() == RESULT_OK; }
+  bool controlState(codec_mode_t mode) {
+    return es7210_adc_ctrl_state_active(mode, true) == RESULT_OK;
+  }
+  bool configInterface(codec_mode_t mode, I2SDefinition iface) {
+    return es7210_adc_config_i2s(mode, &iface) == RESULT_OK;
+  }
+};
+
+
+/**
+ * @brief Driver API for Lyrat ES7243 codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class AudioDriverES7243Class : public AudioDriver {
+public:
+  bool setMute(bool mute) {
+    return es7243_adc_set_voice_mute(mute) == RESULT_OK;
+  }
+  bool setVolume(int volume) {
+    return es7243_adc_set_voice_volume(limitVolume(volume)) == RESULT_OK;
+  }
+  int getVolume() {
+    int vol;
+    es7243_adc_get_voice_volume(&vol);
+    return vol;
+  }
+
+protected:
+  bool init(codec_config_t codec_cfg) {
+    auto i2c = pins().getI2CPins(CODEC);
+    if (!i2c) {
+      AD_LOGE("i2c pins not defined");
+      return false;
+    }
+    return es7243_adc_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
+  }
+  bool deinit() { return es7243_adc_deinit() == RESULT_OK; }
+  bool controlState(codec_mode_t mode) {
+    return es7243_adc_ctrl_state_active(mode, true) == RESULT_OK;
+  }
+  bool configInterface(codec_mode_t mode, I2SDefinition iface) {
+    return es7243_adc_config_i2s(mode, &iface) == RESULT_OK;
+  }
+};
+
+/**
+ * @brief Driver API for ES7243e codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+
+class AudioDriverES7243eClass : public AudioDriver {
+public:
+  bool setMute(bool mute) {
+    return mute ? setVolume(0) == RESULT_OK : setVolume(volume) == RESULT_OK;;
+  }
+  bool setVolume(int volume) {
+    this->volume = volume;
+    return es7243e_adc_set_voice_volume(limitVolume(volume)) == RESULT_OK;
+  }
+  int getVolume() {
+    int vol;
+    es7243e_adc_get_voice_volume(&vol);
+    return vol;
+  }
+
+protected:
+  int volume = 0;
+
+  bool init(codec_config_t codec_cfg) {
+    auto i2c = pins().getI2CPins(CODEC);
+    if (!i2c) {
+      AD_LOGE("i2c pins not defined");
+      return false;
+    }
+    return es7243e_adc_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
+  }
+  bool deinit() { return es7243e_adc_deinit() == RESULT_OK; }
+  bool controlState(codec_mode_t mode) {
+    return es7243e_adc_ctrl_state_active(mode, true) == RESULT_OK;
+  }
+  bool configInterface(codec_mode_t mode, I2SDefinition iface) {
+    return es7243e_adc_config_i2s(mode, &iface) == RESULT_OK;
+  }
+};
+
+
+/**
+ * @brief Driver API for ES8388 codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class AudioDriverES8156Class : public AudioDriver {
+public:
+  bool setMute(bool mute) { return es8156_codec_set_voice_mute(mute) == RESULT_OK; }
+  bool setVolume(int volume) {
+    AD_LOGD("volume %d", volume);
+    return es8156_codec_set_voice_volume(limitVolume(volume)) == RESULT_OK;
+  }
+  int getVolume() {
+    int vol;
+    es8156_codec_get_voice_volume(&vol);
+    return vol;
+  }
+
+protected:
+  bool init(codec_config_t codec_cfg) {
+    auto i2c = pins().getI2CPins(CODEC);
+    if (!i2c) {
+      AD_LOGE("i2c pins not defined");
+      return false;
+    }
+
+    return es8156_codec_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
+  }
+  bool deinit() { return es8156_codec_deinit() == RESULT_OK; }
+  bool controlState(codec_mode_t mode) {
+    return es8156_codec_ctrl_state_active(mode, true) == RESULT_OK;
+  }
+  bool configInterface(codec_mode_t mode, I2SDefinition iface) {
+    return es8156_codec_config_i2s(mode, &iface) == RESULT_OK;
+  }
+};
+
+/**
+ * @brief Driver API for Lyrat  ES8311 codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class AudioDriverES8311Class : public AudioDriver {
+public:
+  bool setMute(bool mute) { return es8311_set_voice_mute(mute) == RESULT_OK; }
+  bool setVolume(int volume) {
+    return es8311_codec_set_voice_volume(limitVolume(volume)) == RESULT_OK;
+  }
+  int getVolume() {
+    int vol;
+    es8311_codec_get_voice_volume(&vol);
+    return vol;
+  }
+
+protected:
+  bool init(codec_config_t codec_cfg) {
+    auto i2c = pins().getI2CPins(CODEC);
+    if (!i2c) {
+      AD_LOGE("i2c pins not defined");
+      return false;
+    }
+    int mclk_src = pins().getPinID(MCLK_SOURCE);
+    if (mclk_src == -1)
+      return false;
+    return es8311_codec_init(&codec_cfg, i2c.value().p_wire, mclk_src) ==
+           RESULT_OK;
+  }
+  bool deinit() { return es8311_codec_deinit() == RESULT_OK; }
+  bool controlState(codec_mode_t mode) {
+    return es8311_codec_ctrl_state_active(mode, true) == RESULT_OK;
+  }
+  bool configInterface(codec_mode_t mode, I2SDefinition iface) {
+    return es8311_codec_config_i2s(mode, &iface) == RESULT_OK;
+  }
+};
+
+/**
+ * @brief Driver API for ES8374 codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class AudioDriverES8374Class : public AudioDriver {
+public:
+  bool setMute(bool mute) { return es8374_set_voice_mute(mute) == RESULT_OK; }
+  bool setVolume(int volume) {
+    AD_LOGD("volume %d", volume);
+    return es8374_codec_set_voice_volume(limitVolume(volume)) == RESULT_OK;
+  }
+  int getVolume() {
+    int vol;
+    es8374_codec_get_voice_volume(&vol);
+    return vol;
+  }
+
+protected:
+  bool init(codec_config_t codec_cfg) {
+    auto i2c = pins().getI2CPins(CODEC);
+    if (!i2c) {
+      AD_LOGE("i2c pins not defined");
+      return false;
+    }
+    auto codec_mode = this->codec_cfg.get_mode();
+    return es8374_codec_init(&codec_cfg, codec_mode, i2c.value().p_wire) == RESULT_OK;
+  }
+  bool deinit() { return es8374_codec_deinit() == RESULT_OK; }
+  bool controlState(codec_mode_t mode) {
+    return es8374_codec_ctrl_state_active(mode, true) == RESULT_OK;
+  }
+  bool configInterface(codec_mode_t mode, I2SDefinition iface) {
+    return es8374_codec_config_i2s(mode, &iface) == RESULT_OK;
+  }
+};
+
+
+
+/**
+ * @brief Driver API for ES8388 codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class AudioDriverES8388Class : public AudioDriver {
+public:
+  bool setMute(bool mute) { return es8388_set_voice_mute(mute) == RESULT_OK; }
+  bool setVolume(int volume) {
+    AD_LOGD("volume %d", volume);
+    return es8388_set_voice_volume(limitVolume(volume)) == RESULT_OK;
+  }
+  int getVolume() {
+    int vol;
+    es8388_get_voice_volume(&vol);
+    return vol;
+  }
+
+  bool setInputVolume(int volume) {
+    // map values from 0 - 100 to 0 to 10
+    es_mic_gain_t gain = (es_mic_gain_t)(limitVolume(volume) / 10);
+    AD_LOGD("input volume: %d -> gain %d", volume, gain);
+    return setMicrophoneGain(gain);
+  }
+
+  bool setMicrophoneGain(es_mic_gain_t gain) {
+    return es8388_set_mic_gain(gain) == RESULT_OK;
+  }
+
+  bool isInputVolumeSupported() { return true; }
+
+protected:
+  bool init(codec_config_t codec_cfg) {
+    auto i2c = pins().getI2CPins(CODEC);
+    if (!i2c) {
+      AD_LOGE("i2c pins not defined");
+      return false;
+    }
+
+    return es8388_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
+  }
+  bool deinit() { return es8388_deinit() == RESULT_OK; }
+};
+
+/**
+ * @brief Driver API for TAS5805M codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class AudioDriverTAS5805MClass : public AudioDriver {
+public:
+  bool setMute(bool mute) { return tas5805m_set_mute(mute) == RESULT_OK; }
+  bool setVolume(int volume) {
+    AD_LOGD("volume %d", volume);
+    return tas5805m_set_volume(limitVolume(volume)) == RESULT_OK;
+  }
+  int getVolume() {
+    int vol;
+    tas5805m_get_volume(&vol);
+    return vol;
+  }
+
+protected:
+  bool init(codec_config_t codec_cfg) {
+    auto i2c = pins().getI2CPins(CODEC);
+    if (!i2c) {
+      AD_LOGE("i2c pins not defined");
+      return false;
+    }
+    return tas5805m_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
+  }
+  bool deinit() { return tas5805m_deinit() == RESULT_OK; }
+};
+
+/**
+ * @brief Driver API for the wm8994 codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class AudioDriverWM8994Class : public AudioDriver {
+public:
+  AudioDriverWM8994Class(uint16_t deviceAddr=0x34) {
+    this->deviceAddr = deviceAddr;
+  }
+
+  void setI2CAddress(uint16_t adr) { deviceAddr = adr; }
+
+  virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
+    codec_cfg = codecCfg;
+    // manage reset pin -> acive high
+    setPAPower(true);
+    delay(10);
+    p_pins = &pins;
+    int vol = map(volume, 0, 100, DEFAULT_VOLMIN, DEFAULT_VOLMAX);
+    uint32_t freq = getFrequency(codec_cfg.i2s.rate);
+    uint16_t outputDevice = getOutput(codec_cfg.dac_output);
+    return wm8994_Init(deviceAddr, outputDevice, vol, freq) == 0;
+  }
+
+  bool setMute(bool mute) {
+    uint32_t rc = mute ? wm8994_Pause(deviceAddr) : wm8994_Resume(deviceAddr);
+    return rc == 0;
+  }
+
+  bool setVolume(int volume) {
+    this->volume = volume;
+    int vol = map(volume, 0, 100, DEFAULT_VOLMIN, DEFAULT_VOLMAX);
+    return wm8994_SetVolume(deviceAddr, vol) == 0;
+  }
+  int getVolume() { return volume; }
+
+protected:
+  uint16_t deviceAddr;
+  int volume = 100;
+
+  bool deinit() {
+    int cnt = wm8994_Stop(deviceAddr, AUDIO_MUTE_ON);
+    cnt += wm8994_Reset(deviceAddr);
+    setPAPower(false);
+    return cnt == 0;
+  }
+
+  uint32_t getFrequency(samplerate_t sample_rate) {
+    switch (sample_rate) {
+    case RATE_08K:
+      return 8000; /*!< set to  8k samples per second */
+    case RATE_11K:
+      return 11024; /*!< set to 11.025k samples per second */
+    case RATE_16K:
+      return 16000; /*!< set to 16k samples in per second */
+    case RATE_22K:
+      return 22050; /*!< set to 22.050k samples per second */
+    case RATE_24K:
+      return 24000; /*!< set to 24k samples in per second */
+    case RATE_32K:
+      return 32000; /*!< set to 32k samples in per second */
+    case RATE_44K:
+      return 44100; /*!< set to 44.1k samples per second */
+    case RATE_48K:
+      return 48000; /*!< set to 48k samples per second */
+    }
+    return 44100;
+  }
+
+  uint16_t getOutput(dac_output_t dac_output) {
+    switch (dac_output) {
+    case DAC_OUTPUT_NONE:
+      return 0;
+    case DAC_OUTPUT_LINE1:
+      return OUTPUT_DEVICE_SPEAKER;
+    case DAC_OUTPUT_LINE2:
+      return OUTPUT_DEVICE_HEADPHONE;
+    case DAC_OUTPUT_ALL:
+      return OUTPUT_DEVICE_BOTH;
+    }
+    return OUTPUT_DEVICE_BOTH;
+  }
+};
+
+/**
+ * @brief Driver API for Lyrat Mini with a ES8311 and a ES7243 codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class AudioDriverLyratMiniClass : public AudioDriver {
+public:
+  bool begin(CodecConfig codecCfg, DriverPins &pins) {
+    int rc = 0;
+    if (codecCfg.dac_output != DAC_OUTPUT_NONE)
+      rc += !dac.begin(codecCfg, pins);
+    if (codecCfg.adc_input != ADC_INPUT_NONE)
+      rc += !adc.begin(codecCfg, pins);
+    return rc == 0;
+  }
+  bool end(void) {
+    int rc = 0;
+    rc += dac.end();
+    rc += adc.end();
+    return rc == 0;
+  }
+  bool setMute(bool enable) { return dac.setMute(enable); }
+  bool setVolume(int volume) { return dac.setVolume(volume); }
+  int getVolume() { return dac.getVolume(); }
+  bool setInputVolume(int volume) { return adc.setVolume(volume); }
+  int getInputVolume() { return adc.getVolume(); }
+  bool isInputVolumeSupported() { return true; }
+
+protected:
+  AudioDriverES8311Class dac;
+  AudioDriverES7243Class adc;
+};
+
 // -- Drivers
-/// @ingroup audio_driver
-static AudioDriverES8388Class AudioDriverES8388;
 /// @ingroup audio_driver
 static AudioDriverAC101Class AudioDriverAC101;
 /// @ingroup audio_driver
 static AudioDriverCS43l22Class AudioDriverCS43l22;
 /// @ingroup audio_driver
-static AudioDriverES8311Class AudioDriverES8311;
+static AudioDriverES7210Class AudioDriverES7210;
 /// @ingroup audio_driver
 static AudioDriverES7243Class AudioDriverES7243;
+/// @ingroup audio_driver
+static AudioDriverES7243eClass AudioDriverES7243e;
+/// @ingroup audio_driver
+static AudioDriverES8156Class AudioDriverES8156;
+/// @ingroup audio_driver
+static AudioDriverES8311Class AudioDriverES8311;
+/// @ingroup audio_driver
+static AudioDriverES8374Class AudioDriverES8374;
+/// @ingroup audio_driver
+static AudioDriverES8388Class AudioDriverES8388;
+/// @ingroup audio_driver
+static AudioDriverWM8994Class AudioDriverWM8994;
 /// @ingroup audio_driver
 static AudioDriverLyratMiniClass AudioDriverLyratMini;
 

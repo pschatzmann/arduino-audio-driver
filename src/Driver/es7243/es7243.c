@@ -30,7 +30,7 @@
 #define MCLK_PULSES_NUMBER    (20)
 #define ES_ASSERT(a, format, b, ...) \
     if ((a) != 0) { \
-        AUDIODRIVER_LOGE( format, ##__VA_ARGS__); \
+        AD_LOGE( format, ##__VA_ARGS__); \
         return b;\
     }
 
@@ -97,7 +97,7 @@ error_t es7243_adc_init(codec_config_t *codec_cfg, i2c_bus_handle_t handle)
     ret |= es7243_write_reg(0x08, 0x43);
     ret |= es7243_write_reg(0x05, 0x13);
     if (ret) {
-        AUDIODRIVER_LOGE( "Es7243 initialize failed!");
+        AD_LOGE( "Es7243 initialize failed!");
         return RESULT_FAIL;
     }
     return ret;
@@ -120,7 +120,7 @@ error_t es7243_adc_config_i2s(codec_mode_t mode, I2SDefinition *iface)
 
 error_t es7243_adc_set_voice_mute(bool mute)
 {
-    AUDIODRIVER_LOGI( "Enter into es7243_mute(), mute = %d\n", mute);
+    AD_LOGI( "Enter into es7243_mute(), mute = %d\n", mute);
     if (mute) {
         es7243_write_reg(0x05, 0x1B);
     } else {

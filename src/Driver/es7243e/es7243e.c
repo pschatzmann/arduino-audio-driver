@@ -53,8 +53,9 @@ error_t es7243e_adc_set_addr(int addr)
     return RESULT_OK;
 }
 
-error_t es7243e_adc_init(codec_config_t *codec_cfg)
+error_t es7243e_adc_init(codec_config_t *codec_cfg, void *i2c)
 {
+    i2c_handle = i2c;
     error_t ret = RESULT_OK;
     ret |= es7243e_write_reg(0x01, 0x3A);
     ret |= es7243e_write_reg(0x00, 0x80);
@@ -97,7 +98,7 @@ error_t es7243e_adc_init(codec_config_t *codec_cfg)
     ret |= es7243e_write_reg(0x16, 0x3F);
     ret |= es7243e_write_reg(0x16, 0x00);
     if (ret) {
-        AUDIODRIVER_LOGE("Es7243e initialize failed!");
+        AD_LOGE("Es7243e initialize failed!");
         return RESULT_FAIL;
     }
     return ret;
@@ -122,7 +123,7 @@ error_t es7243e_adc_ctrl_state_active(codec_mode_t mode, bool ctrl_state_active)
         ret |= es7243e_write_reg(0x16, 0x3F);
         ret |= es7243e_write_reg(0x16, 0x00);
     } else {
-        AUDIODRIVER_LOGW("The codec going to stop");
+        AD_LOGW("The codec going to stop");
         ret |= es7243e_write_reg(0x04, 0x02);
         ret |= es7243e_write_reg(0x04, 0x01);
         ret |= es7243e_write_reg(0xF7, 0x30);

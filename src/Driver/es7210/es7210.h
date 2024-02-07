@@ -55,10 +55,10 @@ extern "C" {
 #define  ES7210_ANALOG_REG40                0x40        /* ANALOG Power */
 #define  ES7210_MIC12_BIAS_REG41            0x41
 #define  ES7210_MIC34_BIAS_REG42            0x42
-#define  ES7210_MIC1_GAIN_REG43             0x43
-#define  ES7210_MIC2_GAIN_REG44             0x44
-#define  ES7210_MIC3_GAIN_REG45             0x45
-#define  ES7210_MIC4_GAIN_REG46             0x46
+#define  ES7210_MIC1_ES7210_GAIN_REG43             0x43
+#define  ES7210_MIC2_ES7210_GAIN_REG44             0x44
+#define  ES7210_MIC3_ES7210_GAIN_REG45             0x45
+#define  ES7210_MIC4_ES7210_GAIN_REG46             0x46
 #define  ES7210_MIC1_POWER_REG47            0x47
 #define  ES7210_MIC2_POWER_REG48            0x48
 #define  ES7210_MIC3_POWER_REG49            0x49
@@ -81,21 +81,21 @@ typedef enum {
 } es7210_input_mics_t;
 
 typedef enum gain_value{
-	GAIN_0DB = 0,
-	GAIN_3DB,
-	GAIN_6DB,
-	GAIN_9DB,
-	GAIN_12DB,
-	GAIN_15DB,
-	GAIN_18DB,
-	GAIN_21DB,
-	GAIN_24DB,
-	GAIN_27DB,
-	GAIN_30DB,
-	GAIN_33DB,
-	GAIN_34_5DB,
-	GAIN_36DB,
-	GAIN_37_5DB,
+	ES7210_GAIN_0DB = 0,
+	ES7210_GAIN_3DB,
+	ES7210_GAIN_6DB,
+	ES7210_GAIN_9DB,
+	ES7210_GAIN_12DB,
+	ES7210_GAIN_15DB,
+	ES7210_GAIN_18DB,
+	ES7210_GAIN_21DB,
+	ES7210_GAIN_24DB,
+	ES7210_GAIN_27DB,
+	ES7210_GAIN_30DB,
+	ES7210_GAIN_33DB,
+	ES7210_GAIN_34_5DB,
+	ES7210_GAIN_36DB,
+	ES7210_GAIN_37_5DB,
 } es7210_gain_value_t;
 
 /*
@@ -107,7 +107,7 @@ typedef enum gain_value{
  *      - RESULT_OK
  *      - RESULT_FAIL
  */
-error_t es7210_adc_init(codec_config_t *codec_cfg);
+error_t es7210_adc_init(codec_config_t *codec_cfg, void* i2c);
 
 /**
  * @brief Deinitialize ES7210 ADC chip
@@ -148,17 +148,17 @@ error_t es7210_adc_ctrl_state_active(codec_mode_t mode, bool ctrl_state_active);
  * @param[in] gain:  gain 
  * 
  *       gain        :   value
- *       GAIN_0DB    :   1
- *       GAIN_3DB    :   2
- *       GAIN_6DB    :   3
+ *       ES7210_GAIN_0DB    :   1
+ *       ES7210_GAIN_3DB    :   2
+ *       ES7210_GAIN_6DB    :   3
  *           ·
  *           ·
  *           ·
- *       GAIN_30DB   :   10
- *       GAIN_33DB   :   11
- *       GAIN_34_5DB :   12
- *       GAIN_36DB   :   13
- *       GAIN_37_5DB :   14
+ *       ES7210_GAIN_30DB   :   10
+ *       ES7210_GAIN_33DB   :   11
+ *       ES7210_GAIN_34_5DB :   12
+ *       ES7210_GAIN_36DB   :   13
+ *       ES7210_GAIN_37_5DB :   14
  *
  * @return
  *     - RESULT_OK

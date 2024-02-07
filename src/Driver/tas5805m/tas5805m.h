@@ -72,7 +72,7 @@ void tas5805m_set_power_pin(int pin);
  *     - RESULT_OK
  *     - RESULT_FAIL
  */
-error_t tas5805m_init(codec_config_t *codec_cfg);
+error_t tas5805m_init(codec_config_t *codec_cfg, void* i2c);
 
 /**
  * @brief Deinitialize TAS5805 codec chip

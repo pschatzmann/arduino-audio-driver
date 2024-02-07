@@ -1,7 +1,7 @@
 #pragma once
 
 // maximum size of log string
-#define AUDIODRIVER_LOGLENGTH 215
+#define AD_LOGLENGTH 215
 
 // Logging of method
 #define LOG_METHOD __PRETTY_FUNCTION__
@@ -16,10 +16,10 @@ enum AudioDriverLogLevels {AudioDriverDebug, AudioDriverInfo, AudioDriverWarning
 // define default log level
 extern int LOGLEVEL_AUDIODRIVER;
 
-void AUDIODRIVER_LOGD(const char* fmr,...);
-void AUDIODRIVER_LOGI(const char* fmr,...);
-void AUDIODRIVER_LOGW(const char* fmr,...);
-void AUDIODRIVER_LOGE(const char* fmr,...);
+void AD_LOGD(const char* fmr,...);
+void AD_LOGI(const char* fmr,...);
+void AD_LOGW(const char* fmr,...);
+void AD_LOGE(const char* fmr,...);
 
 #ifdef __cplusplus
 }

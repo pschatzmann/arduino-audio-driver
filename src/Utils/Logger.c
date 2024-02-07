@@ -6,9 +6,9 @@
 
 int LOGLEVEL_AUDIODRIVER = AudioDriverWarning;
 
-void AUDIODRIVER_LOGD(const char* fmr, ...) {
+void AD_LOGD(const char* fmr, ...) {
   if (LOGLEVEL_AUDIODRIVER <= AudioDriverDebug) { // LOGLEVEL_AUDIODRIVER = Debug
-    char log_buffer[AUDIODRIVER_LOGLENGTH+1];
+    char log_buffer[AD_LOGLENGTH+1];
     strcpy(log_buffer, "Debug:   ");
     va_list arg;
     va_start(arg, fmr);
@@ -19,9 +19,9 @@ void AUDIODRIVER_LOGD(const char* fmr, ...) {
   }
 }
 
-void AUDIODRIVER_LOGI(const char* fmr, ...) {
+void AD_LOGI(const char* fmr, ...) {
   if (LOGLEVEL_AUDIODRIVER <= AudioDriverInfo) { // LOGLEVEL_AUDIODRIVER = Info, Debug
-    char log_buffer[AUDIODRIVER_LOGLENGTH+1];
+    char log_buffer[AD_LOGLENGTH+1];
     strcpy(log_buffer, "Info:    ");
     va_list arg;
     va_start(arg, fmr);
@@ -32,9 +32,9 @@ void AUDIODRIVER_LOGI(const char* fmr, ...) {
   }
 }
 
-void AUDIODRIVER_LOGW(const char* fmr, ...) {
+void AD_LOGW(const char* fmr, ...) {
   if (LOGLEVEL_AUDIODRIVER <= AudioDriverWarning) { // LOGLEVEL_AUDIODRIVER = Warning, Info, Debug
-    char log_buffer[AUDIODRIVER_LOGLENGTH+1];
+    char log_buffer[AD_LOGLENGTH+1];
     strcpy(log_buffer, "Warning:  ");
     va_list arg;
     va_start(arg, fmr);
@@ -45,9 +45,9 @@ void AUDIODRIVER_LOGW(const char* fmr, ...) {
   }
 }
 
-void AUDIODRIVER_LOGE(const char* fmr, ...) {
+void AD_LOGE(const char* fmr, ...) {
   if (LOGLEVEL_AUDIODRIVER <= AudioDriverError) { // for all levels
-    char log_buffer[AUDIODRIVER_LOGLENGTH+1];
+    char log_buffer[AD_LOGLENGTH+1];
     strcpy(log_buffer, "Error:   ");
     va_list arg;
     va_start(arg, fmr);

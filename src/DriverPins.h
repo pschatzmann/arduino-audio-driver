@@ -83,12 +83,12 @@ struct PinsSPI {
       }
       // if no pins are defined, just call begin
       if (!pinsAvailable()) {
-        AUDIODRIVER_LOGI("setting up SPI w/o pins");
+        AD_LOGI("setting up SPI w/o pins");
         p_spi->begin();
       } else {
 // begin spi and set up pins if supported
 #if defined(ARDUINO_ARCH_STM32)
-        AUDIODRIVER_LOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso,
+        AD_LOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso,
                          mosi, clk, cs);
         p_spi->setMISO(miso);
         p_spi->setMOSI(mosi);
@@ -96,11 +96,11 @@ struct PinsSPI {
         p_spi->setSSEL(cs);
         p_spi->begin();
 #elif defined(ESP32)
-        AUDIODRIVER_LOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso,
+        AD_LOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso,
                          mosi, clk, cs);
         p_spi->begin(clk, miso, mosi, cs);
 #elif defined(ARDUINO_ARCH_AVR)
-        AUDIODRIVER_LOGW("setting up SPI w/o pins");
+        AD_LOGW("setting up SPI w/o pins");
         p_spi->begin();
 #endif
       }
@@ -146,24 +146,24 @@ struct PinsI2C {
     if (set_active) {
       // if no pins are defined, just call begin
       if (!pinsAvailable()) {
-        AUDIODRIVER_LOGI("setting up I2C w/o pins");
+        AD_LOGI("setting up I2C w/o pins");
         p_wire->begin();
       } else {
         // begin with defined pins, if supported
 #if defined(ESP32) || defined(ARDUINO_ARCH_STM32)
-        AUDIODRIVER_LOGI("setting up I2C scl: %d, sda: %d", scl, sda);
+        AD_LOGI("setting up I2C scl: %d, sda: %d", scl, sda);
         p_wire->begin(sda, scl);
 #elif defined(ARDUINO_ARCH_RP2040)
-        AUDIODRIVER_LOGI("setting up I2C scl: %d, sda: %d", scl, sda);
+        AD_LOGI("setting up I2C scl: %d, sda: %d", scl, sda);
         p_wire->setSCL(scl);
         p_wire->setSDA(sda);
         p_wire->begin();
 #else
-        AUDIODRIVER_LOGW("setting up I2C w/o pins");
+        AD_LOGW("setting up I2C w/o pins");
         p_wire->begin();
 #endif
       }
-      AUDIODRIVER_LOGI("Setting i2c clock: %u", frequency);
+      AD_LOGI("Setting i2c clock: %u", frequency);
       p_wire->setClock(frequency);
     }
     return true;

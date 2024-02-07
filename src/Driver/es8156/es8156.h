@@ -100,7 +100,7 @@ extern "C" {
  *      - RESULT_OK
  *      - RESULT_FAIL
  */
-error_t es8156_codec_init(codec_config_t *codec_cfg);
+error_t es8156_codec_init(codec_config_t *codec_cfg, void* i2c);
 
 /**
  * @brief Deinitialize ES8156 codec chip

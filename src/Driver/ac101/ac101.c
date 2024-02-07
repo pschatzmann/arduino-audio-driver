@@ -10,7 +10,7 @@ static i2c_bus_handle_t i2c_handle = NULL;
 #define AC_ASSERT(a, format, b, ...)          \
 	if ((a) != 0)                             \
 	{                                         \
-		AUDIODRIVER_LOGE("AC101", format, ##__VA_ARGS__); \
+		AD_LOGE("AC101", format, ##__VA_ARGS__); \
 		return b;                             \
 	}
 
@@ -108,10 +108,10 @@ error_t ac101_init(codec_config_t *codec_cfg)
 
 	if (res != RESULT_OK)
 	{
-		AUDIODRIVER_LOGE("reset failed!");
+		AD_LOGE("reset failed!");
 		return res;
 	} else {
-		AUDIODRIVER_LOGI("reset");
+		AD_LOGI("reset");
 	}
 	res |= ac101_write_reg(SPKOUT_CTRL, 0xe880);
 
@@ -146,7 +146,7 @@ error_t ac101_init(codec_config_t *codec_cfg)
 	//* Enable Speaker output
 	res |= ac101_write_reg(0x58, 0xeabd);
 
-	AUDIODRIVER_LOGI("init done");
+	AD_LOGI("init done");
 	return res;
 }
 
@@ -297,7 +297,7 @@ error_t ac101_ctrl_state_active(codec_mode_t mode, bool ctrl_state_active)
 		break;
 	default:
 		es_mode_t = AC_MODULE_DAC;
-		AUDIODRIVER_LOGW("Codec mode not support, default is decode mode");
+		AD_LOGW("Codec mode not support, default is decode mode");
 		break;
 	}
 	if (! ctrl_state_active)
