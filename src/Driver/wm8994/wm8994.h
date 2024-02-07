@@ -43,6 +43,11 @@
 /* Includes ------------------------------------------------------------------*/
 //#include "../Common/audio.h"
 #include <stdint.h>
+#include "stdbool.h"
+#include "Common.h"
+#include "Driver/DriverConstants.h"
+#include "Utils/I2C.h"
+#include "Utils/etc.h"
 
 
 /** @addtogroup Component
@@ -123,12 +128,16 @@
 /** @defgroup WM8994_Exported_Functions
   * @{
   */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
     
 /*------------------------------------------------------------------------------
                            Audio Codec functions 
 ------------------------------------------------------------------------------*/
 /* High Layer codec functions */
-uint32_t wm8994_Init(uint16_t DeviceAddr, uint16_t OutputInputDevice, uint8_t Volume, uint32_t AudioFreq);
+uint32_t wm8994_Init(uint16_t DeviceAddr, uint16_t OutputInputDevice, uint8_t Volume, uint32_t AudioFreq, void* i2c);
 void     wm8994_DeInit(void);
 uint32_t wm8994_ReadID(uint16_t DeviceAddr);
 uint32_t wm8994_Play(uint16_t DeviceAddr, uint16_t* pBuffer, uint16_t Size);
@@ -150,6 +159,11 @@ void    AUDIO_IO_Delay(uint32_t Delay);
 
 /* Audio driver structure */
 //extern AUDIO_DrvTypeDef   wm8994_drv;
+
+#ifdef __cplusplus
+}
+#endif
+
 
 #endif /* __WM8994_H */
 

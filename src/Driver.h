@@ -586,7 +586,14 @@ public:
     int vol = map(volume, 0, 100, DEFAULT_VOLMIN, DEFAULT_VOLMAX);
     uint32_t freq = getFrequency(codec_cfg.i2s.rate);
     uint16_t outputDevice = getOutput(codec_cfg.dac_output);
-    return wm8994_Init(deviceAddr, outputDevice, vol, freq) == 0;
+
+    auto i2c = pins.getI2CPins(CODEC);
+    if (!i2c) {
+      AD_LOGE("i2c pins not defined");
+      return false;
+    }
+
+    return wm8994_Init(deviceAddr, outputDevice, vol, freq, i2c.value().p_wire)  == 0;
   }
 
   bool setMute(bool mute) {
