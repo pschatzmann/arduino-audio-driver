@@ -10,7 +10,7 @@
 AudioInfo info(44100, 2, 16);
 SineWaveGenerator<int16_t> sineWave(32000);
 GeneratedSoundStream<int16_t> sound(sineWave);
-AudioBoard board(&AudioDriverES8388);
+AudioBoard board(AudioDriverES8388);
 I2SCodecStream out(board);
 StreamCopy copier(out, sound);
 

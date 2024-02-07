@@ -19,12 +19,6 @@ void setup() {
   AudioLogger::instance().begin(Serial, AudioLogger::Info);
   LOGLEVEL_AUDIODRIVER = AudioDriverInfo;
 
-  // setup pins
-  // - add i2c codec pins: scl, sda, port, (I2C object)
-  my_pins.addI2C(CODEC, 32, 22, 0x20, 100000, Wire);
-  // - add i2s pins: mclk, bclk, ws, data_out, data_in
-  my_pins.addI2S(CODEC, 0, 14, 15, 22);
-
   // start I2S & codec with i2c and i2s configured above
   Serial.println("starting I2S...");
   auto config = out.defaultConfig();

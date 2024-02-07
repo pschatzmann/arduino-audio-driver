@@ -6,7 +6,7 @@
 
 #include "AudioBoard.h"
 
-AudioBoard board(&AudioDriverES8388, my_pins);
+AudioBoard board(AudioDriverES8388);
 
 void setup() {
   // start I2C for the communication with the codec

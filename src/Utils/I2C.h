@@ -24,19 +24,6 @@ extern "C" {
  */
 error_t i2c_bus_write_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg, int regLen, uint8_t *data, int datalen);
 
-/**
- * @brief Write data to I2C bus
- *
- * @param bus        I2C bus handle
- * @param addr       The address of the device
- * @param data       The data pointer
- * @param datalen    The length of data
- *
- * @return
- *     - NULL Fail
- *     - Others Success
- */
-error_t i2c_bus_write_data(i2c_bus_handle_t bus, int addr, uint8_t *data, int datalen);
 
 /**
  * @brief Read bytes to I2C bus

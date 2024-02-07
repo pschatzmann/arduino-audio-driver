@@ -1,5 +1,5 @@
 /**
- * @brief We just set up the codec for a predefined board (AudioDriverES8388)
+ * @brief We just set up the codec for a predefined board (AudioKitEs8388V1)
  * @author phil schatzmann
  */
 
@@ -14,7 +14,7 @@ void setup() {
   cfg.i2s.rate = RATE_44K;
   // cfg.i2s.fmt = I2S_NORMAL;
   // cfg.i2s.mode = MODE_SLAVE;
-  AudioDriverES8388.begin(cfg);
+  AudioKitEs8388V1.begin(cfg);
 }
 
 void loop() {}

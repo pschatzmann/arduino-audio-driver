@@ -26,9 +26,9 @@ extern "C" {
 #endif
 
 #ifndef ARDUINO
-extern void pinMode(int, int);
-extern void digitalWrite(int, int);
-extern void delay(uint32_t);
+void pinMode(int, int);
+void digitalWrite(int, int);
+void delay(uint32_t);
 #endif
 
 

@@ -7,7 +7,8 @@
 
 #include "AudioBoard.h"
 
-AudioBoard board(&AudioDriverES8388);
+DriverPins my_pins;
+AudioBoard board(AudioDriverES8388);
 
 void setup() {
   // add i2c codec pins: scl, sda, port
