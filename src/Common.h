@@ -34,9 +34,29 @@ typedef void *i2c_bus_handle_t;
 typedef void *i2c_cmd_handle_t;
 
 /**
+ * @enum PinFunctionEnum
+ * @brief Pin Functions
+ * @ingroup enumerations
+ * @ingroup audio_driver
+ */
+enum PinFunctionEnum {
+  HEADPHONE_DETECT,
+  AUXIN_DETECT,
+  PA, // Power Amplifier
+  LED,
+  KEY,
+  SD,
+  CODEC,
+  CODEC_ADC,
+  MCLK_SOURCE,
+};
+
+
+/**
  * @enum adc_input_t
  * @brief Select adc channel for input mic signal
  * @ingroup enumerations
+ * @ingroup audio_driver
  */
 typedef enum {
   ADC_INPUT_NONE = 0x00, /*!< no input */
@@ -51,6 +71,7 @@ typedef enum {
  * @enum dac_output_t
  * @brief Select channel for dac output
  * @ingroup enumerations
+ * @ingroup audio_driver
  */
 typedef enum {
   DAC_OUTPUT_NONE = 0x00, /*!< no output */

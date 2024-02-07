@@ -12,23 +12,6 @@ namespace audio_driver {
 
 using Pin = int16_t;
 
-/*!
- * @enum PinFunctionEnum
- * @brief Pin Functions
- * @ingroup enumerations
- */
-enum PinFunctionEnum {
-  HEADPHONE_DETECT,
-  AUXIN_DETECT,
-  PA, // Power Amplifier
-  LED,
-  KEY,
-  SD,
-  CODEC,
-  CODEC_ADC,
-  MCLK_SOURCE,
-};
-
 /**
  * @brief I2S pins
  * @author Phil Schatzmann

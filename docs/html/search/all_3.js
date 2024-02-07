@@ -6,14 +6,17 @@ var searchData=
   ['dac_5foutput_5fline1_82',['DAC_OUTPUT_LINE1',['../_common_8h.html#ga539dfa06c17546ddd3ced317f2f76e9ea11a8487d0e17c9ac1d194c4f99974c85',1,'Common.h']]],
   ['dac_5foutput_5fline2_83',['DAC_OUTPUT_LINE2',['../_common_8h.html#ga539dfa06c17546ddd3ced317f2f76e9eae7351d9cbd1c1c3cd76bf4665e8d0cca',1,'Common.h']]],
   ['dac_5foutput_5fnone_84',['DAC_OUTPUT_NONE',['../_common_8h.html#ga539dfa06c17546ddd3ced317f2f76e9eab839e055e11786256cd328d1b754a190',1,'Common.h']]],
-  ['dac_5foutput_5ft_85',['dac_output_t',['../group__enumerations.html#ga539dfa06c17546ddd3ced317f2f76e9e',1,'Common.h']]],
+  ['dac_5foutput_5ft_85',['dac_output_t',['../group__audio__driver.html#ga539dfa06c17546ddd3ced317f2f76e9e',1,'Common.h']]],
   ['data_86',['data',['../classaudio__driver_1_1_vector.html#a1699472936b80a88d3fc8096975d21b2',1,'audio_driver::Vector']]],
   ['data_5fin_87',['data_in',['../structaudio__driver_1_1_pins_i2_s.html#a766c70f69be9e38d88dc203917da752d',1,'audio_driver::PinsI2S']]],
   ['data_5fout_88',['data_out',['../structaudio__driver_1_1_pins_i2_s.html#a028ec0cf0cbbe2eba287e7d623e230b2',1,'audio_driver::PinsI2S']]],
   ['deinit_89',['deinit',['../classaudio__driver_1_1_audio_driver_e_s8311_class.html#a5117a0a714bc6ffce07a792ca2b5c872',1,'audio_driver::AudioDriverES8311Class::deinit()'],['../classaudio__driver_1_1_audio_driver_c_s43l22_class.html#a5117a0a714bc6ffce07a792ca2b5c872',1,'audio_driver::AudioDriverCS43l22Class::deinit()'],['../classaudio__driver_1_1_audio_driver_a_c101_class.html#a5117a0a714bc6ffce07a792ca2b5c872',1,'audio_driver::AudioDriverAC101Class::deinit()'],['../classaudio__driver_1_1_audio_driver_e_s7243_class.html#a5117a0a714bc6ffce07a792ca2b5c872',1,'audio_driver::AudioDriverES7243Class::deinit()'],['../classaudio__driver_1_1_audio_driver_e_s8388_class.html#a5117a0a714bc6ffce07a792ca2b5c872',1,'audio_driver::AudioDriverES8388Class::deinit()'],['../classaudio__driver_1_1_audio_driver.html#a5e9dd2cbb2377c5ac866a5ccc26ff497',1,'audio_driver::AudioDriver::deinit()']]],
-  ['deviceaddr_90',['deviceAddr',['../classaudio__driver_1_1_audio_driver_c_s43l22_class.html#a4de4414c756798e6d4b5008c88a499f4',1,'audio_driver::AudioDriverCS43l22Class']]],
-  ['driver_91',['driver',['../classaudio__driver_1_1_audio_board.html#ac6788b924e91cbb79dc2d936d4375fb3',1,'audio_driver::AudioBoard']]],
-  ['driver_2eh_92',['Driver.h',['../_driver_8h.html',1,'']]],
-  ['driverpins_93',['DriverPins',['../class_driver_pins.html',1,'']]],
-  ['driverpins_2eh_94',['DriverPins.h',['../_driver_pins_8h.html',1,'']]]
+  ['delay_90',['delay',['../etc_8h.html#a08112b4c215e22f499adf9a2b2cd9721',1,'etc.h']]],
+  ['deviceaddr_91',['deviceAddr',['../classaudio__driver_1_1_audio_driver_c_s43l22_class.html#a4de4414c756798e6d4b5008c88a499f4',1,'audio_driver::AudioDriverCS43l22Class']]],
+  ['digitalwrite_92',['digitalWrite',['../etc_8h.html#afb6322a0aff6851765ab32bfaa5080d6',1,'etc.h']]],
+  ['driver_93',['driver',['../classaudio__driver_1_1_audio_board.html#ac6788b924e91cbb79dc2d936d4375fb3',1,'audio_driver::AudioBoard']]],
+  ['driver_2eh_94',['Driver.h',['../_driver_8h.html',1,'']]],
+  ['driver_5fdefault_5fvolume_95',['DRIVER_DEFAULT_VOLUME',['../_common_8h.html#a2513e2bd0eb45a0ccefbbcd3f289ca47',1,'Common.h']]],
+  ['driverpins_96',['DriverPins',['../classaudio__driver_1_1_driver_pins.html',1,'audio_driver']]],
+  ['driverpins_2eh_97',['DriverPins.h',['../_driver_pins_8h.html',1,'']]]
 ];

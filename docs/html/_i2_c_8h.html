@@ -84,9 +84,6 @@ Functions</h2></td></tr>
 <tr class="memitem:a33733ea17940e828fc5aa7ed9aa3034a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_common_8h.html#a9ad6b2dc3cbff040775e79656fe8e1a3">error_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_i2_c_8h.html#a33733ea17940e828fc5aa7ed9aa3034a">i2c_bus_write_bytes</a> (<a class="el" href="_common_8h.html#a7031876dbed79a4a0cf1a5f82970275c">i2c_bus_handle_t</a> bus, int addr, uint8_t *reg, int regLen, uint8_t *data, int datalen)</td></tr>
 <tr class="memdesc:a33733ea17940e828fc5aa7ed9aa3034a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write bytes to I2C bus.  <a href="_i2_c_8h.html#a33733ea17940e828fc5aa7ed9aa3034a">More...</a><br /></td></tr>
 <tr class="separator:a33733ea17940e828fc5aa7ed9aa3034a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34572a6ed4977caa68d49edc1004657d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_common_8h.html#a9ad6b2dc3cbff040775e79656fe8e1a3">error_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_i2_c_8h.html#a34572a6ed4977caa68d49edc1004657d">i2c_bus_write_data</a> (<a class="el" href="_common_8h.html#a7031876dbed79a4a0cf1a5f82970275c">i2c_bus_handle_t</a> bus, int addr, uint8_t *data, int datalen)</td></tr>
-<tr class="memdesc:a34572a6ed4977caa68d49edc1004657d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write data to I2C bus.  <a href="_i2_c_8h.html#a34572a6ed4977caa68d49edc1004657d">More...</a><br /></td></tr>
-<tr class="separator:a34572a6ed4977caa68d49edc1004657d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ac55a996bcf945a17aa3ddfb1525e1e8e"></a>
@@ -217,62 +214,6 @@ Functions</h2></td></tr>
     <tr><td class="paramname">addr</td><td>The address of the device </td></tr>
     <tr><td class="paramname">reg</td><td>The register of the device </td></tr>
     <tr><td class="paramname">regLen</td><td>The length of register </td></tr>
-    <tr><td class="paramname">data</td><td>The data pointer </td></tr>
-    <tr><td class="paramname">datalen</td><td>The length of data</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd><ul>
-<li>NULL Fail</li>
-<li>Others Success </li>
-</ul>
-</dd></dl>
-
-</div>
-</div>
-<a id="a34572a6ed4977caa68d49edc1004657d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a34572a6ed4977caa68d49edc1004657d">&#9670;&nbsp;</a></span>i2c_bus_write_data()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="_common_8h.html#a9ad6b2dc3cbff040775e79656fe8e1a3">error_t</a> i2c_bus_write_data </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="_common_8h.html#a7031876dbed79a4a0cf1a5f82970275c">i2c_bus_handle_t</a>&#160;</td>
-          <td class="paramname"><em>bus</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>addr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>datalen</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Write data to I2C bus. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">bus</td><td>I2C bus handle </td></tr>
-    <tr><td class="paramname">addr</td><td>The address of the device </td></tr>
     <tr><td class="paramname">data</td><td>The data pointer </td></tr>
     <tr><td class="paramname">datalen</td><td>The length of data</td></tr>
   </table>

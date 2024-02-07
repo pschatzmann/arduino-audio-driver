@@ -66,8 +66,8 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_README"></a> I was never quite happy with my <a href="https://github.com/pschatzmann/arduino-audiokit">AudioKit project</a>, that was a quick and dirty adaptation of the Espressif IDF Drivers for Arduino.</p>
-<p>In this project I finally implemented some clean and simple C++ classes. This reduced the complexity considerably and increased the flexibility tremendously!</p>
-<p>The goal of this project is to provide an easy API to configure different audio codec chips. After setting up the codec, you can use the I2S functionality provided by your microcontroller.</p>
+<p>In this project I finally implemented some clean and simple C++ classes. This <b>reduced the complexity</b> considerably and <b>increased the flexibility</b> tremendously!</p>
+<p>The goal of this project is to provide an <b>easy API to configure different audio codec chips</b>. After setting up the codec, you can use the I2S functionality provided by your microcontroller.</p>
 <p>Supported audio codec chips are e.g</p>
 <ul>
 <li>AC101</li>
@@ -77,86 +77,15 @@ $(function() {
 <li>ES7243</li>
 <li>etc</li>
 </ul>
-<p>While you can use this library stand alone, I recommend to use it together with my <a href="https://github.com/pschatzmann/arduino-audio-tools">AudioTools</a> project which provides a nice integration with it's <a href="https://pschatzmann.github.io/arduino-audio-tools/classaudio__tools_1_1_i2_s_codec_stream.html">I2SCodecStream</a> class.</p>
+<p>While you can use this library stand alone, I recommend to use it together with my <a href="https://github.com/pschatzmann/arduino-audio-tools">AudioTools</a> project which provides a nice integration with it's <a href="https://pschatzmann.github.io/arduino-audio-tools/classaudio__tools_1_1_i2_s_codec_stream.html">I2SCodecStream</a> class. Further information can be found in the <a href="https://github.com/pschatzmann/arduino-audio-driver/wiki">Wiki</a>.</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
-AudioTools</h1>
-<div class="fragment"><div class="line"> {C++}</div>
-<div class="line"> </div>
-<div class="line">#include &quot;AudioTools.h&quot;</div>
-<div class="line">#include &quot;AudioLibs/I2SCodecStream.h&quot;</div>
-<div class="line"> </div>
-<div class="line">I2SCodecStream i2s(LyratV43);</div>
-<div class="line"> </div>
-<div class="line">void setup() {</div>
-<div class="line">  // setup i2s and codec</div>
-<div class="line">  auto cfg = i2s.defaultConfig();</div>
-<div class="line">  cfg.sample_rate = 44100;</div>
-<div class="line">  cfg.bits_per_sample = 16;</div>
-<div class="line">  cfg.channels = 1;</div>
-<div class="line">  i2s.begin();</div>
-<div class="line">  // set volume</div>
-<div class="line">  i2s.setVolume(0.5);</div>
-<div class="line">}  </div>
-</div><!-- fragment --><p> You can use the <a href="https://pschatzmann.github.io/arduino-audio-tools/classaudio__tools_1_1_i2_s_codec_stream.html">I2SCodecStream</a> like the I2SStream but it provides some additional functionality, like setting the volume via the codec. In the <b>constructor</b> you need to provide an <b>audio board</b> object.</p>
-<h1><a class="anchor" id="autotoc_md2"></a>
-Stand-Alone: Predefined Boards</h1>
-<p>A board definition consists of a driver class and pin definitions for that specific board. You can easily use the predefined boards. E.g. the following code is setting up and starting the codec on a Lyrat board:</p>
-<div class="fragment"><div class="line"> {C++}</div>
-<div class="line"> </div>
-<div class="line">#include &quot;AudioBoard.h&quot;</div>
-<div class="line"> </div>
-<div class="line">void setup() {</div>
-<div class="line">  CodecConfig cfg;</div>
-<div class="line">  cfg.adc_input = ADC_INPUT_LINE1;</div>
-<div class="line">  cfg.dac_output = DAC_OUTPUT_ALL;</div>
-<div class="line">  cfg.i2s.bits = BIT_LENGTH_16BITS;</div>
-<div class="line">  cfg.i2s.rate = RATE_44K;</div>
-<div class="line">  //cfg.i2s.fmt = I2S_NORMAL;</div>
-<div class="line">  //cfg.i2s.mode = MODE_SLAVE; </div>
-<div class="line">  LyratV43.begin(cfg);   </div>
-<div class="line"> </div>
-<div class="line">}</div>
-</div><!-- fragment --><p>Check the documentation for all available boards.</p>
-<h1><a class="anchor" id="autotoc_md3"></a>
-Stand-Alone: Custom Boards</h1>
-<p>You can also easily define your custom boards by defining the <b>driver</b> and your <b>specifc pins</b></p>
-<div class="fragment"><div class="line"> {C++}</div>
-<div class="line"> </div>
-<div class="line">#include &quot;AudioBoard.h&quot;</div>
-<div class="line"> </div>
-<div class="line">DriverPins my_pins;</div>
-<div class="line">AudioBoard board(&amp;AudioDriverES8388, my_pins);</div>
-<div class="line"> </div>
-<div class="line">void setup() {</div>
-<div class="line">  // add i2c codec pins: scl, sda, port</div>
-<div class="line">  my_pins.addI2C(CODEC, 32, 22, 0x20);</div>
-<div class="line">  // add i2s pins: mclk, bclk, ws, data_out, data_in</div>
-<div class="line">  my_pins.addI2S(CODEC, 0, 27, 26, 25, 35);</div>
-<div class="line">  // add other pins: PA on gpio 21</div>
-<div class="line">  my_pins.addPin(PA, 21);</div>
-<div class="line"> </div>
-<div class="line">  // configure codec</div>
-<div class="line">  CodecConfig cfg;</div>
-<div class="line">  cfg.adc_input = ADC_INPUT_LINE1;</div>
-<div class="line">  cfg.dac_output = DAC_OUTPUT_ALL;</div>
-<div class="line">  cfg.i2s.bits = BIT_LENGTH_16BITS;</div>
-<div class="line">  cfg.i2s.rate = RATE_44K;</div>
-<div class="line">  //cfg.i2s.fmt = I2S_NORMAL;</div>
-<div class="line">  //cfg.i2s.mode = MODE_SLAVE; </div>
-<div class="line">  board.begin(cfg);   </div>
-<div class="line">}</div>
-</div><!-- fragment --> <h1><a class="anchor" id="autotoc_md4"></a>
-Logging</h1>
-<p>The functionality has a built in logger. The default log level has been set to Warning. You can change it like this:</p>
-<div class="fragment"><div class="line">{C++}</div>
-<div class="line"> </div>
-<div class="line"> LOGLEVEL_AUDIODRIVER = AudioDriverDebug; // or AudiDriverInfo, AudioDriverWarning, AudioDriverError</div>
-</div><!-- fragment --> <h1><a class="anchor" id="autotoc_md5"></a>
 Documentation</h1>
 <ul>
+<li><a href="https://github.com/pschatzmann/arduino-audio-driver/wiki">Wiki</a></li>
 <li><a href="https://pschatzmann.github.io/arduino-audio-driver/html/group__audio__driver.html">Classes and Objects</a></li>
+<li><a href="https://github.com/pschatzmann/arduino-audio-driver/tree/main/examples">Examples</a></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md6"></a>
+<h1><a class="anchor" id="autotoc_md2"></a>
 Support</h1>
 <p>I spent a lot of time to provide a comprehensive and complete documentation. So please read the documentation first and check the issues and discussions before posting any new ones on Github.</p>
 <p>Open issues only for bugs and if it is not a bug, use a discussion: Provide enough information about</p><ul>
@@ -168,12 +97,20 @@ Support</h1>
 </ul>
 <p>to enable others to understand and reproduce your issue.</p>
 <p>Finally, <b>don't</b> send me any e-mails or post questions on my personal website!</p>
-<h1><a class="anchor" id="autotoc_md7"></a>
+<h1><a class="anchor" id="autotoc_md3"></a>
 Installation in Arduino</h1>
 <p>You can download the library as zip and call include Library -&gt; zip library. Or you can git clone this project into the Arduino libraries folder e.g. with</p>
 <div class="fragment"><div class="line">cd  ~/Documents/Arduino/libraries</div>
 <div class="line">git clone https://github.com/pschatzmann/arduino-audio-driver.git</div>
-</div><!-- fragment --> </div></div><!-- PageDoc -->
+</div><!-- fragment --><p>I recommend to use git because you can easily update to the latest version just by executing the git pull command in the project folder.</p>
+<h1><a class="anchor" id="autotoc_md4"></a>
+Sponsor Me</h1>
+<p>This software is totally free, but you can make me happy by rewarding me with a treat</p>
+<ul>
+<li><a href="https://www.buymeacoffee.com/philschatzh">Buy me a coffee</a></li>
+<li><a href="https://paypal.me/pschatzmann?country.x=CH&amp;locale.x=en_US">Paypal me</a> </li>
+</ul>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -63,6 +63,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">Audio Driver</div>  </div>
@@ -80,12 +81,50 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_codec_config.html">CodecConfig</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">I2S configuration and defition of input and output with default values.  <a href="classaudio__driver_1_1_codec_config.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_driver_pins.html">DriverPins</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">All pins for i2s, spi, i2c and other pins.  <a href="class_driver_pins.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html">DriverPins</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">All pins for i2s, spi, i2c and other pins.  <a href="classaudio__driver_1_1_driver_pins.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_i2_s_definition.html">I2SDefinition</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">I2s interface configuration for audio codec chip.  <a href="struct_i2_s_definition.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:ga17701b70816c7d7342f1a4115f4a8de0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga17701b70816c7d7342f1a4115f4a8de0">adc_input_t</a> { <br />
+&#160;&#160;<a class="el" href="group__audio__driver.html#ga17701b70816c7d7342f1a4115f4a8de0a8fe55a6d1ba4245831483d4f3f3763ec">ADC_INPUT_NONE</a> = 0x00
+, <a class="el" href="group__audio__driver.html#ga17701b70816c7d7342f1a4115f4a8de0ac054fb9ae14a618d0425ded7f7f17bed">ADC_INPUT_LINE1</a>
+, <a class="el" href="group__audio__driver.html#ga17701b70816c7d7342f1a4115f4a8de0ad6c7a8904c3ea81c09ac8558aa52d69d">ADC_INPUT_LINE2</a>
+, <a class="el" href="group__audio__driver.html#ga17701b70816c7d7342f1a4115f4a8de0ace325297580254e540b10b2ac682397d">ADC_INPUT_LINE3</a>
+, <br />
+&#160;&#160;<a class="el" href="group__audio__driver.html#ga17701b70816c7d7342f1a4115f4a8de0a11f1754fb68fd4906c74368d9db39439">ADC_INPUT_ALL</a>
+, <a class="el" href="group__audio__driver.html#ga17701b70816c7d7342f1a4115f4a8de0aed383e892e1fff2ff92159e3c0546352">ADC_INPUT_DIFFERENCE</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:ga17701b70816c7d7342f1a4115f4a8de0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select adc channel for input mic signal.  <a href="group__audio__driver.html#ga17701b70816c7d7342f1a4115f4a8de0">More...</a><br /></td></tr>
+<tr class="separator:ga17701b70816c7d7342f1a4115f4a8de0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga539dfa06c17546ddd3ced317f2f76e9e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga539dfa06c17546ddd3ced317f2f76e9e">dac_output_t</a> { <a class="el" href="group__audio__driver.html#ga539dfa06c17546ddd3ced317f2f76e9eab839e055e11786256cd328d1b754a190">DAC_OUTPUT_NONE</a> = 0x00
+, <a class="el" href="group__audio__driver.html#ga539dfa06c17546ddd3ced317f2f76e9ea11a8487d0e17c9ac1d194c4f99974c85">DAC_OUTPUT_LINE1</a>
+, <a class="el" href="group__audio__driver.html#ga539dfa06c17546ddd3ced317f2f76e9eae7351d9cbd1c1c3cd76bf4665e8d0cca">DAC_OUTPUT_LINE2</a>
+, <a class="el" href="group__audio__driver.html#ga539dfa06c17546ddd3ced317f2f76e9ea9f3f48105f92c53bfcc4d9546f666c43">DAC_OUTPUT_ALL</a>
+ }</td></tr>
+<tr class="memdesc:ga539dfa06c17546ddd3ced317f2f76e9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select channel for dac output.  <a href="group__audio__driver.html#ga539dfa06c17546ddd3ced317f2f76e9e">More...</a><br /></td></tr>
+<tr class="separator:ga539dfa06c17546ddd3ced317f2f76e9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga51b3e3c8b963c44ee453d086e36fbc2d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2d">PinFunctionEnum</a> { <br />
+&#160;&#160;<a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2dab0f2e2f80cf61b263b22dfde0b337d70">HEADPHONE_DETECT</a>
+, <a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2da87598811c2d981e1b55904f10effed42">AUXIN_DETECT</a>
+, <a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2dae3d8a811f3bf7196f361be4104db68db">PA</a>
+, <a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2da21447137d62c46e603b924d455e8cd12">LED</a>
+, <br />
+&#160;&#160;<a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2da147e71049e3285d642d0d5268dba260f">KEY</a>
+, <a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2da8268cafd51299d814aba050e5f54f1ac">SD</a>
+, <a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2da3b1d027ef0c7749664aa744ad5e4f937">CODEC</a>
+, <a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2da32e994791066897c30f89f1083508f62">CODEC_ADC</a>
+, <br />
+&#160;&#160;<a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2daee7b2ca70c11e0f499ee23eaf8feac88">MCLK_SOURCE</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:ga51b3e3c8b963c44ee453d086e36fbc2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pin Functions.  <a href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2d">More...</a><br /></td></tr>
+<tr class="separator:ga51b3e3c8b963c44ee453d086e36fbc2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -113,23 +152,107 @@ Variables</h2></td></tr>
 <tr class="separator:ga98fa8fe4385c4198150679fddade5eef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0ffdf5c889c7a240e72df4ce7e323478"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga0ffdf5c889c7a240e72df4ce7e323478">LyratV43</a> {&amp;<a class="el" href="group__audio__driver.html#gad404af509b8a5ae73c689d6faa3d54df">AudioDriverES8388</a>, <a class="el" href="group__audio__driver.html#ga61f7164942e4687d3136447ecc1fb78e">PinsLyrat43</a>}</td></tr>
 <tr class="separator:ga0ffdf5c889c7a240e72df4ce7e323478"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae6031df2ec66c645dd42ae315b79e156"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_driver_pins.html">DriverPins</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gae6031df2ec66c645dd42ae315b79e156">NoPins</a></td></tr>
+<tr class="memitem:gae6031df2ec66c645dd42ae315b79e156"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_driver_pins.html">DriverPins</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gae6031df2ec66c645dd42ae315b79e156">NoPins</a></td></tr>
 <tr class="memdesc:gae6031df2ec66c645dd42ae315b79e156"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pins need to be set up in the sketch.  <a href="group__audio__driver.html#gae6031df2ec66c645dd42ae315b79e156">More...</a><br /></td></tr>
 <tr class="separator:gae6031df2ec66c645dd42ae315b79e156"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4de967e315821b064d50a78d01877d67"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_pins_audio_kit_a_c101_class.html">PinsAudioKitAC101Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga4de967e315821b064d50a78d01877d67">PinsAudioKitAC101</a></td></tr>
+<tr class="memitem:ga4de967e315821b064d50a78d01877d67"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_audio_kit_a_c101_class.html">PinsAudioKitAC101Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga4de967e315821b064d50a78d01877d67">PinsAudioKitAC101</a></td></tr>
 <tr class="separator:ga4de967e315821b064d50a78d01877d67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaac2b21f064b1a332b2ae9b35fa46484e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_pins_audio_kit_es8388v1_class.html">PinsAudioKitEs8388v1Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gaac2b21f064b1a332b2ae9b35fa46484e">PinsAudioKitEs8388v1</a></td></tr>
+<tr class="memitem:gaac2b21f064b1a332b2ae9b35fa46484e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_audio_kit_es8388v1_class.html">PinsAudioKitEs8388v1Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gaac2b21f064b1a332b2ae9b35fa46484e">PinsAudioKitEs8388v1</a></td></tr>
 <tr class="separator:gaac2b21f064b1a332b2ae9b35fa46484e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaec73d289b40131bb320b17356793430e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_pins_audio_kit_es8388v2_class.html">PinsAudioKitEs8388v2Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gaec73d289b40131bb320b17356793430e">PinsAudioKitEs8388v2</a></td></tr>
+<tr class="memitem:gaec73d289b40131bb320b17356793430e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_audio_kit_es8388v2_class.html">PinsAudioKitEs8388v2Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gaec73d289b40131bb320b17356793430e">PinsAudioKitEs8388v2</a></td></tr>
 <tr class="separator:gaec73d289b40131bb320b17356793430e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4c69c022bab026eb5d85877b0800771d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_pins_lyrat42_class.html">PinsLyrat42Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga4c69c022bab026eb5d85877b0800771d">PinsLyrat42</a></td></tr>
+<tr class="memitem:ga4c69c022bab026eb5d85877b0800771d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_lyrat42_class.html">PinsLyrat42Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga4c69c022bab026eb5d85877b0800771d">PinsLyrat42</a></td></tr>
 <tr class="separator:ga4c69c022bab026eb5d85877b0800771d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga61f7164942e4687d3136447ecc1fb78e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_pins_lyrat43_class.html">PinsLyrat43Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga61f7164942e4687d3136447ecc1fb78e">PinsLyrat43</a></td></tr>
+<tr class="memitem:ga61f7164942e4687d3136447ecc1fb78e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_lyrat43_class.html">PinsLyrat43Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga61f7164942e4687d3136447ecc1fb78e">PinsLyrat43</a></td></tr>
 <tr class="separator:ga61f7164942e4687d3136447ecc1fb78e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0f4a0dbd3aeea6d499d87a62293e012e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_pins_lyrat_mini_class.html">PinsLyratMiniClass</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga0f4a0dbd3aeea6d499d87a62293e012e">PinsLyratMini</a></td></tr>
+<tr class="memitem:ga0f4a0dbd3aeea6d499d87a62293e012e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_lyrat_mini_class.html">PinsLyratMiniClass</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga0f4a0dbd3aeea6d499d87a62293e012e">PinsLyratMini</a></td></tr>
 <tr class="separator:ga0f4a0dbd3aeea6d499d87a62293e012e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="ga17701b70816c7d7342f1a4115f4a8de0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga17701b70816c7d7342f1a4115f4a8de0">&#9670;&nbsp;</a></span>adc_input_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__audio__driver.html#ga17701b70816c7d7342f1a4115f4a8de0">adc_input_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Select adc channel for input mic signal. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ga17701b70816c7d7342f1a4115f4a8de0a8fe55a6d1ba4245831483d4f3f3763ec"></a>ADC_INPUT_NONE&#160;</td><td class="fielddoc"><p>no input </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ga17701b70816c7d7342f1a4115f4a8de0ac054fb9ae14a618d0425ded7f7f17bed"></a>ADC_INPUT_LINE1&#160;</td><td class="fielddoc"><p>mic input to adc channel 1 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ga17701b70816c7d7342f1a4115f4a8de0ad6c7a8904c3ea81c09ac8558aa52d69d"></a>ADC_INPUT_LINE2&#160;</td><td class="fielddoc"><p>mic input to adc channel 2 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ga17701b70816c7d7342f1a4115f4a8de0ace325297580254e540b10b2ac682397d"></a>ADC_INPUT_LINE3&#160;</td><td class="fielddoc"><p>mic input to adc channel 3 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ga17701b70816c7d7342f1a4115f4a8de0a11f1754fb68fd4906c74368d9db39439"></a>ADC_INPUT_ALL&#160;</td><td class="fielddoc"><p>mic input to both channels of adc </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ga17701b70816c7d7342f1a4115f4a8de0aed383e892e1fff2ff92159e3c0546352"></a>ADC_INPUT_DIFFERENCE&#160;</td><td class="fielddoc"><p>mic input to adc difference channel </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="ga539dfa06c17546ddd3ced317f2f76e9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga539dfa06c17546ddd3ced317f2f76e9e">&#9670;&nbsp;</a></span>dac_output_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__audio__driver.html#ga539dfa06c17546ddd3ced317f2f76e9e">dac_output_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Select channel for dac output. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ga539dfa06c17546ddd3ced317f2f76e9eab839e055e11786256cd328d1b754a190"></a>DAC_OUTPUT_NONE&#160;</td><td class="fielddoc"><p>no output </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ga539dfa06c17546ddd3ced317f2f76e9ea11a8487d0e17c9ac1d194c4f99974c85"></a>DAC_OUTPUT_LINE1&#160;</td><td class="fielddoc"><p>dac output signal to channel 1 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ga539dfa06c17546ddd3ced317f2f76e9eae7351d9cbd1c1c3cd76bf4665e8d0cca"></a>DAC_OUTPUT_LINE2&#160;</td><td class="fielddoc"><p>dac output signal to channel 2 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ga539dfa06c17546ddd3ced317f2f76e9ea9f3f48105f92c53bfcc4d9546f666c43"></a>DAC_OUTPUT_ALL&#160;</td><td class="fielddoc"><p>dac output signal to both channels </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="ga51b3e3c8b963c44ee453d086e36fbc2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga51b3e3c8b963c44ee453d086e36fbc2d">&#9670;&nbsp;</a></span>PinFunctionEnum</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2d">PinFunctionEnum</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Pin Functions. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ga51b3e3c8b963c44ee453d086e36fbc2dab0f2e2f80cf61b263b22dfde0b337d70"></a>HEADPHONE_DETECT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ga51b3e3c8b963c44ee453d086e36fbc2da87598811c2d981e1b55904f10effed42"></a>AUXIN_DETECT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ga51b3e3c8b963c44ee453d086e36fbc2dae3d8a811f3bf7196f361be4104db68db"></a>PA&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ga51b3e3c8b963c44ee453d086e36fbc2da21447137d62c46e603b924d455e8cd12"></a>LED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ga51b3e3c8b963c44ee453d086e36fbc2da147e71049e3285d642d0d5268dba260f"></a>KEY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ga51b3e3c8b963c44ee453d086e36fbc2da8268cafd51299d814aba050e5f54f1ac"></a>SD&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ga51b3e3c8b963c44ee453d086e36fbc2da3b1d027ef0c7749664aa744ad5e4f937"></a>CODEC&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ga51b3e3c8b963c44ee453d086e36fbc2da32e994791066897c30f89f1083508f62"></a>CODEC_ADC&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ga51b3e3c8b963c44ee453d086e36fbc2daee7b2ca70c11e0f499ee23eaf8feac88"></a>MCLK_SOURCE&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
 <h2 class="groupheader">Variable Documentation</h2>
 <a id="ga6e512f44cc6db0994d6b1617abcc93b0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga6e512f44cc6db0994d6b1617abcc93b0">&#9670;&nbsp;</a></span>AudioDriverAC101</h2>
@@ -405,7 +528,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_driver_pins.html">DriverPins</a> NoPins</td>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_driver_pins.html">DriverPins</a> NoPins</td>
         </tr>
       </table>
   </td>
@@ -429,7 +552,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_pins_audio_kit_a_c101_class.html">PinsAudioKitAC101Class</a> PinsAudioKitAC101</td>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_pins_audio_kit_a_c101_class.html">PinsAudioKitAC101Class</a> PinsAudioKitAC101</td>
         </tr>
       </table>
   </td>
@@ -451,7 +574,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_pins_audio_kit_es8388v1_class.html">PinsAudioKitEs8388v1Class</a> PinsAudioKitEs8388v1</td>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_pins_audio_kit_es8388v1_class.html">PinsAudioKitEs8388v1Class</a> PinsAudioKitEs8388v1</td>
         </tr>
       </table>
   </td>
@@ -473,7 +596,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_pins_audio_kit_es8388v2_class.html">PinsAudioKitEs8388v2Class</a> PinsAudioKitEs8388v2</td>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_pins_audio_kit_es8388v2_class.html">PinsAudioKitEs8388v2Class</a> PinsAudioKitEs8388v2</td>
         </tr>
       </table>
   </td>
@@ -495,7 +618,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_pins_lyrat42_class.html">PinsLyrat42Class</a> PinsLyrat42</td>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_pins_lyrat42_class.html">PinsLyrat42Class</a> PinsLyrat42</td>
         </tr>
       </table>
   </td>
@@ -517,7 +640,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_pins_lyrat43_class.html">PinsLyrat43Class</a> PinsLyrat43</td>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_pins_lyrat43_class.html">PinsLyrat43Class</a> PinsLyrat43</td>
         </tr>
       </table>
   </td>
@@ -539,7 +662,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_pins_lyrat_mini_class.html">PinsLyratMiniClass</a> PinsLyratMini</td>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_pins_lyrat_mini_class.html">PinsLyratMiniClass</a> PinsLyratMini</td>
         </tr>
       </table>
   </td>

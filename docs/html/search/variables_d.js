@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['true_455',['true',['../structaudio__driver_1_1_pins_i2_c.html#a930920b2bc42824a5c03be681830f4b2',1,'audio_driver::PinsI2C::true()'],['../_driver_pins_8h.html#a930920b2bc42824a5c03be681830f4b2',1,'true():&#160;DriverPins.h']]]
+  ['val_474',['val',['../classaudio__driver_1_1_optional.html#a31844d8ef66fe7930f88cc30cf53d08c',1,'audio_driver::Optional']]],
+  ['volume_475',['volume',['../classaudio__driver_1_1_audio_driver_c_s43l22_class.html#aed48ca0bcd2162fd4fd495873e2631f5',1,'audio_driver::AudioDriverCS43l22Class']]]
 ];
