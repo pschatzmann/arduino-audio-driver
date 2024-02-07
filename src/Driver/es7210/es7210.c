@@ -149,7 +149,7 @@ static error_t es7210_update_reg_bit(uint8_t reg_addr, uint8_t update_bits, uint
 
 static int get_coeff(uint32_t mclk, uint32_t lrck)
 {
-    for (int i = 0; i < (sizeof(coeff_div) / sizeof(coeff_div[0])); i++) {
+    for (unsigned i = 0; i < (sizeof(coeff_div) / sizeof(coeff_div[0])); i++) {
         if (coeff_div[i].lrck == lrck && coeff_div[i].mclk == mclk)
             return i;
     }

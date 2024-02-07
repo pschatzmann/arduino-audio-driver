@@ -3,26 +3,33 @@
 #ifdef ARDUINO
 #  include "Arduino.h"
 #else
-
-#define HIGH 0x1
-#define LOW  0x0
-
-#define INPUT 0x0
-#define OUTPUT 0x1
-#define INPUT_PULLUP 0x2
-void pinMode(int, int);
-void digitalWrite(int, int);
-void delay(uint32_t);
+#ifndef HIGH
+#  define HIGH 0x1
 #endif
+#ifndef LOW
+#  define LOW  0x0
+#endif
+#ifndef INPUT
+#  define INPUT 0x0
+#endif
+#ifndef OUTPUT
+#  define OUTPUT 0x1
+#endif
+#ifndef INPUT_PULLUP
+#  define INPUT_PULLUP 0x2
+#endif
+#endif
+
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-
-
-// pinMode gives linker error if called from c for Nano BLE Sense
-void arduino_pin_mode(int pin, int mode);
+#ifndef ARDUINO
+extern void pinMode(int, int);
+extern void digitalWrite(int, int);
+extern void delay(uint32_t);
+#endif
 
 
 #ifdef __cplusplus

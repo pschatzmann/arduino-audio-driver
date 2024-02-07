@@ -311,6 +311,9 @@ public:
           pinMode(tmp.pin, OUTPUT);
           digitalWrite(tmp.pin, HIGH);
           break;
+        default:
+          // do nothing
+          break;
         }
       }
     }

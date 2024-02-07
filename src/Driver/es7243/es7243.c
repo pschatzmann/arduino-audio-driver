@@ -69,8 +69,9 @@ error_t es7243_adc_set_addr(int addr)
 
 static error_t es7243_mclk_active(uint8_t mclk_gpio)
 {
-    arduino_pin_mode(mclk_gpio, OUTPUT);
-    /*
+#ifndef ARDUINO_ARCH_NRF52840
+    pinMode(mclk_gpio, OUTPUT);
+#endif    /*
         Before initializing es7243, it is necessary to output
         mclk to es7243 to activate the I2C configuration.
         So give some clocks to active es7243.

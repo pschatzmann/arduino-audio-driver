@@ -218,7 +218,7 @@ static int es8311_read_reg(uint8_t reg_addr)
 */
 static int get_coeff(uint32_t mclk, uint32_t rate)
 {
-    for (int i = 0; i < (sizeof(coeff_div) / sizeof(coeff_div[0])); i++) {
+    for (unsigned i = 0; i < (sizeof(coeff_div) / sizeof(coeff_div[0])); i++) {
         if (coeff_div[i].rate == rate && coeff_div[i].mclk == mclk)
             return i;
     }

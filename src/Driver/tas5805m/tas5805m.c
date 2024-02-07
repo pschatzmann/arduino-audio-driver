@@ -151,7 +151,7 @@ error_t tas5805m_get_volume(int *value)
     uint8_t cmd[2] = {MASTER_VOL_REG_ADDR, 0x00};
     error_t ret = i2c_bus_read_bytes(i2c_handler, TAS5805M_ADDR, &cmd[0], 1, &cmd[1], 1);
     TAS5805M_ASSERT(ret, "Fail to get volume", RESULT_FAIL);
-    int i;
+    unsigned i;
     for (i = 0; i < sizeof(tas5805m_volume); i++) {
         if (cmd[1] >= tas5805m_volume[i])
             break;
