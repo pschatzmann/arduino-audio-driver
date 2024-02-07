@@ -23,7 +23,9 @@ public:
   }
 
   bool begin(){
-    return pins.begin() && driver->begin(codec_cfg, pins);
+    bool result = pins.begin() && driver->begin(codec_cfg, pins);
+    setVolume(DRIVER_DEFAULT_VOLUME);
+    return result;
   }
 
   bool begin(CodecConfig cfg) {

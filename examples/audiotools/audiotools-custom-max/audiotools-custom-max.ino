@@ -18,8 +18,8 @@ StreamCopy copier(out, sound);
 void setup() {
   // Setup logging
   Serial.begin(115200);
-  AudioLogger::instance().begin(Serial, AudioLogger::Info);
-  LOGLEVEL_AUDIODRIVER = AudioDriverInfo;
+  AudioLogger::instance().begin(Serial, AudioLogger::Warning);
+  LOGLEVEL_AUDIODRIVER = AudioDriverWarning;
 
   // setup pins
   // - add i2c codec pins: scl, sda, port, (I2C object)

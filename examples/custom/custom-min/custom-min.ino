@@ -9,6 +9,10 @@
 AudioBoard board(AudioDriverES8388);
 
 void setup() {
+  // Setup logging
+  Serial.begin(115200);
+  LOGLEVEL_AUDIODRIVER = AudioDriverInfo;
+
   // start I2C for the communication with the codec
   Wire.begin();
   // configure codec

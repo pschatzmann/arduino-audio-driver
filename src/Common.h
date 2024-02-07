@@ -7,18 +7,23 @@
  * @defgroup enumerations Public enumeration types
  */
 
-/// Definitions for error constants.
-#define RESULT_OK 0    /*!< error_t value indicating success (no error) */
-#define RESULT_FAIL -1 /*!< Generic error_t code indicating failure */
-#define ERROR_INVALID_ARG 1
-#define I2C_END true
+// Default volume at startup
+#ifndef DRIVER_DEFAULT_VOLUME
+#  define DRIVER_DEFAULT_VOLUME 70
+#endif
 
 // Define the default gain for the microphone amp (see values from
 // es_mic_gain_t) Alternativly you can call es8388_set_mic_gain(es_mic_gain_t
 // gain) if you prefer to use value from an comprehensive enum
 #ifndef ES8388_DEFAULT_INPUT_GAIN
-#define ES8388_DEFAULT_INPUT_GAIN 25
+#  define ES8388_DEFAULT_INPUT_GAIN 25
 #endif
+
+/// Fixed Definitions
+#define RESULT_OK 0    /*!< error_t value indicating success (no error) */
+#define RESULT_FAIL -1 /*!< Generic error_t code indicating failure */
+#define ERROR_INVALID_ARG 1
+#define I2C_END true
 
 #ifdef __cplusplus
 namespace audio_driver {

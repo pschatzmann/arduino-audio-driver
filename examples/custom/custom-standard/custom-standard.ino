@@ -6,6 +6,10 @@
 #include "AudioBoard.h"
 
 void setup() {
+  // Setup logging
+  Serial.begin(115200);
+  LOGLEVEL_AUDIODRIVER = AudioDriverInfo;
+
   // configure codec
   CodecConfig cfg;
   cfg.adc_input = ADC_INPUT_LINE1;
