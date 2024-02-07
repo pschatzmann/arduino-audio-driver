@@ -100,8 +100,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:abdc5479249d6020db5be831e0c82862b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2cf8a5567d24dcc073cd836df6c0d16c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a2cf8a5567d24dcc073cd836df6c0d16c">addI2S</a> (<a class="el" href="structaudio__driver_1_1_pins_i2_s.html">PinsI2S</a> pin)</td></tr>
 <tr class="separator:a2cf8a5567d24dcc073cd836df6c0d16c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9bf538779d2452f5c6b5ed8e1a2e289"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#ad9bf538779d2452f5c6b5ed8e1a2e289">addPin</a> (<a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2d">PinFunctionEnum</a> function, <a class="el" href="namespaceaudio__driver.html#ab6aa72f571ce70030fe5f9dcba7e7d3b">Pin</a> pinNo, int index=0, <a class="el" href="group__enumerations.html#ga3098d145f4ed28b89663ca540fd5cecb">ActiveLogic</a> logic=<a class="el" href="_common_8h.html#ga3098d145f4ed28b89663ca540fd5cecbaad92f9440c1f8bd2336f66cea2ce9da7">ActiveLogic::ActiveLow</a>)</td></tr>
-<tr class="separator:ad9bf538779d2452f5c6b5ed8e1a2e289"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac359381b13cf914fe84e24909a0c9ed2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#ac359381b13cf914fe84e24909a0c9ed2">addPin</a> (<a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2d">PinFunctionEnum</a> function, <a class="el" href="namespaceaudio__driver.html#ab6aa72f571ce70030fe5f9dcba7e7d3b">Pin</a> pinNo, <a class="el" href="group__enumerations.html#ga541db2b810d671856e3d258a0e184d4f">PinLogic</a> logic, int index=0)</td></tr>
+<tr class="separator:ac359381b13cf914fe84e24909a0c9ed2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a722e56e8d76666b0937b157c765f0a3a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a722e56e8d76666b0937b157c765f0a3a">addPin</a> (<a class="el" href="structaudio__driver_1_1_pins_function.html">PinsFunction</a> pin)</td></tr>
 <tr class="separator:a722e56e8d76666b0937b157c765f0a3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acfd126803bc7df716be7cae95609b3c7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#acfd126803bc7df716be7cae95609b3c7">addSPI</a> (<a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2d">PinFunctionEnum</a> function, <a class="el" href="namespaceaudio__driver.html#ab6aa72f571ce70030fe5f9dcba7e7d3b">Pin</a> clk, <a class="el" href="namespaceaudio__driver.html#ab6aa72f571ce70030fe5f9dcba7e7d3b">Pin</a> miso, <a class="el" href="namespaceaudio__driver.html#ab6aa72f571ce70030fe5f9dcba7e7d3b">Pin</a> mosi, <a class="el" href="namespaceaudio__driver.html#ab6aa72f571ce70030fe5f9dcba7e7d3b">Pin</a> cs, SPIClass &amp;<a class="el" href="classaudio__driver_1_1_driver_pins.html#a00a10ef4df43dd641a616c82458fbbab">spi</a>=SPI)</td></tr>
@@ -351,8 +351,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ad9bf538779d2452f5c6b5ed8e1a2e289"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9bf538779d2452f5c6b5ed8e1a2e289">&#9670;&nbsp;</a></span>addPin() <span class="overload">[1/2]</span></h2>
+<a id="ac359381b13cf914fe84e24909a0c9ed2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac359381b13cf914fe84e24909a0c9ed2">&#9670;&nbsp;</a></span>addPin() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -375,14 +375,14 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>index</em> = <code>0</code>, </td>
+          <td class="paramtype"><a class="el" href="group__enumerations.html#ga541db2b810d671856e3d258a0e184d4f">PinLogic</a>&#160;</td>
+          <td class="paramname"><em>logic</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__enumerations.html#ga3098d145f4ed28b89663ca540fd5cecb">ActiveLogic</a>&#160;</td>
-          <td class="paramname"><em>logic</em> = <code><a class="el" href="_common_8h.html#ga3098d145f4ed28b89663ca540fd5cecbaad92f9440c1f8bd2336f66cea2ce9da7">ActiveLogic::ActiveLow</a></code>&#160;</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em> = <code>0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>

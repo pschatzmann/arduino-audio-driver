@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['active_5flogic_421',['active_logic',['../structaudio__driver_1_1_pins_function.html#a74d0fa633b51e6da6b2b4e3f3cbfbabd',1,'audio_driver::PinsFunction']]],
   ['adc_422',['adc',['../classaudio__driver_1_1_audio_driver_lyrat_mini_class.html#a3b34dcbd1ff557bb23983bc362b24fdb',1,'audio_driver::AudioDriverLyratMiniClass']]],
   ['adc_5finput_423',['adc_input',['../structcodec__config__t.html#ad81e27a81fcb1dcc544b8b80a28884ca',1,'codec_config_t']]],
   ['audiodriverac101_424',['AudioDriverAC101',['../group__audio__driver.html#ga6e512f44cc6db0994d6b1617abcc93b0',1,'audio_driver']]],
