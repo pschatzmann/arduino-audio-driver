@@ -3,9 +3,9 @@
 
 I was never quite happy with my [AudioKit project](https://github.com/pschatzmann/arduino-audiokit), that was a quick and dirty adaptation of the Espressif IDF Drivers for Arduino. 
 
-In this project I finally implemented some clean and simple C++ classes. This reduced the complexity considerably and increased the flexibility tremendously!
+In this project I finally implemented some clean and simple C++ classes. This __reduced the complexity__ considerably and __increased the flexibility__ tremendously!
 
-The goal of this project is to provide an easy API to configure different audio codec chips. After setting up the codec, you can use the I2S functionality provided by your microcontroller.
+The goal of this project is to provide an __easy API to configure different audio codec chips__. After setting up the codec, you can use the I2S functionality provided by your microcontroller.
 
 Supported audio codec chips are e.g
 
@@ -51,6 +51,8 @@ cd  ~/Documents/Arduino/libraries
 git clone https://github.com/pschatzmann/arduino-audio-driver.git
 
 ```
+
+I recommend to use git because you can easily update to the latest version just by executing the git pull command in the project folder. 
 
 
 

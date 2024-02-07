@@ -25,7 +25,7 @@
 #include <string.h>
 #include "es7243.h"
 #include "Utils/etc.h"
-#include "Arduino.h"
+#include "Utils/etc.h"
 
 #define MCLK_PULSES_NUMBER    (20)
 #define ES_ASSERT(a, format, b, ...) \

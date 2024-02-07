@@ -25,7 +25,7 @@
 #include <stdint.h>
 #include "tas5805m.h"
 #include "tas5805m_reg_cfg.h"
-#include "Arduino.h"
+#include "Utils/etc.h"
 
 #define TAS5805M_ADDR          0x5c
 //#define TAS5805M_RST_GPIO      get_pa_enable_gpio()
