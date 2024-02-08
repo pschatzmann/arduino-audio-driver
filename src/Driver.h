@@ -30,8 +30,6 @@ const samplerate_t rate_code[8] = {RATE_08K, RATE_11K, RATE_16K, RATE_22K,
  */
 class CodecConfig : public codec_config_t {
 public:
-  // if sd active we setup SPI for the SD
-  bool sd_active = true;
 
   /// @brief setup default values
   CodecConfig() {
@@ -145,6 +143,9 @@ public:
     AD_LOGD("mode->CODEC_MODE_NONE");
     return CODEC_MODE_NONE;
   }
+  // if sd active we setup SPI for the SD
+  bool sd_active = true;
+
 };
 
 /**
@@ -188,7 +189,7 @@ public:
 
   /// Sets the PA Power pin to active or inactive
   bool setPAPower(bool enable) {
-    Pin pin = pins().getPinID(PA);
+    Pin pin = pins().getPinID(PinFunction::PA);
     if (pin == -1)
       return false;
     AD_LOGI("setPAPower pin %d -> %d", pin, enable);
@@ -238,7 +239,7 @@ public:
 
 protected:
   bool init(codec_config_t codec_cfg) {
-    auto i2c = pins().getI2CPins(CODEC);
+    auto i2c = pins().getI2CPins(PinFunction::CODEC);
     if (!i2c) {
       AD_LOGE("i2c pins not defined");
       return false;
@@ -358,7 +359,7 @@ protected:
   int volume;
 
   bool init(codec_config_t codec_cfg) {
-    auto i2c = pins().getI2CPins(CODEC);
+    auto i2c = pins().getI2CPins(PinFunction::CODEC);
     if (!i2c) {
       AD_LOGE("i2c pins not defined");
       return false;
@@ -396,7 +397,7 @@ public:
 
 protected:
   bool init(codec_config_t codec_cfg) {
-    auto i2c = pins().getI2CPins(CODEC);
+    auto i2c = pins().getI2CPins(PinFunction::CODEC);
     if (!i2c) {
       AD_LOGE("i2c pins not defined");
       return false;
@@ -438,7 +439,7 @@ protected:
   int volume = 0;
 
   bool init(codec_config_t codec_cfg) {
-    auto i2c = pins().getI2CPins(CODEC);
+    auto i2c = pins().getI2CPins(PinFunction::CODEC);
     if (!i2c) {
       AD_LOGE("i2c pins not defined");
       return false;
@@ -477,7 +478,7 @@ public:
 
 protected:
   bool init(codec_config_t codec_cfg) {
-    auto i2c = pins().getI2CPins(CODEC);
+    auto i2c = pins().getI2CPins(PinFunction::CODEC);
     if (!i2c) {
       AD_LOGE("i2c pins not defined");
       return false;
@@ -514,12 +515,12 @@ public:
 
 protected:
   bool init(codec_config_t codec_cfg) {
-    auto i2c = pins().getI2CPins(CODEC);
+    auto i2c = pins().getI2CPins(PinFunction::CODEC);
     if (!i2c) {
       AD_LOGE("i2c pins not defined");
       return false;
     }
-    int mclk_src = pins().getPinID(MCLK_SOURCE);
+    int mclk_src = pins().getPinID(PinFunction::MCLK_SOURCE);
     if (mclk_src == -1)
       return false;
     return es8311_codec_init(&codec_cfg, i2c.value().p_wire, mclk_src) ==
@@ -555,7 +556,7 @@ public:
 
 protected:
   bool init(codec_config_t codec_cfg) {
-    auto i2c = pins().getI2CPins(CODEC);
+    auto i2c = pins().getI2CPins(PinFunction::CODEC);
     if (!i2c) {
       AD_LOGE("i2c pins not defined");
       return false;
@@ -607,7 +608,7 @@ public:
 
 protected:
   bool init(codec_config_t codec_cfg) {
-    auto i2c = pins().getI2CPins(CODEC);
+    auto i2c = pins().getI2CPins(PinFunction::CODEC);
     if (!i2c) {
       AD_LOGE("i2c pins not defined");
       return false;
@@ -645,7 +646,7 @@ public:
 
 protected:
   bool init(codec_config_t codec_cfg) {
-    auto i2c = pins().getI2CPins(CODEC);
+    auto i2c = pins().getI2CPins(PinFunction::CODEC);
     if (!i2c) {
       AD_LOGE("i2c pins not defined");
       return false;
@@ -665,7 +666,7 @@ public:
   bool begin(CodecConfig codecCfg, DriverPins &pins) {
     codec_cfg = codecCfg;
 
-    auto i2c = pins.getI2CPins(CODEC);
+    auto i2c = pins.getI2CPins(PinFunction::CODEC);
     if (!i2c) {
       AD_LOGE("i2c pins not defined");
       return false;
@@ -857,7 +858,7 @@ public:
     uint32_t freq = codecCfg.getRateNumeric();
     uint16_t outputDevice = getOutput(codec_cfg.output_device);
 
-    auto i2c = pins.getI2CPins(CODEC);
+    auto i2c = pins.getI2CPins(PinFunction::CODEC);
     if (!i2c) {
       AD_LOGE("i2c pins not defined");
       return false;

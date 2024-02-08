@@ -23,13 +23,33 @@ enum class PinLogic {
 };
 
 /**
+ * @enum PinFunction
+ * @brief Pin Functions
+ * @ingroup enumerations
+ * @ingroup audio_driver
+ */
+enum class PinFunction {
+  HEADPHONE_DETECT,
+  AUXIN_DETECT,
+  PA, // Power Amplifier
+  POWER,
+  LED,
+  KEY,
+  SD,
+  CODEC,
+  CODEC_ADC,
+  MCLK_SOURCE,
+};
+
+
+/**
  * @brief I2S pins
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
 struct PinsI2S {
   PinsI2S() = default;
-  PinsI2S(PinFunctionEnum function, Pin mclk, Pin bck, Pin ws, Pin data_out,
+  PinsI2S(PinFunction function, Pin mclk, Pin bck, Pin ws, Pin data_out,
           Pin data_in = -1, int port = 0) {
     this->function = function;
     this->mclk = mclk;
@@ -39,7 +59,7 @@ struct PinsI2S {
     this->data_in = data_in;
     this->port = port;
   }
-  PinFunctionEnum function;
+  PinFunction function;
   Pin mclk;
   Pin bck;
   Pin ws;
@@ -55,7 +75,7 @@ struct PinsI2S {
  */
 struct PinsSPI {
   PinsSPI() = default;
-  PinsSPI(PinFunctionEnum function, Pin clk, Pin miso, Pin mosi, Pin cs,
+  PinsSPI(PinFunction function, Pin clk, Pin miso, Pin mosi, Pin cs,
           SPIClass &spi = SPI) {
     this->function = function;
     this->clk = clk;
@@ -65,7 +85,7 @@ struct PinsSPI {
     this->p_spi = &spi;
   }
 
-  PinFunctionEnum function;
+  PinFunction function;
   SPIClass *p_spi = &SPI;
   Pin clk = -1;
   Pin miso = -1;
@@ -113,7 +133,7 @@ struct PinsSPI {
 /**
  * @brief Default SPI pins for ESP32 Lyrat, AudioDriver etc
  */
-PinsSPI ESP32PinsSD{SD, 14, 2, 15, 13, SPI};
+PinsSPI ESP32PinsSD{PinFunction::SD, 14, 2, 15, 13, SPI};
 
 /**
  * @brief I2C pins
@@ -122,7 +142,7 @@ PinsSPI ESP32PinsSD{SD, 14, 2, 15, 13, SPI};
  */
 struct PinsI2C {
   PinsI2C() = default;
-  PinsI2C(PinFunctionEnum function, Pin scl, Pin sda, int port = -1,
+  PinsI2C(PinFunction function, Pin scl, Pin sda, int port = -1,
           uint32_t frequency = 100000, TwoWire &wire = Wire) {
     this->function = function;
     this->scl = scl;
@@ -132,7 +152,7 @@ struct PinsI2C {
     this->p_wire = &wire;
   }
 
-  PinFunctionEnum function;
+  PinFunction function;
   uint32_t frequency = 100000;
   int port = -1;
   Pin scl = -1;
@@ -178,14 +198,14 @@ struct PinsI2C {
  */
 struct PinsFunction {
   PinsFunction() = default;
-  PinsFunction(PinFunctionEnum function, Pin pin, PinLogic logic,
+  PinsFunction(PinFunction function, Pin pin, PinLogic logic,
                int index = 0) {
     this->function = function;
     this->pin = pin;
     this->index = index;
     this->pin_logic = logic;
   }
-  PinFunctionEnum function;
+  PinFunction function;
   int pin = -1;
   int index = 0;
   PinLogic pin_logic;
@@ -200,20 +220,20 @@ struct PinsFunction {
 class DriverPins {
 public:
   void addI2S(PinsI2S pin) { i2s.push_back(pin); }
-  void addI2S(PinFunctionEnum function, Pin mclk, Pin bck, Pin ws, Pin data_out,
+  void addI2S(PinFunction function, Pin mclk, Pin bck, Pin ws, Pin data_out,
               Pin data_in = -1, int port = 0) {
     PinsI2S pin{function, mclk, bck, ws, data_out, data_in, port};
     addI2S(pin);
   }
   void addSPI(PinsSPI pin) { spi.push_back(pin); }
-  void addSPI(PinFunctionEnum function, Pin clk, Pin miso, Pin mosi, Pin cs,
+  void addSPI(PinFunction function, Pin clk, Pin miso, Pin mosi, Pin cs,
               SPIClass &spi = SPI) {
     PinsSPI pin(function, clk, miso, mosi, cs, spi);
     addSPI(pin);
   }
 
   void addI2C(PinsI2C pin) { i2c.push_back(pin); }
-  void addI2C(PinFunctionEnum function, Pin scl, Pin sda, int port = -1,
+  void addI2C(PinFunction function, Pin scl, Pin sda, int port = -1,
               uint32_t frequency = 100000, TwoWire &wire = Wire) {
     PinsI2C pin(function, scl, sda, port, frequency);
     addI2C(pin);
@@ -221,13 +241,13 @@ public:
 
   void addPin(PinsFunction pin) { pins.push_back(pin); }
 
-  void addPin(PinFunctionEnum function, Pin pinNo, PinLogic logic,
+  void addPin(PinFunction function, Pin pinNo, PinLogic logic,
               int index = 0) {
     PinsFunction pin(function, pinNo, logic, index);
     addPin(pin);
   }
   /// Get pin information by function
-  Optional<PinsFunction> getPin(PinFunctionEnum function, int pos = 0) {
+  Optional<PinsFunction> getPin(PinFunction function, int pos = 0) {
     for (PinsFunction &pin : pins) {
       if (pin.function == function && pin.index == pos)
         return pin;
@@ -244,14 +264,14 @@ public:
     return {};
   }
 
-  Pin getPinID(PinFunctionEnum function, int pos = 0) {
+  Pin getPinID(PinFunction function, int pos = 0) {
     auto pin = getPin(function, pos);
     if (pin)
       return pin.value().pin;
     return -1;
   }
 
-  Optional<PinsI2C> getI2CPins(PinFunctionEnum function) {
+  Optional<PinsI2C> getI2CPins(PinFunction function) {
     for (PinsI2C &pin : i2c) {
       if (pin.function == function)
         return pin;
@@ -259,7 +279,7 @@ public:
     return {};
   }
 
-  Optional<PinsSPI> getSPIPins(PinFunctionEnum function) {
+  Optional<PinsSPI> getSPIPins(PinFunction function) {
     for (PinsSPI &pins : spi) {
       if (pins.function == function)
         return pins;
@@ -277,7 +297,7 @@ public:
   }
 
   /// Finds the I2S pins with the help of the function
-  Optional<PinsI2S> getI2SPins(PinFunctionEnum function = CODEC) {
+  Optional<PinsI2S> getI2SPins(PinFunction function = PinFunction::CODEC) {
     for (PinsI2S &pins : i2s) {
       if (pins.function == function)
         return pins;
@@ -289,7 +309,7 @@ public:
     // setup spi
     bool result = true;
     for (auto &tmp : spi) {
-      if (tmp.function==SD && sd_active)
+      if (tmp.function==PinFunction::SD && sd_active)
         result &= tmp.begin();
       else
         result &= tmp.begin();
@@ -360,21 +380,21 @@ public:
     // sd pins
     addSPI(ESP32PinsSD);
     // add i2c codec pins: scl, sda, port, frequency
-    addI2C(CODEC, 23, 18, 0x20);
+    addI2C(PinFunction::CODEC, 23, 18, 0x20);
     // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
-    addI2S(CODEC, 0, 5, 25, 26, 35);
+    addI2S(PinFunction::CODEC, 0, 5, 25, 26, 35);
 
     // add other pins
-    addPin(KEY, 36, PinLogic::Input, 1);
-    addPin(KEY, 39, PinLogic::Input, 2);
-    addPin(KEY, 33, PinLogic::Input, 3);
-    addPin(KEY, 32, PinLogic::Input, 4);
-    addPin(KEY, 13, PinLogic::Input, 5);
-    addPin(KEY, 27, PinLogic::Input, 6);
-    addPin(AUXIN_DETECT, 12, PinLogic::InputActiveHigh);
-    addPin(HEADPHONE_DETECT, 19, PinLogic::InputActiveHigh);
-    addPin(PA, 21, PinLogic::Output);
-    addPin(LED, 22, PinLogic::Output);
+    addPin(PinFunction::KEY, 36, PinLogic::Input, 1);
+    addPin(PinFunction::KEY, 39, PinLogic::Input, 2);
+    addPin(PinFunction::KEY, 33, PinLogic::Input, 3);
+    addPin(PinFunction::KEY, 32, PinLogic::Input, 4);
+    addPin(PinFunction::KEY, 13, PinLogic::Input, 5);
+    addPin(PinFunction::KEY, 27, PinLogic::Input, 6);
+    addPin(PinFunction::AUXIN_DETECT, 12, PinLogic::InputActiveHigh);
+    addPin(PinFunction::HEADPHONE_DETECT, 19, PinLogic::InputActiveHigh);
+    addPin(PinFunction::PA, 21, PinLogic::Output);
+    addPin(PinFunction::LED, 22, PinLogic::Output);
   }
 };
 
@@ -389,21 +409,21 @@ public:
     // sd pins
     addSPI(ESP32PinsSD);
     // add i2c codec pins: scl, sda, port, frequency
-    addI2C(CODEC, 23, 18, 0x20);
+    addI2C(PinFunction::CODEC, 23, 18, 0x20);
     // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
-    addI2S(CODEC, 0, 5, 25, 26, 35);
+    addI2S(PinFunction::CODEC, 0, 5, 25, 26, 35);
 
     // add other pins
-    addPin(KEY, 36, PinLogic::Input,1);
-    addPin(KEY, 39, PinLogic::Input,2);
-    addPin(KEY, 33, PinLogic::Input,3);
-    addPin(KEY, 32, PinLogic::Input,4);
-    addPin(KEY, 13, PinLogic::Input,5);
-    addPin(KEY, 27, PinLogic::Input,6);
-    addPin(AUXIN_DETECT, 12, PinLogic::InputActiveLow);
-    addPin(PA, 21, PinLogic::Output);
-    addPin(LED, 22, PinLogic::Output, 1);
-    addPin(LED, 19, PinLogic::Output, 2);
+    addPin(PinFunction::KEY, 36, PinLogic::Input,1);
+    addPin(PinFunction::KEY, 39, PinLogic::Input,2);
+    addPin(PinFunction::KEY, 33, PinLogic::Input,3);
+    addPin(PinFunction::KEY, 32, PinLogic::Input,4);
+    addPin(PinFunction::KEY, 13, PinLogic::Input,5);
+    addPin(PinFunction::KEY, 27, PinLogic::Input,6);
+    addPin(PinFunction::AUXIN_DETECT, 12, PinLogic::InputActiveLow);
+    addPin(PinFunction::PA, 21, PinLogic::Output);
+    addPin(PinFunction::LED, 22, PinLogic::Output, 1);
+    addPin(PinFunction::LED, 19, PinLogic::Output, 2);
   }
 };
 
@@ -418,23 +438,23 @@ public:
     // sd pins
     addSPI(ESP32PinsSD);
     // add i2c codec pins: scl, sda, port, frequency
-    addI2C(CODEC, 23, 18, 0x20);
+    addI2C(PinFunction::CODEC, 23, 18, 0x20);
     // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
-    addI2S(CODEC, 0, 5, 25, 26, 35, 0);
-    addI2S(CODEC_ADC, 0, 32, 33, -1, 36, 1);
+    addI2S(PinFunction::CODEC, 0, 5, 25, 26, 35, 0);
+    addI2S(PinFunction::CODEC_ADC, 0, 32, 33, -1, 36, 1);
 
     // add other pins
-    addPin(KEY, 5, PinLogic::Input, 1);
-    addPin(KEY, 4, PinLogic::Input, 2);
-    addPin(KEY, 2, PinLogic::Input, 3);
-    addPin(KEY, 3, PinLogic::Input, 4);
-    addPin(KEY, 1, PinLogic::Input, 5);
-    //    addPin(KEY, 0, 6};
-    addPin(HEADPHONE_DETECT, 19, PinLogic::InputActiveLow);
-    addPin(PA, 21, PinLogic::Output);
-    addPin(LED, 22, PinLogic::Output, 1);
-    addPin(LED, 27, PinLogic::Output, 2);
-    addPin(MCLK_SOURCE, 0, PinLogic::Output);
+    addPin(PinFunction::KEY, 5, PinLogic::Input, 1);
+    addPin(PinFunction::KEY, 4, PinLogic::Input, 2);
+    addPin(PinFunction::KEY, 2, PinLogic::Input, 3);
+    addPin(PinFunction::KEY, 3, PinLogic::Input, 4);
+    addPin(PinFunction::KEY, 1, PinLogic::Input, 5);
+    //    addPin(PinFunction::KEY, 0, 6};
+    addPin(PinFunction::HEADPHONE_DETECT, 19, PinLogic::InputActiveLow);
+    addPin(PinFunction::PA, 21, PinLogic::Output);
+    addPin(PinFunction::LED, 22, PinLogic::Output, 1);
+    addPin(PinFunction::LED, 27, PinLogic::Output, 2);
+    addPin(PinFunction::MCLK_SOURCE, 0, PinLogic::Output);
   }
 };
 
@@ -449,21 +469,21 @@ public:
     // sd pins
     addSPI(ESP32PinsSD);
     // add i2c codec pins: scl, sda, port, frequency
-    addI2C(CODEC, 32, 33, 0x20);
+    addI2C(PinFunction::CODEC, 32, 33, 0x20);
     // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
-    addI2S(CODEC, 0, 27, 25, 26, 35);
+    addI2S(PinFunction::CODEC, 0, 27, 25, 26, 35);
 
     // add other pins
-    addPin(KEY, 36, PinLogic::Input, 1);
-    addPin(KEY, 13, PinLogic::Input, 2);
-    addPin(KEY, 19, PinLogic::Input, 3);
-    addPin(KEY, 23, PinLogic::Input, 4);
-    addPin(KEY, 18, PinLogic::Input, 5);
-    addPin(KEY, 5, PinLogic::Input, 6);
-    addPin(AUXIN_DETECT, 12, PinLogic::InputActiveLow);
-    addPin(HEADPHONE_DETECT, 39, PinLogic::InputActiveLow);
-    addPin(PA, 21, PinLogic::Output);
-    addPin(LED, 22, PinLogic::Output);
+    addPin(PinFunction::KEY, 36, PinLogic::Input, 1);
+    addPin(PinFunction::KEY, 13, PinLogic::Input, 2);
+    addPin(PinFunction::KEY, 19, PinLogic::Input, 3);
+    addPin(PinFunction::KEY, 23, PinLogic::Input, 4);
+    addPin(PinFunction::KEY, 18, PinLogic::Input, 5);
+    addPin(PinFunction::KEY, 5, PinLogic::Input, 6);
+    addPin(PinFunction::AUXIN_DETECT, 12, PinLogic::InputActiveLow);
+    addPin(PinFunction::HEADPHONE_DETECT, 39, PinLogic::InputActiveLow);
+    addPin(PinFunction::PA, 21, PinLogic::Output);
+    addPin(PinFunction::LED, 22, PinLogic::Output);
   }
 };
 
@@ -478,21 +498,21 @@ public:
     // sd pins
     addSPI(ESP32PinsSD);
     // add i2c codec pins: scl, sda, port, frequency
-    addI2C(CODEC, 23, 18, 0x20);
+    addI2C(PinFunction::CODEC, 23, 18, 0x20);
     // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
-    addI2S(CODEC, 0, 5, 25, 26, 35);
+    addI2S(PinFunction::CODEC, 0, 5, 25, 26, 35);
 
     // add other pins
-    addPin(KEY, 36, PinLogic::Input, 1);
-    addPin(KEY, 13, PinLogic::Input, 2);
-    addPin(KEY, 19, PinLogic::Input, 3);
-    addPin(KEY, 23, PinLogic::Input, 4);
-    addPin(KEY, 18, PinLogic::Input, 5);
-    addPin(KEY, 5, PinLogic::Input, 6);
-    addPin(AUXIN_DETECT, 12, PinLogic::InputActiveLow);
-    addPin(HEADPHONE_DETECT, 39, PinLogic::InputActiveLow);
-    addPin(PA, 21, PinLogic::Output);
-    addPin(LED, 22, PinLogic::Output);
+    addPin(PinFunction::KEY, 36, PinLogic::Input, 1);
+    addPin(PinFunction::KEY, 13, PinLogic::Input, 2);
+    addPin(PinFunction::KEY, 19, PinLogic::Input, 3);
+    addPin(PinFunction::KEY, 23, PinLogic::Input, 4);
+    addPin(PinFunction::KEY, 18, PinLogic::Input, 5);
+    addPin(PinFunction::KEY, 5, PinLogic::Input, 6);
+    addPin(PinFunction::AUXIN_DETECT, 12, PinLogic::InputActiveLow);
+    addPin(PinFunction::HEADPHONE_DETECT, 39, PinLogic::InputActiveLow);
+    addPin(PinFunction::PA, 21, PinLogic::Output);
+    addPin(PinFunction::LED, 22, PinLogic::Output);
   }
 };
 
@@ -507,21 +527,21 @@ public:
     // sd pins
     addSPI(ESP32PinsSD);
     // add i2c codec pins: scl, sda, port, frequency
-    addI2C(CODEC, 32, 22, 0x20);
+    addI2C(PinFunction::CODEC, 32, 22, 0x20);
     // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
-    addI2S(CODEC, 0, 27, 26, 25, 35);
+    addI2S(PinFunction::CODEC, 0, 27, 26, 25, 35);
 
     // add other pins
-    addPin(KEY, 36, PinLogic::Input, 1);
-    addPin(KEY, 13, PinLogic::Input, 2);
-    addPin(KEY, 19, PinLogic::Input, 3);
-    addPin(KEY, 23, PinLogic::Input, 4);
-    addPin(KEY, 18, PinLogic::Input, 5);
-    addPin(KEY, 5, PinLogic::Input, 6);
-    addPin(LED, 22, PinLogic::Output, 0);
-    addPin(LED, 19, PinLogic::Output, 1);
-    addPin(HEADPHONE_DETECT, 5, PinLogic::InputActiveLow);
-    addPin(PA, 21, PinLogic::Output );
+    addPin(PinFunction::KEY, 36, PinLogic::Input, 1);
+    addPin(PinFunction::KEY, 13, PinLogic::Input, 2);
+    addPin(PinFunction::KEY, 19, PinLogic::Input, 3);
+    addPin(PinFunction::KEY, 23, PinLogic::Input, 4);
+    addPin(PinFunction::KEY, 18, PinLogic::Input, 5);
+    addPin(PinFunction::KEY, 5, PinLogic::Input, 6);
+    addPin(PinFunction::LED, 22, PinLogic::Output, 0);
+    addPin(PinFunction::LED, 19, PinLogic::Output, 1);
+    addPin(PinFunction::HEADPHONE_DETECT, 5, PinLogic::InputActiveLow);
+    addPin(PinFunction::PA, 21, PinLogic::Output );
   }
 };
 
@@ -536,19 +556,19 @@ class PinsSTM32F411DiscoClass : public DriverPins {
 public:
   PinsSTM32F411DiscoClass() {
     // add i2c codec pins: scl, sda, port, frequency
-    addI2C(CODEC, PB6, PB9, 0x25);
+    addI2C(PinFunction::CODEC, PB6, PB9, 0x25);
     // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
-    addI2S(CODEC, PC7, PC10, PA4, PC3, PC12);
+    addI2S(PinFunction::CODEC, PC7, PC10, PA4, PC3, PC12);
 
     // add other pins
-    addPin(KEY, PA0, PinLogic::Output);      // user button
-    addPin(LED, PD12, PinLogic::Output, 0);  // green
-    addPin(LED, PD5, PinLogic::Output, 1);   // red
-    addPin(LED, PD13, PinLogic::Output, 2);  // orange
-    addPin(LED, PD14, PinLogic::Output, 3);  // red
-    addPin(LED, PD15, PinLogic::Output, 4);  // blue
-    addPin(PA, PD4, PinLogic::Output, );     // reset pin (active high)
-    addPin(CODEC_ADC, PC3, PinLogic::Input); // Microphone
+    addPin(PinFunction::KEY, PA0, PinLogic::Output);      // user button
+    addPin(PinFunction::LED, PD12, PinLogic::Output, 0);  // green
+    addPin(PinFunction::LED, PD5, PinLogic::Output, 1);   // red
+    addPin(PinFunction::LED, PD13, PinLogic::Output, 2);  // orange
+    addPin(PinFunction::LED, PD14, PinLogic::Output, 3);  // red
+    addPin(PinFunction::LED, PD15, PinLogic::Output, 4);  // blue
+    addPin(PinFunction::PA, PD4, PinLogic::Output, );     // reset pin (active high)
+    addPin(PinFunction::CODEC_ADC, PC3, PinLogic::Input); // Microphone
   }
 } PinsSTM32F411Disco;
 
