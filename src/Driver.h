@@ -362,6 +362,7 @@ protected:
     return es7210_adc_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
   }
   bool deinit() { return es7210_adc_deinit() == RESULT_OK; }
+  
   bool controlState(codec_mode_t mode) {
     return es7210_adc_ctrl_state_active(mode, true) == RESULT_OK;
   }
@@ -399,6 +400,7 @@ protected:
     return es7243_adc_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
   }
   bool deinit() { return es7243_adc_deinit() == RESULT_OK; }
+
   bool controlState(codec_mode_t mode) {
     return es7243_adc_ctrl_state_active(mode, true) == RESULT_OK;
   }
@@ -417,7 +419,6 @@ class AudioDriverES7243eClass : public AudioDriver {
 public:
   bool setMute(bool mute) {
     return mute ? setVolume(0) == RESULT_OK : setVolume(volume) == RESULT_OK;
-    ;
   }
   bool setVolume(int volume) {
     this->volume = volume;
@@ -441,6 +442,7 @@ protected:
     return es7243e_adc_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
   }
   bool deinit() { return es7243e_adc_deinit() == RESULT_OK; }
+
   bool controlState(codec_mode_t mode) {
     return es7243e_adc_ctrl_state_active(mode, true) == RESULT_OK;
   }
@@ -480,6 +482,7 @@ protected:
     return es8156_codec_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
   }
   bool deinit() { return es8156_codec_deinit() == RESULT_OK; }
+
   bool controlState(codec_mode_t mode) {
     return es8156_codec_ctrl_state_active(mode, true) == RESULT_OK;
   }
@@ -519,6 +522,7 @@ protected:
            RESULT_OK;
   }
   bool deinit() { return es8311_codec_deinit() == RESULT_OK; }
+
   bool controlState(codec_mode_t mode) {
     return es8311_codec_ctrl_state_active(mode, true) == RESULT_OK;
   }
@@ -557,6 +561,7 @@ protected:
            RESULT_OK;
   }
   bool deinit() { return es8374_codec_deinit() == RESULT_OK; }
+
   bool controlState(codec_mode_t mode) {
     return es8374_codec_ctrl_state_active(mode, true) == RESULT_OK;
   }
@@ -607,6 +612,7 @@ protected:
     return es8388_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
   }
   bool deinit() { return es8388_deinit() == RESULT_OK; }
+
   bool controlState(codec_mode_t mode) {
     return es8388_ctrl_state_active(mode, true) == RESULT_OK;
   }
