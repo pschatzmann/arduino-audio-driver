@@ -289,7 +289,10 @@ public:
     // setup spi
     bool result = true;
     for (auto &tmp : spi) {
-      result &= tmp.begin();
+      if (tmp.function==SD && sd_active)
+        result &= tmp.begin();
+      else
+        result &= tmp.begin();
     }
     // setup i2c
     for (auto &tmp : i2c) {
@@ -331,11 +334,19 @@ public:
     }
   }
 
+  void setSPIActiveForSD(bool active){
+    sd_active = active;
+  }
+  bool isSPIActiveForSD(){
+    return sd_active;
+  }
+
 protected:
   Vector<PinsI2S> i2s{0};
   Vector<PinsSPI> spi{0};
   Vector<PinsI2C> i2c{0};
   Vector<PinsFunction> pins{0};
+  bool sd_active = true;
 };
 
 /**

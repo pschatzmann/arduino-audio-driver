@@ -30,6 +30,9 @@ const samplerate_t rate_code[8] = {RATE_08K, RATE_11K, RATE_16K, RATE_22K,
  */
 class CodecConfig : public codec_config_t {
 public:
+  // if sd active we setup SPI for the SD
+  bool sd_active = true;
+
   /// @brief setup default values
   CodecConfig() {
     adc_input = ADC_INPUT_LINE1;
@@ -155,6 +158,7 @@ public:
   virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
     codec_cfg = codecCfg;
     p_pins = &pins;
+    pins.setSPIActiveForSD(codecCfg.sd_active);
     if (!init(codec_cfg)) {
       AD_LOGE("init failed");
       return false;
