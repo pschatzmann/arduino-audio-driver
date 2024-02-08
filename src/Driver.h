@@ -607,6 +607,12 @@ protected:
     return es8388_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
   }
   bool deinit() { return es8388_deinit() == RESULT_OK; }
+  bool controlState(codec_mode_t mode) {
+    return es8388_ctrl_state_active(mode, true) == RESULT_OK;
+  }
+  bool configInterface(codec_mode_t mode, I2SDefinition iface) {
+    return es8388_config_i2s(mode, &iface) == RESULT_OK;
+  }
 };
 
 /**
