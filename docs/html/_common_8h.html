@@ -90,6 +90,8 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:a97f42a9050aeb02705fa0bc7ad10aaef"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_common_8h.html#a97f42a9050aeb02705fa0bc7ad10aaef">AI_THINKER_ES8388_VOLUME_HACK</a>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:a97f42a9050aeb02705fa0bc7ad10aaef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2513e2bd0eb45a0ccefbbcd3f289ca47"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_common_8h.html#a2513e2bd0eb45a0ccefbbcd3f289ca47">DRIVER_DEFAULT_VOLUME</a>&#160;&#160;&#160;70</td></tr>
 <tr class="separator:a2513e2bd0eb45a0ccefbbcd3f289ca47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a647d6cc1615606ca7f83952f29fdb933"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_common_8h.html#a647d6cc1615606ca7f83952f29fdb933">ERROR_INVALID_ARG</a>&#160;&#160;&#160;1</td></tr>
@@ -115,18 +117,6 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:ga17701b70816c7d7342f1a4115f4a8de0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga17701b70816c7d7342f1a4115f4a8de0">adc_input_t</a> { <br />
-&#160;&#160;<a class="el" href="group__audio__driver.html#ga17701b70816c7d7342f1a4115f4a8de0a8fe55a6d1ba4245831483d4f3f3763ec">ADC_INPUT_NONE</a> = 0x00
-, <a class="el" href="group__audio__driver.html#ga17701b70816c7d7342f1a4115f4a8de0ac054fb9ae14a618d0425ded7f7f17bed">ADC_INPUT_LINE1</a>
-, <a class="el" href="group__audio__driver.html#ga17701b70816c7d7342f1a4115f4a8de0ad6c7a8904c3ea81c09ac8558aa52d69d">ADC_INPUT_LINE2</a>
-, <a class="el" href="group__audio__driver.html#ga17701b70816c7d7342f1a4115f4a8de0ace325297580254e540b10b2ac682397d">ADC_INPUT_LINE3</a>
-, <br />
-&#160;&#160;<a class="el" href="group__audio__driver.html#ga17701b70816c7d7342f1a4115f4a8de0a11f1754fb68fd4906c74368d9db39439">ADC_INPUT_ALL</a>
-, <a class="el" href="group__audio__driver.html#ga17701b70816c7d7342f1a4115f4a8de0aed383e892e1fff2ff92159e3c0546352">ADC_INPUT_DIFFERENCE</a>
-<br />
- }</td></tr>
-<tr class="memdesc:ga17701b70816c7d7342f1a4115f4a8de0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select adc channel for input mic signal.  <a href="group__audio__driver.html#ga17701b70816c7d7342f1a4115f4a8de0">More...</a><br /></td></tr>
-<tr class="separator:ga17701b70816c7d7342f1a4115f4a8de0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga767db1c20919e0b4bcbf95cf741042f8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__enumerations.html#ga767db1c20919e0b4bcbf95cf741042f8">codec_mode_t</a> { <br />
 &#160;&#160;<a class="el" href="group__enumerations.html#ga767db1c20919e0b4bcbf95cf741042f8a14936537164347d2dd766abca4ec193d">CODEC_MODE_MIN</a> = -1
 , <a class="el" href="group__enumerations.html#ga767db1c20919e0b4bcbf95cf741042f8a6349277a4d314615383d79d7338b5c90">CODEC_MODE_NONE</a> = 0x00
@@ -140,13 +130,6 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:ga767db1c20919e0b4bcbf95cf741042f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select media hal codec mode.  <a href="group__enumerations.html#ga767db1c20919e0b4bcbf95cf741042f8">More...</a><br /></td></tr>
 <tr class="separator:ga767db1c20919e0b4bcbf95cf741042f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga539dfa06c17546ddd3ced317f2f76e9e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga539dfa06c17546ddd3ced317f2f76e9e">dac_output_t</a> { <a class="el" href="group__audio__driver.html#ga539dfa06c17546ddd3ced317f2f76e9eab839e055e11786256cd328d1b754a190">DAC_OUTPUT_NONE</a> = 0x00
-, <a class="el" href="group__audio__driver.html#ga539dfa06c17546ddd3ced317f2f76e9ea11a8487d0e17c9ac1d194c4f99974c85">DAC_OUTPUT_LINE1</a>
-, <a class="el" href="group__audio__driver.html#ga539dfa06c17546ddd3ced317f2f76e9eae7351d9cbd1c1c3cd76bf4665e8d0cca">DAC_OUTPUT_LINE2</a>
-, <a class="el" href="group__audio__driver.html#ga539dfa06c17546ddd3ced317f2f76e9ea9f3f48105f92c53bfcc4d9546f666c43">DAC_OUTPUT_ALL</a>
- }</td></tr>
-<tr class="memdesc:ga539dfa06c17546ddd3ced317f2f76e9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select channel for dac output.  <a href="group__audio__driver.html#ga539dfa06c17546ddd3ced317f2f76e9e">More...</a><br /></td></tr>
-<tr class="separator:ga539dfa06c17546ddd3ced317f2f76e9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac5dc971b3e58c17abd8b5b946b759fb1"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__enumerations.html#gac5dc971b3e58c17abd8b5b946b759fb1">es_mic_gain_t</a> { <br />
 &#160;&#160;<a class="el" href="group__enumerations.html#gac5dc971b3e58c17abd8b5b946b759fb1a0ef18eaa1ac7a84aa37b76d03541e1c9">MIC_GAIN_MIN</a> = -1
 , <a class="el" href="group__enumerations.html#gac5dc971b3e58c17abd8b5b946b759fb1a44589f8247f04887c306432df8a86049">MIC_GAIN_0DB</a> = 0
@@ -177,6 +160,25 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:gacad3e5bee8b5bde941b18e4e244f7127"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select I2S interface operating mode i.e. master or slave for audio codec chip.  <a href="group__enumerations.html#gacad3e5bee8b5bde941b18e4e244f7127">More...</a><br /></td></tr>
 <tr class="separator:gacad3e5bee8b5bde941b18e4e244f7127"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga57493d56aec72d0d539dced15a738c50"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga57493d56aec72d0d539dced15a738c50">input_device_t</a> { <br />
+&#160;&#160;<a class="el" href="group__audio__driver.html#ga57493d56aec72d0d539dced15a738c50a8fe55a6d1ba4245831483d4f3f3763ec">ADC_INPUT_NONE</a> = 0x00
+, <a class="el" href="group__audio__driver.html#ga57493d56aec72d0d539dced15a738c50ac054fb9ae14a618d0425ded7f7f17bed">ADC_INPUT_LINE1</a>
+, <a class="el" href="group__audio__driver.html#ga57493d56aec72d0d539dced15a738c50ad6c7a8904c3ea81c09ac8558aa52d69d">ADC_INPUT_LINE2</a>
+, <a class="el" href="group__audio__driver.html#ga57493d56aec72d0d539dced15a738c50ace325297580254e540b10b2ac682397d">ADC_INPUT_LINE3</a>
+, <br />
+&#160;&#160;<a class="el" href="group__audio__driver.html#ga57493d56aec72d0d539dced15a738c50a11f1754fb68fd4906c74368d9db39439">ADC_INPUT_ALL</a>
+, <a class="el" href="group__audio__driver.html#ga57493d56aec72d0d539dced15a738c50aed383e892e1fff2ff92159e3c0546352">ADC_INPUT_DIFFERENCE</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:ga57493d56aec72d0d539dced15a738c50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select adc channel for input mic signal.  <a href="group__audio__driver.html#ga57493d56aec72d0d539dced15a738c50">More...</a><br /></td></tr>
+<tr class="separator:ga57493d56aec72d0d539dced15a738c50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9144c83baaa7ebeaaecb236f9e21d264"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga9144c83baaa7ebeaaecb236f9e21d264">output_device_t</a> { <a class="el" href="group__audio__driver.html#ga9144c83baaa7ebeaaecb236f9e21d264ab839e055e11786256cd328d1b754a190">DAC_OUTPUT_NONE</a> = 0x00
+, <a class="el" href="group__audio__driver.html#ga9144c83baaa7ebeaaecb236f9e21d264a11a8487d0e17c9ac1d194c4f99974c85">DAC_OUTPUT_LINE1</a>
+, <a class="el" href="group__audio__driver.html#ga9144c83baaa7ebeaaecb236f9e21d264ae7351d9cbd1c1c3cd76bf4665e8d0cca">DAC_OUTPUT_LINE2</a>
+, <a class="el" href="group__audio__driver.html#ga9144c83baaa7ebeaaecb236f9e21d264a9f3f48105f92c53bfcc4d9546f666c43">DAC_OUTPUT_ALL</a>
+ }</td></tr>
+<tr class="memdesc:ga9144c83baaa7ebeaaecb236f9e21d264"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select channel for dac output.  <a href="group__audio__driver.html#ga9144c83baaa7ebeaaecb236f9e21d264">More...</a><br /></td></tr>
+<tr class="separator:ga9144c83baaa7ebeaaecb236f9e21d264"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga51b3e3c8b963c44ee453d086e36fbc2d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2d">PinFunctionEnum</a> { <br />
 &#160;&#160;<a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2dab0f2e2f80cf61b263b22dfde0b337d70">HEADPHONE_DETECT</a>
 , <a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2da87598811c2d981e1b55904f10effed42">AUXIN_DETECT</a>
@@ -222,6 +224,20 @@ Enumerations</h2></td></tr>
 <tr class="separator:ga9455c9aa894b64d5d3997a038141991b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a97f42a9050aeb02705fa0bc7ad10aaef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97f42a9050aeb02705fa0bc7ad10aaef">&#9670;&nbsp;</a></span>AI_THINKER_ES8388_VOLUME_HACK</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define AI_THINKER_ES8388_VOLUME_HACK&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a2513e2bd0eb45a0ccefbbcd3f289ca47"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2513e2bd0eb45a0ccefbbcd3f289ca47">&#9670;&nbsp;</a></span>DRIVER_DEFAULT_VOLUME</h2>
 

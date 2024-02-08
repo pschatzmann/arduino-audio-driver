@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['dac_5foutput_5ft_567',['dac_output_t',['../group__audio__driver.html#ga539dfa06c17546ddd3ced317f2f76e9e',1,'Common.h']]]
+  ['es_5fmic_5fgain_5ft_567',['es_mic_gain_t',['../group__enumerations.html#gac5dc971b3e58c17abd8b5b946b759fb1',1,'Common.h']]]
 ];

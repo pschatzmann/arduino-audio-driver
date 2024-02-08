@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['adc_481',['adc',['../classaudio__driver_1_1_audio_driver_lyrat_mini_class.html#a3b34dcbd1ff557bb23983bc362b24fdb',1,'audio_driver::AudioDriverLyratMiniClass']]],
-  ['adc_5finput_482',['adc_input',['../structcodec__config__t.html#ad81e27a81fcb1dcc544b8b80a28884ca',1,'codec_config_t']]],
+  ['adc_482',['adc',['../classaudio__driver_1_1_audio_driver_lyrat_mini_class.html#a3b34dcbd1ff557bb23983bc362b24fdb',1,'audio_driver::AudioDriverLyratMiniClass']]],
   ['audiodriverac101_483',['AudioDriverAC101',['../group__audio__driver.html#ga6e512f44cc6db0994d6b1617abcc93b0',1,'audio_driver']]],
   ['audiodrivercs43l22_484',['AudioDriverCS43l22',['../group__audio__driver.html#ga9752ab43ee1dc1a25230ddfbd0916c15',1,'audio_driver']]],
   ['audiodriveres7210_485',['AudioDriverES7210',['../group__audio__driver.html#ga4c214e0234a9999990e57646e330b6ac',1,'audio_driver']]],

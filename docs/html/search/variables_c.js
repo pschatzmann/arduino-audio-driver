@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['scl_548',['scl',['../structaudio__driver_1_1_pins_i2_c.html#a08e5ee49dec28418c38645b7f0d2801e',1,'audio_driver::PinsI2C']]],
-  ['sd_5factive_549',['sd_active',['../classaudio__driver_1_1_codec_config.html#ac585b3449d271276f8b679e8ab01b2ec',1,'audio_driver::CodecConfig::sd_active()'],['../classaudio__driver_1_1_driver_pins.html#ac585b3449d271276f8b679e8ab01b2ec',1,'audio_driver::DriverPins::sd_active()']]],
-  ['sda_550',['sda',['../structaudio__driver_1_1_pins_i2_c.html#a964e0e55c51da6a06624e0f15f084b05',1,'audio_driver::PinsI2C']]],
-  ['set_5factive_551',['set_active',['../structaudio__driver_1_1_pins_s_p_i.html#afcc542ba9c5c0e2fbba65a0feab74508',1,'audio_driver::PinsSPI::set_active()'],['../structaudio__driver_1_1_pins_i2_c.html#afcc542ba9c5c0e2fbba65a0feab74508',1,'audio_driver::PinsI2C::set_active()']]],
-  ['spi_552',['spi',['../classaudio__driver_1_1_driver_pins.html#a00a10ef4df43dd641a616c82458fbbab',1,'audio_driver::DriverPins']]]
+  ['rate_546',['rate',['../struct_i2_s_definition.html#a2ae50aca3292f8f72fa1afe1269bb8c4',1,'I2SDefinition']]],
+  ['rate_5fcode_547',['rate_code',['../namespaceaudio__driver.html#a7a6bc2a780fcdf0d4db3335cc846de30',1,'audio_driver']]],
+  ['rate_5fnum_548',['rate_num',['../namespaceaudio__driver.html#a1f68e5811f962dbd87e25a98d603d82b',1,'audio_driver']]]
 ];
