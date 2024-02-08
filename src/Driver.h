@@ -16,7 +16,7 @@
 #include "DriverPins.h"
 
 namespace audio_driver {
-  
+
 const int rate_num[8] = {8000, 11025, 16000, 22050, 24000, 32000, 44100, 48000};
 const samplerate_t rate_code[8] = {RATE_08K, RATE_11K, RATE_16K, RATE_22K,
                                    RATE_24K, RATE_32K, RATE_44K, RATE_48K};
@@ -60,6 +60,12 @@ public:
     switch (bits) {
     case 16:
       i2s.bits = BIT_LENGTH_16BITS;
+      return bits;
+    case 18:
+      i2s.bits = BIT_LENGTH_18BITS;
+      return bits;
+    case 20:
+      i2s.bits = BIT_LENGTH_20BITS;
       return bits;
     case 24:
       i2s.bits = BIT_LENGTH_24BITS;
@@ -118,21 +124,21 @@ public:
       is_output = true;
 
     if (is_input && is_output) {
-      AD_LOGD("CODEC_MODE_BOTH");
+      AD_LOGD("mode->CODEC_MODE_BOTH");
       return CODEC_MODE_BOTH;
     }
 
     if (is_output) {
-      AD_LOGD("CODEC_MODE_DECODE");
+      AD_LOGD("mode->CODEC_MODE_DECODE");
       return CODEC_MODE_DECODE;
     }
 
     if (is_input) {
-      AD_LOGD("CODEC_MODE_ENCODE");
+      AD_LOGD("mode->CODEC_MODE_ENCODE");
       return CODEC_MODE_ENCODE;
     }
 
-    AD_LOGD("CODEC_MODE_NONE");
+    AD_LOGD("mode->CODEC_MODE_NONE");
     return CODEC_MODE_NONE;
   }
 };
@@ -652,7 +658,7 @@ public:
     delay(10);
     p_pins = &pins;
     int vol = map(volume, 0, 100, DEFAULT_VOLMIN, DEFAULT_VOLMAX);
-    uint32_t freq = getFrequency(codec_cfg.i2s.rate);
+    uint32_t freq = codecCfg.getRateNumeric(); 
     uint16_t outputDevice = getOutput(codec_cfg.dac_output);
 
     auto i2c = pins.getI2CPins(CODEC);
@@ -688,27 +694,6 @@ protected:
     return cnt == 0;
   }
 
-  uint32_t getFrequency(samplerate_t rateNum) {
-    switch (rateNum) {
-    case RATE_08K:
-      return 8000; /*!< set to  8k samples per second */
-    case RATE_11K:
-      return 11024; /*!< set to 11.025k samples per second */
-    case RATE_16K:
-      return 16000; /*!< set to 16k samples in per second */
-    case RATE_22K:
-      return 22050; /*!< set to 22.050k samples per second */
-    case RATE_24K:
-      return 24000; /*!< set to 24k samples in per second */
-    case RATE_32K:
-      return 32000; /*!< set to 32k samples in per second */
-    case RATE_44K:
-      return 44100; /*!< set to 44.1k samples per second */
-    case RATE_48K:
-      return 48000; /*!< set to 48k samples per second */
-    }
-    return 44100;
-  }
 
   uint16_t getOutput(dac_output_t dac_output) {
     switch (dac_output) {
