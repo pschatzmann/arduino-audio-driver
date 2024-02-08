@@ -3,9 +3,9 @@
 #include "Common.h"
 #include "Driver/ac101/ac101.h"
 #include "Driver/cs43l22/cs43l22.h"
+#include "Driver/es7210/es7210.h"
 #include "Driver/es7243/es7243.h"
 #include "Driver/es7243e/es7243e.h"
-#include "Driver/es7210/es7210.h"
 #include "Driver/es8156/es8156.h"
 #include "Driver/es8311/es8311.h"
 #include "Driver/es8374/es8374.h"
@@ -16,6 +16,10 @@
 #include "DriverPins.h"
 
 namespace audio_driver {
+  
+const int rate_num[8] = {8000, 11025, 16000, 22050, 24000, 32000, 44100, 48000};
+const samplerate_t rate_code[8] = {RATE_08K, RATE_11K, RATE_16K, RATE_22K,
+                                   RATE_24K, RATE_32K, RATE_44K, RATE_48K};
 
 /**
  * @brief I2S configuration and defition of input and output with default values
@@ -35,8 +39,75 @@ public:
     // codec is slave - microcontroller is master
     i2s.mode = MODE_SLAVE;
   }
+
+  /// Returns bits per sample as number
+  int getBitsNumeric() {
+    switch (i2s.bits) {
+    case BIT_LENGTH_16BITS:
+      return 16;
+    case BIT_LENGTH_24BITS:
+      return 24;
+    case BIT_LENGTH_32BITS:
+      return 32;
+    default:
+      return 0;
+    }
+    return 0;
+  }
+
+  // sets the bits per sample with a numeric value
+  int setBitsNumeric(int bits) {
+    switch (bits) {
+    case 16:
+      i2s.bits = BIT_LENGTH_16BITS;
+      return bits;
+    case 24:
+      i2s.bits = BIT_LENGTH_24BITS;
+      return bits;
+    case 32:
+      i2s.bits = BIT_LENGTH_32BITS;
+      return bits;
+    }
+    return 0;
+  }
+
+  /// get the sample rate as number
+  int getRateNumeric() {
+    for (int j = 0; j < 8; j++) {
+      if (rate_code[j] == i2s.rate) {
+        AD_LOGD("-> %d", rate_num[j]);
+        return rate_num[j];
+      }
+    }
+    return 0;
+  }
+
+  /// sets the sample rate as number
+  int setRateNumeric(int rateNum) {
+    int diff = 99999;
+    int result = 0;
+    for (int j = 0; j < 8; j++) {
+      if (rate_num[j] == rateNum) {
+        AD_LOGD("-> %d", rate_num[j]);
+        i2s.rate = rate_code[j];
+        return rateNum;
+      } else {
+        int new_diff = abs(rate_code[j] - rateNum);
+        if (new_diff < diff) {
+          result = j;
+          diff = new_diff;
+        }
+      }
+    }
+    AD_LOGE("Sample Rate not supported: %d - using %d", rateNum,
+            rate_num[result]);
+    i2s.rate = rate_code[result];
+    return rate_num[result];
+  }
+
+  /// determines the codec_mode_t dynamically based on the input and output
   codec_mode_t get_mode() {
-    //codec_mode_t mode;
+    // codec_mode_t mode;
     bool is_input = false;
     bool is_output = false;
 
@@ -51,13 +122,15 @@ public:
       return CODEC_MODE_BOTH;
     }
 
-    if (is_output)
+    if (is_output) {
       AD_LOGD("CODEC_MODE_DECODE");
       return CODEC_MODE_DECODE;
+    }
 
-    if (is_input)
+    if (is_input) {
       AD_LOGD("CODEC_MODE_ENCODE");
       return CODEC_MODE_ENCODE;
+    }
 
     AD_LOGD("CODEC_MODE_NONE");
     return CODEC_MODE_NONE;
@@ -75,17 +148,17 @@ public:
   virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
     codec_cfg = codecCfg;
     p_pins = &pins;
-    if (!init(codec_cfg)){
+    if (!init(codec_cfg)) {
       AD_LOGE("init failed");
       return false;
     }
     codec_mode_t codec_mode = codec_cfg.get_mode();
-    if(!controlState(codec_mode)){
+    if (!controlState(codec_mode)) {
       AD_LOGE("controlState failed");
       return false;
     }
     bool result = configInterface(codec_mode, codec_cfg.i2s);
-    if(!result){
+    if (!result) {
       AD_LOGE("configInterface failed");
     }
     setPAPower(true);
@@ -124,9 +197,9 @@ protected:
   };
 
   /// make sure that value is in range
-  /// @param volume 
-  /// @return  
-  int limitVolume(int volume, int min=0, int max=100) {
+  /// @param volume
+  /// @return
+  int limitVolume(int volume, int min = 0, int max = 100) {
     if (volume > max)
       volume = max;
     if (volume < min)
@@ -134,7 +207,6 @@ protected:
     return volume;
   }
 };
-
 
 /**
  * @brief Driver API for AC101 codec chip
@@ -144,7 +216,9 @@ protected:
 class AudioDriverAC101Class : public AudioDriver {
 public:
   bool setMute(bool mute) { return ac101_set_voice_mute(mute); }
-  bool setVolume(int volume) { return ac101_set_voice_volume(limitVolume(volume)); };
+  bool setVolume(int volume) {
+    return ac101_set_voice_volume(limitVolume(volume));
+  };
   int getVolume() {
     int vol;
     ac101_get_voice_volume(&vol);
@@ -169,7 +243,6 @@ protected:
     return ac101_config_i2s(mode, &iface) == RESULT_OK;
   }
 };
-
 
 /**
  * @brief Driver API for the CS43l22 codec chip
@@ -219,8 +292,8 @@ protected:
     return cnt == 0;
   }
 
-  uint32_t getFrequency(samplerate_t sample_rate) {
-    switch (sample_rate) {
+  uint32_t getFrequency(samplerate_t rateNum) {
+    switch (rateNum) {
     case RATE_08K:
       return 8000; /*!< set to  8k samples per second */
     case RATE_11K:
@@ -256,7 +329,6 @@ protected:
   }
 };
 
-
 /**
  * @brief Driver API for ES7210 codec chip
  * @author Phil Schatzmann
@@ -264,16 +336,12 @@ protected:
  */
 class AudioDriverES7210Class : public AudioDriver {
 public:
-  bool setMute(bool mute) {
-    return es7210_set_mute(mute) == RESULT_OK;
-  }
+  bool setMute(bool mute) { return es7210_set_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     this->volume = volume;
     return es7210_adc_set_volume(limitVolume(volume)) == RESULT_OK;
   }
-  int getVolume() {
-    return volume;
-  }
+  int getVolume() { return volume; }
 
 protected:
   int volume;
@@ -294,7 +362,6 @@ protected:
     return es7210_adc_config_i2s(mode, &iface) == RESULT_OK;
   }
 };
-
 
 /**
  * @brief Driver API for Lyrat ES7243 codec chip
@@ -342,7 +409,8 @@ protected:
 class AudioDriverES7243eClass : public AudioDriver {
 public:
   bool setMute(bool mute) {
-    return mute ? setVolume(0) == RESULT_OK : setVolume(volume) == RESULT_OK;;
+    return mute ? setVolume(0) == RESULT_OK : setVolume(volume) == RESULT_OK;
+    ;
   }
   bool setVolume(int volume) {
     this->volume = volume;
@@ -374,7 +442,6 @@ protected:
   }
 };
 
-
 /**
  * @brief Driver API for ES8388 codec chip
  * @author Phil Schatzmann
@@ -382,7 +449,9 @@ protected:
  */
 class AudioDriverES8156Class : public AudioDriver {
 public:
-  bool setMute(bool mute) { return es8156_codec_set_voice_mute(mute) == RESULT_OK; }
+  bool setMute(bool mute) {
+    return es8156_codec_set_voice_mute(mute) == RESULT_OK;
+  }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
     return es8156_codec_set_voice_volume(limitVolume(volume)) == RESULT_OK;
@@ -477,7 +546,8 @@ protected:
       return false;
     }
     auto codec_mode = this->codec_cfg.get_mode();
-    return es8374_codec_init(&codec_cfg, codec_mode, i2c.value().p_wire) == RESULT_OK;
+    return es8374_codec_init(&codec_cfg, codec_mode, i2c.value().p_wire) ==
+           RESULT_OK;
   }
   bool deinit() { return es8374_codec_deinit() == RESULT_OK; }
   bool controlState(codec_mode_t mode) {
@@ -487,8 +557,6 @@ protected:
     return es8374_codec_config_i2s(mode, &iface) == RESULT_OK;
   }
 };
-
-
 
 /**
  * @brief Driver API for ES8388 codec chip
@@ -571,7 +639,7 @@ protected:
  */
 class AudioDriverWM8994Class : public AudioDriver {
 public:
-  AudioDriverWM8994Class(uint16_t deviceAddr=0x34) {
+  AudioDriverWM8994Class(uint16_t deviceAddr = 0x34) {
     this->deviceAddr = deviceAddr;
   }
 
@@ -593,7 +661,8 @@ public:
       return false;
     }
 
-    return wm8994_Init(deviceAddr, outputDevice, vol, freq, i2c.value().p_wire)  == 0;
+    return wm8994_Init(deviceAddr, outputDevice, vol, freq,
+                       i2c.value().p_wire) == 0;
   }
 
   bool setMute(bool mute) {
@@ -619,8 +688,8 @@ protected:
     return cnt == 0;
   }
 
-  uint32_t getFrequency(samplerate_t sample_rate) {
-    switch (sample_rate) {
+  uint32_t getFrequency(samplerate_t rateNum) {
+    switch (rateNum) {
     case RATE_08K:
       return 8000; /*!< set to  8k samples per second */
     case RATE_11K:
@@ -712,7 +781,5 @@ static AudioDriverES8388Class AudioDriverES8388;
 static AudioDriverWM8994Class AudioDriverWM8994;
 /// @ingroup audio_driver
 static AudioDriverLyratMiniClass AudioDriverLyratMini;
-
-
 
 } // namespace audio_driver
