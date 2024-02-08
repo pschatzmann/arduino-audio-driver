@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['limitvolume_397',['limitVolume',['../classaudio__driver_1_1_audio_driver.html#a8ccd7088966e3cee97a0ded68e58d8a4',1,'audio_driver::AudioDriver']]]
+  ['limitvalue_421',['limitValue',['../classaudio__driver_1_1_audio_driver.html#a8895270f5503019b98f5c4df036754b4',1,'audio_driver::AudioDriver']]]
 ];

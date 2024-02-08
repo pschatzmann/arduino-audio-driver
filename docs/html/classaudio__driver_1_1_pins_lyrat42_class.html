@@ -130,6 +130,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a7154a01dbe248170ce0334042c94cf61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a389a81a6a8575f68f6a3aed265b91158"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classaudio__driver_1_1_optional.html">Optional</a>&lt; <a class="el" href="structaudio__driver_1_1_pins_s_p_i.html">PinsSPI</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a389a81a6a8575f68f6a3aed265b91158">getSPIPins</a> (<a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2d">PinFunctionEnum</a> function)</td></tr>
 <tr class="separator:a389a81a6a8575f68f6a3aed265b91158"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67b24a449a284e82cdda3ac6f49226fd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a67b24a449a284e82cdda3ac6f49226fd">isSPIActiveForSD</a> ()</td></tr>
+<tr class="separator:a67b24a449a284e82cdda3ac6f49226fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac657931b192113cc4f0dfa5854dd2f84"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#ac657931b192113cc4f0dfa5854dd2f84">setSPIActiveForSD</a> (bool active)</td></tr>
+<tr class="separator:ac657931b192113cc4f0dfa5854dd2f84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -139,6 +143,8 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:ac2742d7979a485a6594b8b9591c3e0f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a471f57d7da5f76b0354c820e5c57a4e6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classaudio__driver_1_1_vector.html">Vector</a>&lt; <a class="el" href="structaudio__driver_1_1_pins_function.html">PinsFunction</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a471f57d7da5f76b0354c820e5c57a4e6">pins</a> {0}</td></tr>
 <tr class="separator:a471f57d7da5f76b0354c820e5c57a4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac585b3449d271276f8b679e8ab01b2ec"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#ac585b3449d271276f8b679e8ab01b2ec">sd_active</a> = true</td></tr>
+<tr class="separator:ac585b3449d271276f8b679e8ab01b2ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a00a10ef4df43dd641a616c82458fbbab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classaudio__driver_1_1_vector.html">Vector</a>&lt; <a class="el" href="structaudio__driver_1_1_pins_s_p_i.html">PinsSPI</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a00a10ef4df43dd641a616c82458fbbab">spi</a> {0}</td></tr>
 <tr class="separator:a00a10ef4df43dd641a616c82458fbbab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -771,6 +777,57 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a67b24a449a284e82cdda3ac6f49226fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67b24a449a284e82cdda3ac6f49226fd">&#9670;&nbsp;</a></span>isSPIActiveForSD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool isSPIActiveForSD </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac657931b192113cc4f0dfa5854dd2f84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac657931b192113cc4f0dfa5854dd2f84">&#9670;&nbsp;</a></span>setSPIActiveForSD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setSPIActiveForSD </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>active</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a id="aa02f04732513a19e5154ced17285c5a8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa02f04732513a19e5154ced17285c5a8">&#9670;&nbsp;</a></span>i2c</h2>
@@ -827,6 +884,28 @@ Protected Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classaudio__driver_1_1_vector.html">Vector</a>&lt;<a class="el" href="structaudio__driver_1_1_pins_function.html">PinsFunction</a>&gt; pins {0}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac585b3449d271276f8b679e8ab01b2ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac585b3449d271276f8b679e8ab01b2ec">&#9670;&nbsp;</a></span>sd_active</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sd_active = true</td>
         </tr>
       </table>
   </td>

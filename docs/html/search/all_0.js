@@ -1,8 +1,8 @@
 var searchData=
 [
   ['ad_5flogd_0',['AD_LOGD',['../_logger_8c.html#a9ad68b9be1a9751690256858a3b16036',1,'AD_LOGD(const char *fmr,...):&#160;Logger.c'],['../_logger_8h.html#a9ad68b9be1a9751690256858a3b16036',1,'AD_LOGD(const char *fmr,...):&#160;Logger.c']]],
-  ['ad_5floge_1',['AD_LOGE',['../_logger_8h.html#a5ca2348ac26af72e565d526564f2e696',1,'AD_LOGE(const char *fmr,...):&#160;Logger.c'],['../_logger_8c.html#a5ca2348ac26af72e565d526564f2e696',1,'AD_LOGE(const char *fmr,...):&#160;Logger.c']]],
-  ['ad_5flogi_2',['AD_LOGI',['../_logger_8h.html#ada3b7c7d836d0f21f2bd2f945c997294',1,'AD_LOGI(const char *fmr,...):&#160;Logger.c'],['../_logger_8c.html#ada3b7c7d836d0f21f2bd2f945c997294',1,'AD_LOGI(const char *fmr,...):&#160;Logger.c']]],
+  ['ad_5floge_1',['AD_LOGE',['../_logger_8c.html#a5ca2348ac26af72e565d526564f2e696',1,'AD_LOGE(const char *fmr,...):&#160;Logger.c'],['../_logger_8h.html#a5ca2348ac26af72e565d526564f2e696',1,'AD_LOGE(const char *fmr,...):&#160;Logger.c']]],
+  ['ad_5flogi_2',['AD_LOGI',['../_logger_8c.html#ada3b7c7d836d0f21f2bd2f945c997294',1,'AD_LOGI(const char *fmr,...):&#160;Logger.c'],['../_logger_8h.html#ada3b7c7d836d0f21f2bd2f945c997294',1,'AD_LOGI(const char *fmr,...):&#160;Logger.c']]],
   ['ad_5floglength_3',['AD_LOGLENGTH',['../_logger_8h.html#a0379d471086e8024914aed0246ca43b4',1,'Logger.h']]],
   ['ad_5flogw_4',['AD_LOGW',['../_logger_8h.html#aea139a2cbe97c9a8e561a011e249a2f7',1,'AD_LOGW(const char *fmr,...):&#160;Logger.c'],['../_logger_8c.html#aea139a2cbe97c9a8e561a011e249a2f7',1,'AD_LOGW(const char *fmr,...):&#160;Logger.c']]],
   ['adc_5',['adc',['../classaudio__driver_1_1_audio_driver_lyrat_mini_class.html#a3b34dcbd1ff557bb23983bc362b24fdb',1,'audio_driver::AudioDriverLyratMiniClass']]],
@@ -51,10 +51,12 @@ var searchData=
   ['audiodriverlyratminiclass_48',['AudioDriverLyratMiniClass',['../classaudio__driver_1_1_audio_driver_lyrat_mini_class.html',1,'audio_driver']]],
   ['audiodrivertas5805mclass_49',['AudioDriverTAS5805MClass',['../classaudio__driver_1_1_audio_driver_t_a_s5805_m_class.html',1,'audio_driver']]],
   ['audiodriverwarning_50',['AudioDriverWarning',['../_logger_8h.html#a48d3e47f1b9767dc7c0894ccc5ea1fe5a08cbc520ee21495a05b1a6891227e3bb',1,'Logger.h']]],
-  ['audiodriverwm8994_51',['AudioDriverWM8994',['../group__audio__driver.html#ga0d7c21e6e7b5d9dd9e5937c57c60fb8f',1,'audio_driver']]],
-  ['audiodriverwm8994class_52',['AudioDriverWM8994Class',['../classaudio__driver_1_1_audio_driver_w_m8994_class.html',1,'AudioDriverWM8994Class'],['../classaudio__driver_1_1_audio_driver_w_m8994_class.html#a172769a66164a291cad7b3dd5b90b4e2',1,'audio_driver::AudioDriverWM8994Class::AudioDriverWM8994Class()']]],
-  ['audiokitac101_53',['AudioKitAC101',['../group__audio__driver.html#gaebae1c0395623b4715a91f2f8c64ad6c',1,'audio_driver']]],
-  ['audiokites8388v1_54',['AudioKitEs8388V1',['../group__audio__driver.html#ga9282e4e123ca2db202b817e95b4c4d6b',1,'audio_driver']]],
-  ['audiokites8388v2_55',['AudioKitEs8388V2',['../group__audio__driver.html#ga3ecb4bf2db338ccd232cad96a2e2341e',1,'audio_driver']]],
-  ['auxin_5fdetect_56',['AUXIN_DETECT',['../_common_8h.html#ga51b3e3c8b963c44ee453d086e36fbc2da87598811c2d981e1b55904f10effed42',1,'Common.h']]]
+  ['audiodriverwm8960_51',['AudioDriverWM8960',['../group__audio__driver.html#ga9edaa629f0334ef75e1666c847bcb3c3',1,'audio_driver']]],
+  ['audiodriverwm8960class_52',['AudioDriverWM8960Class',['../classaudio__driver_1_1_audio_driver_w_m8960_class.html',1,'audio_driver']]],
+  ['audiodriverwm8994_53',['AudioDriverWM8994',['../group__audio__driver.html#ga0d7c21e6e7b5d9dd9e5937c57c60fb8f',1,'audio_driver']]],
+  ['audiodriverwm8994class_54',['AudioDriverWM8994Class',['../classaudio__driver_1_1_audio_driver_w_m8994_class.html',1,'AudioDriverWM8994Class'],['../classaudio__driver_1_1_audio_driver_w_m8994_class.html#a172769a66164a291cad7b3dd5b90b4e2',1,'audio_driver::AudioDriverWM8994Class::AudioDriverWM8994Class()']]],
+  ['audiokitac101_55',['AudioKitAC101',['../group__audio__driver.html#gaebae1c0395623b4715a91f2f8c64ad6c',1,'audio_driver']]],
+  ['audiokites8388v1_56',['AudioKitEs8388V1',['../group__audio__driver.html#ga9282e4e123ca2db202b817e95b4c4d6b',1,'audio_driver']]],
+  ['audiokites8388v2_57',['AudioKitEs8388V2',['../group__audio__driver.html#ga3ecb4bf2db338ccd232cad96a2e2341e',1,'audio_driver']]],
+  ['auxin_5fdetect_58',['AUXIN_DETECT',['../_common_8h.html#ga51b3e3c8b963c44ee453d086e36fbc2da87598811c2d981e1b55904f10effed42',1,'Common.h']]]
 ];
