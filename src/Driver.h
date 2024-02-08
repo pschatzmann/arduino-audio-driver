@@ -11,6 +11,7 @@
 #include "Driver/es8374/es8374.h"
 #include "Driver/es8388/es8388.h"
 #include "Driver/tas5805m/tas5805m.h"
+#include "Driver/wm8960/mtb_wm8960.h"
 #include "Driver/wm8994/wm8994.h"
 
 #include "DriverPins.h"
@@ -205,7 +206,7 @@ protected:
   /// make sure that value is in range
   /// @param volume
   /// @return
-  int limitVolume(int volume, int min = 0, int max = 100) {
+  int limitValue(int volume, int min = 0, int max = 100) {
     if (volume > max)
       volume = max;
     if (volume < min)
@@ -223,7 +224,7 @@ class AudioDriverAC101Class : public AudioDriver {
 public:
   bool setMute(bool mute) { return ac101_set_voice_mute(mute); }
   bool setVolume(int volume) {
-    return ac101_set_voice_volume(limitVolume(volume));
+    return ac101_set_voice_volume(limitValue(volume));
   };
   int getVolume() {
     int vol;
@@ -345,7 +346,7 @@ public:
   bool setMute(bool mute) { return es7210_set_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     this->volume = volume;
-    return es7210_adc_set_volume(limitVolume(volume)) == RESULT_OK;
+    return es7210_adc_set_volume(limitValue(volume)) == RESULT_OK;
   }
   int getVolume() { return volume; }
 
@@ -380,7 +381,7 @@ public:
     return es7243_adc_set_voice_mute(mute) == RESULT_OK;
   }
   bool setVolume(int volume) {
-    return es7243_adc_set_voice_volume(limitVolume(volume)) == RESULT_OK;
+    return es7243_adc_set_voice_volume(limitValue(volume)) == RESULT_OK;
   }
   int getVolume() {
     int vol;
@@ -420,7 +421,7 @@ public:
   }
   bool setVolume(int volume) {
     this->volume = volume;
-    return es7243e_adc_set_voice_volume(limitVolume(volume)) == RESULT_OK;
+    return es7243e_adc_set_voice_volume(limitValue(volume)) == RESULT_OK;
   }
   int getVolume() {
     int vol;
@@ -460,7 +461,7 @@ public:
   }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
-    return es8156_codec_set_voice_volume(limitVolume(volume)) == RESULT_OK;
+    return es8156_codec_set_voice_volume(limitValue(volume)) == RESULT_OK;
   }
   int getVolume() {
     int vol;
@@ -496,7 +497,7 @@ class AudioDriverES8311Class : public AudioDriver {
 public:
   bool setMute(bool mute) { return es8311_set_voice_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
-    return es8311_codec_set_voice_volume(limitVolume(volume)) == RESULT_OK;
+    return es8311_codec_set_voice_volume(limitValue(volume)) == RESULT_OK;
   }
   int getVolume() {
     int vol;
@@ -536,7 +537,7 @@ public:
   bool setMute(bool mute) { return es8374_set_voice_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
-    return es8374_codec_set_voice_volume(limitVolume(volume)) == RESULT_OK;
+    return es8374_codec_set_voice_volume(limitValue(volume)) == RESULT_OK;
   }
   int getVolume() {
     int vol;
@@ -574,7 +575,7 @@ public:
   bool setMute(bool mute) { return es8388_set_voice_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
-    return es8388_set_voice_volume(limitVolume(volume)) == RESULT_OK;
+    return es8388_set_voice_volume(limitValue(volume)) == RESULT_OK;
   }
   int getVolume() {
     int vol;
@@ -584,7 +585,7 @@ public:
 
   bool setInputVolume(int volume) {
     // map values from 0 - 100 to 0 to 10
-    es_mic_gain_t gain = (es_mic_gain_t)(limitVolume(volume) / 10);
+    es_mic_gain_t gain = (es_mic_gain_t)(limitValue(volume) / 10);
     AD_LOGD("input volume: %d -> gain %d", volume, gain);
     return setMicrophoneGain(gain);
   }
@@ -618,7 +619,7 @@ public:
   bool setMute(bool mute) { return tas5805m_set_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
-    return tas5805m_set_volume(limitVolume(volume)) == RESULT_OK;
+    return tas5805m_set_volume(limitValue(volume)) == RESULT_OK;
   }
   int getVolume() {
     int vol;
@@ -636,6 +637,179 @@ protected:
     return tas5805m_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
   }
   bool deinit() { return tas5805m_deinit() == RESULT_OK; }
+};
+
+/**
+ * @brief Driver API for WM8990 codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class AudioDriverWM8960Class : public AudioDriver {
+public:
+  bool begin(CodecConfig codecCfg, DriverPins &pins) {
+    codec_cfg = codecCfg;
+
+    auto i2c = pins.getI2CPins(CODEC);
+    if (!i2c) {
+      AD_LOGE("i2c pins not defined");
+      return false;
+    }
+    // define wire object
+    mtb_wm8960_set_wire(i2c.value().p_wire);
+
+    // setup wm8960
+    if (!init(codecCfg)) {
+      AD_LOGE("init");
+      return false;
+    }
+    setVolume(DRIVER_DEFAULT_VOLUME);
+    if (!mtb_wm8960_activate()) {
+      AD_LOGE("mtb_wm8960_activate");
+      return false;
+    }
+    if (!configure_clocking()) {
+      AD_LOGE("configure_clocking");
+      return false;
+    }
+    return true;
+  }
+  bool end(void) {
+    mtb_wm8960_deactivate();
+    mtb_wm8960_free();
+    return true;
+  }
+  bool setMute(bool enable) { return setVolume(enable ? 0 : volume_out); }
+  /// Defines the Volume (in %) if volume is 0, mute is enabled,range is 0-100.
+  bool setVolume(int volume) {
+    setOutputVolume(volume);
+    return true;
+  };
+  int getVolume() { return volume_out; }
+  bool setInputVolume(int volume) {
+    adjustInputVolume(volume);
+    return true;
+  }
+  bool isVolumeSupported() { return true; }
+  bool isInputVolumeSupported() { return true; }
+
+protected:
+  int volume_in;
+  int volume_out;
+  int i2c_retry_count = 5;
+  int vs1053_mclk_hz = 0;
+  bool vs1053_enable_pll = true;
+
+  void adjustInputVolume(int vol) {
+    volume_in = limitValue(vol, 0, 100);
+    int vol_int = map(volume_in, 0, 100, 0, 30);
+    mtb_wm8960_adjust_input_volume(vol_int);
+  }
+
+  void setOutputVolume(int vol) {
+    volume_out = limitValue(vol, 0, 100);
+    int vol_int = volume_out == 0.0 ? 0 : map(volume_out, 0, 100, 30, 0x7F);
+    mtb_wm8960_set_output_volume(vol_int);
+  }
+
+  bool init(CodecConfig cfg) {
+    mtb_wm8960_set_write_retry_count(i2c_retry_count);
+    int features = 0;
+    switch (cfg.dac_output) {
+    case DAC_OUTPUT_LINE1:
+      features = features | WM8960_FEATURE_SPEAKER;
+      break;
+    case DAC_OUTPUT_LINE2:
+      features = features | WM8960_FEATURE_HEADPHONE;
+      break;
+    case DAC_OUTPUT_ALL:
+      features = features | WM8960_FEATURE_SPEAKER | WM8960_FEATURE_HEADPHONE;
+      break;
+    default:
+      break;
+    }
+    switch (cfg.adc_input) {
+    case ADC_INPUT_LINE1:
+      features = features | WM8960_FEATURE_MICROPHONE1;
+      break;
+    case ADC_INPUT_LINE2:
+      features = features | WM8960_FEATURE_MICROPHONE2;
+      break;
+    case ADC_INPUT_ALL:
+      features = features | WM8960_FEATURE_MICROPHONE1 |
+                 WM8960_FEATURE_MICROPHONE2 | WM8960_FEATURE_MICROPHONE3;
+      break;
+    default:
+      break;
+    }
+    AD_LOGW("Setup features: %d", features);
+    return mtb_wm8960_init(features);
+  }
+
+  bool configure_clocking() {
+    if (vs1053_mclk_hz == 0) {
+      // just pick a multiple of the sample rate
+      vs1053_mclk_hz = 512 * codec_cfg.getRateNumeric();
+    }
+    if (!mtb_wm8960_configure_clocking(
+            vs1053_mclk_hz, vs1053_enable_pll, sampleRate(codec_cfg.getRateNumeric()),
+            wordLength(codec_cfg.getBitsNumeric()),
+            modeMasterSlave(codec_cfg.i2s.mode == MODE_MASTER))) {
+      AD_LOGE("mtb_wm8960_configure_clocking");
+      return false;
+    }
+    return true;
+  }
+
+  mtb_wm8960_adc_dac_sample_rate_t sampleRate(int rate) {
+    switch (rate) {
+    case 48000:
+      return WM8960_ADC_DAC_SAMPLE_RATE_48_KHZ;
+    case 44100:
+      return WM8960_ADC_DAC_SAMPLE_RATE_44_1_KHZ;
+    case 32000:
+      return WM8960_ADC_DAC_SAMPLE_RATE_32_KHZ;
+    case 24000:
+      return WM8960_ADC_DAC_SAMPLE_RATE_24_KHZ;
+    case 22050:
+      return WM8960_ADC_DAC_SAMPLE_RATE_22_05_KHZ;
+    case 16000:
+      return WM8960_ADC_DAC_SAMPLE_RATE_16_KHZ;
+    case 12000:
+      return WM8960_ADC_DAC_SAMPLE_RATE_12_KHZ;
+    case 11025:
+      return WM8960_ADC_DAC_SAMPLE_RATE_11_025_KHZ;
+    case 8018:
+      return WM8960_ADC_DAC_SAMPLE_RATE_8_018_KHZ;
+    case 8000:
+      return WM8960_ADC_DAC_SAMPLE_RATE_8_KHZ;
+    default:
+      AD_LOGE("Unsupported rate: %d", rate);
+      return WM8960_ADC_DAC_SAMPLE_RATE_44_1_KHZ;
+    }
+  }
+
+  mtb_wm8960_word_length_t wordLength(int bits) {
+    switch (bits) {
+    case 16:
+      return WM8960_WL_16BITS;
+    case 20:
+      return WM8960_WL_20BITS;
+    case 24:
+      return WM8960_WL_24BITS;
+    case 32:
+      return WM8960_WL_32BITS;
+    default:
+      AD_LOGE("Unsupported bits: %d", bits);
+      return WM8960_WL_16BITS;
+    }
+  }
+
+  /// if microcontroller is master then module is slave
+  mtb_wm8960_mode_t modeMasterSlave(bool microcontroller_is_master) {
+    return microcontroller_is_master ? WM8960_MODE_SLAVE : WM8960_MODE_MASTER;
+  }
+
+  void volumeError(float vol) { AD_LOGE("Invalid volume %f", vol); }
 };
 
 /**
@@ -658,7 +832,7 @@ public:
     delay(10);
     p_pins = &pins;
     int vol = map(volume, 0, 100, DEFAULT_VOLMIN, DEFAULT_VOLMAX);
-    uint32_t freq = codecCfg.getRateNumeric(); 
+    uint32_t freq = codecCfg.getRateNumeric();
     uint16_t outputDevice = getOutput(codec_cfg.dac_output);
 
     auto i2c = pins.getI2CPins(CODEC);
@@ -693,7 +867,6 @@ protected:
     setPAPower(false);
     return cnt == 0;
   }
-
 
   uint16_t getOutput(dac_output_t dac_output) {
     switch (dac_output) {
