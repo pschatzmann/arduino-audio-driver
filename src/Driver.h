@@ -656,10 +656,12 @@ public:
     }
     // define wire object
     mtb_wm8960_set_wire(i2c.value().p_wire);
+    mtb_wm8960_set_write_retry_count(i2c_retry_count);
 
     // setup wm8960
-    if (!init(codecCfg)) {
-      AD_LOGE("init");
+    int features = getFeatures(codecCfg);
+    if (!mtb_wm8960_init(features)) {
+      AD_LOGE("mtb_wm8960_init");
       return false;
     }
     setVolume(DRIVER_DEFAULT_VOLUME);
@@ -683,14 +685,17 @@ public:
 
   /// Defines the Volume (in %) if volume is 0, mute is enabled,range is 0-100.
   bool setVolume(int volume) {
-    setOutputVolume(volume);
-    return true;
-  };
+    volume_out = limitValue(volume, 0, 100);
+    int vol_int = volume_out == 0.0 ? 0 : map(volume_out, 0, 100, 30, 0x7F);
+    return mtb_wm8960_set_output_volume(vol_int);
+  }
+
   int getVolume() { return volume_out; }
 
   bool setInputVolume(int volume) {
-    adjustInputVolume(volume);
-    return true;
+    volume_in = limitValue(volume, 0, 100);
+    int vol_int = map(volume_in, 0, 100, 0, 30);
+    return mtb_wm8960_adjust_input_volume(vol_int);
   }
   bool isVolumeSupported() { return true; }
 
@@ -707,6 +712,10 @@ public:
     vs1053_mclk_hz = hz;
   }
 
+  void dumpRegisters() {
+    mtb_wm8960_dump();
+  }
+
 protected:
   int volume_in = 100;
   int volume_out = 100;
@@ -714,20 +723,7 @@ protected:
   uint32_t vs1053_mclk_hz = 0;
   bool vs1053_enable_pll = true;
 
-  void adjustInputVolume(int vol) {
-    volume_in = limitValue(vol, 0, 100);
-    int vol_int = map(volume_in, 0, 100, 0, 30);
-    mtb_wm8960_adjust_input_volume(vol_int);
-  }
-
-  void setOutputVolume(int vol) {
-    volume_out = limitValue(vol, 0, 100);
-    int vol_int = volume_out == 0.0 ? 0 : map(volume_out, 0, 100, 30, 0x7F);
-    mtb_wm8960_set_output_volume(vol_int);
-  }
-
-  bool init(CodecConfig cfg) {
-    mtb_wm8960_set_write_retry_count(i2c_retry_count);
+  int getFeatures(CodecConfig cfg) {
     int features = 0;
     switch (cfg.dac_output) {
     case DAC_OUTPUT_LINE1:
@@ -756,8 +752,8 @@ protected:
     default:
       break;
     }
-    AD_LOGW("Setup features: %d", features);
-    return mtb_wm8960_init(features);
+    AD_LOGI("features: %d", features);
+    return features;
   }
 
   bool configure_clocking() {
@@ -821,11 +817,9 @@ protected:
   }
 
   /// if microcontroller is master then module is slave
-  mtb_wm8960_mode_t modeMasterSlave(bool microcontroller_is_master) {
-    return microcontroller_is_master ? WM8960_MODE_SLAVE : WM8960_MODE_MASTER;
+  mtb_wm8960_mode_t modeMasterSlave(bool is_master) {
+    return is_master ? WM8960_MODE_MASTER : WM8960_MODE_SLAVE;
   }
-
-  void volumeError(float vol) { AD_LOGE("Invalid volume %f", vol); }
 };
 
 /**
