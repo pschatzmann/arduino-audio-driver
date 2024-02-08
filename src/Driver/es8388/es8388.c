@@ -255,10 +255,10 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle)
     res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL23, 0x00);   //vroi=0
     res |= es8388_set_adc_dac_volume(CODEC_MODE_DECODE, 0, 0);          // 0db
     dac_power = 0;
-    AD_LOGI("dac_output: %d",cfg->dac_output);
-    if (DAC_OUTPUT_LINE2 == cfg->dac_output) {
+    AD_LOGI("output_device: %d",cfg->output_device);
+    if (DAC_OUTPUT_LINE2 == cfg->output_device) {
         dac_power = _DAC_OUTPUT_LOUT1 | _DAC_OUTPUT_ROUT1;
-    } else if (DAC_OUTPUT_LINE1 == cfg->dac_output) {
+    } else if (DAC_OUTPUT_LINE1 == cfg->output_device) {
         dac_power = _DAC_OUTPUT_LOUT2 | _DAC_OUTPUT_ROUT2;
     } else {
         dac_power = _DAC_OUTPUT_LOUT1 | _DAC_OUTPUT_LOUT2 | _DAC_OUTPUT_ROUT1 | _DAC_OUTPUT_ROUT2;
@@ -272,18 +272,18 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle)
     // TODO
     // if (WORKAROUND_MIC_LINEIN_MIXED ){
     //     // logic for Audiokit: line 1 does not work, so we also use line2 but with a different gain
-    //     if (ADC_INPUT_LINE1 == cfg->adc_input){
+    //     if (ADC_INPUT_LINE1 == cfg->input_device){
     //         mic_gain = (es_mic_gain_t)WORKAROUND_ES8388_LINE1_GAIN;
-    //         cfg->adc_input = ADC_INPUT_LINE2;
+    //         cfg->input_device= ADC_INPUT_LINE2;
     //     }
     // } 
     //res |= es_write_reg(ES8388_ADDR, ES8388_ADCCONTROL1, 0xbb); // MIC Left and Right channel PGA gain
     //res |= es_write_reg(ES8388_ADDR, ES8388_ADCCONTROL1, ES8388_DEFAULT_INPUT_GAIN); // MIC Left and Right channel PGA gain
     res |= es8388_set_mic_gain(mic_gain);
     int tmp = 0;
-    if (ADC_INPUT_LINE1 == cfg->adc_input) {
+    if (ADC_INPUT_LINE1 == cfg->input_device) {
         tmp = _ADC_INPUT_LINPUT1_RINPUT1;
-    } else if (ADC_INPUT_LINE2 == cfg->adc_input) {
+    } else if (ADC_INPUT_LINE2 == cfg->input_device) {
         tmp = _ADC_INPUT_LINPUT2_RINPUT2;
     } else {
         tmp = ADC_INPUT_DIFFERENCE;
@@ -296,7 +296,7 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle)
     res |= es8388_set_adc_dac_volume(CODEC_MODE_ENCODE, 0, 0);      // 0db
     res |= es_write_reg(ES8388_ADDR, ES8388_ADCPOWER, 0x09); //Power on ADC, Enable LIN&RIN, Power off MICBIAS, set int1lp to low power mode
     //es8388_pa_power(cfg->_DAC_OUTPUT!=_DAC_OUTPUT_LINE2);
-    // AD_LOGI("init,out:%02x, in:%02x", cfg->_DAC_OUTPUT, cfg->adc_input);
+    // AD_LOGI("init,out:%02x, in:%02x", cfg->_DAC_OUTPUT, cfg->input_device);
     return res;
 }
 
@@ -486,7 +486,7 @@ error_t es8388_get_voice_mute(void)
  *     - (-1) Parameter error
  *     - (0)   Success
  */
-error_t es8388_config_dac_output(es_dac_output_t output)
+error_t es8388_config_output_device(es_output_device_t output)
 {
     AD_LOGD(LOG_METHOD);
     error_t res;
@@ -504,7 +504,7 @@ error_t es8388_config_dac_output(es_dac_output_t output)
  *     - (-1) Parameter error
  *     - (0)   Success
  */
-error_t es8388_config_adc_input(es_adc_input_t input)
+error_t es8388_config_input_device(es_input_device_t input)
 {
     AD_LOGD(LOG_METHOD);
     error_t res;

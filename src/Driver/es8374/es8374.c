@@ -491,7 +491,7 @@ error_t es8374_i2s_config_clock(es_i2s_clock_t cfg)
     return res;
 }
 
-error_t es8374_config_dac_output(es_dac_output_t output)
+error_t es8374_config_output_device(es_output_device_t output)
 {
     error_t res = RESULT_OK;
     uint8_t reg = 0;
@@ -509,7 +509,7 @@ error_t es8374_config_dac_output(es_dac_output_t output)
     return res;
 }
 
-error_t es8374_config_adc_input(es_adc_input_t input)
+error_t es8374_config_input_device(es_input_device_t input)
 {
     error_t res = RESULT_OK;
     uint8_t reg = 0;
@@ -617,7 +617,7 @@ static int es8374_set_d2se_pga(es_d2se_pga_t gain)
     return res;
 }
 
-static int es8374_init_reg(codec_mode_t ms_mode, i2s_format_t fmt, es_i2s_clock_t cfg, es_dac_output_t out_channel, es_adc_input_t in_channel)
+static int es8374_init_reg(codec_mode_t ms_mode, i2s_format_t fmt, es_i2s_clock_t cfg, es_output_device_t out_channel, es_input_device_t in_channel)
 {
     int res = 0;
     uint8_t reg;
@@ -678,8 +678,8 @@ static int es8374_init_reg(codec_mode_t ms_mode, i2s_format_t fmt, es_i2s_clock_
     res |= es8374_write_reg(0x71, 0x05); //for automute setting
     res |= es8374_write_reg(0x73, 0x70);
 
-    res |= es8374_config_dac_output(out_channel);  //0x3c Enable DAC and Enable Lout/Rout/1/2
-    res |= es8374_config_adc_input(in_channel);  //0x00 LINSEL & RINSEL, LIN1/RIN1 as ADC Input; DSSEL,use one DS Reg11; DSR, LINPUT1-RINPUT1
+    res |= es8374_config_output_device(out_channel);  //0x3c Enable DAC and Enable Lout/Rout/1/2
+    res |= es8374_config_input_device(in_channel);  //0x00 LINSEL & RINSEL, LIN1/RIN1 as ADC Input; DSSEL,use one DS Reg11; DSR, LINPUT1-RINPUT1
     res |= es8374_codec_set_voice_volume(0);
 
     res |= es8374_write_reg(0x37, 0x00); // dac set
@@ -703,7 +703,7 @@ error_t es8374_codec_init(codec_config_t *cfg, codec_mode_t codec_mode, void* i2
     // TODO
     res |= es8374_stop(codec_mode);
     res |= es8374_init_reg(cfg->i2s.mode, (BIT_LENGTH_16BITS << 4) | cfg->i2s.fmt, clkdiv,
-                            cfg->dac_output, cfg->adc_input);
+                            cfg->output_device, cfg->input_device);
     res |= es8374_set_mic_gain(MIC_GAIN_15DB);
     res |= es8374_set_d2se_pga(_D2SE_PGA_GAIN_EN);
     res |= es8374_config_fmt(codec_mode, cfg->i2s.mode);

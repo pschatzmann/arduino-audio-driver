@@ -35,8 +35,8 @@ public:
 
   /// @brief setup default values
   CodecConfig() {
-    adc_input = ADC_INPUT_LINE1;
-    dac_output = DAC_OUTPUT_ALL;
+    input_device = ADC_INPUT_LINE1;
+    output_device = DAC_OUTPUT_ALL;
     i2s.bits = BIT_LENGTH_16BITS;
     i2s.rate = RATE_44K;
     i2s.fmt = I2S_NORMAL;
@@ -121,10 +121,10 @@ public:
     bool is_input = false;
     bool is_output = false;
 
-    if (adc_input != ADC_INPUT_NONE)
+    if (input_device != ADC_INPUT_NONE)
       is_input = true;
 
-    if (dac_output != DAC_OUTPUT_NONE)
+    if (output_device != DAC_OUTPUT_NONE)
       is_output = true;
 
     if (is_input && is_output) {
@@ -276,7 +276,7 @@ public:
     p_pins = &pins;
     int vol = map(volume, 0, 100, DEFAULT_VOLMIN, DEFAULT_VOLMAX);
     uint32_t freq = getFrequency(codec_cfg.i2s.rate);
-    uint16_t outputDevice = getOutput(codec_cfg.dac_output);
+    uint16_t outputDevice = getOutput(codec_cfg.output_device);
     return cs43l22_Init(deviceAddr, outputDevice, vol, freq) == 0;
   }
 
@@ -325,8 +325,8 @@ protected:
     return 44100;
   }
 
-  uint16_t getOutput(dac_output_t dac_output) {
-    switch (dac_output) {
+  uint16_t getOutput(output_device_t output_device) {
+    switch (output_device) {
     case DAC_OUTPUT_NONE:
       return 0;
     case DAC_OUTPUT_LINE1:
@@ -366,7 +366,7 @@ protected:
     return es7210_adc_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
   }
   bool deinit() { return es7210_adc_deinit() == RESULT_OK; }
-  
+
   bool controlState(codec_mode_t mode) {
     return es7210_adc_ctrl_state_active(mode, true) == RESULT_OK;
   }
@@ -724,13 +724,9 @@ public:
   void setEnablePLL(bool active) { vs1053_enable_pll = active; }
 
   /// Configuration: define master clock frequency (default: 0)
-  void setMclkHz(uint32_t hz ){
-    vs1053_mclk_hz = hz;
-  }
+  void setMclkHz(uint32_t hz) { vs1053_mclk_hz = hz; }
 
-  void dumpRegisters() {
-    mtb_wm8960_dump();
-  }
+  void dumpRegisters() { mtb_wm8960_dump(); }
 
 protected:
   int volume_in = 100;
@@ -741,7 +737,7 @@ protected:
 
   int getFeatures(CodecConfig cfg) {
     int features = 0;
-    switch (cfg.dac_output) {
+    switch (cfg.output_device) {
     case DAC_OUTPUT_LINE1:
       features = features | WM8960_FEATURE_SPEAKER;
       break;
@@ -754,7 +750,7 @@ protected:
     default:
       break;
     }
-    switch (cfg.adc_input) {
+    switch (cfg.input_device) {
     case ADC_INPUT_LINE1:
       features = features | WM8960_FEATURE_MICROPHONE1;
       break;
@@ -859,7 +855,7 @@ public:
     p_pins = &pins;
     int vol = map(volume, 0, 100, DEFAULT_VOLMIN, DEFAULT_VOLMAX);
     uint32_t freq = codecCfg.getRateNumeric();
-    uint16_t outputDevice = getOutput(codec_cfg.dac_output);
+    uint16_t outputDevice = getOutput(codec_cfg.output_device);
 
     auto i2c = pins.getI2CPins(CODEC);
     if (!i2c) {
@@ -894,8 +890,8 @@ protected:
     return cnt == 0;
   }
 
-  uint16_t getOutput(dac_output_t dac_output) {
-    switch (dac_output) {
+  uint16_t getOutput(output_device_t output_device) {
+    switch (output_device) {
     case DAC_OUTPUT_NONE:
       return 0;
     case DAC_OUTPUT_LINE1:
@@ -918,9 +914,9 @@ class AudioDriverLyratMiniClass : public AudioDriver {
 public:
   bool begin(CodecConfig codecCfg, DriverPins &pins) {
     int rc = 0;
-    if (codecCfg.dac_output != DAC_OUTPUT_NONE)
+    if (codecCfg.output_device != DAC_OUTPUT_NONE)
       rc += !dac.begin(codecCfg, pins);
-    if (codecCfg.adc_input != ADC_INPUT_NONE)
+    if (codecCfg.input_device != ADC_INPUT_NONE)
       rc += !adc.begin(codecCfg, pins);
     return rc == 0;
   }

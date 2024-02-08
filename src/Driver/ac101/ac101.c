@@ -73,10 +73,10 @@ void set_codec_clk(samplerate_t sampledata)
 	ac101_write_reg(I2S_SR_CTRL, sample_fre);
 }
 
-/// Determines the value for the SRC register based on the selected adc_input
-uint16_t get_src_value(adc_input_t adc_input){
+/// Determines the value for the SRC register based on the selected input_device
+uint16_t get_src_value(input_device_t input_device){
 	uint16_t src_value = 0;
-	switch(adc_input){
+	switch(input_device){
 		// microphone
 		case ADC_INPUT_LINE1:
 			src_value = 0x2020;
@@ -133,7 +133,7 @@ error_t ac101_init(codec_config_t *codec_cfg)
 
 	res |= ac101_write_reg(ADC_SRCBST_CTRL, 0xccc4);
 
-	res |= ac101_write_reg(ADC_SRC, get_src_value(codec_cfg->adc_input));
+	res |= ac101_write_reg(ADC_SRC, get_src_value(codec_cfg->input_device));
 	res |= ac101_write_reg(ADC_DIG_CTRL, 0x8000);
 	res |= ac101_write_reg(ADC_APC_CTRL, 0xbbc3);
 

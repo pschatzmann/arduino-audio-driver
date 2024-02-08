@@ -7,6 +7,13 @@
  * @defgroup enumerations Public enumeration types
  */
 
+// To increase the max volume e.g. for ai_thinker (ES8388) 2957 or A202 -> set to 1 or 2
+// 0 AUX volume is LINE level
+// 1 you can control the AUX volume with setVolume()
+#ifndef AI_THINKER_ES8388_VOLUME_HACK
+#  define AI_THINKER_ES8388_VOLUME_HACK 1
+#endif
+
 // Default volume at startup
 #ifndef DRIVER_DEFAULT_VOLUME
 #  define DRIVER_DEFAULT_VOLUME 70
@@ -53,7 +60,7 @@ enum PinFunctionEnum {
 
 
 /**
- * @enum adc_input_t
+ * @enum input_device_t
  * @brief Select adc channel for input mic signal
  * @ingroup enumerations
  * @ingroup audio_driver
@@ -65,10 +72,10 @@ typedef enum {
   ADC_INPUT_LINE3,       /*!< mic input to adc channel 3 */
   ADC_INPUT_ALL,         /*!< mic input to both channels of adc */
   ADC_INPUT_DIFFERENCE,  /*!< mic input to adc difference channel */
-} adc_input_t;
+} input_device_t;
 
 /**
- * @enum dac_output_t
+ * @enum output_device_t
  * @brief Select channel for dac output
  * @ingroup enumerations
  * @ingroup audio_driver
@@ -78,7 +85,7 @@ typedef enum {
   DAC_OUTPUT_LINE1,       /*!< dac output signal to channel 1 */
   DAC_OUTPUT_LINE2,       /*!< dac output signal to channel 2 */
   DAC_OUTPUT_ALL,         /*!< dac output signal to both channels */
-} dac_output_t;
+} output_device_t;
 
 /**
  * @enum i2s_mode_t
@@ -189,8 +196,8 @@ typedef struct {
  * @brief Configure media hal for initialization of audio codec chip
  */
 typedef struct {
-  adc_input_t adc_input;   /*!< set adc channel */
-  dac_output_t dac_output; /*!< set dac channel */
+  input_device_t input_device;   /*!< set adc channel */
+  output_device_t output_device; /*!< set dac channel */
   I2SDefinition i2s;   /*!< set I2S interface configuration */
 } codec_config_t;
 

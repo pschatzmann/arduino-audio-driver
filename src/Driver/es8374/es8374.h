@@ -175,7 +175,7 @@ error_t es8374_set_mic_gain(es_mic_gain_t gain);
  *     - RESULT_FAIL Parameter error
  *     - RESULT_OK   Success
  */
-error_t es8374_config_adc_input(es_adc_input_t input);
+error_t es8374_config_input_device(es_input_device_t input);
 
 /**
  * @brief Set ES8374 DAC output mode
@@ -186,7 +186,7 @@ error_t es8374_config_adc_input(es_adc_input_t input);
  *     - RESULT_FAIL Parameter error
  *     - RESULT_OK   Success
  */
-error_t es8374_config_dac_output(es_dac_output_t output);
+error_t es8374_config_output_device(es_output_device_t output);
 
 /**
  * @brief Write ES8374 register

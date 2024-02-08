@@ -10,7 +10,7 @@ typedef enum {
     _DAC_OUTPUT_ROUT2 = 0x20,
     _DAC_OUTPUT_ALL = 0x3c,
     _DAC_OUTPUT_MAX,
-} es_dac_output_t;
+} es_output_device_t;
 
 typedef enum {
     _ADC_INPUT_MIN = -1,
@@ -20,7 +20,7 @@ typedef enum {
     _ADC_INPUT_LINPUT2_RINPUT2 = 0x50,
     _ADC_INPUT_DIFFERENCE = 0xf0,
     _ADC_INPUT_MAX,
-} es_adc_input_t;
+} es_input_device_t;
 
 
 typedef enum {
