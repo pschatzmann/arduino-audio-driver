@@ -550,7 +550,6 @@ typedef enum
     WM8960_MODE_SLAVE  = WM8960_AUDIO_INTF0_MS_SLAVE    /**< Slave mode */
 } mtb_wm8960_mode_t;
 
-#ifdef ARDUINO
 
 /**
  * @brief Provide an alternative initialized Wire object. If this is not called we
@@ -561,9 +560,8 @@ typedef enum
  * @return true 
  * @return false 
  */
-bool mtb_wm8960_set_wire(TwoWire* i2c_inst);
+bool mtb_wm8960_set_wire(void* i2c_inst);
 
-#endif
 
 /**
  * @brief Defines the number of times we retry to update a register value via I2C.

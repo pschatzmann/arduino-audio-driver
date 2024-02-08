@@ -678,25 +678,40 @@ public:
     mtb_wm8960_free();
     return true;
   }
+
   bool setMute(bool enable) { return setVolume(enable ? 0 : volume_out); }
+
   /// Defines the Volume (in %) if volume is 0, mute is enabled,range is 0-100.
   bool setVolume(int volume) {
     setOutputVolume(volume);
     return true;
   };
   int getVolume() { return volume_out; }
+
   bool setInputVolume(int volume) {
     adjustInputVolume(volume);
     return true;
   }
   bool isVolumeSupported() { return true; }
+
   bool isInputVolumeSupported() { return true; }
 
+  /// Configuration: define retry count (default : 0)
+  void setI2CRetryCount(int cnt) { i2c_retry_count = cnt; }
+
+  /// Configuration: enable/diable PLL (active by default)
+  void setEnablePLL(bool active) { vs1053_enable_pll = active; }
+
+  /// Configuration: define master clock frequency (default: 0)
+  void setMclkHz(uint32_t hz ){
+    vs1053_mclk_hz = hz;
+  }
+
 protected:
-  int volume_in;
-  int volume_out;
-  int i2c_retry_count = 5;
-  int vs1053_mclk_hz = 0;
+  int volume_in = 100;
+  int volume_out = 100;
+  int i2c_retry_count = 0;
+  uint32_t vs1053_mclk_hz = 0;
   bool vs1053_enable_pll = true;
 
   void adjustInputVolume(int vol) {
@@ -751,7 +766,8 @@ protected:
       vs1053_mclk_hz = 512 * codec_cfg.getRateNumeric();
     }
     if (!mtb_wm8960_configure_clocking(
-            vs1053_mclk_hz, vs1053_enable_pll, sampleRate(codec_cfg.getRateNumeric()),
+            vs1053_mclk_hz, vs1053_enable_pll,
+            sampleRate(codec_cfg.getRateNumeric()),
             wordLength(codec_cfg.getBitsNumeric()),
             modeMasterSlave(codec_cfg.i2s.mode == MODE_MASTER))) {
       AD_LOGE("mtb_wm8960_configure_clocking");
