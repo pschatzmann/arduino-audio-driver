@@ -155,11 +155,11 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:gad4b0ae616e0ce2bdb666f8e75ab686b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select I2S interface format for audio codec chip.  <a href="group__enumerations.html#gad4b0ae616e0ce2bdb666f8e75ab686b2">More...</a><br /></td></tr>
 <tr class="separator:gad4b0ae616e0ce2bdb666f8e75ab686b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gacad3e5bee8b5bde941b18e4e244f7127"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__enumerations.html#gacad3e5bee8b5bde941b18e4e244f7127">i2s_mode_t</a> { <a class="el" href="group__enumerations.html#gacad3e5bee8b5bde941b18e4e244f7127a56670f46c5fa5bad99f7205d77a978e1">MODE_SLAVE</a> = 0x00
-, <a class="el" href="group__enumerations.html#gacad3e5bee8b5bde941b18e4e244f7127a3a9543e231d74dbeceb3bcb1d71bc95c">MODE_MASTER</a> = 0x01
+<tr class="memitem:gadebb589e2ab53e2443229481d9047b47"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__enumerations.html#gadebb589e2ab53e2443229481d9047b47">i2s_master_slave_t</a> { <a class="el" href="group__enumerations.html#gadebb589e2ab53e2443229481d9047b47a56670f46c5fa5bad99f7205d77a978e1">MODE_SLAVE</a> = 0x00
+, <a class="el" href="group__enumerations.html#gadebb589e2ab53e2443229481d9047b47a3a9543e231d74dbeceb3bcb1d71bc95c">MODE_MASTER</a> = 0x01
  }</td></tr>
-<tr class="memdesc:gacad3e5bee8b5bde941b18e4e244f7127"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select I2S interface operating mode i.e. master or slave for audio codec chip.  <a href="group__enumerations.html#gacad3e5bee8b5bde941b18e4e244f7127">More...</a><br /></td></tr>
-<tr class="separator:gacad3e5bee8b5bde941b18e4e244f7127"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:gadebb589e2ab53e2443229481d9047b47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select I2S interface operating mode i.e. master or slave for audio codec chip.  <a href="group__enumerations.html#gadebb589e2ab53e2443229481d9047b47">More...</a><br /></td></tr>
+<tr class="separator:gadebb589e2ab53e2443229481d9047b47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga57493d56aec72d0d539dced15a738c50"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga57493d56aec72d0d539dced15a738c50">input_device_t</a> { <br />
 &#160;&#160;<a class="el" href="group__audio__driver.html#ga57493d56aec72d0d539dced15a738c50a8fe55a6d1ba4245831483d4f3f3763ec">ADC_INPUT_NONE</a> = 0x00
 , <a class="el" href="group__audio__driver.html#ga57493d56aec72d0d539dced15a738c50ac054fb9ae14a618d0425ded7f7f17bed">ADC_INPUT_LINE1</a>
@@ -179,22 +179,6 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:ga9144c83baaa7ebeaaecb236f9e21d264"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select channel for dac output.  <a href="group__audio__driver.html#ga9144c83baaa7ebeaaecb236f9e21d264">More...</a><br /></td></tr>
 <tr class="separator:ga9144c83baaa7ebeaaecb236f9e21d264"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga51b3e3c8b963c44ee453d086e36fbc2d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2d">PinFunctionEnum</a> { <br />
-&#160;&#160;<a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2dab0f2e2f80cf61b263b22dfde0b337d70">HEADPHONE_DETECT</a>
-, <a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2da87598811c2d981e1b55904f10effed42">AUXIN_DETECT</a>
-, <a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2dae3d8a811f3bf7196f361be4104db68db">PA</a>
-, <a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2da21447137d62c46e603b924d455e8cd12">LED</a>
-, <br />
-&#160;&#160;<a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2da147e71049e3285d642d0d5268dba260f">KEY</a>
-, <a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2da8268cafd51299d814aba050e5f54f1ac">SD</a>
-, <a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2da3b1d027ef0c7749664aa744ad5e4f937">CODEC</a>
-, <a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2da32e994791066897c30f89f1083508f62">CODEC_ADC</a>
-, <br />
-&#160;&#160;<a class="el" href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2daee7b2ca70c11e0f499ee23eaf8feac88">MCLK_SOURCE</a>
-<br />
- }</td></tr>
-<tr class="memdesc:ga51b3e3c8b963c44ee453d086e36fbc2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pin Functions.  <a href="group__audio__driver.html#ga51b3e3c8b963c44ee453d086e36fbc2d">More...</a><br /></td></tr>
-<tr class="separator:ga51b3e3c8b963c44ee453d086e36fbc2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga69c4b817c522e31496b9b6b6cda2926d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__enumerations.html#ga69c4b817c522e31496b9b6b6cda2926d">sample_bits_t</a> { <br />
 &#160;&#160;<a class="el" href="group__enumerations.html#ga69c4b817c522e31496b9b6b6cda2926dadc61a4f3bf3ca7c35ea63e10bc5e2c76">BIT_LENGTH_MIN</a> = -1
 , <a class="el" href="group__enumerations.html#ga69c4b817c522e31496b9b6b6cda2926dae4d6b453890e812628bfbf9a28936377">BIT_LENGTH_16BITS</a> = 0x03

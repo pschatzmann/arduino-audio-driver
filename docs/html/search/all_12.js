@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['wordlength_318',['wordLength',['../classaudio__driver_1_1_audio_driver_w_m8960_class.html#a3ac8404aa88c0fbb927d1704059b94c2',1,'audio_driver::AudioDriverWM8960Class']]],
-  ['ws_319',['ws',['../structaudio__driver_1_1_pins_i2_s.html#ac32cdca204c897f8cfdba3e0017b9b82',1,'audio_driver::PinsI2S']]]
+  ['wordlength_324',['wordLength',['../classaudio__driver_1_1_audio_driver_w_m8960_class.html#a3ac8404aa88c0fbb927d1704059b94c2',1,'audio_driver::AudioDriverWM8960Class']]],
+  ['ws_325',['ws',['../structaudio__driver_1_1_pins_i2_s.html#a0e25036823a3287fa16f299cb6295873',1,'audio_driver::PinsI2S']]]
 ];

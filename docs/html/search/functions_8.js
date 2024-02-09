@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['modemasterslave_423',['modeMasterSlave',['../classaudio__driver_1_1_audio_driver_w_m8960_class.html#a057bd9823253d287868d869ed21ca3ad',1,'audio_driver::AudioDriverWM8960Class']]]
+  ['limitvalue_430',['limitValue',['../classaudio__driver_1_1_audio_driver.html#a8895270f5503019b98f5c4df036754b4',1,'audio_driver::AudioDriver']]]
 ];

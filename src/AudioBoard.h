@@ -56,17 +56,21 @@ protected:
 
 // -- Boards
 /// @ingroup audio_driver
-static AudioBoard AudioKitEs8388V1{&AudioDriverES8388, PinsAudioKitEs8388v1};
+static AudioBoard AudioKitEs8388V1{AudioDriverES8388, PinsAudioKitEs8388v1};
 /// @ingroup audio_driver
-static AudioBoard AudioKitEs8388V2{&AudioDriverES8388, PinsAudioKitEs8388v2};
+static AudioBoard AudioKitEs8388V2{AudioDriverES8388, PinsAudioKitEs8388v2};
 /// @ingroup audio_driver
-static AudioBoard AudioKitAC101{&AudioDriverAC101, PinsAudioKitAC101};
+static AudioBoard AudioKitAC101{AudioDriverAC101, PinsAudioKitAC101};
 /// @ingroup audio_driver
-static AudioBoard LyratV43{&AudioDriverES8388, PinsLyrat43};
+static AudioBoard LyratV43{AudioDriverES8388, PinsLyrat43};
 /// @ingroup audio_driver
-static AudioBoard LyratV42{&AudioDriverES8388, PinsLyrat42};
+static AudioBoard LyratV42{AudioDriverES8388, PinsLyrat42};
 /// @ingroup audio_driver
-static AudioBoard LyratMini{&AudioDriverLyratMini, PinsLyratMini};
+static AudioBoard LyratMini{AudioDriverLyratMini, PinsLyratMini};
+/// @ingroup audio_driver
+static AudioBoard NoBoard{NoDriver, NoPins};
+/// @ingroup audio_driver
+static AudioBoard GenericWM8960{AudioDriverWM8960, NoPins};
 
 
 }

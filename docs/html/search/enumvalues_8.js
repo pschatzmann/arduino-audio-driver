@@ -1,17 +1,17 @@
 var searchData=
 [
-  ['mclk_5fsource_618',['MCLK_SOURCE',['../_common_8h.html#ga51b3e3c8b963c44ee453d086e36fbc2daee7b2ca70c11e0f499ee23eaf8feac88',1,'Common.h']]],
-  ['mic_5fgain_5f0db_619',['MIC_GAIN_0DB',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1a44589f8247f04887c306432df8a86049',1,'Common.h']]],
-  ['mic_5fgain_5f12db_620',['MIC_GAIN_12DB',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1aac5d753f722c1efce8e2d76002143c4d',1,'Common.h']]],
-  ['mic_5fgain_5f15db_621',['MIC_GAIN_15DB',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1a08a9bf3d23d135d4e85f03e198e1c005',1,'Common.h']]],
-  ['mic_5fgain_5f18db_622',['MIC_GAIN_18DB',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1ac039cad318ebaf20edec4ab8105a6ede',1,'Common.h']]],
-  ['mic_5fgain_5f21db_623',['MIC_GAIN_21DB',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1ae69a8a09d15387b72842cc72d1590e78',1,'Common.h']]],
-  ['mic_5fgain_5f24db_624',['MIC_GAIN_24DB',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1a403715f5d3e58d8a2bf28a6a5fc5cbfb',1,'Common.h']]],
-  ['mic_5fgain_5f3db_625',['MIC_GAIN_3DB',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1afe511acf91423b954d1f6cad90682809',1,'Common.h']]],
-  ['mic_5fgain_5f6db_626',['MIC_GAIN_6DB',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1a1fe1c54eb344f0f7a80272ce2f24cb44',1,'Common.h']]],
-  ['mic_5fgain_5f9db_627',['MIC_GAIN_9DB',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1a3132f2959b8d99581690ecb1adf62bd2',1,'Common.h']]],
-  ['mic_5fgain_5fmax_628',['MIC_GAIN_MAX',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1a408342d4f4c39fc3bfbda1b3b8255f03',1,'Common.h']]],
-  ['mic_5fgain_5fmin_629',['MIC_GAIN_MIN',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1a0ef18eaa1ac7a84aa37b76d03541e1c9',1,'Common.h']]],
-  ['mode_5fmaster_630',['MODE_MASTER',['../_common_8h.html#gacad3e5bee8b5bde941b18e4e244f7127a3a9543e231d74dbeceb3bcb1d71bc95c',1,'Common.h']]],
-  ['mode_5fslave_631',['MODE_SLAVE',['../_common_8h.html#gacad3e5bee8b5bde941b18e4e244f7127a56670f46c5fa5bad99f7205d77a978e1',1,'Common.h']]]
+  ['mclk_5fsource_629',['MCLK_SOURCE',['../namespaceaudio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa0301a754913dd38062217d6b511a1696',1,'audio_driver']]],
+  ['mic_5fgain_5f0db_630',['MIC_GAIN_0DB',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1a44589f8247f04887c306432df8a86049',1,'Common.h']]],
+  ['mic_5fgain_5f12db_631',['MIC_GAIN_12DB',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1aac5d753f722c1efce8e2d76002143c4d',1,'Common.h']]],
+  ['mic_5fgain_5f15db_632',['MIC_GAIN_15DB',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1a08a9bf3d23d135d4e85f03e198e1c005',1,'Common.h']]],
+  ['mic_5fgain_5f18db_633',['MIC_GAIN_18DB',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1ac039cad318ebaf20edec4ab8105a6ede',1,'Common.h']]],
+  ['mic_5fgain_5f21db_634',['MIC_GAIN_21DB',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1ae69a8a09d15387b72842cc72d1590e78',1,'Common.h']]],
+  ['mic_5fgain_5f24db_635',['MIC_GAIN_24DB',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1a403715f5d3e58d8a2bf28a6a5fc5cbfb',1,'Common.h']]],
+  ['mic_5fgain_5f3db_636',['MIC_GAIN_3DB',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1afe511acf91423b954d1f6cad90682809',1,'Common.h']]],
+  ['mic_5fgain_5f6db_637',['MIC_GAIN_6DB',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1a1fe1c54eb344f0f7a80272ce2f24cb44',1,'Common.h']]],
+  ['mic_5fgain_5f9db_638',['MIC_GAIN_9DB',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1a3132f2959b8d99581690ecb1adf62bd2',1,'Common.h']]],
+  ['mic_5fgain_5fmax_639',['MIC_GAIN_MAX',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1a408342d4f4c39fc3bfbda1b3b8255f03',1,'Common.h']]],
+  ['mic_5fgain_5fmin_640',['MIC_GAIN_MIN',['../_common_8h.html#gac5dc971b3e58c17abd8b5b946b759fb1a0ef18eaa1ac7a84aa37b76d03541e1c9',1,'Common.h']]],
+  ['mode_5fmaster_641',['MODE_MASTER',['../_common_8h.html#gadebb589e2ab53e2443229481d9047b47a3a9543e231d74dbeceb3bcb1d71bc95c',1,'Common.h']]],
+  ['mode_5fslave_642',['MODE_SLAVE',['../_common_8h.html#gadebb589e2ab53e2443229481d9047b47a56670f46c5fa5bad99f7205d77a978e1',1,'Common.h']]]
 ];

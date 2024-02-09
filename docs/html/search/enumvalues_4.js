@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['headphone_5fdetect_607',['HEADPHONE_DETECT',['../_common_8h.html#ga51b3e3c8b963c44ee453d086e36fbc2dab0f2e2f80cf61b263b22dfde0b337d70',1,'Common.h']]]
+  ['headphone_5fdetect_618',['HEADPHONE_DETECT',['../namespaceaudio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa9decb49b0b8a11118da5ae919a09e766',1,'audio_driver']]]
 ];
