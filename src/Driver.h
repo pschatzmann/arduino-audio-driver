@@ -189,7 +189,7 @@ public:
 
   /// Sets the PA Power pin to active or inactive
   bool setPAPower(bool enable) {
-    Pin pin = pins().getPinID(PinFunction::PA);
+    GpioPin  pin = pins().getPinID(PinFunction::PA);
     if (pin == -1)
       return false;
     AD_LOGI("setPAPower pin %d -> %d", pin, enable);

@@ -10,7 +10,7 @@ namespace audio_driver {
 
 /** @file */
 
-using Pin = int16_t;
+using GpioPin = int16_t;
 
 /**
  * @enum PinLogic
@@ -49,8 +49,8 @@ enum class PinFunction {
  */
 struct PinsI2S {
   PinsI2S() = default;
-  PinsI2S(PinFunction function, Pin mclk, Pin bck, Pin ws, Pin data_out,
-          Pin data_in = -1, int port = 0) {
+  PinsI2S(PinFunction function, GpioPin mclk, GpioPin bck, GpioPin ws, GpioPin data_out,
+          GpioPin data_in = -1, int port = 0) {
     this->function = function;
     this->mclk = mclk;
     this->bck = bck;
@@ -60,11 +60,11 @@ struct PinsI2S {
     this->port = port;
   }
   PinFunction function;
-  Pin mclk;
-  Pin bck;
-  Pin ws;
-  Pin data_out;
-  Pin data_in;
+  GpioPin mclk;
+  GpioPin bck;
+  GpioPin ws;
+  GpioPin data_out;
+  GpioPin data_in;
   int port; // port number
 };
 
@@ -75,7 +75,7 @@ struct PinsI2S {
  */
 struct PinsSPI {
   PinsSPI() = default;
-  PinsSPI(PinFunction function, Pin clk, Pin miso, Pin mosi, Pin cs,
+  PinsSPI(PinFunction function, GpioPin clk, GpioPin miso, GpioPin mosi, GpioPin cs,
           SPIClass &spi = SPI) {
     this->function = function;
     this->clk = clk;
@@ -87,10 +87,10 @@ struct PinsSPI {
 
   PinFunction function;
   SPIClass *p_spi = &SPI;
-  Pin clk = -1;
-  Pin miso = -1;
-  Pin mosi = -1;
-  Pin cs = -1;
+  GpioPin clk = -1;
+  GpioPin miso = -1;
+  GpioPin mosi = -1;
+  GpioPin cs = -1;
   bool set_active = true;
   bool pinsAvailable() { return clk != -1 && miso != -1 && mosi != -1; }
   operator bool() { return pinsAvailable(); }
@@ -142,7 +142,7 @@ PinsSPI ESP32PinsSD{PinFunction::SD, 14, 2, 15, 13, SPI};
  */
 struct PinsI2C {
   PinsI2C() = default;
-  PinsI2C(PinFunction function, Pin scl, Pin sda, int port = -1,
+  PinsI2C(PinFunction function, GpioPin scl, GpioPin sda, int port = -1,
           uint32_t frequency = 100000, TwoWire &wire = Wire) {
     this->function = function;
     this->scl = scl;
@@ -155,8 +155,8 @@ struct PinsI2C {
   PinFunction function;
   uint32_t frequency = 100000;
   int port = -1;
-  Pin scl = -1;
-  Pin sda = -1;
+  GpioPin scl = -1;
+  GpioPin sda = -1;
   bool set_active = true;
   TwoWire *p_wire;
   bool pinsAvailable() { return scl != -1 && sda != -1 && frequency != 0; }
@@ -198,7 +198,7 @@ struct PinsI2C {
  */
 struct PinsFunction {
   PinsFunction() = default;
-  PinsFunction(PinFunction function, Pin pin, PinLogic logic,
+  PinsFunction(PinFunction function, GpioPin pin, PinLogic logic,
                int index = 0) {
     this->function = function;
     this->pin = pin;
@@ -220,20 +220,20 @@ struct PinsFunction {
 class DriverPins {
 public:
   void addI2S(PinsI2S pin) { i2s.push_back(pin); }
-  void addI2S(PinFunction function, Pin mclk, Pin bck, Pin ws, Pin data_out,
-              Pin data_in = -1, int port = 0) {
+  void addI2S(PinFunction function, GpioPin mclk, GpioPin bck, GpioPin ws, GpioPin data_out,
+              GpioPin data_in = -1, int port = 0) {
     PinsI2S pin{function, mclk, bck, ws, data_out, data_in, port};
     addI2S(pin);
   }
   void addSPI(PinsSPI pin) { spi.push_back(pin); }
-  void addSPI(PinFunction function, Pin clk, Pin miso, Pin mosi, Pin cs,
+  void addSPI(PinFunction function, GpioPin clk, GpioPin miso, GpioPin mosi, GpioPin cs,
               SPIClass &spi = SPI) {
     PinsSPI pin(function, clk, miso, mosi, cs, spi);
     addSPI(pin);
   }
 
   void addI2C(PinsI2C pin) { i2c.push_back(pin); }
-  void addI2C(PinFunction function, Pin scl, Pin sda, int port = -1,
+  void addI2C(PinFunction function, GpioPin scl, GpioPin sda, int port = -1,
               uint32_t frequency = 100000, TwoWire &wire = Wire) {
     PinsI2C pin(function, scl, sda, port, frequency);
     addI2C(pin);
@@ -241,7 +241,7 @@ public:
 
   void addPin(PinsFunction pin) { pins.push_back(pin); }
 
-  void addPin(PinFunction function, Pin pinNo, PinLogic logic,
+  void addPin(PinFunction function, GpioPin pinNo, PinLogic logic,
               int index = 0) {
     PinsFunction pin(function, pinNo, logic, index);
     addPin(pin);
@@ -256,7 +256,7 @@ public:
   }
 
   /// Get pin information by pin ID
-  Optional<PinsFunction> getPin(Pin pinId) {
+  Optional<PinsFunction> getPin(GpioPin pinId) {
     for (PinsFunction &pin : pins) {
       if (pin.pin == pinId)
         return pin;
@@ -264,7 +264,7 @@ public:
     return {};
   }
 
-  Pin getPinID(PinFunction function, int pos = 0) {
+  GpioPin getPinID(PinFunction function, int pos = 0) {
     auto pin = getPin(function, pos);
     if (pin)
       return pin.value().pin;
@@ -354,11 +354,19 @@ public:
     }
   }
 
+  /// Defines if SPI for SD should be started (by default true)
   void setSPIActiveForSD(bool active){
     sd_active = active;
   }
+
+  /// Check if SPI for SD should be started automatically
   bool isSPIActiveForSD(){
     return sd_active;
+  }
+
+  /// Returns true if some function pins have been defined
+  bool hasPins(){
+    return !pins.empty();
   }
 
 protected:

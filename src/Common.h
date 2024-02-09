@@ -69,7 +69,7 @@ typedef enum {
 } output_device_t;
 
 /**
- * @enum i2s_mode_t
+ * @enum i2s_master_slave_t
  * @brief Select I2S interface operating mode i.e. master or slave for audio
  * codec chip
  * @ingroup enumerations
@@ -77,7 +77,7 @@ typedef enum {
 typedef enum {
   MODE_SLAVE = 0x00,  /*!< set slave mode */
   MODE_MASTER = 0x01, /*!< set master mode */
-} i2s_mode_t;
+} i2s_master_slave_t;
 
 /**
  * @enum samplerate_t
@@ -164,7 +164,7 @@ typedef enum {
  */
 typedef struct {
   /*!< Audio codec chip mode: if the microcontroller is master the codec must be slave! */
-  i2s_mode_t mode;
+  i2s_master_slave_t mode;
   /*!< I2S interface format */
   i2s_format_t fmt;
   /*!< I2S sample rate in samples per second */
