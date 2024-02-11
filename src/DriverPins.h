@@ -315,7 +315,7 @@ public:
     AD_LOGD("DriverPins::begin");
 
     // setup function pins
-    void setupPinMode();
+    setupPinMode();
 
     // setup spi
     bool result = true;
