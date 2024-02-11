@@ -393,14 +393,14 @@ public:
     addI2S(PinFunction::CODEC, 0, 5, 25, 26, 35);
 
     // add other pins
-    addPin(PinFunction::KEY, 36, PinLogic::Input, 1);
-    addPin(PinFunction::KEY, 39, PinLogic::Input, 2);
-    addPin(PinFunction::KEY, 33, PinLogic::Input, 3);
-    addPin(PinFunction::KEY, 32, PinLogic::Input, 4);
-    addPin(PinFunction::KEY, 13, PinLogic::Input, 5);
-    addPin(PinFunction::KEY, 27, PinLogic::Input, 6);
-    addPin(PinFunction::AUXIN_DETECT, 12, PinLogic::InputActiveHigh);
-    addPin(PinFunction::HEADPHONE_DETECT, 19, PinLogic::InputActiveHigh);
+    addPin(PinFunction::KEY, 36, PinLogic::InputActiveLow, 1);
+    addPin(PinFunction::KEY, 39, PinLogic::InputActiveLow, 2);
+    addPin(PinFunction::KEY, 33, PinLogic::InputActiveLow, 3);
+    addPin(PinFunction::KEY, 32, PinLogic::InputActiveLow, 4);
+    addPin(PinFunction::KEY, 13, PinLogic::InputActiveLow, 5);
+    addPin(PinFunction::KEY, 27, PinLogic::InputActiveLow, 6);
+    addPin(PinFunction::AUXIN_DETECT, 12, PinLogic::InputActiveLow);
+    addPin(PinFunction::HEADPHONE_DETECT, 19, PinLogic::InputActiveLow);
     addPin(PinFunction::PA, 21, PinLogic::Output);
     addPin(PinFunction::LED, 22, PinLogic::Output);
   }
@@ -422,12 +422,12 @@ public:
     addI2S(PinFunction::CODEC, 0, 5, 25, 26, 35);
 
     // add other pins
-    addPin(PinFunction::KEY, 36, PinLogic::Input,1);
-    addPin(PinFunction::KEY, 39, PinLogic::Input,2);
-    addPin(PinFunction::KEY, 33, PinLogic::Input,3);
-    addPin(PinFunction::KEY, 32, PinLogic::Input,4);
-    addPin(PinFunction::KEY, 13, PinLogic::Input,5);
-    addPin(PinFunction::KEY, 27, PinLogic::Input,6);
+    addPin(PinFunction::KEY, 36, PinLogic::InputActiveLow,1);
+    addPin(PinFunction::KEY, 39, PinLogic::InputActiveLow,2);
+    addPin(PinFunction::KEY, 33, PinLogic::InputActiveLow,3);
+    addPin(PinFunction::KEY, 32, PinLogic::InputActiveLow,4);
+    addPin(PinFunction::KEY, 13, PinLogic::InputActiveLow,5);
+    addPin(PinFunction::KEY, 27, PinLogic::InputActiveLow,6);
     addPin(PinFunction::AUXIN_DETECT, 12, PinLogic::InputActiveLow);
     addPin(PinFunction::PA, 21, PinLogic::Output);
     addPin(PinFunction::LED, 22, PinLogic::Output, 1);
@@ -452,11 +452,11 @@ public:
     addI2S(PinFunction::CODEC_ADC, 0, 32, 33, -1, 36, 1);
 
     // add other pins
-    addPin(PinFunction::KEY, 5, PinLogic::Input, 1);
-    addPin(PinFunction::KEY, 4, PinLogic::Input, 2);
-    addPin(PinFunction::KEY, 2, PinLogic::Input, 3);
-    addPin(PinFunction::KEY, 3, PinLogic::Input, 4);
-    addPin(PinFunction::KEY, 1, PinLogic::Input, 5);
+    addPin(PinFunction::KEY, 5, PinLogic::InputActiveLow, 1);
+    addPin(PinFunction::KEY, 4, PinLogic::InputActiveLow, 2);
+    addPin(PinFunction::KEY, 2, PinLogic::InputActiveLow, 3);
+    addPin(PinFunction::KEY, 3, PinLogic::InputActiveLow, 4);
+    addPin(PinFunction::KEY, 1, PinLogic::InputActiveLow, 5);
     //    addPin(PinFunction::KEY, 0, 6};
     addPin(PinFunction::HEADPHONE_DETECT, 19, PinLogic::InputActiveLow);
     addPin(PinFunction::PA, 21, PinLogic::Output);
@@ -482,12 +482,12 @@ public:
     addI2S(PinFunction::CODEC, 0, 27, 25, 26, 35);
 
     // add other pins
-    addPin(PinFunction::KEY, 36, PinLogic::Input, 1);
-    addPin(PinFunction::KEY, 13, PinLogic::Input, 2);
-    addPin(PinFunction::KEY, 19, PinLogic::Input, 3);
-    addPin(PinFunction::KEY, 23, PinLogic::Input, 4);
-    addPin(PinFunction::KEY, 18, PinLogic::Input, 5);
-    addPin(PinFunction::KEY, 5, PinLogic::Input, 6);
+    addPin(PinFunction::KEY, 36, PinLogic::InputActiveLow, 1);
+    addPin(PinFunction::KEY, 13, PinLogic::InputActiveLow, 2);
+    addPin(PinFunction::KEY, 19, PinLogic::InputActiveLow, 3);
+    addPin(PinFunction::KEY, 23, PinLogic::InputActiveLow, 4);
+    addPin(PinFunction::KEY, 18, PinLogic::InputActiveLow, 5);
+    addPin(PinFunction::KEY, 5, PinLogic::InputActiveLow, 6);
     addPin(PinFunction::AUXIN_DETECT, 12, PinLogic::InputActiveLow);
     addPin(PinFunction::HEADPHONE_DETECT, 39, PinLogic::InputActiveLow);
     addPin(PinFunction::PA, 21, PinLogic::Output);
@@ -511,12 +511,12 @@ public:
     addI2S(PinFunction::CODEC, 0, 5, 25, 26, 35);
 
     // add other pins
-    addPin(PinFunction::KEY, 36, PinLogic::Input, 1);
-    addPin(PinFunction::KEY, 13, PinLogic::Input, 2);
-    addPin(PinFunction::KEY, 19, PinLogic::Input, 3);
-    addPin(PinFunction::KEY, 23, PinLogic::Input, 4);
-    addPin(PinFunction::KEY, 18, PinLogic::Input, 5);
-    addPin(PinFunction::KEY, 5, PinLogic::Input, 6);
+    addPin(PinFunction::KEY, 36, PinLogic::InputActiveLow, 1);
+    addPin(PinFunction::KEY, 13, PinLogic::InputActiveLow, 2);
+    addPin(PinFunction::KEY, 19, PinLogic::InputActiveLow, 3);
+    addPin(PinFunction::KEY, 23, PinLogic::InputActiveLow, 4);
+    addPin(PinFunction::KEY, 18, PinLogic::InputActiveLow, 5);
+    addPin(PinFunction::KEY, 5, PinLogic::InputActiveLow, 6);
     addPin(PinFunction::AUXIN_DETECT, 12, PinLogic::InputActiveLow);
     addPin(PinFunction::HEADPHONE_DETECT, 39, PinLogic::InputActiveLow);
     addPin(PinFunction::PA, 21, PinLogic::Output);
@@ -540,12 +540,12 @@ public:
     addI2S(PinFunction::CODEC, 0, 27, 26, 25, 35);
 
     // add other pins
-    addPin(PinFunction::KEY, 36, PinLogic::Input, 1);
-    addPin(PinFunction::KEY, 13, PinLogic::Input, 2);
-    addPin(PinFunction::KEY, 19, PinLogic::Input, 3);
-    addPin(PinFunction::KEY, 23, PinLogic::Input, 4);
-    addPin(PinFunction::KEY, 18, PinLogic::Input, 5);
-    addPin(PinFunction::KEY, 5, PinLogic::Input, 6);
+    addPin(PinFunction::KEY, 36, PinLogic::InputActiveLow, 1);
+    addPin(PinFunction::KEY, 13, PinLogic::InputActiveLow, 2);
+    addPin(PinFunction::KEY, 19, PinLogic::InputActiveLow, 3);
+    addPin(PinFunction::KEY, 23, PinLogic::InputActiveLow, 4);
+    addPin(PinFunction::KEY, 18, PinLogic::InputActiveLow, 5);
+    addPin(PinFunction::KEY, 5, PinLogic::InputActiveLow, 6);
     addPin(PinFunction::LED, 22, PinLogic::Output, 0);
     addPin(PinFunction::LED, 19, PinLogic::Output, 1);
     addPin(PinFunction::HEADPHONE_DETECT, 5, PinLogic::InputActiveLow);
