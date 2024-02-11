@@ -313,34 +313,9 @@ public:
 
   virtual bool begin() {
     AD_LOGD("DriverPins::begin");
-    // setup pins
-    for (auto &tmp : pins) {
-      if (tmp.pin != -1) {
-        if (!hasConflict(tmp.pin)) {
-          AD_LOGD("pinMode %d", tmp.pin);
-          switch (tmp.pin_logic) {
-          case PinLogic::InputActiveHigh:
-            pinMode(tmp.pin, INPUT);
-            break;
-          case PinLogic::InputActiveLow:
-            pinMode(tmp.pin, INPUT_PULLUP);
-            break;
-          case PinLogic::Input:
-            pinMode(tmp.pin, INPUT);
-            break;
-          case PinLogic::Output:
-            pinMode(tmp.pin, OUTPUT);
-            break;
-          default:
-            // do nothing
-            break;
-          }
-        } else {
-          AD_LOGW("Pin '%d' not set up because of conflict", tmp.pin);
-          tmp.active = false;
-        }
-      }
-    }
+
+    // setup function pins
+    void setupPinMode();
 
     // setup spi
     bool result = true;
@@ -385,7 +360,38 @@ protected:
   Vector<PinsFunction> pins{0};
   bool sd_active = true;
 
-  bool hasConflict(int pin){
+  void setupPinMode() {
+    // setup pins
+    for (auto &tmp : pins) {
+      if (tmp.pin != -1) {
+        if (!hasConflict(tmp.pin)) {
+          AD_LOGD("pinMode %d", tmp.pin);
+          switch (tmp.pin_logic) {
+          case PinLogic::InputActiveHigh:
+            pinMode(tmp.pin, INPUT);
+            break;
+          case PinLogic::InputActiveLow:
+            pinMode(tmp.pin, INPUT_PULLUP);
+            break;
+          case PinLogic::Input:
+            pinMode(tmp.pin, INPUT);
+            break;
+          case PinLogic::Output:
+            pinMode(tmp.pin, OUTPUT);
+            break;
+          default:
+            // do nothing
+            break;
+          }
+        } else {
+          AD_LOGW("Pin '%d' not set up because of conflict", tmp.pin);
+          tmp.active = false;
+        }
+      }
+    }
+  }
+
+  bool hasConflict(int pin) {
     return hasSPIConflict(pin) || hasI2CConflict(pin);
   }
 
@@ -402,13 +408,13 @@ protected:
   }
 
   bool hasI2CConflict(int pin) {
-    for(auto &i2c_entry : i2c){
-      if (i2c_entry.scl == pin || i2c_entry.sda == pin){
+    for (auto &i2c_entry : i2c) {
+      if (i2c_entry.scl == pin || i2c_entry.sda == pin) {
         return true;
       }
     }
     return false;
-  }  
+  }
 };
 
 /**
@@ -610,7 +616,7 @@ public:
     addPin(PinFunction::LED, PD14, PinLogic::Output, 3); // red
     addPin(PinFunction::LED, PD15, PinLogic::Output, 4); // blue
     addPin(PinFunction::PA, PD4, PinLogic::Output); // reset pin (active high)
-    //addPin(PinFunction::CODEC_ADC, PC3, PinLogic::Input); // Microphone
+    // addPin(PinFunction::CODEC_ADC, PC3, PinLogic::Input); // Microphone
   }
 };
 
