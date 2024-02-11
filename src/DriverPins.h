@@ -19,7 +19,11 @@ using GpioPin = int16_t;
  */
 
 enum class PinLogic {
-  InputActiveHigh, InputActiveLow, InputActiveTouch, Input, Output,
+  InputActiveHigh,
+  InputActiveLow,
+  InputActiveTouch,
+  Input,
+  Output,
 };
 
 /**
@@ -41,7 +45,6 @@ enum class PinFunction {
   MCLK_SOURCE,
 };
 
-
 /**
  * @brief I2S pins
  * @author Phil Schatzmann
@@ -49,8 +52,8 @@ enum class PinFunction {
  */
 struct PinsI2S {
   PinsI2S() = default;
-  PinsI2S(PinFunction function, GpioPin mclk, GpioPin bck, GpioPin ws, GpioPin data_out,
-          GpioPin data_in = -1, int port = 0) {
+  PinsI2S(PinFunction function, GpioPin mclk, GpioPin bck, GpioPin ws,
+          GpioPin data_out, GpioPin data_in = -1, int port = 0) {
     this->function = function;
     this->mclk = mclk;
     this->bck = bck;
@@ -75,8 +78,8 @@ struct PinsI2S {
  */
 struct PinsSPI {
   PinsSPI() = default;
-  PinsSPI(PinFunction function, GpioPin clk, GpioPin miso, GpioPin mosi, GpioPin cs,
-          SPIClass &spi = SPI) {
+  PinsSPI(PinFunction function, GpioPin clk, GpioPin miso, GpioPin mosi,
+          GpioPin cs, SPIClass &spi = SPI) {
     this->function = function;
     this->clk = clk;
     this->miso = miso;
@@ -108,16 +111,16 @@ struct PinsSPI {
       } else {
 // begin spi and set up pins if supported
 #if defined(ARDUINO_ARCH_STM32)
-        AD_LOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso,
-                         mosi, clk, cs);
+        AD_LOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso, mosi,
+                clk, cs);
         p_spi->setMISO(miso);
         p_spi->setMOSI(mosi);
         p_spi->setSCLK(clk);
         p_spi->setSSEL(cs);
         p_spi->begin();
 #elif defined(ESP32)
-        AD_LOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso,
-                         mosi, clk, cs);
+        AD_LOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso, mosi,
+                clk, cs);
         p_spi->begin(clk, miso, mosi, cs);
 #elif defined(ARDUINO_ARCH_AVR)
         AD_LOGW("setting up SPI w/o pins");
@@ -220,14 +223,14 @@ struct PinsFunction {
 class DriverPins {
 public:
   void addI2S(PinsI2S pin) { i2s.push_back(pin); }
-  void addI2S(PinFunction function, GpioPin mclk, GpioPin bck, GpioPin ws, GpioPin data_out,
-              GpioPin data_in = -1, int port = 0) {
+  void addI2S(PinFunction function, GpioPin mclk, GpioPin bck, GpioPin ws,
+              GpioPin data_out, GpioPin data_in = -1, int port = 0) {
     PinsI2S pin{function, mclk, bck, ws, data_out, data_in, port};
     addI2S(pin);
   }
   void addSPI(PinsSPI pin) { spi.push_back(pin); }
-  void addSPI(PinFunction function, GpioPin clk, GpioPin miso, GpioPin mosi, GpioPin cs,
-              SPIClass &spi = SPI) {
+  void addSPI(PinFunction function, GpioPin clk, GpioPin miso, GpioPin mosi,
+              GpioPin cs, SPIClass &spi = SPI) {
     PinsSPI pin(function, clk, miso, mosi, cs, spi);
     addSPI(pin);
   }
@@ -309,7 +312,7 @@ public:
     // setup spi
     bool result = true;
     for (auto &tmp : spi) {
-      if (tmp.function==PinFunction::SD && sd_active)
+      if (tmp.function == PinFunction::SD && sd_active)
         result &= tmp.begin();
       else
         result &= tmp.begin();
@@ -321,22 +324,26 @@ public:
     // setup pins
     for (auto &tmp : pins) {
       if (tmp.pin != -1) {
-        switch (tmp.pin_logic) {
-        case PinLogic::InputActiveHigh:
-          pinMode(tmp.pin, INPUT);
-          break;
-        case PinLogic::InputActiveLow:
-          pinMode(tmp.pin, INPUT_PULLUP);
-          break;
-        case PinLogic::Input:
-          pinMode(tmp.pin, INPUT);
-          break;
-        case PinLogic::Output:
-          pinMode(tmp.pin, OUTPUT);
-          break;
-        default:
-          // do nothing
-          break;
+        if (!hasConflict(tmp.pin)) {
+          switch (tmp.pin_logic) {
+          case PinLogic::InputActiveHigh:
+            pinMode(tmp.pin, INPUT);
+            break;
+          case PinLogic::InputActiveLow:
+            pinMode(tmp.pin, INPUT_PULLUP);
+            break;
+          case PinLogic::Input:
+            pinMode(tmp.pin, INPUT);
+            break;
+          case PinLogic::Output:
+            pinMode(tmp.pin, OUTPUT);
+            break;
+          default:
+            // do nothing
+            break;
+          }
+        } else {
+          AD_LOGW("Pin '%d' not set up because of conflict", tmp.pin);
         }
       }
     }
@@ -355,19 +362,13 @@ public:
   }
 
   /// Defines if SPI for SD should be started (by default true)
-  void setSPIActiveForSD(bool active){
-    sd_active = active;
-  }
+  void setSPIActiveForSD(bool active) { sd_active = active; }
 
   /// Check if SPI for SD should be started automatically
-  bool isSPIActiveForSD(){
-    return sd_active;
-  }
+  bool isSPIActiveForSD() { return sd_active; }
 
   /// Returns true if some function pins have been defined
-  bool hasPins(){
-    return !pins.empty();
-  }
+  bool hasPins() { return !pins.empty(); }
 
 protected:
   Vector<PinsI2S> i2s{0};
@@ -375,6 +376,18 @@ protected:
   Vector<PinsI2C> i2c{0};
   Vector<PinsFunction> pins{0};
   bool sd_active = true;
+
+  bool hasConflict(int pin) {
+    if (sd_active) {
+      auto sd = getSPIPins(PinFunction::SD);
+      if (!sd)
+        return false;
+      PinsSPI spi = sd.value();
+      return spi.cs == pin || spi.clk == pin || spi.miso == pin ||
+             spi.mosi == pin;
+    }
+    return false;
+  }
 };
 
 /**
@@ -422,12 +435,12 @@ public:
     addI2S(PinFunction::CODEC, 0, 5, 25, 26, 35);
 
     // add other pins
-    addPin(PinFunction::KEY, 36, PinLogic::InputActiveLow,1);
-    addPin(PinFunction::KEY, 39, PinLogic::InputActiveLow,2);
-    addPin(PinFunction::KEY, 33, PinLogic::InputActiveLow,3);
-    addPin(PinFunction::KEY, 32, PinLogic::InputActiveLow,4);
-    addPin(PinFunction::KEY, 13, PinLogic::InputActiveLow,5);
-    addPin(PinFunction::KEY, 27, PinLogic::InputActiveLow,6);
+    addPin(PinFunction::KEY, 36, PinLogic::InputActiveLow, 1);
+    addPin(PinFunction::KEY, 39, PinLogic::InputActiveLow, 2);
+    addPin(PinFunction::KEY, 33, PinLogic::InputActiveLow, 3);
+    addPin(PinFunction::KEY, 32, PinLogic::InputActiveLow, 4);
+    addPin(PinFunction::KEY, 13, PinLogic::InputActiveLow, 5);
+    addPin(PinFunction::KEY, 27, PinLogic::InputActiveLow, 6);
     addPin(PinFunction::AUXIN_DETECT, 12, PinLogic::InputActiveLow);
     addPin(PinFunction::PA, 21, PinLogic::Output);
     addPin(PinFunction::LED, 22, PinLogic::Output, 1);
@@ -549,7 +562,7 @@ public:
     addPin(PinFunction::LED, 22, PinLogic::Output, 0);
     addPin(PinFunction::LED, 19, PinLogic::Output, 1);
     addPin(PinFunction::HEADPHONE_DETECT, 5, PinLogic::InputActiveLow);
-    addPin(PinFunction::PA, 21, PinLogic::Output );
+    addPin(PinFunction::PA, 21, PinLogic::Output);
   }
 };
 
@@ -569,13 +582,13 @@ public:
     addI2S(PinFunction::CODEC, PC7, PC10, PA4, PC3, PC12);
 
     // add other pins
-    addPin(PinFunction::KEY, PA0, PinLogic::Output);      // user button
-    addPin(PinFunction::LED, PD12, PinLogic::Output, 0);  // green
-    addPin(PinFunction::LED, PD5, PinLogic::Output, 1);   // red
-    addPin(PinFunction::LED, PD13, PinLogic::Output, 2);  // orange
-    addPin(PinFunction::LED, PD14, PinLogic::Output, 3);  // red
-    addPin(PinFunction::LED, PD15, PinLogic::Output, 4);  // blue
-    addPin(PinFunction::PA, PD4, PinLogic::Output, );     // reset pin (active high)
+    addPin(PinFunction::KEY, PA0, PinLogic::Output);     // user button
+    addPin(PinFunction::LED, PD12, PinLogic::Output, 0); // green
+    addPin(PinFunction::LED, PD5, PinLogic::Output, 1);  // red
+    addPin(PinFunction::LED, PD13, PinLogic::Output, 2); // orange
+    addPin(PinFunction::LED, PD14, PinLogic::Output, 3); // red
+    addPin(PinFunction::LED, PD15, PinLogic::Output, 4); // blue
+    addPin(PinFunction::PA, PD4, PinLogic::Output, ); // reset pin (active high)
     addPin(PinFunction::CODEC_ADC, PC3, PinLogic::Input); // Microphone
   }
 } PinsSTM32F411Disco;
