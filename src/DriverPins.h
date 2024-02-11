@@ -566,7 +566,7 @@ public:
   }
 };
 
-#if defined(ARDUINO_ARCH_STM32)
+#if defined(ARDUINO_GENERIC_F411VETX)
 
 /**
  * @brief Pins for alt AC101 AudioDriver - use the PinsAudioKitAC101 object!
@@ -588,10 +588,12 @@ public:
     addPin(PinFunction::LED, PD13, PinLogic::Output, 2); // orange
     addPin(PinFunction::LED, PD14, PinLogic::Output, 3); // red
     addPin(PinFunction::LED, PD15, PinLogic::Output, 4); // blue
-    addPin(PinFunction::PA, PD4, PinLogic::Output, ); // reset pin (active high)
+    addPin(PinFunction::PA, PD4, PinLogic::Output); // reset pin (active high)
     addPin(PinFunction::CODEC_ADC, PC3, PinLogic::Input); // Microphone
   }
-} PinsSTM32F411Disco;
+};
+
+static PinsSTM32F411DiscoClass PinsSTM32F411Disco;
 
 #endif
 
