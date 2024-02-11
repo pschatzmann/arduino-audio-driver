@@ -214,6 +214,7 @@ struct PinsFunction {
   int pin = -1;
   int index = 0;
   PinLogic pin_logic;
+  bool active = true; // false if pin conflict
 };
 
 /**
@@ -312,18 +313,6 @@ public:
 
   virtual bool begin() {
     AD_LOGD("DriverPins::begin");
-    // setup spi
-    bool result = true;
-    for (auto &tmp : spi) {
-      if (tmp.function == PinFunction::SD && sd_active)
-        result &= tmp.begin();
-      else
-        result &= tmp.begin();
-    }
-    // setup i2c
-    for (auto &tmp : i2c) {
-      result &= tmp.begin();
-    }
     // setup pins
     for (auto &tmp : pins) {
       if (tmp.pin != -1) {
@@ -348,8 +337,23 @@ public:
           }
         } else {
           AD_LOGW("Pin '%d' not set up because of conflict", tmp.pin);
+          tmp.active = false;
         }
       }
+    }
+
+    // setup spi
+    bool result = true;
+    for (auto &tmp : spi) {
+      if (tmp.function == PinFunction::SD && sd_active)
+        result &= tmp.begin();
+      else
+        result &= tmp.begin();
+    }
+
+    // setup i2c
+    for (auto &tmp : i2c) {
+      result &= tmp.begin();
     }
     return result;
   }
@@ -381,7 +385,11 @@ protected:
   Vector<PinsFunction> pins{0};
   bool sd_active = true;
 
-  bool hasConflict(int pin) {
+  bool hasConflict(int pin){
+    return hasSPIConflict(pin) || hasI2CConflict(pin);
+  }
+
+  bool hasSPIConflict(int pin) {
     if (sd_active) {
       auto sd = getSPIPins(PinFunction::SD);
       if (!sd)
@@ -392,6 +400,15 @@ protected:
     }
     return false;
   }
+
+  bool hasI2CConflict(int pin) {
+    for(auto &i2c_entry : i2c){
+      if (i2c_entry.scl == pin || i2c_entry.sda == pin){
+        return true;
+      }
+    }
+    return false;
+  }  
 };
 
 /**
