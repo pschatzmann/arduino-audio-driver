@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['mclk_524',['mclk',['../structaudio__driver_1_1_pins_i2_s.html#a486e08135f1b6b249eae9b03d61cfc00',1,'audio_driver::PinsI2S']]],
-  ['miso_525',['miso',['../structaudio__driver_1_1_pins_s_p_i.html#a29fd5c1d00d342ec405d6dfecf250668',1,'audio_driver::PinsSPI']]],
-  ['mode_526',['mode',['../struct_i2_s_definition.html#a731aa742741cbc874dd94197e84af5a2',1,'I2SDefinition']]],
-  ['mosi_527',['mosi',['../structaudio__driver_1_1_pins_s_p_i.html#ab2945569017e6be201a5bfe45de12610',1,'audio_driver::PinsSPI']]]
+  ['len_528',['len',['../classaudio__driver_1_1_vector.html#afed088663f8704004425cdae2120b9b3',1,'audio_driver::Vector']]],
+  ['loglevel_5faudiodriver_529',['LOGLEVEL_AUDIODRIVER',['../_logger_8c.html#a945fe534307abe9fa66afdb4f6476543',1,'LOGLEVEL_AUDIODRIVER():&#160;Logger.c'],['../_logger_8h.html#a945fe534307abe9fa66afdb4f6476543',1,'LOGLEVEL_AUDIODRIVER():&#160;Logger.c']]],
+  ['lyratmini_530',['LyratMini',['../group__audio__driver.html#gad1d9b3159991732b6af524c6c8e592f2',1,'audio_driver']]],
+  ['lyratv42_531',['LyratV42',['../group__audio__driver.html#ga98fa8fe4385c4198150679fddade5eef',1,'audio_driver']]],
+  ['lyratv43_532',['LyratV43',['../group__audio__driver.html#ga0ffdf5c889c7a240e72df4ce7e323478',1,'audio_driver']]]
 ];

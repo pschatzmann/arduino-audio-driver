@@ -221,6 +221,29 @@ protected:
 };
 
 /**
+ * @brief Dummy Driver which does nothing.
+ * @ingroup audio_driver
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class NoDriverClass : public AudioDriver {
+public:
+  virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
+    codec_cfg = codecCfg;
+    p_pins = &pins;
+    return true;
+  }
+  virtual bool end(void) { return true; }
+  virtual bool setMute(bool enable) { return false;}
+  virtual bool setVolume(int volume) { return false;}
+  virtual int getVolume() { return 100;}
+  virtual bool setInputVolume(int volume) { return false; }
+  virtual bool isVolumeSupported() { { return false;} }
+  virtual bool isInputVolumeSupported() { return false; }
+};
+
+
+/**
  * @brief Driver API for AC101 codec chip
  * @author Phil Schatzmann
  * @copyright GPLv3
@@ -964,5 +987,7 @@ static AudioDriverWM8960Class AudioDriverWM8960;
 static AudioDriverWM8994Class AudioDriverWM8994;
 /// @ingroup audio_driver
 static AudioDriverLyratMiniClass AudioDriverLyratMini;
+/// @ingroup audio_driver
+static NoDriverClass NoDriver;
 
 } // namespace audio_driver
