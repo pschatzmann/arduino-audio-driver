@@ -11,13 +11,13 @@ error_t i2c_bus_write_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
       addr, reglen, datalen, reg[0], data[0]);
   TwoWire *p_wire = (TwoWire *)bus;
   assert(p_wire!=nullptr);
-  assert(reglen == 1);
-  assert(datalen == 1);
+  //assert(reglen == 1);
+  //assert(datalen == 1);
 
   int result = RESULT_OK;
   p_wire->beginTransmission(addr >> 1);
-  p_wire->write(reg[0]);
-  p_wire->write(data[0]);
+  p_wire->write(reg, reglen);
+  p_wire->write(data, datalen);
   int rc = p_wire->endTransmission(I2C_END);
   if (rc != 0) {
     AD_LOGE("->p_wire->endTransmission: %d", rc);

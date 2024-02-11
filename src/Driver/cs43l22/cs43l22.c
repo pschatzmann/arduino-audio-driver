@@ -130,9 +130,10 @@ static uint8_t CODEC_IO_Write(uint8_t Addr, uint8_t Reg, uint8_t Value);
   * @param Volume: Initial volume level (from 0 (Mute) to 100 (Max))
   * @retval 0 if correct communication, else wrong communication
   */
-uint32_t cs43l22_Init(uint16_t DeviceAddr, uint16_t OutputDevice, uint8_t Volume, uint32_t AudioFreq)
+uint32_t cs43l22_Init(uint16_t DeviceAddr, uint16_t OutputDevice, uint8_t Volume, uint32_t AudioFreq, i2c_bus_handle_t handle)
 {
   uint32_t counter = 0;
+  i2c_handle = handle;
   
   /* Initialize the Control interface of the Audio Codec */
   AUDIO_IO_Init();     
@@ -474,11 +475,6 @@ static uint8_t CODEC_IO_Write(uint8_t Addr, uint8_t Reg, uint8_t Value)
   return result;
 }
 
-
-// I2C Integration
-void cs43l22_set_i2c_handle(i2c_bus_handle_t handle){
-  i2c_handle = handle;
-}
 void      AUDIO_IO_Init(void) {}
 void      AUDIO_IO_DeInit(void) {}
 void      AUDIO_IO_Write(uint8_t addr, uint16_t reg, uint8_t value) {

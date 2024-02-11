@@ -24,7 +24,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+void logStr(const char* msg);
 #ifndef ARDUINO
 void pinMode(int, int);
 void digitalWrite(int, int);

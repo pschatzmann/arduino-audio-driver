@@ -23,6 +23,7 @@ public:
   }
 
   bool begin(){
+    AD_LOGD("AudioBoard::begin");
     bool result = pins.begin() && driver->begin(codec_cfg, pins);
     setVolume(DRIVER_DEFAULT_VOLUME);
     return result;
@@ -71,6 +72,8 @@ static AudioBoard LyratMini{AudioDriverLyratMini, PinsLyratMini};
 static AudioBoard NoBoard{NoDriver, NoPins};
 /// @ingroup audio_driver
 static AudioBoard GenericWM8960{AudioDriverWM8960, NoPins};
+/// @ingroup audio_driver
+static AudioBoard GenericCS43l22{AudioDriverCS43l22, NoPins};
 #if defined(ARDUINO_GENERIC_F411VETX)
 /// @ingroup audio_driver
 static AudioBoard STM32F411Disco{AudioDriverCS43l22, PinsSTM32F411Disco};

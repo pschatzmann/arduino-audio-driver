@@ -99,6 +99,7 @@ struct PinsSPI {
   operator bool() { return pinsAvailable(); }
   bool begin() {
     if (set_active) {
+      AD_LOGD("PinsSPI::begin for %d", function);
       // setup chip select
       if (cs != -1) {
         pinMode(cs, OUTPUT);
@@ -167,6 +168,7 @@ struct PinsI2C {
 
   bool begin() {
     if (set_active) {
+      AD_LOGD("PinsI2C::begin for %d", function);
       // if no pins are defined, just call begin
       if (!pinsAvailable()) {
         AD_LOGI("setting up I2C w/o pins");
@@ -309,6 +311,7 @@ public:
   }
 
   virtual bool begin() {
+    AD_LOGD("DriverPins::begin");
     // setup spi
     bool result = true;
     for (auto &tmp : spi) {
@@ -325,6 +328,7 @@ public:
     for (auto &tmp : pins) {
       if (tmp.pin != -1) {
         if (!hasConflict(tmp.pin)) {
+          AD_LOGD("pinMode %d", tmp.pin);
           switch (tmp.pin_logic) {
           case PinLogic::InputActiveHigh:
             pinMode(tmp.pin, INPUT);
@@ -589,7 +593,7 @@ public:
     addPin(PinFunction::LED, PD14, PinLogic::Output, 3); // red
     addPin(PinFunction::LED, PD15, PinLogic::Output, 4); // blue
     addPin(PinFunction::PA, PD4, PinLogic::Output); // reset pin (active high)
-    addPin(PinFunction::CODEC_ADC, PC3, PinLogic::Input); // Microphone
+    //addPin(PinFunction::CODEC_ADC, PC3, PinLogic::Input); // Microphone
   }
 };
 

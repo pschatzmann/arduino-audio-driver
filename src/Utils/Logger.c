@@ -1,9 +1,10 @@
 #include "Utils/Logger.h"
+#include "Utils/etc.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdarg.h>
 
-
+// Default log level is warning
 int LOGLEVEL_AUDIODRIVER = AudioDriverWarning;
 
 void AD_LOGD(const char* fmr, ...) {
@@ -12,10 +13,10 @@ void AD_LOGD(const char* fmr, ...) {
     strcpy(log_buffer, "Debug:   ");
     va_list arg;
     va_start(arg, fmr);
-    vsprintf(log_buffer+9, fmr, arg);
+    vsnprintf(log_buffer+9, AD_LOGLENGTH-9, fmr, arg);
     va_end(arg);
-    strcat(log_buffer, "\n");
-    printf("%s",log_buffer);
+    // strcat(log_buffer, "\n");
+    logStr(log_buffer);
   }
 }
 
@@ -25,7 +26,7 @@ void AD_LOGI(const char* fmr, ...) {
     strcpy(log_buffer, "Info:    ");
     va_list arg;
     va_start(arg, fmr);
-    vsprintf(log_buffer+9, fmr, arg);
+    vsnprintf(log_buffer+9,AD_LOGLENGTH-9, fmr, arg);
     va_end(arg);
     strcat(log_buffer, "\n");
     printf("%s",log_buffer);
@@ -38,7 +39,7 @@ void AD_LOGW(const char* fmr, ...) {
     strcpy(log_buffer, "Warning:  ");
     va_list arg;
     va_start(arg, fmr);
-    vsprintf(log_buffer+9, fmr, arg);
+    vsnprintf(log_buffer+9,AD_LOGLENGTH-9, fmr, arg);
     va_end(arg);
     strcat(log_buffer, "\n");
     printf("%s",log_buffer);
@@ -51,7 +52,7 @@ void AD_LOGE(const char* fmr, ...) {
     strcpy(log_buffer, "Error:   ");
     va_list arg;
     va_start(arg, fmr);
-    vsprintf(log_buffer+9, fmr, arg);
+    vsnprintf(log_buffer+9,AD_LOGLENGTH-9, fmr, arg);
     va_end(arg);
     strcat(log_buffer, "\n");
     printf("%s",log_buffer);

@@ -157,6 +157,7 @@ public:
 class AudioDriver {
 public:
   virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
+    AD_LOGD("AudioDriver::begin");
     codec_cfg = codecCfg;
     p_pins = &pins;
     pins.setSPIActiveForSD(codecCfg.sd_active);
@@ -192,7 +193,7 @@ public:
     GpioPin  pin = pins().getPinID(PinFunction::PA);
     if (pin == -1)
       return false;
-    AD_LOGI("setPAPower pin %d -> %d", pin, enable);
+    //AD_LOGI("setPAPower pin %d -> %d", pin, enable);
     digitalWrite(pin, enable ? HIGH : LOW);
     return true;
   }
@@ -200,6 +201,16 @@ public:
 protected:
   CodecConfig codec_cfg;
   DriverPins *p_pins = nullptr;
+
+  /// Detemine the TwoWire object from the I2C config or use Wire
+  TwoWire* getI2C() {
+    if (p_pins == nullptr) return &Wire;
+    auto i2c = pins().getI2CPins(PinFunction::CODEC);
+    if (!i2c) {
+      return &Wire;
+    }
+    return i2c.value().p_wire;
+  }
 
   virtual bool init(codec_config_t codec_cfg) { return false; }
   virtual bool deinit() { return false; }
@@ -262,12 +273,7 @@ public:
 
 protected:
   bool init(codec_config_t codec_cfg) {
-    auto i2c = pins().getI2CPins(PinFunction::CODEC);
-    if (!i2c) {
-      AD_LOGE("i2c pins not defined");
-      return false;
-    }
-    ac101_set_i2c_handle(i2c.value().p_wire);
+    ac101_set_i2c_handle(getI2C());
     return ac101_init(&codec_cfg) == RESULT_OK;
   };
   bool deinit() { return ac101_deinit() == RESULT_OK; }
@@ -293,15 +299,17 @@ public:
   void setI2CAddress(uint16_t adr) { deviceAddr = adr; }
 
   virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
+    AD_LOGD("AudioDriverCS43l22Class::begin");
+    p_pins = &pins;
     codec_cfg = codecCfg;
     // manage reset pin -> acive high
     setPAPower(true);
     delay(10);
-    p_pins = &pins;
     int vol = map(volume, 0, 100, DEFAULT_VOLMIN, DEFAULT_VOLMAX);
     uint32_t freq = getFrequency(codec_cfg.i2s.rate);
     uint16_t outputDevice = getOutput(codec_cfg.output_device);
-    return cs43l22_Init(deviceAddr, outputDevice, vol, freq) == 0;
+    AD_LOGD("cs43l22_Init");
+    return cs43l22_Init(deviceAddr, outputDevice, vol, freq, getI2C()) == 0;
   }
 
   bool setMute(bool mute) {
@@ -382,12 +390,7 @@ protected:
   int volume;
 
   bool init(codec_config_t codec_cfg) {
-    auto i2c = pins().getI2CPins(PinFunction::CODEC);
-    if (!i2c) {
-      AD_LOGE("i2c pins not defined");
-      return false;
-    }
-    return es7210_adc_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
+    return es7210_adc_init(&codec_cfg, getI2C()) == RESULT_OK;
   }
   bool deinit() { return es7210_adc_deinit() == RESULT_OK; }
 
@@ -420,12 +423,7 @@ public:
 
 protected:
   bool init(codec_config_t codec_cfg) {
-    auto i2c = pins().getI2CPins(PinFunction::CODEC);
-    if (!i2c) {
-      AD_LOGE("i2c pins not defined");
-      return false;
-    }
-    return es7243_adc_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
+    return es7243_adc_init(&codec_cfg, getI2C()) == RESULT_OK;
   }
   bool deinit() { return es7243_adc_deinit() == RESULT_OK; }
 
@@ -462,12 +460,7 @@ protected:
   int volume = 0;
 
   bool init(codec_config_t codec_cfg) {
-    auto i2c = pins().getI2CPins(PinFunction::CODEC);
-    if (!i2c) {
-      AD_LOGE("i2c pins not defined");
-      return false;
-    }
-    return es7243e_adc_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
+    return es7243e_adc_init(&codec_cfg, getI2C()) == RESULT_OK;
   }
   bool deinit() { return es7243e_adc_deinit() == RESULT_OK; }
 
@@ -501,13 +494,7 @@ public:
 
 protected:
   bool init(codec_config_t codec_cfg) {
-    auto i2c = pins().getI2CPins(PinFunction::CODEC);
-    if (!i2c) {
-      AD_LOGE("i2c pins not defined");
-      return false;
-    }
-
-    return es8156_codec_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
+    return es8156_codec_init(&codec_cfg, getI2C()) == RESULT_OK;
   }
   bool deinit() { return es8156_codec_deinit() == RESULT_OK; }
 
@@ -538,15 +525,10 @@ public:
 
 protected:
   bool init(codec_config_t codec_cfg) {
-    auto i2c = pins().getI2CPins(PinFunction::CODEC);
-    if (!i2c) {
-      AD_LOGE("i2c pins not defined");
-      return false;
-    }
     int mclk_src = pins().getPinID(PinFunction::MCLK_SOURCE);
     if (mclk_src == -1)
       return false;
-    return es8311_codec_init(&codec_cfg, i2c.value().p_wire, mclk_src) ==
+    return es8311_codec_init(&codec_cfg, getI2C(), mclk_src) ==
            RESULT_OK;
   }
   bool deinit() { return es8311_codec_deinit() == RESULT_OK; }
@@ -579,13 +561,8 @@ public:
 
 protected:
   bool init(codec_config_t codec_cfg) {
-    auto i2c = pins().getI2CPins(PinFunction::CODEC);
-    if (!i2c) {
-      AD_LOGE("i2c pins not defined");
-      return false;
-    }
     auto codec_mode = this->codec_cfg.get_mode();
-    return es8374_codec_init(&codec_cfg, codec_mode, i2c.value().p_wire) ==
+    return es8374_codec_init(&codec_cfg, codec_mode, getI2C()) ==
            RESULT_OK;
   }
   bool deinit() { return es8374_codec_deinit() == RESULT_OK; }
@@ -631,13 +608,7 @@ public:
 
 protected:
   bool init(codec_config_t codec_cfg) {
-    auto i2c = pins().getI2CPins(PinFunction::CODEC);
-    if (!i2c) {
-      AD_LOGE("i2c pins not defined");
-      return false;
-    }
-
-    return es8388_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
+    return es8388_init(&codec_cfg, getI2C()) == RESULT_OK;
   }
   bool deinit() { return es8388_deinit() == RESULT_OK; }
 
@@ -669,12 +640,7 @@ public:
 
 protected:
   bool init(codec_config_t codec_cfg) {
-    auto i2c = pins().getI2CPins(PinFunction::CODEC);
-    if (!i2c) {
-      AD_LOGE("i2c pins not defined");
-      return false;
-    }
-    return tas5805m_init(&codec_cfg, i2c.value().p_wire) == RESULT_OK;
+    return tas5805m_init(&codec_cfg, getI2C()) == RESULT_OK;
   }
   bool deinit() { return tas5805m_deinit() == RESULT_OK; }
 };
@@ -689,13 +655,8 @@ public:
   bool begin(CodecConfig codecCfg, DriverPins &pins) {
     codec_cfg = codecCfg;
 
-    auto i2c = pins.getI2CPins(PinFunction::CODEC);
-    if (!i2c) {
-      AD_LOGE("i2c pins not defined");
-      return false;
-    }
     // define wire object
-    mtb_wm8960_set_wire(i2c.value().p_wire);
+    mtb_wm8960_set_wire(getI2C());
     mtb_wm8960_set_write_retry_count(i2c_retry_count);
 
     // setup wm8960
@@ -881,14 +842,8 @@ public:
     uint32_t freq = codecCfg.getRateNumeric();
     uint16_t outputDevice = getOutput(codec_cfg.output_device);
 
-    auto i2c = pins.getI2CPins(PinFunction::CODEC);
-    if (!i2c) {
-      AD_LOGE("i2c pins not defined");
-      return false;
-    }
-
     return wm8994_Init(deviceAddr, outputDevice, vol, freq,
-                       i2c.value().p_wire) == 0;
+                       getI2C()) == 0;
   }
 
   bool setMute(bool mute) {
