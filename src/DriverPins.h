@@ -320,8 +320,9 @@ public:
     // setup spi
     bool result = true;
     for (auto &tmp : spi) {
-      if (tmp.function == PinFunction::SD && sd_active)
-        result &= tmp.begin();
+      if (tmp.function == PinFunction::SD)
+        if (sd_active)
+          result &= tmp.begin();
       else
         result &= tmp.begin();
     }
