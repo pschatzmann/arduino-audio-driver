@@ -120,7 +120,7 @@ error_t es7243_adc_config_i2s(codec_mode_t mode, I2SDefinition *iface)
 
 error_t es7243_adc_set_voice_mute(bool mute)
 {
-    AD_LOGI( "Enter into es7243_mute(), mute = %d\n", mute);
+    AD_LOGI( "Enter into es7243_mute(), mute = %d", mute);
     if (mute) {
         es7243_write_reg(0x05, 0x1B);
     } else {

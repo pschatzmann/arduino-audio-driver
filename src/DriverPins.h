@@ -175,10 +175,10 @@ struct PinsI2C {
         p_wire->begin();
       } else {
         // begin with defined pins, if supported
-#if defined(ESP32) || defined(ARDUINO_ARCH_STM32)
+#if defined(ESP32) 
         AD_LOGI("setting up I2C scl: %d, sda: %d", scl, sda);
         p_wire->begin(sda, scl);
-#elif defined(ARDUINO_ARCH_RP2040)
+#elif defined(ARDUINO_ARCH_RP2040) || defined(ARDUINO_ARCH_STM32)
         AD_LOGI("setting up I2C scl: %d, sda: %d", scl, sda);
         p_wire->setSCL(scl);
         p_wire->setSDA(sda);
@@ -315,7 +315,7 @@ public:
     AD_LOGD("DriverPins::begin");
 
     // setup function pins
-    void setupPinMode();
+    setupPinMode();
 
     // setup spi
     bool result = true;
@@ -428,7 +428,7 @@ public:
     // sd pins
     addSPI(ESP32PinsSD);
     // add i2c codec pins: scl, sda, port, frequency
-    addI2C(PinFunction::CODEC, 23, 18, 0x20);
+    addI2C(PinFunction::CODEC, 23, 18);
     // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
     addI2S(PinFunction::CODEC, 0, 5, 25, 26, 35);
 
@@ -457,7 +457,7 @@ public:
     // sd pins
     addSPI(ESP32PinsSD);
     // add i2c codec pins: scl, sda, port, frequency
-    addI2C(PinFunction::CODEC, 23, 18, 0x20);
+    addI2C(PinFunction::CODEC, 23, 18);
     // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
     addI2S(PinFunction::CODEC, 0, 5, 25, 26, 35);
 
@@ -486,7 +486,7 @@ public:
     // sd pins
     addSPI(ESP32PinsSD);
     // add i2c codec pins: scl, sda, port, frequency
-    addI2C(PinFunction::CODEC, 23, 18, 0x20);
+    addI2C(PinFunction::CODEC, 23, 18);
     // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
     addI2S(PinFunction::CODEC, 0, 5, 25, 26, 35, 0);
     addI2S(PinFunction::CODEC_ADC, 0, 32, 33, -1, 36, 1);
@@ -517,7 +517,7 @@ public:
     // sd pins
     addSPI(ESP32PinsSD);
     // add i2c codec pins: scl, sda, port, frequency
-    addI2C(PinFunction::CODEC, 32, 33, 0x20);
+    addI2C(PinFunction::CODEC, 32, 33);
     // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
     addI2S(PinFunction::CODEC, 0, 27, 25, 26, 35);
 
@@ -546,7 +546,7 @@ public:
     // sd pins
     addSPI(ESP32PinsSD);
     // add i2c codec pins: scl, sda, port, frequency
-    addI2C(PinFunction::CODEC, 23, 18, 0x20);
+    addI2C(PinFunction::CODEC, 23, 18);
     // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
     addI2S(PinFunction::CODEC, 0, 5, 25, 26, 35);
 
@@ -575,7 +575,7 @@ public:
     // sd pins
     addSPI(ESP32PinsSD);
     // add i2c codec pins: scl, sda, port, frequency
-    addI2C(PinFunction::CODEC, 32, 22, 0x20);
+    addI2C(PinFunction::CODEC, 32, 22);
     // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
     addI2S(PinFunction::CODEC, 0, 27, 26, 25, 35);
 
@@ -604,7 +604,7 @@ class PinsSTM32F411DiscoClass : public DriverPins {
 public:
   PinsSTM32F411DiscoClass() {
     // add i2c codec pins: scl, sda, port, frequency
-    addI2C(PinFunction::CODEC, PB6, PB9, 0x25);
+    addI2C(PinFunction::CODEC, PB6, PB9);
     // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
     addI2S(PinFunction::CODEC, PC7, PC10, PA4, PC3, PC12);
 

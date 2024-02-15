@@ -15,7 +15,6 @@ void AD_LOGD(const char* fmr, ...) {
     va_start(arg, fmr);
     vsnprintf(log_buffer+9, AD_LOGLENGTH-9, fmr, arg);
     va_end(arg);
-    // strcat(log_buffer, "\n");
     logStr(log_buffer);
   }
 }
@@ -28,8 +27,7 @@ void AD_LOGI(const char* fmr, ...) {
     va_start(arg, fmr);
     vsnprintf(log_buffer+9,AD_LOGLENGTH-9, fmr, arg);
     va_end(arg);
-    strcat(log_buffer, "\n");
-    printf("%s",log_buffer);
+    logStr(log_buffer);
   }
 }
 
@@ -41,8 +39,7 @@ void AD_LOGW(const char* fmr, ...) {
     va_start(arg, fmr);
     vsnprintf(log_buffer+9,AD_LOGLENGTH-9, fmr, arg);
     va_end(arg);
-    strcat(log_buffer, "\n");
-    printf("%s",log_buffer);
+    logStr(log_buffer);
   }
 }
 
@@ -54,8 +51,7 @@ void AD_LOGE(const char* fmr, ...) {
     va_start(arg, fmr);
     vsnprintf(log_buffer+9,AD_LOGLENGTH-9, fmr, arg);
     va_end(arg);
-    strcat(log_buffer, "\n");
-    printf("%s",log_buffer);
+    logStr(log_buffer);
   }
 
 }

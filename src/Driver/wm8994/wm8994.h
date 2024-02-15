@@ -154,7 +154,7 @@ uint32_t wm8994_Reset(uint16_t DeviceAddr);
 void    AUDIO_IO_Init(void);
 void    AUDIO_IO_DeInit(void);
 void    AUDIO_IO_Write16(uint8_t Addr, uint16_t Reg, uint16_t Value);
-uint8_t AUDIO_IO_Read(uint8_t Addr, uint16_t Reg);
+uint8_t AUDIO_IO_Read16(uint8_t Addr, uint16_t Reg);
 void    AUDIO_IO_Delay(uint32_t Delay);
 
 /* Audio driver structure */

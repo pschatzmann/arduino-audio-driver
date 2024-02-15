@@ -7,7 +7,7 @@
 error_t i2c_bus_write_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
                               int reglen, uint8_t *data, int datalen) {
   AD_LOGD(
-      "i2c_bus_write_bytes: addr=%d reglen=%d datalen=%d - reg=%d value=%d",
+      "i2c_bus_write_bytes: addr=0x%X reglen=%d datalen=%d - reg=0x%0X value=0x%0X",
       addr, reglen, datalen, reg[0], data[0]);
   TwoWire *p_wire = (TwoWire *)bus;
   assert(p_wire!=nullptr);
@@ -18,6 +18,9 @@ error_t i2c_bus_write_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
   p_wire->beginTransmission(addr >> 1);
   p_wire->write(reg, reglen);
   p_wire->write(data, datalen);
+  //p_wire->write(reg[0]);
+  //p_wire->write(data[0]);
+ 
   int rc = p_wire->endTransmission(I2C_END);
   if (rc != 0) {
     AD_LOGE("->p_wire->endTransmission: %d", rc);

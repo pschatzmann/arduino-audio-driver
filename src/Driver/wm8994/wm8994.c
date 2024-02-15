@@ -525,7 +525,7 @@ uint32_t wm8994_ReadID(uint16_t DeviceAddr)
   /* Initialize the Control interface of the Audio Codec */
   AUDIO_IO_Init();
 
-  return ((uint32_t)AUDIO_IO_Read(DeviceAddr, WM8994_CHIPID_ADDR));
+  return ((uint32_t)AUDIO_IO_Read16(DeviceAddr, WM8994_CHIPID_ADDR));
 }
 
 /**

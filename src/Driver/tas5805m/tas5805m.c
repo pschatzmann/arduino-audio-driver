@@ -90,7 +90,7 @@ static error_t tas5805m_transmit_registers(const tas5805m_cfg_reg_t *conf_buf, i
                 break;
             case CFG_END_1:
                 if (CFG_END_2 == conf_buf[i + 1].offset && CFG_END_3 == conf_buf[i + 2].offset) {
-                    AD_LOGI( "End of tms5805m reg: %d\n", i);
+                    AD_LOGI( "End of tms5805m reg: %d", i);
                 }
                 break;
             default:

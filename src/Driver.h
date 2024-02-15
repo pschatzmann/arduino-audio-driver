@@ -193,7 +193,7 @@ public:
     GpioPin  pin = pins().getPinID(PinFunction::PA);
     if (pin == -1)
       return false;
-    //AD_LOGI("setPAPower pin %d -> %d", pin, enable);
+    AD_LOGI("setPAPower pin %d -> %d", pin, enable);
     digitalWrite(pin, enable ? HIGH : LOW);
     return true;
   }
@@ -286,13 +286,13 @@ protected:
 };
 
 /**
- * @brief Driver API for the CS43l22 codec chip
+ * @brief Driver API for the CS43l22 codec chip on 0x94 (0x4A<<1)
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
 class AudioDriverCS43l22Class : public AudioDriver {
 public:
-  AudioDriverCS43l22Class(uint16_t deviceAddr = 0x94) {
+  AudioDriverCS43l22Class(uint16_t deviceAddr = 0x94 ) {
     this->deviceAddr = deviceAddr;
   }
 
@@ -304,12 +304,18 @@ public:
     codec_cfg = codecCfg;
     // manage reset pin -> acive high
     setPAPower(true);
-    delay(10);
+  // Setup enable pin for codec
+    delay(100);
     int vol = map(volume, 0, 100, DEFAULT_VOLMIN, DEFAULT_VOLMAX);
     uint32_t freq = getFrequency(codec_cfg.i2s.rate);
     uint16_t outputDevice = getOutput(codec_cfg.output_device);
     AD_LOGD("cs43l22_Init");
-    return cs43l22_Init(deviceAddr, outputDevice, vol, freq, getI2C()) == 0;
+    bool result = cs43l22_Init(deviceAddr, outputDevice, vol, freq, getI2C()) == 0;
+    if (!result){
+      AD_LOGE("error: cs43l22_Init");
+    }
+    cs43l22_Play(deviceAddr, nullptr, 0);
+    return result;
   }
 
   bool setMute(bool mute) {

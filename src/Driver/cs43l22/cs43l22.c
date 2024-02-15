@@ -477,8 +477,8 @@ static uint8_t CODEC_IO_Write(uint8_t Addr, uint8_t Reg, uint8_t Value)
 
 void      AUDIO_IO_Init(void) {}
 void      AUDIO_IO_DeInit(void) {}
-void      AUDIO_IO_Write(uint8_t addr, uint16_t reg, uint8_t value) {
-  i2c_bus_write_bytes(i2c_handle, addr, (uint8_t *)&reg, sizeof(uint16_t), &value, 1);
+void      AUDIO_IO_Write(uint8_t addr, uint8_t reg, uint8_t value) {
+  i2c_bus_write_bytes(i2c_handle, addr, &reg, 1, &value, 1);
 }
 
 

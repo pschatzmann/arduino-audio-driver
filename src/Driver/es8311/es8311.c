@@ -233,7 +233,7 @@ static int get_coeff(uint32_t mclk, uint32_t rate)
 static void es8311_mute(int mute)
 {
     uint8_t regv;
-    AD_LOGI( "Enter into es8311_mute(), mute = %d\n", mute);
+    AD_LOGI( "Enter into es8311_mute(), mute = %d", mute);
     regv = es8311_read_reg(ES8311_DAC_REG31) & 0x9f;
     if (mute) {
         es8311_write_reg(ES8311_SYSTEM_REG12, 0x02);
@@ -700,6 +700,6 @@ void es8311_read_all()
 {
     for (int i = 0; i < 0x4A; i++) {
         uint8_t reg = es8311_read_reg(i);
-        AD_LOGI("REG:%02x, %02x\n", reg, i);
+        AD_LOGI("REG:%02x, %02x", reg, i);
     }
 }

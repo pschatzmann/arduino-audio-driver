@@ -51,7 +51,7 @@ void es8388_read_all()
     for (int i = 0; i < 50; i++) {
         uint8_t reg = 0;
         es_read_reg(i, &reg);
-        AD_LOGI("%x: %x\n", i, reg);
+        AD_LOGI("%x: %x", i, reg);
     }
 }
 
@@ -76,7 +76,7 @@ static int es8388_set_adc_dac_volume(int mode, int volume, int dot)
     AD_LOGD("es8388_set_adc_dac_volume: %d.%d", volume,dot);
     int res = 0;
     if ( volume < -96 || volume > 0 ) {
-        AD_LOGW("Warning: volume < -96! or > 0!\n");
+        AD_LOGW("Warning: volume < -96! or > 0!");
         if (volume < -96)
             volume = -96;
         else
