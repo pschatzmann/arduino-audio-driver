@@ -1,7 +1,7 @@
 var searchData=
 [
   ['rate_269',['rate',['../struct_i2_s_definition.html#a2ae50aca3292f8f72fa1afe1269bb8c4',1,'I2SDefinition']]],
-  ['rate_5f08k_270',['RATE_08K',['../_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba0bf04cce8460a0eb8991ccb39bedd2cc',1,'Common.h']]],
+  ['rate_5f08k_270',['RATE_8K',['../_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba0bf04cce8460a0eb8991ccb39bedd2cc',1,'Common.h']]],
   ['rate_5f11k_271',['RATE_11K',['../_common_8h.html#ga9455c9aa894b64d5d3997a038141991baccef6e39d6855b77e2ec01e10095ea6b',1,'Common.h']]],
   ['rate_5f16k_272',['RATE_16K',['../_common_8h.html#ga9455c9aa894b64d5d3997a038141991bae713f819f76ea57722e5a1296fd77cf0',1,'Common.h']]],
   ['rate_5f22k_273',['RATE_22K',['../_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba48d81c4b3d3c47c2edaf53287a74440f',1,'Common.h']]],

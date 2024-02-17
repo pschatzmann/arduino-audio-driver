@@ -176,7 +176,7 @@ error_t es7210_config_sample(samplerate_t sample)
     int mclk_fre = 0;
     error_t ret = RESULT_OK;
     switch (sample) {
-        case RATE_08K:
+        case RATE_8K:
             sample_fre = 8000;
             break;
         case RATE_11K:

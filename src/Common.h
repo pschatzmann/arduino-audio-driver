@@ -85,7 +85,7 @@ typedef enum {
  * @ingroup enumerations
  */
 typedef enum {
-  RATE_08K = 0, /*!< set to  8k samples per second */
+  RATE_8K = 0, /*!< set to  8k samples per second */
   RATE_11K,     /*!< set to 11.025k samples per second */
   RATE_16K,     /*!< set to 16k samples in per second */
   RATE_22K,     /*!< set to 22.050k samples per second */

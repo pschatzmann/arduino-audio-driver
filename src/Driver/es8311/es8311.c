@@ -340,7 +340,7 @@ error_t es8311_codec_init(codec_config_t *codec_cfg, i2c_bus_handle_t handle, in
     int sample_fre = 0;
     int mclk_fre = 0;
     switch (i2s_cfg->rate) {
-        case RATE_08K:
+        case RATE_8K:
             sample_fre = 8000;
             break;
         case RATE_11K:

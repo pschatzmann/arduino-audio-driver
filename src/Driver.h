@@ -19,7 +19,7 @@
 namespace audio_driver {
 
 const int rate_num[8] = {8000, 11025, 16000, 22050, 24000, 32000, 44100, 48000};
-const samplerate_t rate_code[8] = {RATE_08K, RATE_11K, RATE_16K, RATE_22K,
+const samplerate_t rate_code[8] = {RATE_8K, RATE_11K, RATE_16K, RATE_22K,
                                    RATE_24K, RATE_32K, RATE_44K, RATE_48K};
 
 /**
@@ -343,7 +343,7 @@ protected:
 
   uint32_t getFrequency(samplerate_t rateNum) {
     switch (rateNum) {
-    case RATE_08K:
+    case RATE_8K:
       return 8000; /*!< set to  8k samples per second */
     case RATE_11K:
       return 11024; /*!< set to 11.025k samples per second */

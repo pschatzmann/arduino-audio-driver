@@ -43,7 +43,7 @@ void set_codec_clk(samplerate_t sampledata)
 	uint16_t sample_fre;
 	switch (sampledata)
 	{
-	case RATE_08K:
+	case RATE_8K:
 		sample_fre = 8000;
 		break;
 	case RATE_11K:
@@ -354,7 +354,7 @@ error_t ac101_config_i2s(codec_mode_t mode, I2SDefinition *iface)
 
 	switch (iface->rate)
 	{
-	case RATE_08K:
+	case RATE_8K:
 		sample_fre = 8000;
 		break;
 	case RATE_11K:
