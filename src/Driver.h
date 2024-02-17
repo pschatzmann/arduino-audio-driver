@@ -306,11 +306,10 @@ public:
     setPAPower(true);
   // Setup enable pin for codec
     delay(100);
-    int vol = map(volume, 0, 100, DEFAULT_VOLMIN, DEFAULT_VOLMAX);
     uint32_t freq = getFrequency(codec_cfg.i2s.rate);
     uint16_t outputDevice = getOutput(codec_cfg.output_device);
     AD_LOGD("cs43l22_Init");
-    bool result = cs43l22_Init(deviceAddr, outputDevice, vol, freq, getI2C()) == 0;
+    bool result = cs43l22_Init(deviceAddr, outputDevice, volume, freq, getI2C()) == 0;
     if (!result){
       AD_LOGE("error: cs43l22_Init");
     }
@@ -325,8 +324,7 @@ public:
 
   bool setVolume(int volume) {
     this->volume = volume;
-    int vol = map(volume, 0, 100, DEFAULT_VOLMIN, DEFAULT_VOLMAX);
-    return cs43l22_SetVolume(deviceAddr, vol) == 0;
+    return cs43l22_SetVolume(deviceAddr, volume) == 0;
   }
   int getVolume() { return volume; }
 

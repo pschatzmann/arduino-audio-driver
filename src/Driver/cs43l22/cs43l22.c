@@ -337,8 +337,8 @@ uint32_t cs43l22_Stop(uint16_t DeviceAddr, uint32_t CodecPdwnMode)
 /**
   * @brief Sets higher or lower the codec volume level.
   * @param DeviceAddr: Device address on communication Bus.   
-  * @param Volume: a byte value from 0 to 255 (refer to codec registers 
-  *                description for more details).
+  * @param Volume: a byte value from 0 to 100 ( which is mapped to 0 - 255 ,
+  *                 refer to codec registers description for more details).
   *         
   * @retval 0 if correct communication, else wrong communication
   */
