@@ -37,21 +37,19 @@ error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
            reglen, datalen, reg[0]);
   TwoWire *p_wire = (TwoWire *)bus;
   assert(reglen == 1);
-  assert(datalen == 1);
   assert(p_wire!=nullptr);
 
-  outdata[0] = 0;
+  memset(outdata,0,datalen);
   int result = RESULT_OK;
 
   p_wire->beginTransmission(addr >> 1);
-  p_wire->write(reg[0]);
+  p_wire->write(reg, reglen);
   int rc = p_wire->endTransmission();
   if (rc != 0) {
     AD_LOGE("->p_wire->endTransmission: %d", rc);
   }
 
-  uint8_t result_len =
-      p_wire->requestFrom((uint16_t)(addr >> 1), (uint8_t)1, (uint8_t) true);
+  uint8_t result_len = p_wire->requestFrom((addr >> 1), datalen, (int) true);
   if (result_len > 0) {
     result_len = p_wire->readBytes(outdata, datalen);
   } else {

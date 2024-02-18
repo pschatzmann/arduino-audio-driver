@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"driverconstants.h": "c",
+			"*.tcc": "cpp",
+			"stdbool.h": "c"
+		}
+	}
+}

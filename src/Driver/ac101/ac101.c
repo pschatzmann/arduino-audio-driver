@@ -20,7 +20,10 @@ void ac101_set_i2c_handle(i2c_bus_handle_t handle){
 
 
 static error_t ac101_write_reg(uint8_t reg_add, uint16_t data){
-    return i2c_bus_write_bytes(i2c_handle, AC101_ADDR, &reg_add, sizeof(reg_add), (uint8_t*) &data, sizeof(data));
+	uint8_t send_buff[2];
+	send_buff[0] = (data >> 8) & 0xff;
+	send_buff[1] = data & 0xff;
+    return i2c_bus_write_bytes(i2c_handle, AC101_ADDR, &reg_add, sizeof(reg_add), (uint8_t*) send_buff, sizeof(send_buff));
 }
 
 static error_t ac101_read_i2c(uint8_t devAddr, uint8_t reg_add, uint8_t *p_data, size_t size) {

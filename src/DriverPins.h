@@ -576,7 +576,7 @@ public:
     // sd pins
     addSPI(ESP32PinsSD);
     // add i2c codec pins: scl, sda, port, frequency
-    addI2C(PinFunction::CODEC, 32, 22);
+    addI2C(PinFunction::CODEC, 32, 33);
     // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
     addI2S(PinFunction::CODEC, 0, 27, 26, 25, 35);
 
