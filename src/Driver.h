@@ -273,8 +273,7 @@ public:
 
 protected:
   bool init(codec_config_t codec_cfg) {
-    ac101_set_i2c_handle(getI2C());
-    return ac101_init(&codec_cfg) == RESULT_OK;
+    return ac101_init(&codec_cfg, getI2C()) == RESULT_OK;
   };
   bool deinit() { return ac101_deinit() == RESULT_OK; }
   bool controlState(codec_mode_t mode) {

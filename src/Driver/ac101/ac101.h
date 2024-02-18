@@ -166,9 +166,8 @@ typedef struct {
 	ac_i2s1_lrck_div_t lclk_div;    /*!< WS clock divide */
 } ac_i2s_clock_t;
 
-void ac101_set_i2c_handle(i2c_bus_handle_t i2c_handle);
 
-error_t ac101_init(codec_config_t* codec_cfg);
+error_t ac101_init(codec_config_t* codec_cfg, i2c_bus_handle_t i2c_handle);
 error_t ac101_deinit(void);
 error_t ac101_ctrl_state_active(codec_mode_t mode, bool ctrl_state_active);
 error_t ac101_config_i2s(codec_mode_t mode, I2SDefinition* iface);

@@ -14,10 +14,6 @@ static i2c_bus_handle_t i2c_handle = NULL;
 		return b;                             \
 	}
 
-void ac101_set_i2c_handle(i2c_bus_handle_t handle){
-    i2c_handle = handle;
-}
-
 
 static error_t ac101_write_reg(uint8_t reg_add, uint16_t data){
 	uint8_t send_buff[2];
@@ -101,10 +97,10 @@ uint16_t get_src_value(input_device_t input_device){
 	return src_value;
 }
 
-error_t ac101_init(codec_config_t *codec_cfg)
+error_t ac101_init(codec_config_t *codec_cfg, i2c_bus_handle_t handle)
 {
 	error_t res = RESULT_OK;
-
+    i2c_handle = handle;
 
 	res = ac101_write_reg(CHIP_AUDIO_RS, 0x123);
 	delay(1000);
