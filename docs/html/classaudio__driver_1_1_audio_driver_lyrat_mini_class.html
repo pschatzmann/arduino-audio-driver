@@ -124,6 +124,9 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:aa6ef5ff45c46acc972bcf6686a7ae9eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e9dd2cbb2377c5ac866a5ccc26ff497"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a5e9dd2cbb2377c5ac866a5ccc26ff497">deinit</a> ()</td></tr>
 <tr class="separator:a5e9dd2cbb2377c5ac866a5ccc26ff497"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace4e6b6c01cac8e0d08d2e592f9651f2"><td class="memItemLeft" align="right" valign="top">TwoWire *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#ace4e6b6c01cac8e0d08d2e592f9651f2">getI2C</a> ()</td></tr>
+<tr class="memdesc:ace4e6b6c01cac8e0d08d2e592f9651f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detemine the TwoWire object from the I2C config or use Wire.  <a href="classaudio__driver_1_1_audio_driver.html#ace4e6b6c01cac8e0d08d2e592f9651f2">More...</a><br /></td></tr>
+<tr class="separator:ace4e6b6c01cac8e0d08d2e592f9651f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1579002eac8e19fe157965f55c7e24e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#af1579002eac8e19fe157965f55c7e24e">init</a> (<a class="el" href="structcodec__config__t.html">codec_config_t</a> <a class="el" href="classaudio__driver_1_1_audio_driver.html#a4296f334f4441aae57fb5f43a0b77968">codec_cfg</a>)</td></tr>
 <tr class="separator:af1579002eac8e19fe157965f55c7e24e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8895270f5503019b98f5c4df036754b4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a8895270f5503019b98f5c4df036754b4">limitValue</a> (int volume, int min=0, int max=100)</td></tr>
@@ -301,6 +304,33 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Reimplemented from <a class="el" href="classaudio__driver_1_1_audio_driver.html#a063cb6038676fcc58f5a7cbc93ef27f1">AudioDriver</a>.</p>
+
+</div>
+</div>
+<a id="ace4e6b6c01cac8e0d08d2e592f9651f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace4e6b6c01cac8e0d08d2e592f9651f2">&#9670;&nbsp;</a></span>getI2C()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">TwoWire* getI2C </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Detemine the TwoWire object from the I2C config or use Wire. </p>
 
 </div>
 </div>

@@ -67,6 +67,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classaudio__driver_1_1_pins_audio_kit_es8388v2_class-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -139,6 +140,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac657931b192113cc4f0dfa5854dd2f84"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#ac657931b192113cc4f0dfa5854dd2f84">setSPIActiveForSD</a> (bool active)</td></tr>
 <tr class="memdesc:ac657931b192113cc4f0dfa5854dd2f84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines if SPI for SD should be started (by default true)  <a href="classaudio__driver_1_1_driver_pins.html#ac657931b192113cc4f0dfa5854dd2f84">More...</a><br /></td></tr>
 <tr class="separator:ac657931b192113cc4f0dfa5854dd2f84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a7e6698448823208004c99dd0882782b5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a7e6698448823208004c99dd0882782b5">hasConflict</a> (int pin)</td></tr>
+<tr class="separator:a7e6698448823208004c99dd0882782b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae00a8041f5afb1b774a6d4c5168aaa7f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#ae00a8041f5afb1b774a6d4c5168aaa7f">hasI2CConflict</a> (int pin)</td></tr>
+<tr class="separator:ae00a8041f5afb1b774a6d4c5168aaa7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae346dfc0d2db191574abf006ab44cc15"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#ae346dfc0d2db191574abf006ab44cc15">hasSPIConflict</a> (int pin)</td></tr>
+<tr class="separator:ae346dfc0d2db191574abf006ab44cc15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3942078ef66ed9806e69ac6cfefa381"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#ac3942078ef66ed9806e69ac6cfefa381">setupPinMode</a> ()</td></tr>
+<tr class="separator:ac3942078ef66ed9806e69ac6cfefa381"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -782,6 +794,58 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a7e6698448823208004c99dd0882782b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e6698448823208004c99dd0882782b5">&#9670;&nbsp;</a></span>hasConflict()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hasConflict </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>pin</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae00a8041f5afb1b774a6d4c5168aaa7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae00a8041f5afb1b774a6d4c5168aaa7f">&#9670;&nbsp;</a></span>hasI2CConflict()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hasI2CConflict </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>pin</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ace76b4671946819aff61b75c62717b08"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ace76b4671946819aff61b75c62717b08">&#9670;&nbsp;</a></span>hasPins()</h2>
 
@@ -806,6 +870,32 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns true if some function pins have been defined. </p>
+
+</div>
+</div>
+<a id="ae346dfc0d2db191574abf006ab44cc15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae346dfc0d2db191574abf006ab44cc15">&#9670;&nbsp;</a></span>hasSPIConflict()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hasSPIConflict </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>pin</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -861,6 +951,31 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Defines if SPI for SD should be started (by default true) </p>
+
+</div>
+</div>
+<a id="ac3942078ef66ed9806e69ac6cfefa381"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3942078ef66ed9806e69ac6cfefa381">&#9670;&nbsp;</a></span>setupPinMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setupPinMode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
