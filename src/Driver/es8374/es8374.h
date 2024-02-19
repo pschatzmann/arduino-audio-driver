@@ -33,8 +33,8 @@
 extern "C" {
 #endif
 
-/* ES8374 address */
-#define ES8374_ADDR 0x20  // 0x22:CE=1;0x20:CE=0
+/* ES8374 address 0x22:CE=1;0x20:CE=0 / 0x20>>1 = 0x10 */
+#define ES8374_ADDR 0x10 
 
 /**
  * @brief Initialize ES8374 codec chip

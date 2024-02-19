@@ -11,7 +11,7 @@
 #define I2C_MASTER_READ 1
 
 
-#define AC101_ADDR			0x34		    /*!< Device address 0x1a/0x34 */
+#define AC101_ADDR			0x1A		    /*!< Device address 0x1a/0x34 */
 
 #undef READ_BIT
 #define WRITE_BIT  			I2C_MASTER_WRITE 	/*!< I2C master write */

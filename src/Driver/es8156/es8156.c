@@ -27,8 +27,9 @@
 #include "es8156.h"
 
 #define BIT(nr)             (1 << (nr))
-#define ES8156_ADDR         0x10
-#define BOARD_PA_GAIN               (0) /* Power amplifier gain defined by board (dB) */
+// 0x8 = 0x10>>1
+#define ES8156_ADDR         0x8
+#define BOARD_PA_GAIN       (0) /* Power amplifier gain defined by board (dB) */
 
 //static const char *TAG = "DRV8156";
 static bool codec_init_flag = 0;

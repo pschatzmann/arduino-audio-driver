@@ -49,8 +49,8 @@ extern "C"
 {
 #endif
 
-#define WM8960_I2C_ADDRESS          (0x1A)
-
+// (0x1A>>1) = 0xD
+#define WM8960_I2C_ADDRESS 0xD
 #ifdef ARDUINO
 #  define WM8960_LOG(msg)  Serial.println(msg)
 #else

@@ -42,14 +42,14 @@ error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
   memset(outdata,0,datalen);
   int result = RESULT_OK;
 
-  p_wire->beginTransmission(addr >> 1);
+  p_wire->beginTransmission(addr);
   p_wire->write(reg, reglen);
   int rc = p_wire->endTransmission();
   if (rc != 0) {
     AD_LOGE("->p_wire->endTransmission: %d", rc);
   }
 
-  uint8_t result_len = p_wire->requestFrom((addr >> 1), datalen, (int) true);
+  uint8_t result_len = p_wire->requestFrom((addr), datalen, (int) true);
   if (result_len > 0) {
     result_len = p_wire->readBytes(outdata, datalen);
   } else {

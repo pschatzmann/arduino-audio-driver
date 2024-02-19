@@ -30,7 +30,7 @@
 #define TAG_ES7210 "ES7210"
 
 /* ES7210 address*/
-#define ES7210_ADDR                   ES7210_AD1_AD0_00
+#define ES7210_ADDR                   ES7210_AD1_AD0_00>>1
 #define ES7210_MCLK_SOURCE            FROM_CLOCK_DOUBLE_PIN                            /* In master mode, 0 : MCLK from pad    1 : MCLK from clock doubler */
 #define FROM_PAD_PIN                  0
 #define FROM_CLOCK_DOUBLE_PIN         1

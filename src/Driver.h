@@ -291,7 +291,7 @@ protected:
  */
 class AudioDriverCS43l22Class : public AudioDriver {
 public:
-  AudioDriverCS43l22Class(uint16_t deviceAddr = 0x94 ) {
+  AudioDriverCS43l22Class(uint16_t deviceAddr = 0x4A) {
     this->deviceAddr = deviceAddr;
   }
 
@@ -829,7 +829,7 @@ protected:
  */
 class AudioDriverWM8994Class : public AudioDriver {
 public:
-  AudioDriverWM8994Class(uint16_t deviceAddr = 0x34) {
+  AudioDriverWM8994Class(uint16_t deviceAddr = 0x1A) {
     this->deviceAddr = deviceAddr;
   }
 

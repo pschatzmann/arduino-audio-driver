@@ -35,7 +35,7 @@
     }
 
 static i2c_bus_handle_t i2c_handle;
-static int es7243_addr = 0x26;
+static int es7243_addr = 0x13; // 0x26>>1;
 static int mclk_gpio = 0;
 
 // func_t AUDIO_CODEC_ES7243_DEFAULT_HANDLE = {
