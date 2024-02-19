@@ -158,9 +158,14 @@ class AudioDriver {
 public:
   virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
     AD_LOGD("AudioDriver::begin");
-    codec_cfg = codecCfg;
     p_pins = &pins;
     pins.setSPIActiveForSD(codecCfg.sd_active);
+    int result = setConfig(codecCfg);
+    setPAPower(true);
+    return result;
+  }
+  virtual bool setConfig(CodecConfig codecCfg) {
+    codec_cfg = codecCfg;
     if (!init(codec_cfg)) {
       AD_LOGE("init failed");
       return false;
@@ -173,8 +178,8 @@ public:
     bool result = configInterface(codec_mode, codec_cfg.i2s);
     if (!result) {
       AD_LOGE("configInterface failed");
+      return false;
     }
-    setPAPower(true);
     return result;
   }
   virtual bool end(void) { return deinit(); }
@@ -314,6 +319,13 @@ public:
     }
     cs43l22_Play(deviceAddr, nullptr, 0);
     return result;
+  }
+
+  virtual bool setConfig(CodecConfig codecCfg) {
+    codec_cfg = codecCfg;
+    uint32_t freq = getFrequency(codec_cfg.i2s.rate);
+    uint16_t outputDevice = getOutput(codec_cfg.output_device);
+    return cs43l22_Init(deviceAddr, outputDevice, this->volume, freq, getI2C()) == 0;
   }
 
   bool setMute(bool mute) {
@@ -683,6 +695,10 @@ public:
     mtb_wm8960_deactivate();
     mtb_wm8960_free();
     return true;
+  }
+  virtual bool setConfig(CodecConfig codecCfg) {
+    codec_cfg = codecCfg;
+    return configure_clocking();
   }
 
   bool setMute(bool enable) { return setVolume(enable ? 0 : volume_out); }

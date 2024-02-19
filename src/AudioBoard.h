@@ -29,10 +29,18 @@ public:
     return result;
   }
 
+  /// Starts the processing
   bool begin(CodecConfig cfg) {
     this->codec_cfg = cfg;
     return begin();
   }
+
+  /// Updates the CodecConfig values -> reconfigures the codec only
+  bool setConfig(CodecConfig cfg) {
+    this->codec_cfg = cfg;
+    return driver->setConfig(cfg);
+  }
+
   bool end(void) {
     pins.end();
     return driver->end();
