@@ -15,7 +15,7 @@ error_t i2c_bus_write_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
   //assert(datalen == 1);
 
   int result = RESULT_OK;
-  p_wire->beginTransmission(addr >> 1);
+  p_wire->beginTransmission(addr);
   p_wire->write(reg, reglen);
   p_wire->write(data, datalen);
   //p_wire->write(reg[0]);
