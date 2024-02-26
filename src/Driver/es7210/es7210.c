@@ -35,19 +35,6 @@
 #define FROM_PAD_PIN                  0
 #define FROM_CLOCK_DOUBLE_PIN         1
 
-// /*
-//  * Operate function of ADC
-//  */
-// func_t AUDIO_CODEC_ES7210_DEFAULT_HANDLE = {
-//     .audio_codec_initialize = es7210_adc_init,
-//     .audio_codec_deinitialize = es7210_adc_deinit,
-//     .audio_codec_ctrl = es7210_adc_ctrl_state_active,
-//     .audio_codec_config_iface = es7210_adc_config_i2s,
-//     .audio_codec_set_mute = es7210_set_mute,
-//     .audio_codec_set_volume = es7210_adc_set_volume,
-//     .lock = NULL,
-//     .handle = NULL,
-// };
 
 /*
  * Clock coefficient structer

@@ -6,6 +6,7 @@
 #include "ac101.h"
 
 static i2c_bus_handle_t i2c_handle = NULL;
+static int i2c_addr_ac101 = AC101_ADDR;
 
 #define AC_ASSERT(a, format, b, ...)          \
 	if ((a) != 0)                             \
@@ -19,7 +20,7 @@ static error_t ac101_write_reg(uint8_t reg_add, uint16_t data){
 	uint8_t send_buff[2];
 	send_buff[0] = (data >> 8) & 0xff;
 	send_buff[1] = data & 0xff;
-    return i2c_bus_write_bytes(i2c_handle, AC101_ADDR, &reg_add, sizeof(reg_add), (uint8_t*) send_buff, sizeof(send_buff));
+    return i2c_bus_write_bytes(i2c_handle, i2c_addr_ac101, &reg_add, sizeof(reg_add), (uint8_t*) send_buff, sizeof(send_buff));
 }
 
 static error_t ac101_read_i2c(uint8_t devAddr, uint8_t reg_add, uint8_t *p_data, size_t size) {
@@ -31,7 +32,7 @@ static uint16_t ac101_read_reg(uint8_t reg_addr)
 {
 	uint16_t val = 0;
 	uint8_t data_rd[2];
-	ac101_read_i2c(AC101_ADDR, reg_addr, data_rd, 2);
+	ac101_read_i2c(i2c_addr_ac101, reg_addr, data_rd, 2);
 	val = (data_rd[0] << 8) + data_rd[1];
 	return val;
 }
@@ -97,10 +98,13 @@ uint16_t get_src_value(input_device_t input_device){
 	return src_value;
 }
 
-error_t ac101_init(codec_config_t *codec_cfg, i2c_bus_handle_t handle)
+error_t ac101_init(codec_config_t *codec_cfg, i2c_bus_handle_t handle, int addr)
 {
 	error_t res = RESULT_OK;
     i2c_handle = handle;
+	if (addr>0){
+		i2c_addr_ac101 = addr;
+	}
 
 	res = ac101_write_reg(CHIP_AUDIO_RS, 0x123);
 	delay(1000);

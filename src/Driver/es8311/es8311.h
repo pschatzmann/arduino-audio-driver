@@ -124,7 +124,7 @@ typedef enum {
  *      - RESULT_OK
  *      - RESULT_FAIL
  */
-error_t es8311_codec_init(codec_config_t *codec_cfg, i2c_bus_handle_t handle, int8_t mclk_src);
+error_t es8311_codec_init(codec_config_t *codec_cfg, i2c_bus_handle_t handle, int8_t mclk_src, int i2c_address);
 
 /**
  * @brief Deinitialize ES8311 codec chip

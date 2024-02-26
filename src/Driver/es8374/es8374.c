@@ -35,18 +35,7 @@
 
 static int codec_init_flag = 0;
 static i2c_bus_handle_t i2c_handle;
-
-// func_t AUDIO_CODEC_ES8374_DEFAULT_HANDLE = {
-//     .audio_codec_initialize = es8374_codec_init,
-//     .audio_codec_deinitialize = es8374_codec_deinit,
-//     .audio_codec_ctrl = es8374_codec_ctrl_state_active,
-//     .audio_codec_config_iface = es8374_codec_config_i2s,
-//     .audio_codec_set_mute = es8374_set_voice_mute,
-//     .audio_codec_set_volume = es8374_codec_set_voice_volume,
-//     .audio_codec_get_volume = es8374_codec_get_voice_volume,
-//     .lock = NULL,
-//     .handle = NULL,
-// };
+static int i2c_address_es8374 = ES8374_ADDR;
 
 static bool es8374_codec_initialized()
 {
@@ -66,7 +55,7 @@ static error_t es_read_reg(uint8_t slave_addr, uint8_t reg_add, uint8_t *p_data)
 
 error_t es8374_write_reg(uint8_t reg_add, uint8_t data)
 {
-    return es_write_reg(ES8374_ADDR, reg_add, data);
+    return es_write_reg(i2c_address_es8374, reg_add, data);
 }
 
 int es8374_read_reg(uint8_t reg_add, uint8_t *regv)
@@ -74,7 +63,7 @@ int es8374_read_reg(uint8_t reg_add, uint8_t *regv)
     uint8_t regdata = 0xFF;
     uint8_t res = 0;
 
-    if (es_read_reg(ES8374_ADDR, reg_add, &regdata) == 0) {
+    if (es_read_reg(i2c_address_es8374, reg_add, &regdata) == 0) {
         *regv = regdata;
         return res;
     } else {
@@ -687,9 +676,12 @@ static int es8374_init_reg(codec_mode_t ms_mode, i2s_format_t fmt, es_i2s_clock_
     return res;
 }
 
-error_t es8374_codec_init(codec_config_t *cfg, codec_mode_t codec_mode, void* i2c)
+error_t es8374_codec_init(codec_config_t *cfg, codec_mode_t codec_mode, void* i2c, int i2c_port)
 {
     i2c_handle = i2c;
+    if (i2c_port>0){
+        i2c_address_es8374 = i2c_port;
+    }
     if (es8374_codec_initialized()) {
         AD_LOGW( "The es8374 codec has already been initialized!");
         return RESULT_FAIL;

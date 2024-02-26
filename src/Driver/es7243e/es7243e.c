@@ -29,18 +29,6 @@
 static i2c_bus_handle_t i2c_handle;
 static int es7243e_addr = 0x10; //0x20 >> 1;
 
-// func_t AUDIO_CODEC_ES7243E_DEFAULT_HANDLE = {
-//     .audio_codec_initialize = es7243e_adc_init,
-//     .audio_codec_deinitialize = es7243e_adc_deinit,
-//     .audio_codec_ctrl = es7243e_adc_ctrl_state_active,
-//     .audio_codec_config_iface = es7243e_adc_config_i2s,
-//     .audio_codec_set_mute = NULL,
-//     .audio_codec_set_volume = es7243e_adc_set_voice_volume,
-//     .audio_codec_get_volume = es7243e_adc_get_voice_volume,
-//     .lock = NULL,
-//     .handle = NULL,
-// };
-
 static error_t es7243e_write_reg(uint8_t reg_add, uint8_t data)
 {
     return i2c_bus_write_bytes(i2c_handle, es7243e_addr, &reg_add, sizeof(reg_add), &data, sizeof(data));

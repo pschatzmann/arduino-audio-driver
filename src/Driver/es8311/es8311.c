@@ -30,6 +30,7 @@
 
 /* ES8311 address
  * 0x32:CE=1;0x30:CE=0
+ * 0x32>>1 = 0x19
  * 0x30>>1 = 0x18
  */
 #define ES8311_ADDR         0x18
@@ -51,6 +52,7 @@
 #define MCLK_DIV_FRE        256
 
 static i2c_bus_handle_t i2c_handle;
+static int i2c_address_es8311 = ES8311_ADDR;
 
 // /*
 //  * operate function of codec
@@ -203,13 +205,13 @@ int8_t get_es8311_mclk_src(void) {
 
 static error_t es8311_write_reg(uint8_t reg_addr, uint8_t data)
 {
-    return i2c_bus_write_bytes(i2c_handle, ES8311_ADDR, &reg_addr, sizeof(reg_addr), &data, sizeof(data));
+    return i2c_bus_write_bytes(i2c_handle, i2c_address_es8311, &reg_addr, sizeof(reg_addr), &data, sizeof(data));
 }
 
 static int es8311_read_reg(uint8_t reg_addr)
 {
     uint8_t data;
-    i2c_bus_read_bytes(i2c_handle, ES8311_ADDR, &reg_addr, sizeof(reg_addr), &data, sizeof(data));
+    i2c_bus_read_bytes(i2c_handle, i2c_address_es8311, &reg_addr, sizeof(reg_addr), &data, sizeof(data));
     return (int)data;
 }
 
@@ -277,13 +279,16 @@ static void es8311_suspend(void)
 //     }
 // }
 
-error_t es8311_codec_init(codec_config_t *codec_cfg, i2c_bus_handle_t handle, int8_t mclk_src)
+error_t es8311_codec_init(codec_config_t *codec_cfg, i2c_bus_handle_t handle, int8_t mclk_src, int i2c_address)
 {
     es8311_mclk_src = mclk_src;
     uint8_t datmp, regv;
     int coeff;
     error_t ret = RESULT_OK;
     i2c_handle = handle;
+    if (i2c_address > 0){
+       i2c_address_es8311 = i2c_address;
+    }
 
     ret |= es8311_write_reg(ES8311_CLK_MANAGER_REG01, 0x30);
     ret |= es8311_write_reg(ES8311_CLK_MANAGER_REG02, 0x00);

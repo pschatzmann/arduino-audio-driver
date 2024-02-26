@@ -38,18 +38,6 @@ static i2c_bus_handle_t i2c_handle;
 static int es7243_addr = 0x13; // 0x26>>1;
 static int mclk_gpio = 0;
 
-// func_t AUDIO_CODEC_ES7243_DEFAULT_HANDLE = {
-//     .audio_codec_initialize = es7243_adc_init,
-//     .audio_codec_deinitialize = es7243_adc_deinit,
-//     .audio_codec_ctrl = es7243_adc_ctrl_state_active,
-//     .audio_codec_config_iface = es7243_adc_config_i2s,
-//     .audio_codec_set_mute = es7243_adc_set_voice_mute,
-//     .audio_codec_set_volume = es7243_adc_set_voice_volume,
-//     .audio_codec_get_volume = es7243_adc_get_voice_volume,
-//     .lock = NULL,
-//     .handle = NULL,
-// };
-
 void es7243_mclk_gpio(int gpio){
     mclk_gpio = gpio;
 }
