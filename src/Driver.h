@@ -23,7 +23,7 @@ const samplerate_t rate_code[8] = {RATE_8K, RATE_11K, RATE_16K, RATE_22K,
                                    RATE_24K, RATE_32K, RATE_44K, RATE_48K};
 
 /**
- * @brief I2S configuration and defition of input and output with default values
+ * @brief I2S configuration and definition of input and output with default values
  * @ingroup audio_driver
  * @author Phil Schatzmann
  * @copyright GPLv3
@@ -157,28 +157,38 @@ public:
 class AudioDriver {
 public:
   virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
-    AD_LOGD("AudioDriver::begin");
+    AD_LOGD("AudioDriver::begin:pins");
     p_pins = &pins;
+    AD_LOGD("AudioDriver::begin:setSPI");
     pins.setSPIActiveForSD(codecCfg.sd_active);
+    AD_LOGD("AudioDriver::begin:setConfig");
     int result = setConfig(codecCfg);
+    AD_LOGD("AudioDriver::begin:setPAPower");
     setPAPower(true);
+    AD_LOGD("AudioDriver::begin:completed");
     return result;
   }
   virtual bool setConfig(CodecConfig codecCfg) {
     codec_cfg = codecCfg;
     if (!init(codec_cfg)) {
-      AD_LOGE("init failed");
+      AD_LOGE("AudioDriver::begin::init failed");
       return false;
+    } else {
+      AD_LOGD("AudioDriver::begin::init succeeded");
     }
     codec_mode_t codec_mode = codec_cfg.get_mode();
     if (!controlState(codec_mode)) {
-      AD_LOGE("controlState failed");
+      AD_LOGE("AudioDriver::begin::controlState failed");
       return false;
+    } else {
+      AD_LOGD("AudioDriver::begin::controlState succeeded");
     }
     bool result = configInterface(codec_mode, codec_cfg.i2s);
     if (!result) {
-      AD_LOGE("configInterface failed");
+      AD_LOGE("AudioDriver::begin::configInterface failed");
       return false;
+    } else {
+      AD_LOGD("AudioDriver::begin::configInterface succeeded");
     }
     return result;
   }
@@ -196,8 +206,7 @@ public:
   /// Sets the PA Power pin to active or inactive
   bool setPAPower(bool enable) {
     GpioPin  pin = pins().getPinID(PinFunction::PA);
-    if (pin == -1)
-      return false;
+    if (pin == -1) { return false; }
     AD_LOGI("setPAPower pin %d -> %d", pin, enable);
     digitalWrite(pin, enable ? HIGH : LOW);
     return true;
@@ -207,7 +216,7 @@ protected:
   CodecConfig codec_cfg;
   DriverPins *p_pins = nullptr;
 
-  /// Detemine the TwoWire object from the I2C config or use Wire
+  /// Determine the TwoWire object from the I2C config or use Wire
   TwoWire* getI2C() {
     if (p_pins == nullptr) return &Wire;
     auto i2c = pins().getI2CPins(PinFunction::CODEC);
@@ -724,7 +733,7 @@ public:
   /// Configuration: define retry count (default : 0)
   void setI2CRetryCount(int cnt) { i2c_retry_count = cnt; }
 
-  /// Configuration: enable/diable PLL (active by default)
+  /// Configuration: enable/disable PLL (active by default)
   void setEnablePLL(bool active) { vs1053_enable_pll = active; }
 
   /// Configuration: define master clock frequency (default: 0)
@@ -853,7 +862,7 @@ public:
 
   virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
     codec_cfg = codecCfg;
-    // manage reset pin -> acive high
+    // manage reset pin -> active high
     setPAPower(true);
     delay(10);
     p_pins = &pins;

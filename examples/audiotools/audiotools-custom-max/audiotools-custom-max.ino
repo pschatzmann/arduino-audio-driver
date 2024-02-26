@@ -7,35 +7,58 @@
 #include "AudioTools.h" // install https://github.com/pschatzmann/arduino-audio-tools
 #include "AudioLibs/I2SCodecStream.h"
 
-AudioInfo info(44100, 2, 16);
-SineWaveGenerator<int16_t> sineWave(32000);
-GeneratedSoundStream<int16_t> sound(sineWave);
-DriverPins my_pins;
-AudioBoard board(AudioDriverES8388, my_pins);
-I2SCodecStream out(board);
-StreamCopy copier(out, sound);
+// I2C
+#define SDAPIN               3 // I2C Data,  Adafruit ESP32 S3 3, Sparkfun Thing Plus C 23
+#define SCLPIN               4 // I2C Clock, Adafruit ESP32 S3 4, Sparkfun Thing Plus C 22
+#define I2CSPEED        100000 // Clock Rate
+#define ES8388ADDR        0x10 // Address of ES8388 I2C port
+
+// I2S, your configuration for the ES8388 board
+#define MCLKPIN             14 // Master Clock
+#define BCLKPIN             36 // Bit Clock
+#define WSPIN                8 // Word select
+#define DOPIN               37 // This is connected to DI on ES8388 (MISO)
+#define DIPIN               35 // This is connected to DO on ES8388 (MOSI)
+
+AudioInfo                     audio_info(44200, 2, 16);                // sampling rate, # channels, bit depth
+SineWaveGenerator<int16_t>    sine_wave(32000);                        // amplitude
+GeneratedSoundStream<int16_t> sound_stream(sine_wave);                 // sound generator
+DriverPins                    my_pins;                                 // board pins
+AudioBoard                    audio_board(AudioDriverES8388, my_pins); // audio board
+I2SCodecStream                i2s_out_stream(audio_board);             // i2s coded
+StreamCopy                    copier(i2s_out_stream, sound_stream);    // stream copy sound generator to i2s codec
+TwoWire                       myWire = TwoWire(0);                     // universal I2C interface
 
 void setup() {
   // Setup logging
   Serial.begin(115200);
   AudioLogger::instance().begin(Serial, AudioLogger::Warning);
   LOGLEVEL_AUDIODRIVER = AudioDriverWarning;
+  delay(2000);
 
-  // setup pins
-  // - add i2c codec pins: scl, sda, port, (I2C object)
-  my_pins.addI2C(PinFunction::CODEC, 32, 22, 0x20, 100000, Wire);
-  // - add i2s pins: mclk, bclk, ws, data_out, data_in
-  my_pins.addI2S(PinFunction::CODEC, 0, 14, 15, 22);
+  Serial.println("Setup starting...");
 
-  
-  // start I2S & codec with i2c and i2s configured above
-  Serial.println("starting I2S...");
-  auto config = out.defaultConfig();
-  config.copyFrom(info);
-  out.begin(config);
+  Serial.println("I2C pin ...");
+  my_pins.addI2C(PinFunction::CODEC, SCLPIN, SDAPIN, ES8388ADDR, I2CSPEED, myWire);
+  Serial.println("I2S pin ...");
+  my_pins.addI2S(PinFunction::CODEC, MCLKPIN, BCLKPIN, WSPIN, DOPIN, DIPIN);
+
+  Serial.println("Pins begin ..."); 
+  my_pins.begin();
+
+  Serial.println("Board begin ..."); 
+  audio_board.begin();
+
+  Serial.println("I2S begin ..."); 
+  auto i2s_config = i2s_out_stream.defaultConfig();
+  i2s_config.copyFrom(audio_info);  
+  i2s_out_stream.begin(i2s_config); // this should apply I2C and I2S configuration
 
   // Setup sine wave
-  sineWave.begin(info, N_B4);
+  Serial.println("Sine wave begin...");
+  sine_wave.begin(audio_info, N_B4); // 493.88 Hz
+
+  Serial.println("Setup completed ...");
 }
 
 // Arduino loop - copy sound to out

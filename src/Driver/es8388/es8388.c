@@ -183,7 +183,7 @@ error_t es8388_stop(codec_mode_t mode)
 
 
 /**
- * @brief Config I2s clock in MSATER mode
+ * @brief Config I2s clock in MASTER mode
  *
  * @param cfg.sclkDiv:      generate SCLK by dividing MCLK in MSATER mode
  * @param cfg.lclkDiv:      generate LCLK by dividing MCLK in MSATER mode
@@ -225,6 +225,16 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle)
     i2c_handle = handle;
 
     int res = 0;
+
+    // Here check if ES8388 is responding on the I2C bus
+    res = i2c_bus_check(handle, ES8388_ADDR);
+    if (res != 0) {
+        AD_LOGE("ES8388 not found on I2C bus, check wiring");
+        return res;
+    } else {
+        AD_LOGI("Found ES8388");
+    }
+
 #ifdef CONFIG_ESP_LYRAT_V4_3_BOARD
     headphone_detect_init(get_headphone_detect_gpio());
 #endif
