@@ -328,10 +328,12 @@ public:
     for (auto &tmp : spi) {
       AD_LOGD("DriverPins::begin::SPI::begin");
       if (tmp.function == PinFunction::SD)
+      {
         if (sd_active)
           result &= tmp.begin();
       else
         result &= tmp.begin();
+      }
     }
 
     // setup i2c
