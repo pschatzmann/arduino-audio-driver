@@ -128,6 +128,8 @@ struct PinsSPI {
         p_spi->begin();
 #endif
       }
+    } else {
+      AD_LOGI("SPI, not active, MOSI, MISO, SCLK, SSEL not modified");
     }
     return true;
   }
@@ -190,6 +192,8 @@ struct PinsI2C {
       }
       AD_LOGI("Setting i2c clock: %u", frequency);
       p_wire->setClock(frequency);
+    } else {
+      AD_LOGI("I2C, not active, SDA, SCL, i2c clock not modified");
     }
     return true;
   }
@@ -315,11 +319,14 @@ public:
     AD_LOGD("DriverPins::begin");
 
     // setup function pins
+    AD_LOGD("DriverPins::begin::setupPinMode");
     setupPinMode();
 
     // setup spi
+    AD_LOGD("DriverPins::begin::SPI");
     bool result = true;
     for (auto &tmp : spi) {
+      AD_LOGD("DriverPins::begin::SPI::begin");
       if (tmp.function == PinFunction::SD)
         if (sd_active)
           result &= tmp.begin();
@@ -328,7 +335,9 @@ public:
     }
 
     // setup i2c
+    AD_LOGD("DriverPins::begin::I2C");
     for (auto &tmp : i2c) {
+      AD_LOGD("DriverPins::begin::I2C::begin");
       result &= tmp.begin();
     }
     return result;
@@ -337,10 +346,12 @@ public:
   void end() {
     // setup spi
     for (auto &tmp : spi) {
+      AD_LOGD("DriverPins::begin::SPI::end");
       tmp.end();
     }
     // setup i2c
     for (auto &tmp : i2c) {
+      AD_LOGD("DriverPins::begin::I2C::end");
       tmp.end();
     }
   }
@@ -388,7 +399,10 @@ protected:
           AD_LOGW("Pin '%d' not set up because of conflict", tmp.pin);
           tmp.active = false;
         }
+      } else {
+        AD_LOGD("Pin is -1");
       }
+      AD_LOGD("Pin %d set", tmp.pin);
     }
   }
 

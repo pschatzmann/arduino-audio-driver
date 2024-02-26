@@ -23,10 +23,15 @@ public:
   }
 
   bool begin(){
-    AD_LOGD("AudioBoard::begin");
-    bool result = pins.begin() && driver->begin(codec_cfg, pins);
+    AD_LOGD("AudioBoard::pins::begin");
+    bool result_pins = pins.begin();
+    AD_LOGD("AudioBoard::pins::begin::returned:%s", result_pins ? "true" : "false");
+    AD_LOGD("AudioBoard::driver::begin");
+    bool result_driver = driver->begin(codec_cfg, pins);
+    AD_LOGD("AudioBoard::driver::begin::returned:%s", result_driver ? "true" : "false");
     setVolume(DRIVER_DEFAULT_VOLUME);
-    return result;
+    AD_LOGD("AudioBoard::volume::set");
+    return result_pins && result_driver;
   }
 
   /// Starts the processing

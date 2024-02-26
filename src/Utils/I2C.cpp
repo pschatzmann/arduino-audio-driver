@@ -29,6 +29,21 @@ error_t i2c_bus_write_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
   return result;
 }
 
+// this method is used !
+error_t i2c_bus_check(i2c_bus_handle_t bus, int addr) {
+  AD_LOGD("i2c_bus_check: addr=0x%X",addr);
+  TwoWire *p_wire = (TwoWire *)bus;
+  assert(p_wire!=nullptr);
+  int result = RESULT_OK;
+  p_wire->beginTransmission(addr); 
+  int rc = p_wire->endTransmission(I2C_END);
+  if (rc != 0) {
+    AD_LOGE("->p_wire->endTransmission: %d", rc);
+    result = RESULT_FAIL;
+  }
+  return result;
+}
+
 
 /// This method is used
 error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
