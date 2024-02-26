@@ -35,7 +35,7 @@ enum class PinLogic {
 enum class PinFunction {
   HEADPHONE_DETECT,
   AUXIN_DETECT,
-  PA, // Power Amplifier
+  PA,  // Power Amplifier
   POWER,
   LED,
   KEY,
@@ -68,7 +68,7 @@ struct PinsI2S {
   GpioPin ws;
   GpioPin data_out;
   GpioPin data_in;
-  int port; // port number
+  int port;  // port number
 };
 
 /**
@@ -177,7 +177,7 @@ struct PinsI2C {
         p_wire->begin();
       } else {
         // begin with defined pins, if supported
-#if defined(ESP32) 
+#if defined(ESP32)
         AD_LOGI("setting up I2C scl: %d, sda: %d", scl, sda);
         p_wire->begin(sda, scl);
 #elif defined(ARDUINO_ARCH_RP2040) || defined(ARDUINO_ARCH_STM32)
@@ -218,7 +218,7 @@ struct PinsFunction {
   int pin = -1;
   int index = 0;
   PinLogic pin_logic;
-  bool active = true; // false if pin conflict
+  bool active = true;  // false if pin conflict
 };
 
 /**
@@ -228,7 +228,7 @@ struct PinsFunction {
  * @copyright GPLv3
  */
 class DriverPins {
-public:
+ public:
   void addI2S(PinsI2S pin) { i2s.push_back(pin); }
   void addI2S(PinFunction function, GpioPin mclk, GpioPin bck, GpioPin ws,
               GpioPin data_out, GpioPin data_in = -1, int port = 0) {
@@ -259,8 +259,7 @@ public:
   /// Get pin information by function
   Optional<PinsFunction> getPin(PinFunction function, int pos = 0) {
     for (PinsFunction &pin : pins) {
-      if (pin.function == function && pin.index == pos)
-        return pin;
+      if (pin.function == function && pin.index == pos) return pin;
     }
     return {};
   }
@@ -268,31 +267,27 @@ public:
   /// Get pin information by pin ID
   Optional<PinsFunction> getPin(GpioPin pinId) {
     for (PinsFunction &pin : pins) {
-      if (pin.pin == pinId)
-        return pin;
+      if (pin.pin == pinId) return pin;
     }
     return {};
   }
 
   GpioPin getPinID(PinFunction function, int pos = 0) {
     auto pin = getPin(function, pos);
-    if (pin)
-      return pin.value().pin;
+    if (pin) return pin.value().pin;
     return -1;
   }
 
   Optional<PinsI2C> getI2CPins(PinFunction function) {
     for (PinsI2C &pin : i2c) {
-      if (pin.function == function)
-        return pin;
+      if (pin.function == function) return pin;
     }
     return {};
   }
 
   Optional<PinsSPI> getSPIPins(PinFunction function) {
     for (PinsSPI &pins : spi) {
-      if (pins.function == function)
-        return pins;
+      if (pins.function == function) return pins;
     }
     return {};
   }
@@ -300,8 +295,7 @@ public:
   /// Finds the I2S pins with the help of the port
   Optional<PinsI2S> getI2SPins(int port) {
     for (PinsI2S &pins : i2s) {
-      if (pins.port == port)
-        return pins;
+      if (pins.port == port) return pins;
     }
     return {};
   }
@@ -309,8 +303,7 @@ public:
   /// Finds the I2S pins with the help of the function
   Optional<PinsI2S> getI2SPins(PinFunction function = PinFunction::CODEC) {
     for (PinsI2S &pins : i2s) {
-      if (pins.function == function)
-        return pins;
+      if (pins.function == function) return pins;
     }
     return {};
   }
@@ -327,12 +320,11 @@ public:
     bool result = true;
     for (auto &tmp : spi) {
       AD_LOGD("DriverPins::begin::SPI::begin");
-      if (tmp.function == PinFunction::SD)
-      {
+      if (tmp.function == PinFunction::SD) {
         if (sd_active)
           result &= tmp.begin();
-      else
-        result &= tmp.begin();
+        else
+          result &= tmp.begin();
       }
     }
 
@@ -367,7 +359,7 @@ public:
   /// Returns true if some function pins have been defined
   bool hasPins() { return !pins.empty(); }
 
-protected:
+ protected:
   Vector<PinsI2S> i2s{0};
   Vector<PinsSPI> spi{0};
   Vector<PinsI2C> i2c{0};
@@ -381,21 +373,21 @@ protected:
         if (!hasConflict(tmp.pin)) {
           AD_LOGD("pinMode %d", tmp.pin);
           switch (tmp.pin_logic) {
-          case PinLogic::InputActiveHigh:
-            pinMode(tmp.pin, INPUT);
-            break;
-          case PinLogic::InputActiveLow:
-            pinMode(tmp.pin, INPUT_PULLUP);
-            break;
-          case PinLogic::Input:
-            pinMode(tmp.pin, INPUT);
-            break;
-          case PinLogic::Output:
-            pinMode(tmp.pin, OUTPUT);
-            break;
-          default:
-            // do nothing
-            break;
+            case PinLogic::InputActiveHigh:
+              pinMode(tmp.pin, INPUT);
+              break;
+            case PinLogic::InputActiveLow:
+              pinMode(tmp.pin, INPUT_PULLUP);
+              break;
+            case PinLogic::Input:
+              pinMode(tmp.pin, INPUT);
+              break;
+            case PinLogic::Output:
+              pinMode(tmp.pin, OUTPUT);
+              break;
+            default:
+              // do nothing
+              break;
           }
         } else {
           AD_LOGW("Pin '%d' not set up because of conflict", tmp.pin);
@@ -415,8 +407,7 @@ protected:
   bool hasSPIConflict(int pin) {
     if (sd_active) {
       auto sd = getSPIPins(PinFunction::SD);
-      if (!sd)
-        return false;
+      if (!sd) return false;
       PinsSPI spi = sd.value();
       return spi.cs == pin || spi.clk == pin || spi.miso == pin ||
              spi.mosi == pin;
@@ -440,7 +431,7 @@ protected:
  * @copyright GPLv3
  */
 class PinsLyrat43Class : public DriverPins {
-public:
+ public:
   PinsLyrat43Class() {
     // sd pins
     addSPI(ESP32PinsSD);
@@ -469,7 +460,7 @@ public:
  * @copyright GPLv3
  */
 class PinsLyrat42Class : public DriverPins {
-public:
+ public:
   PinsLyrat42Class() {
     // sd pins
     addSPI(ESP32PinsSD);
@@ -498,7 +489,7 @@ public:
  * @copyright GPLv3
  */
 class PinsLyratMiniClass : public DriverPins {
-public:
+ public:
   PinsLyratMiniClass() {
     // sd pins
     addSPI(ESP32PinsSD);
@@ -529,7 +520,7 @@ public:
  * @copyright GPLv3
  */
 class PinsAudioKitEs8388v1Class : public DriverPins {
-public:
+ public:
   PinsAudioKitEs8388v1Class() {
     // sd pins
     addSPI(ESP32PinsSD);
@@ -558,7 +549,7 @@ public:
  * @copyright GPLv3
  */
 class PinsAudioKitEs8388v2Class : public DriverPins {
-public:
+ public:
   PinsAudioKitEs8388v2Class() {
     // sd pins
     addSPI(ESP32PinsSD);
@@ -587,7 +578,7 @@ public:
  * @copyright GPLv3
  */
 class PinsAudioKitAC101Class : public DriverPins {
-public:
+ public:
   PinsAudioKitAC101Class() {
     // sd pins
     addSPI(ESP32PinsSD);
@@ -618,7 +609,7 @@ public:
  * @copyright GPLv3
  */
 class PinsSTM32F411DiscoClass : public DriverPins {
-public:
+ public:
   PinsSTM32F411DiscoClass() {
     // add i2c codec pins: scl, sda, port, frequency
     addI2C(PinFunction::CODEC, PB6, PB9);
@@ -626,13 +617,13 @@ public:
     addI2S(PinFunction::CODEC, PC7, PC10, PA4, PC3, PC12);
 
     // add other pins
-    addPin(PinFunction::KEY, PA0, PinLogic::Output);     // user button
-    addPin(PinFunction::LED, PD12, PinLogic::Output, 0); // green
-    addPin(PinFunction::LED, PD5, PinLogic::Output, 1);  // red
-    addPin(PinFunction::LED, PD13, PinLogic::Output, 2); // orange
-    addPin(PinFunction::LED, PD14, PinLogic::Output, 3); // red
-    addPin(PinFunction::LED, PD15, PinLogic::Output, 4); // blue
-    addPin(PinFunction::PA, PD4, PinLogic::Output); // reset pin (active high)
+    addPin(PinFunction::KEY, PA0, PinLogic::Output);      // user button
+    addPin(PinFunction::LED, PD12, PinLogic::Output, 0);  // green
+    addPin(PinFunction::LED, PD5, PinLogic::Output, 1);   // red
+    addPin(PinFunction::LED, PD13, PinLogic::Output, 2);  // orange
+    addPin(PinFunction::LED, PD14, PinLogic::Output, 3);  // red
+    addPin(PinFunction::LED, PD15, PinLogic::Output, 4);  // blue
+    addPin(PinFunction::PA, PD4, PinLogic::Output);  // reset pin (active high)
     // addPin(PinFunction::CODEC_ADC, PC3, PinLogic::Input); // Microphone
   }
 };
@@ -660,4 +651,4 @@ static PinsAudioKitEs8388v2Class PinsAudioKitEs8388v2;
 /// @ingroup audio_driver
 static PinsAudioKitAC101Class PinsAudioKitAC101;
 
-} // namespace audio_driver
+}  // namespace audio_driver
