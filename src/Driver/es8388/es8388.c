@@ -235,10 +235,6 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle)
         AD_LOGI("Found ES8388");
     }
 
-#ifdef CONFIG_ESP_LYRAT_V4_3_BOARD
-    headphone_detect_init(get_headphone_detect_gpio());
-#endif
-
 
     res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL3, 0x04);  // 0x04 mute/0x00 unmute&ramp;DAC unmute and  disabled digital volume control soft ramp
     /* Chip Control and Power Management */
