@@ -229,7 +229,7 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle)
     // Here check if ES8388 is responding on the I2C bus
     res = i2c_bus_check(handle, ES8388_ADDR);
     if (res != 0) {
-        AD_LOGE("ES8388 not found on I2C bus, check wiring");
+        AD_LOGE("ES8388 not found on I2C address %x, check wiring", ES8388_ADDR);
         return res;
     } else {
         AD_LOGI("Found ES8388");
