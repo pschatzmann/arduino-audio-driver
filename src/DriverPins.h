@@ -245,7 +245,7 @@ class DriverPins {
   void addI2C(PinsI2C pin) { i2c.push_back(pin); }
   void addI2C(PinFunction function, GpioPin scl, GpioPin sda, int port = -1,
               uint32_t frequency = 100000, TwoWire &wire = Wire) {
-    PinsI2C pin(function, scl, sda, port, frequency);
+    PinsI2C pin(function, scl, sda, port, frequency, wire);
     addI2C(pin);
   }
 
