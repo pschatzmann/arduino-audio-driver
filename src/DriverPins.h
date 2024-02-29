@@ -331,7 +331,7 @@ class DriverPins {
     // setup i2c
     AD_LOGD("DriverPins::begin::I2C");
     for (auto &tmp : i2c) {
-      AD_LOGD("DriverPins::begin::I2C::begin");
+      AD_LOGD("DriverPins::begin::I2C port:%d", tmp.port);
       result &= tmp.begin();
     }
     return result;

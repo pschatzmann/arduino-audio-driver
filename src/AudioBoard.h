@@ -12,22 +12,22 @@ namespace audio_driver {
  */
 class AudioBoard {
 public:
-  AudioBoard(AudioDriver *driver, DriverPins pins=NoPins) {
+  AudioBoard(AudioDriver *driver, DriverPins* pins=&NoPins) {
     this->pins = pins;
     this->driver = driver;
   }
   
-  AudioBoard(AudioDriver &driver, DriverPins pins=NoPins) {
-    this->pins = pins;
+  AudioBoard(AudioDriver &driver, DriverPins& pins=NoPins) {
+    this->pins = &pins;
     this->driver = &driver;
   }
 
   bool begin(){
     AD_LOGD("AudioBoard::pins::begin");
-    bool result_pins = pins.begin();
+    bool result_pins = pins->begin();
     AD_LOGD("AudioBoard::pins::begin::returned:%s", result_pins ? "true" : "false");
     AD_LOGD("AudioBoard::driver::begin");
-    bool result_driver = driver->begin(codec_cfg, pins);
+    bool result_driver = driver->begin(codec_cfg, *pins);
     AD_LOGD("AudioBoard::driver::begin::returned:%s", result_driver ? "true" : "false");
     setVolume(DRIVER_DEFAULT_VOLUME);
     AD_LOGD("AudioBoard::volume::set");
@@ -47,13 +47,13 @@ public:
   }
 
   bool end(void) {
-    pins.end();
+    pins->end();
     return driver->end();
   }
   bool setMute(bool enable) { return driver->setMute(enable); }
   bool setVolume(int volume) { return driver->setVolume(volume); }
   int getVolume() { return driver->getVolume(); }
-  DriverPins& getPins() { return pins; }
+  DriverPins& getPins() { return *pins; }
   bool setPAPower(bool enable) { return driver->setPAPower(enable); }
   /// set volume for adc: this is only supported on some defined codecs
   bool setInputVolume(int volume) {return driver->setInputVolume(volume);}
@@ -63,7 +63,7 @@ public:
   }
 
 protected:
-  DriverPins pins;
+  DriverPins* pins;
   CodecConfig codec_cfg;
   AudioDriver* driver = nullptr;
 };
