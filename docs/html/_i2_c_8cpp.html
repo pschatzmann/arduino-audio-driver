@@ -78,6 +78,9 @@ $(function() {
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:af875a59327f98cb9ae843ede8587fef3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_common_8h.html#a9ad6b2dc3cbff040775e79656fe8e1a3">error_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_i2_c_8cpp.html#af875a59327f98cb9ae843ede8587fef3">i2c_bus_check</a> (<a class="el" href="_common_8h.html#a7031876dbed79a4a0cf1a5f82970275c">i2c_bus_handle_t</a> bus, int addr)</td></tr>
+<tr class="memdesc:af875a59327f98cb9ae843ede8587fef3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requests ACK from I2C device.  <a href="_i2_c_8cpp.html#af875a59327f98cb9ae843ede8587fef3">More...</a><br /></td></tr>
+<tr class="separator:af875a59327f98cb9ae843ede8587fef3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac55a996bcf945a17aa3ddfb1525e1e8e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_common_8h.html#a9ad6b2dc3cbff040775e79656fe8e1a3">error_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_i2_c_8cpp.html#ac55a996bcf945a17aa3ddfb1525e1e8e">i2c_bus_read_bytes</a> (<a class="el" href="_common_8h.html#a7031876dbed79a4a0cf1a5f82970275c">i2c_bus_handle_t</a> bus, int addr, uint8_t *reg, int reglen, uint8_t *outdata, int datalen)</td></tr>
 <tr class="memdesc:ac55a996bcf945a17aa3ddfb1525e1e8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method is used.  <a href="_i2_c_8cpp.html#ac55a996bcf945a17aa3ddfb1525e1e8e">More...</a><br /></td></tr>
 <tr class="separator:ac55a996bcf945a17aa3ddfb1525e1e8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -86,6 +89,48 @@ Functions</h2></td></tr>
 <tr class="separator:a071b982589bd609053db3ab22cfd4f74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="af875a59327f98cb9ae843ede8587fef3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af875a59327f98cb9ae843ede8587fef3">&#9670;&nbsp;</a></span>i2c_bus_check()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_common_8h.html#a9ad6b2dc3cbff040775e79656fe8e1a3">error_t</a> i2c_bus_check </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="_common_8h.html#a7031876dbed79a4a0cf1a5f82970275c">i2c_bus_handle_t</a>&#160;</td>
+          <td class="paramname"><em>bus</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>addr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Requests ACK from I2C device. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bus</td><td>I2C bus handle </td></tr>
+    <tr><td class="paramname">addr</td><td>The address of the device</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><ul>
+<li>NULL Fail</li>
+<li>Others Success </li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
 <a id="ac55a996bcf945a17aa3ddfb1525e1e8e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac55a996bcf945a17aa3ddfb1525e1e8e">&#9670;&nbsp;</a></span>i2c_bus_read_bytes()</h2>
 

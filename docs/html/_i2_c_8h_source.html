@@ -81,19 +81,22 @@ $(function() {
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<a class="code" href="_common_8h.html#a9ad6b2dc3cbff040775e79656fe8e1a3">error_t</a> <a class="code" href="_i2_c_8h.html#a33733ea17940e828fc5aa7ed9aa3034a">i2c_bus_write_bytes</a>(<a class="code" href="_common_8h.html#a7031876dbed79a4a0cf1a5f82970275c">i2c_bus_handle_t</a> bus, <span class="keywordtype">int</span> addr, uint8_t *reg, <span class="keywordtype">int</span> regLen, uint8_t *data, <span class="keywordtype">int</span> datalen);</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<a class="code" href="_common_8h.html#a9ad6b2dc3cbff040775e79656fe8e1a3">error_t</a> <a class="code" href="_i2_c_8h.html#ac55a996bcf945a17aa3ddfb1525e1e8e">i2c_bus_read_bytes</a>(<a class="code" href="_common_8h.html#a7031876dbed79a4a0cf1a5f82970275c">i2c_bus_handle_t</a> bus, <span class="keywordtype">int</span> addr, uint8_t *reg, <span class="keywordtype">int</span> reglen, uint8_t *outdata, <span class="keywordtype">int</span> datalen);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<a class="code" href="_common_8h.html#a9ad6b2dc3cbff040775e79656fe8e1a3">error_t</a> <a class="code" href="_i2_c_8h.html#af875a59327f98cb9ae843ede8587fef3">i2c_bus_check</a>(<a class="code" href="_common_8h.html#a7031876dbed79a4a0cf1a5f82970275c">i2c_bus_handle_t</a> bus, <span class="keywordtype">int</span> addr);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<a class="code" href="_common_8h.html#a9ad6b2dc3cbff040775e79656fe8e1a3">error_t</a> <a class="code" href="_i2_c_8h.html#ac55a996bcf945a17aa3ddfb1525e1e8e">i2c_bus_read_bytes</a>(<a class="code" href="_common_8h.html#a7031876dbed79a4a0cf1a5f82970275c">i2c_bus_handle_t</a> bus, <span class="keywordtype">int</span> addr, uint8_t *reg, <span class="keywordtype">int</span> reglen, uint8_t *outdata, <span class="keywordtype">int</span> datalen);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
 <div class="ttc" id="a_common_8h_html"><div class="ttname"><a href="_common_8h.html">Common.h</a></div></div>
 <div class="ttc" id="a_common_8h_html_a7031876dbed79a4a0cf1a5f82970275c"><div class="ttname"><a href="_common_8h.html#a7031876dbed79a4a0cf1a5f82970275c">i2c_bus_handle_t</a></div><div class="ttdeci">void * i2c_bus_handle_t</div><div class="ttdef"><b>Definition:</b> Common.h:40</div></div>
 <div class="ttc" id="a_common_8h_html_a9ad6b2dc3cbff040775e79656fe8e1a3"><div class="ttname"><a href="_common_8h.html#a9ad6b2dc3cbff040775e79656fe8e1a3">error_t</a></div><div class="ttdeci">int error_t</div><div class="ttdef"><b>Definition:</b> Common.h:39</div></div>
 <div class="ttc" id="a_i2_c_8h_html_a33733ea17940e828fc5aa7ed9aa3034a"><div class="ttname"><a href="_i2_c_8h.html#a33733ea17940e828fc5aa7ed9aa3034a">i2c_bus_write_bytes</a></div><div class="ttdeci">error_t i2c_bus_write_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg, int regLen, uint8_t *data, int datalen)</div><div class="ttdoc">Write bytes to I2C bus.</div><div class="ttdef"><b>Definition:</b> I2C.cpp:7</div></div>
-<div class="ttc" id="a_i2_c_8h_html_ac55a996bcf945a17aa3ddfb1525e1e8e"><div class="ttname"><a href="_i2_c_8h.html#ac55a996bcf945a17aa3ddfb1525e1e8e">i2c_bus_read_bytes</a></div><div class="ttdeci">error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg, int reglen, uint8_t *outdata, int datalen)</div><div class="ttdoc">Read bytes to I2C bus.</div><div class="ttdef"><b>Definition:</b> I2C.cpp:34</div></div>
+<div class="ttc" id="a_i2_c_8h_html_ac55a996bcf945a17aa3ddfb1525e1e8e"><div class="ttname"><a href="_i2_c_8h.html#ac55a996bcf945a17aa3ddfb1525e1e8e">i2c_bus_read_bytes</a></div><div class="ttdeci">error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg, int reglen, uint8_t *outdata, int datalen)</div><div class="ttdoc">Read bytes to I2C bus.</div><div class="ttdef"><b>Definition:</b> I2C.cpp:49</div></div>
+<div class="ttc" id="a_i2_c_8h_html_af875a59327f98cb9ae843ede8587fef3"><div class="ttname"><a href="_i2_c_8h.html#af875a59327f98cb9ae843ede8587fef3">i2c_bus_check</a></div><div class="ttdeci">error_t i2c_bus_check(i2c_bus_handle_t bus, int addr)</div><div class="ttdoc">Requests ACK from I2C device.</div><div class="ttdef"><b>Definition:</b> I2C.cpp:33</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

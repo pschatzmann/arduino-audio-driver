@@ -103,6 +103,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a22d2adeb316a5705b57114d4a5761017"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42db9a98715e0b6383cd493d5ca06a8e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classaudio__driver_1_1_driver_pins.html">DriverPins</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a42db9a98715e0b6383cd493d5ca06a8e">pins</a> ()</td></tr>
 <tr class="separator:a42db9a98715e0b6383cd493d5ca06a8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6442182dfc4c54fb16b002b6f15c86e4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a6442182dfc4c54fb16b002b6f15c86e4">setConfig</a> (<a class="el" href="classaudio__driver_1_1_codec_config.html">CodecConfig</a> codecCfg)</td></tr>
+<tr class="separator:a6442182dfc4c54fb16b002b6f15c86e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11bf855250acaa1afbe0b8251660800d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_no_driver_class.html#a11bf855250acaa1afbe0b8251660800d">setInputVolume</a> (int volume)</td></tr>
 <tr class="separator:a11bf855250acaa1afbe0b8251660800d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acdfff622d0b4f02de1468ae00328db63"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_no_driver_class.html#acdfff622d0b4f02de1468ae00328db63">setMute</a> (bool enable)</td></tr>
@@ -123,8 +125,10 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a5e9dd2cbb2377c5ac866a5ccc26ff497"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a5e9dd2cbb2377c5ac866a5ccc26ff497">deinit</a> ()</td></tr>
 <tr class="separator:a5e9dd2cbb2377c5ac866a5ccc26ff497"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace4e6b6c01cac8e0d08d2e592f9651f2"><td class="memItemLeft" align="right" valign="top">TwoWire *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#ace4e6b6c01cac8e0d08d2e592f9651f2">getI2C</a> ()</td></tr>
-<tr class="memdesc:ace4e6b6c01cac8e0d08d2e592f9651f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detemine the TwoWire object from the I2C config or use Wire.  <a href="classaudio__driver_1_1_audio_driver.html#ace4e6b6c01cac8e0d08d2e592f9651f2">More...</a><br /></td></tr>
+<tr class="memdesc:ace4e6b6c01cac8e0d08d2e592f9651f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine the TwoWire object from the I2C config or use Wire.  <a href="classaudio__driver_1_1_audio_driver.html#ace4e6b6c01cac8e0d08d2e592f9651f2">More...</a><br /></td></tr>
 <tr class="separator:ace4e6b6c01cac8e0d08d2e592f9651f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5913823f39bb4c4d7078b0e1a9cb0775"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a5913823f39bb4c4d7078b0e1a9cb0775">getI2CAddress</a> ()</td></tr>
+<tr class="separator:a5913823f39bb4c4d7078b0e1a9cb0775"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1579002eac8e19fe157965f55c7e24e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#af1579002eac8e19fe157965f55c7e24e">init</a> (<a class="el" href="structcodec__config__t.html">codec_config_t</a> <a class="el" href="classaudio__driver_1_1_audio_driver.html#a4296f334f4441aae57fb5f43a0b77968">codec_cfg</a>)</td></tr>
 <tr class="separator:af1579002eac8e19fe157965f55c7e24e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8895270f5503019b98f5c4df036754b4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a8895270f5503019b98f5c4df036754b4">limitValue</a> (int volume, int min=0, int max=100)</td></tr>
@@ -324,7 +328,32 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Detemine the TwoWire object from the I2C config or use Wire. </p>
+<p>Determine the TwoWire object from the I2C config or use Wire. </p>
+
+</div>
+</div>
+<a id="a5913823f39bb4c4d7078b0e1a9cb0775"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5913823f39bb4c4d7078b0e1a9cb0775">&#9670;&nbsp;</a></span>getI2CAddress()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int getI2CAddress </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -508,6 +537,34 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6442182dfc4c54fb16b002b6f15c86e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6442182dfc4c54fb16b002b6f15c86e4">&#9670;&nbsp;</a></span>setConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool setConfig </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classaudio__driver_1_1_codec_config.html">CodecConfig</a>&#160;</td>
+          <td class="paramname"><em>codecCfg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8960_class.html#a6442182dfc4c54fb16b002b6f15c86e4">AudioDriverWM8960Class</a>, and <a class="el" href="classaudio__driver_1_1_audio_driver_c_s43l22_class.html#a6442182dfc4c54fb16b002b6f15c86e4">AudioDriverCS43l22Class</a>.</p>
 
 </div>
 </div>
