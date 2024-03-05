@@ -197,7 +197,11 @@ struct PinsI2C {
     }
     return true;
   }
-  void end() { p_wire->end(); }
+  void end() { 
+#ifndef ESP8266
+    p_wire->end();
+#endif 
+  }
 };
 
 /**

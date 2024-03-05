@@ -26,7 +26,9 @@
 #include "es8311.h"
 
 
+#ifndef BIT
 #define BIT(nr)             (1 << (nr))
+#endif
 
 /* ES8311 address
  * 0x32:CE=1;0x30:CE=0

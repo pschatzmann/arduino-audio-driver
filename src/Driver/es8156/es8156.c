@@ -26,7 +26,9 @@
 #include <math.h>
 #include "es8156.h"
 
+#ifndef BIT
 #define BIT(nr)             (1 << (nr))
+#endif
 // 0x8 = 0x10>>1
 #define ES8156_ADDR         0x8
 #define BOARD_PA_GAIN       (0) /* Power amplifier gain defined by board (dB) */

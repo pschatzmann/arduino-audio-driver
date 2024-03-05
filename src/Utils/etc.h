@@ -28,7 +28,7 @@ void logStr(const char* msg);
 #ifndef ARDUINO
 void pinMode(int, int);
 void digitalWrite(int, int);
-void delay(uint32_t);
+void delay(unsigned long);
 #endif
 
 

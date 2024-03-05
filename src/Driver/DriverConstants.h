@@ -1,5 +1,7 @@
 #pragma once
-
+#ifdef ARDUINO
+#  include "Arduino.h" // for delay
+#endif
 
 typedef enum {
     _DAC_OUTPUT_MIN = -1,
@@ -122,4 +124,3 @@ typedef struct {
 
 
 
-void delay(uint32_t);
