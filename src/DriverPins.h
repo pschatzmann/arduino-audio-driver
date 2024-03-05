@@ -245,6 +245,7 @@ class DriverPins {
     return addI2S(pin);
   }
   
+  /// Updates the I2S pin information using the function as key
   bool setI2S(PinsI2S pin) { return set<PinsI2S>(pin, i2s); }
 
   bool addSPI(PinsSPI pin) {
@@ -259,6 +260,7 @@ class DriverPins {
     return addSPI(pin);
   }
   
+  /// Updates the SPI pin information using the function as key
   bool setSPI(PinsSPI pin) { return set<PinsSPI>(pin, spi); }
 
   bool addI2C(PinsI2C pin) {
@@ -272,7 +274,8 @@ class DriverPins {
     PinsI2C pin(function, scl, sda, port, frequency, wire);
     return addI2C(pin);
   }
-  
+
+  /// Updates the I2C pin information using the function as key
   bool setI2C(PinsI2C pin) { return set<PinsI2C>(pin, i2c); }
 
   bool addPin(PinsFunction pin) {
@@ -307,19 +310,21 @@ class DriverPins {
     return -1;
   }
 
+  /// Finds the I2C pin info with the help of the function
   Optional<PinsI2C> getI2CPins(PinFunction function) {
     PinsI2C *pins = getPtr<PinsI2C>(function, i2c);
     if (pins == nullptr) return {};
     return *pins;
   }
 
+  /// Finds the SPI pin info with the help of the function
   Optional<PinsSPI> getSPIPins(PinFunction function) {
     PinsSPI *pins = getPtr<PinsSPI>(function, spi);
     if (pins == nullptr) return {};
     return *pins;
   }
 
-  /// Finds the I2S pins with the help of the port
+  /// Finds the I2S pin info with the help of the port
   Optional<PinsI2S> getI2SPins(int port) {
     for (PinsI2S &pins : i2s) {
       if (pins.port == port) return pins;
@@ -327,13 +332,14 @@ class DriverPins {
     return {};
   }
 
-  /// Finds the I2S pins with the help of the function
+  /// Finds the I2S pin info with the help of the function
   Optional<PinsI2S> getI2SPins(PinFunction function = PinFunction::CODEC) {
     PinsI2S *pins = getPtr<PinsI2S>(function, i2s);
     if (pins == nullptr) return {};
     return *pins;
   }
 
+  /// Sets up all pins e.g. by calling pinMode()
   virtual bool begin() {
     AD_LOGD("DriverPins::begin");
 
