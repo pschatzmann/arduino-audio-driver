@@ -1,5 +1,5 @@
 /**
- * @brief We use a predefied board (AudioKitEs8388V1) and output a sine
+ * @brief We use a predefied board (AudioKitEs8388V1) and output_device a sine
  * with the help of the AudioTools I2SCodecStream
  * @author phil schatzmann
  */

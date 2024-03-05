@@ -1,5 +1,5 @@
 /**
- * @brief We define a custom board w/o any pins and output a sine tone
+ * @brief We define a custom board w/o any pins and output_device a sine tone
  * with the help of the AudioTools I2SCodecStream
  * @author phil schatzmann
  */

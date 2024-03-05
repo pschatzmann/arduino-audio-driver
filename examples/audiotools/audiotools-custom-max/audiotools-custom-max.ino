@@ -1,5 +1,5 @@
 /**
- * @brief We define a custom board with the i2c and i2s pins and output a sine
+ * @brief We define a custom board with the i2c and i2s pins and output_device a sine
  * with the help of the AudioTools I2SCodecStream
  * @author phil schatzmann
  */

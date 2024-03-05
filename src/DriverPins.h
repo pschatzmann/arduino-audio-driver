@@ -197,10 +197,10 @@ struct PinsI2C {
     }
     return true;
   }
-  void end() { 
+  void end() {
 #ifndef ESP8266
     p_wire->end();
-#endif 
+#endif
   }
 };
 
@@ -233,32 +233,57 @@ struct PinsFunction {
  */
 class DriverPins {
  public:
-  void addI2S(PinsI2S pin) { i2s.push_back(pin); }
-  void addI2S(PinFunction function, GpioPin mclk, GpioPin bck, GpioPin ws,
+  bool addI2S(PinsI2S pin) {
+    if (getI2SPins(pin.function)) return false;
+    i2s.push_back(pin);
+    return true;
+  }
+
+  bool addI2S(PinFunction function, GpioPin mclk, GpioPin bck, GpioPin ws,
               GpioPin data_out, GpioPin data_in = -1, int port = 0) {
     PinsI2S pin{function, mclk, bck, ws, data_out, data_in, port};
-    addI2S(pin);
+    return addI2S(pin);
   }
-  void addSPI(PinsSPI pin) { spi.push_back(pin); }
-  void addSPI(PinFunction function, GpioPin clk, GpioPin miso, GpioPin mosi,
+  
+  bool setI2S(PinsI2S pin) { return set<PinsI2S>(pin, i2s); }
+
+  bool addSPI(PinsSPI pin) {
+    if (getSPIPins(pin.function)) return false;
+    spi.push_back(pin);
+    return true;
+  }
+  
+  bool addSPI(PinFunction function, GpioPin clk, GpioPin miso, GpioPin mosi,
               GpioPin cs, SPIClass &spi = SPI) {
     PinsSPI pin(function, clk, miso, mosi, cs, spi);
-    addSPI(pin);
+    return addSPI(pin);
   }
+  
+  bool setSPI(PinsSPI pin) { return set<PinsSPI>(pin, spi); }
 
-  void addI2C(PinsI2C pin) { i2c.push_back(pin); }
-  void addI2C(PinFunction function, GpioPin scl, GpioPin sda, int port = -1,
+  bool addI2C(PinsI2C pin) {
+    if (getI2CPins(pin.function)) return false;
+    i2c.push_back(pin);
+    return true;
+  }
+  
+  bool addI2C(PinFunction function, GpioPin scl, GpioPin sda, int port = -1,
               uint32_t frequency = 100000, TwoWire &wire = Wire) {
     PinsI2C pin(function, scl, sda, port, frequency, wire);
-    addI2C(pin);
+    return addI2C(pin);
+  }
+  
+  bool setI2C(PinsI2C pin) { return set<PinsI2C>(pin, i2c); }
+
+  bool addPin(PinsFunction pin) {
+    pins.push_back(pin);
+    return true;
   }
 
-  void addPin(PinsFunction pin) { pins.push_back(pin); }
-
-  void addPin(PinFunction function, GpioPin pinNo, PinLogic logic,
+  bool addPin(PinFunction function, GpioPin pinNo, PinLogic logic,
               int index = 0) {
     PinsFunction pin(function, pinNo, logic, index);
-    addPin(pin);
+    return addPin(pin);
   }
   /// Get pin information by function
   Optional<PinsFunction> getPin(PinFunction function, int pos = 0) {
@@ -283,17 +308,15 @@ class DriverPins {
   }
 
   Optional<PinsI2C> getI2CPins(PinFunction function) {
-    for (PinsI2C &pin : i2c) {
-      if (pin.function == function) return pin;
-    }
-    return {};
+    PinsI2C *pins = getPtr<PinsI2C>(function, i2c);
+    if (pins == nullptr) return {};
+    return *pins;
   }
 
   Optional<PinsSPI> getSPIPins(PinFunction function) {
-    for (PinsSPI &pins : spi) {
-      if (pins.function == function) return pins;
-    }
-    return {};
+    PinsSPI *pins = getPtr<PinsSPI>(function, spi);
+    if (pins == nullptr) return {};
+    return *pins;
   }
 
   /// Finds the I2S pins with the help of the port
@@ -306,10 +329,9 @@ class DriverPins {
 
   /// Finds the I2S pins with the help of the function
   Optional<PinsI2S> getI2SPins(PinFunction function = PinFunction::CODEC) {
-    for (PinsI2S &pins : i2s) {
-      if (pins.function == function) return pins;
-    }
-    return {};
+    PinsI2S *pins = getPtr<PinsI2S>(function, i2s);
+    if (pins == nullptr) return {};
+    return *pins;
   }
 
   virtual bool begin() {
@@ -369,6 +391,22 @@ class DriverPins {
   Vector<PinsI2C> i2c{0};
   Vector<PinsFunction> pins{0};
   bool sd_active = true;
+
+  template <typename T>
+  T *getPtr(PinFunction function, Vector<T> &vect) {
+    for (auto &pins : vect) {
+      if (pins.function == function) return &pins;
+    }
+    return nullptr;
+  }
+
+  template <typename T>
+  bool set(T pin, Vector<T> &vect) {
+    T *pins = getPtr<T>(pin.function, vect);
+    if (pins == nullptr) return false;
+    *pins = pin;
+    return true;
+  }
 
   void setupPinMode() {
     // setup pins

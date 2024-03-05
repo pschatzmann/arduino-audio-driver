@@ -18,12 +18,12 @@ void setup() {
   // add i2c codec pins: scl, sda, port
   my_pins.addI2C(CODEC, 32, 22, 0x20);
   // example add other pins: PA on gpio 21
-  my_pins.addPin(PA, 21, PinLogic::Output);
+  my_pins.addPin(PA, 21, PinLogic::output_device);
 
   // configure codec
   CodecConfig cfg;
-  cfg.adc_input = ADC_INPUT_LINE1;
-  cfg.dac_output = DAC_OUTPUT_ALL;
+  cfg.input_device = input_device_LINE1;
+  cfg.output_device = output_device_ALL;
   cfg.i2s.bits = BIT_LENGTH_16BITS;
   cfg.i2s.rate = RATE_44K;
   // cfg.i2s.fmt = I2S_NORMAL;
