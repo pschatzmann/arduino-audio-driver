@@ -60,6 +60,11 @@ error_t es8388_write_reg(uint8_t reg_add, uint8_t data)
     return es_write_reg(ES8388_ADDR, reg_add, data);
 }
 
+error_t es8388_read_reg(uint8_t reg_add, uint8_t *p_data)
+{
+    return i2c_bus_read_bytes(i2c_handle, ES8388_ADDR, &reg_add, sizeof(reg_add), p_data, 1);
+}
+
 /**
  * @brief Configure ES8388 ADC and DAC volume. Basicly you can consider this as ADC and DAC gain
  *

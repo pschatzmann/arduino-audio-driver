@@ -263,6 +263,19 @@ error_t es8388_config_output_device(es_output_device_t output);
 error_t es8388_write_reg(uint8_t reg_add, uint8_t data);
 
 /**
+ * @brief Reads ES8388 register
+ *
+ * @param reg_add address of register
+ * @param data data of register
+ *
+ * @return
+ *     - RESULT_FAIL Parameter error
+ *     - RESULT_OK   Success
+ */
+
+error_t es8388_read_reg(uint8_t reg_add, uint8_t *p_data);
+
+/**
  * @brief Print all ES8388 registers
  *
  * @return
