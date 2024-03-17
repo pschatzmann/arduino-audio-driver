@@ -23,6 +23,7 @@ public:
   }
 
   bool begin(){
+    pins->setSPIActiveForSD(codec_cfg.sd_active);
     AD_LOGD("AudioBoard::pins::begin");
     bool result_pins = pins->begin();
     AD_LOGD("AudioBoard::pins::begin::returned:%s", result_pins ? "true" : "false");
