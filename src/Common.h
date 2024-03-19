@@ -1,5 +1,6 @@
 #pragma once
 #include <stdint.h>
+
 #include "Utils/Logger.h"
 /*!
  * @file
@@ -7,23 +8,23 @@
  * @defgroup enumerations Public enumeration types
  */
 
-// To increase the max volume e.g. for ai_thinker (ES8388) 2957 or A202 -> set to 1 or 2
-// 0 AUX volume is LINE level
-// 1 you can control the AUX volume with setVolume()
+// To increase the max volume e.g. for ai_thinker (ES8388) 2957 or A202 -> set
+// to 1 or 2 0 AUX volume is LINE level 1 you can control the AUX volume with
+// setVolume()
 #ifndef AI_THINKER_ES8388_VOLUME_HACK
-#  define AI_THINKER_ES8388_VOLUME_HACK 1
+#define AI_THINKER_ES8388_VOLUME_HACK 1
 #endif
 
 // Default volume at startup
 #ifndef DRIVER_DEFAULT_VOLUME
-#  define DRIVER_DEFAULT_VOLUME 70
+#define DRIVER_DEFAULT_VOLUME 70
 #endif
 
 // Define the default gain for the microphone amp (see values from
 // es_mic_gain_t) Alternativly you can call es8388_set_mic_gain(es_mic_gain_t
 // gain) if you prefer to use value from an comprehensive enum
 #ifndef ES8388_DEFAULT_INPUT_GAIN
-#  define ES8388_DEFAULT_INPUT_GAIN 25
+#define ES8388_DEFAULT_INPUT_GAIN 25
 #endif
 
 /// Fixed Definitions
@@ -86,13 +87,18 @@ typedef enum {
  */
 typedef enum {
   RATE_8K = 0, /*!< set to  8k samples per second */
-  RATE_11K,     /*!< set to 11.025k samples per second */
-  RATE_16K,     /*!< set to 16k samples in per second */
-  RATE_22K,     /*!< set to 22.050k samples per second */
-  RATE_24K,     /*!< set to 24k samples in per second */
-  RATE_32K,     /*!< set to 32k samples in per second */
-  RATE_44K,     /*!< set to 44.1k samples per second */
-  RATE_48K,     /*!< set to 48k samples per second */
+  RATE_11K,    /*!< set to 11.025k samples per second */
+  RATE_16K,    /*!< set to 16k samples in per second */
+  RATE_22K,    /*!< set to 22.050k samples per second */
+  RATE_24K,    /*!< set to 24k samples in per second */
+  RATE_32K,    /*!< set to 32k samples in per second */
+  RATE_44K,    /*!< set to 44.1k samples per second */
+  RATE_48K,    /*!< set to 48k samples per second */
+  RATE_88K,    /*!< set to 88.2k samples per second */
+  RATE_96K,    /*!< set to 96k samples per second */
+  RATE_128K,   /*!< set to 128K samples per second */
+  RATE_176K,   /*!< set to 176.4K samples per second */
+  RATE_192K,   /*!< set to 192k samples per second */
 } samplerate_t;
 
 /**
@@ -101,13 +107,13 @@ typedef enum {
  * @ingroup enumerations
  */
 typedef enum {
-    BIT_LENGTH_MIN = -1,
-    BIT_LENGTH_16BITS = 0x03,
-    BIT_LENGTH_18BITS = 0x02,
-    BIT_LENGTH_20BITS = 0x01,
-    BIT_LENGTH_24BITS = 0x00,
-    BIT_LENGTH_32BITS = 0x04,
-    BIT_LENGTH_MAX,
+  BIT_LENGTH_MIN = -1,
+  BIT_LENGTH_16BITS = 0x03,
+  BIT_LENGTH_18BITS = 0x02,
+  BIT_LENGTH_20BITS = 0x01,
+  BIT_LENGTH_24BITS = 0x00,
+  BIT_LENGTH_32BITS = 0x04,
+  BIT_LENGTH_MAX,
 } sample_bits_t;
 
 /**
@@ -117,10 +123,10 @@ typedef enum {
  */
 typedef enum {
   I2S_NORMAL = 0, /*!< set normal I2S format */
-  I2S_LEFT = 1,       /*!< set all left format */
-  I2S_RIGHT = 2,      /*!< set all right format */
-  I2S_DSP = 3,        /*!< set dsp/pcm format */
-  TDM = 4,            /*!< set tdm format */
+  I2S_LEFT = 1,   /*!< set all left format */
+  I2S_RIGHT = 2,  /*!< set all right format */
+  I2S_DSP = 3,    /*!< set dsp/pcm format */
+  TDM = 4,        /*!< set tdm format */
 } i2s_format_t;
 
 /**
@@ -129,19 +135,18 @@ typedef enum {
  * @ingroup enumerations
  */
 typedef enum {
-    MIC_GAIN_MIN = -1,
-    MIC_GAIN_0DB = 0,
-    MIC_GAIN_3DB = 3,
-    MIC_GAIN_6DB = 6,
-    MIC_GAIN_9DB = 9,
-    MIC_GAIN_12DB = 12,
-    MIC_GAIN_15DB = 15,
-    MIC_GAIN_18DB = 18,
-    MIC_GAIN_21DB = 21,
-    MIC_GAIN_24DB = 24,
-    MIC_GAIN_MAX,
+  MIC_GAIN_MIN = -1,
+  MIC_GAIN_0DB = 0,
+  MIC_GAIN_3DB = 3,
+  MIC_GAIN_6DB = 6,
+  MIC_GAIN_9DB = 9,
+  MIC_GAIN_12DB = 12,
+  MIC_GAIN_15DB = 15,
+  MIC_GAIN_18DB = 18,
+  MIC_GAIN_21DB = 21,
+  MIC_GAIN_24DB = 24,
+  MIC_GAIN_MAX,
 } es_mic_gain_t;
-
 
 /**
  * @enum codec_mode_t
@@ -151,20 +156,26 @@ typedef enum {
 typedef enum {
   CODEC_MODE_MIN = -1,
   CODEC_MODE_NONE = 0x00,
-  CODEC_MODE_ENCODE = 0x01, /*!< select adc */
-  CODEC_MODE_DECODE = 0x02,     /*!< select dac */
-  CODEC_MODE_BOTH = 0x03,       /*!< select both adc and dac */
-  CODEC_MODE_LINE_IN = 0x04,    /*!< set adc channel */
+  CODEC_MODE_ENCODE = 0x01,  /*!< select adc */
+  CODEC_MODE_DECODE = 0x02,  /*!< select dac */
+  CODEC_MODE_BOTH = 0x03,    /*!< select both adc and dac */
+  CODEC_MODE_LINE_IN = 0x04, /*!< set adc channel */
   CODEC_MODE_MAX
 } codec_mode_t;
 
+typedef enum {
+  CHANNELS2 = 2,
+  CHANNELS8 = 8,
+  CHANNELS16 = 16,
+} channels_t;
 
 /**
  * @brief I2s interface configuration for audio codec chip
  * @ingroup audio_driver
  */
 typedef struct {
-  /*!< Audio codec chip mode: if the microcontroller is master the codec must be slave! */
+  /*!< Audio codec chip mode: if the microcontroller is master the codec must be
+   * slave! */
   i2s_master_slave_t mode;
   /*!< I2S interface format */
   i2s_format_t fmt;
@@ -172,6 +183,8 @@ typedef struct {
   samplerate_t rate;
   /*!< i2s number of bits per sample */
   sample_bits_t bits;
+  /*!< i2s number of channels */
+  channels_t channels;
 } I2SDefinition;
 
 /**
@@ -180,7 +193,7 @@ typedef struct {
 typedef struct {
   input_device_t input_device;   /*!< set adc channel */
   output_device_t output_device; /*!< set dac channel */
-  I2SDefinition i2s;   /*!< set I2S interface configuration */
+  I2SDefinition i2s;             /*!< set I2S interface configuration */
 } codec_config_t;
 
 #ifdef __cplusplus
@@ -188,5 +201,3 @@ typedef struct {
 // automatically use namespace
 using namespace audio_driver;
 #endif
-
-
