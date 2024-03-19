@@ -42,6 +42,8 @@ enum class PinFunction {
   SD,
   CODEC,
   CODEC_ADC,
+  LATCH,
+  RESET,
   MCLK_SOURCE,
 };
 

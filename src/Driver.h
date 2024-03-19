@@ -2,6 +2,8 @@
 #pragma once
 #include "Common.h"
 #include "Driver/ac101/ac101.h"
+#include "Driver/ad1938/ad1938.h"
+#include "Driver/cs42448/cs42448.h"
 #include "Driver/cs43l22/cs43l22.h"
 #include "Driver/es7210/es7210.h"
 #include "Driver/es7243/es7243.h"
@@ -13,24 +15,26 @@
 #include "Driver/tas5805m/tas5805m.h"
 #include "Driver/wm8960/mtb_wm8960.h"
 #include "Driver/wm8994/wm8994.h"
-
 #include "DriverPins.h"
 
 namespace audio_driver {
 
-const int rate_num[8] = {8000, 11025, 16000, 22050, 24000, 32000, 44100, 48000};
-const samplerate_t rate_code[8] = {RATE_8K, RATE_11K, RATE_16K, RATE_22K,
-                                   RATE_24K, RATE_32K, RATE_44K, RATE_48K};
+const int rate_num[14] = {8000, 11025, 16000, 22050, 24000, 32000, 44100, 48000,
+                        64000, 88200, 96000, 128000, 176400, 192000};
+const samplerate_t rate_code[14] = {RATE_8K,  RATE_11K, RATE_16K, RATE_22K,
+                                   RATE_24K, RATE_32K, RATE_44K, RATE_48K,
+                                   RATE_64K, RATE_88K,RATE_96K, RATE_128K,
+                                   RATE_176K, RATE_192K};
 
 /**
- * @brief I2S configuration and definition of input and output with default values
+ * @brief I2S configuration and definition of input and output with default
+ * values
  * @ingroup audio_driver
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
 class CodecConfig : public codec_config_t {
-public:
-
+ public:
   /// @brief setup default values
   CodecConfig() {
     input_device = ADC_INPUT_LINE1;
@@ -45,14 +49,14 @@ public:
   /// Returns bits per sample as number
   int getBitsNumeric() {
     switch (i2s.bits) {
-    case BIT_LENGTH_16BITS:
-      return 16;
-    case BIT_LENGTH_24BITS:
-      return 24;
-    case BIT_LENGTH_32BITS:
-      return 32;
-    default:
-      return 0;
+      case BIT_LENGTH_16BITS:
+        return 16;
+      case BIT_LENGTH_24BITS:
+        return 24;
+      case BIT_LENGTH_32BITS:
+        return 32;
+      default:
+        return 0;
     }
     return 0;
   }
@@ -60,28 +64,28 @@ public:
   // sets the bits per sample with a numeric value
   int setBitsNumeric(int bits) {
     switch (bits) {
-    case 16:
-      i2s.bits = BIT_LENGTH_16BITS;
-      return bits;
-    case 18:
-      i2s.bits = BIT_LENGTH_18BITS;
-      return bits;
-    case 20:
-      i2s.bits = BIT_LENGTH_20BITS;
-      return bits;
-    case 24:
-      i2s.bits = BIT_LENGTH_24BITS;
-      return bits;
-    case 32:
-      i2s.bits = BIT_LENGTH_32BITS;
-      return bits;
+      case 16:
+        i2s.bits = BIT_LENGTH_16BITS;
+        return bits;
+      case 18:
+        i2s.bits = BIT_LENGTH_18BITS;
+        return bits;
+      case 20:
+        i2s.bits = BIT_LENGTH_20BITS;
+        return bits;
+      case 24:
+        i2s.bits = BIT_LENGTH_24BITS;
+        return bits;
+      case 32:
+        i2s.bits = BIT_LENGTH_32BITS;
+        return bits;
     }
     return 0;
   }
 
   /// get the sample rate as number
   int getRateNumeric() {
-    for (int j = 0; j < 8; j++) {
+    for (int j = 0; j < 14; j++) {
       if (rate_code[j] == i2s.rate) {
         AD_LOGD("-> %d", rate_num[j]);
         return rate_num[j];
@@ -90,11 +94,19 @@ public:
     return 0;
   }
 
+  int getChannelsNumeric() {
+    return i2s.channels;
+  }
+
+  void setChannelsNumeric(int channels) {
+    i2s.channels = (channels_t) channels;
+  }
+
   /// sets the sample rate as number
   int setRateNumeric(int rateNum) {
     int diff = 99999;
     int result = 0;
-    for (int j = 0; j < 8; j++) {
+    for (int j = 0; j < 14; j++) {
       if (rate_num[j] == rateNum) {
         AD_LOGD("-> %d", rate_num[j]);
         i2s.rate = rate_code[j];
@@ -119,11 +131,9 @@ public:
     bool is_input = false;
     bool is_output = false;
 
-    if (input_device != ADC_INPUT_NONE)
-      is_input = true;
+    if (input_device != ADC_INPUT_NONE) is_input = true;
 
-    if (output_device != DAC_OUTPUT_NONE)
-      is_output = true;
+    if (output_device != DAC_OUTPUT_NONE) is_output = true;
 
     if (is_input && is_output) {
       AD_LOGD("mode->CODEC_MODE_BOTH");
@@ -145,7 +155,6 @@ public:
   }
   // if sd active we setup SPI for the SD
   bool sd_active = true;
-
 };
 
 /**
@@ -155,7 +164,7 @@ public:
  * @copyright GPLv3
  */
 class AudioDriver {
-public:
+ public:
   virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
     AD_LOGD("AudioDriver::begin:pins");
     p_pins = &pins;
@@ -205,19 +214,21 @@ public:
 
   /// Sets the PA Power pin to active or inactive
   bool setPAPower(bool enable) {
-    GpioPin  pin = pins().getPinID(PinFunction::PA);
-    if (pin == -1) { return false; }
+    GpioPin pin = pins().getPinID(PinFunction::PA);
+    if (pin == -1) {
+      return false;
+    }
     AD_LOGI("setPAPower pin %d -> %d", pin, enable);
     digitalWrite(pin, enable ? HIGH : LOW);
     return true;
   }
 
-protected:
+ protected:
   CodecConfig codec_cfg;
   DriverPins *p_pins = nullptr;
 
   /// Determine the TwoWire object from the I2C config or use Wire
-  TwoWire* getI2C() {
+  TwoWire *getI2C() {
     if (p_pins == nullptr) return &Wire;
     auto i2c = pins().getI2CPins(PinFunction::CODEC);
     if (!i2c) {
@@ -246,10 +257,8 @@ protected:
   /// @param volume
   /// @return
   int limitValue(int volume, int min = 0, int max = 100) {
-    if (volume > max)
-      volume = max;
-    if (volume < min)
-      volume = min;
+    if (volume > max) volume = max;
+    if (volume < min) volume = min;
     return volume;
   }
 };
@@ -261,21 +270,22 @@ protected:
  * @copyright GPLv3
  */
 class NoDriverClass : public AudioDriver {
-public:
+ public:
   virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
     codec_cfg = codecCfg;
     p_pins = &pins;
     return true;
   }
   virtual bool end(void) { return true; }
-  virtual bool setMute(bool enable) { return false;}
-  virtual bool setVolume(int volume) { return false;}
-  virtual int getVolume() { return 100;}
+  virtual bool setMute(bool enable) { return false; }
+  virtual bool setVolume(int volume) { return false; }
+  virtual int getVolume() { return 100; }
   virtual bool setInputVolume(int volume) { return false; }
-  virtual bool isVolumeSupported() { { return false;} }
+  virtual bool isVolumeSupported() {
+    { return false; }
+  }
   virtual bool isInputVolumeSupported() { return false; }
 };
-
 
 /**
  * @brief Driver API for AC101 codec chip
@@ -283,7 +293,7 @@ public:
  * @copyright GPLv3
  */
 class AudioDriverAC101Class : public AudioDriver {
-public:
+ public:
   bool setMute(bool mute) { return ac101_set_voice_mute(mute); }
   bool setVolume(int volume) {
     return ac101_set_voice_volume(limitValue(volume));
@@ -294,9 +304,9 @@ public:
     return vol;
   };
 
-protected:
+ protected:
   bool init(codec_config_t codec_cfg) {
-    return ac101_init(&codec_cfg, getI2C(),getI2CAddress()) == RESULT_OK;
+    return ac101_init(&codec_cfg, getI2C(), getI2CAddress()) == RESULT_OK;
   }
   bool deinit() { return ac101_deinit() == RESULT_OK; }
   bool controlState(codec_mode_t mode) {
@@ -308,12 +318,69 @@ protected:
 };
 
 /**
+ * @brief Driver API for AD1938 TDS DAC/ADC
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class AudioDriverAD1938Class : public AudioDriver {
+ public:
+  bool begin(CodecConfig codecCfg, DriverPins &pins) override {
+    int clatch = pins.getPinID(PinFunction::LATCH);
+    if (clatch < 0) return false;
+    int reset = pins.getPinID(PinFunction::RESET);
+    if (reset < 0) return false;
+    auto spi_opt = pins.getSPIPins(PinFunction::CODEC);
+    SPIClass *p_spi = nullptr;
+    if (spi_opt) {
+      p_spi = spi_opt.value().p_spi;
+    } else {
+      p_spi = &SPI;
+      p_spi->begin();
+    }
+    // setup pins
+    pins.begin();
+    // setup ad1938
+    ad1938.begin(codecCfg, clatch, reset, *p_spi);
+    ad1938.enable();
+    ad1938.setMute(false);
+    return true;
+  }
+  virtual bool setConfig(CodecConfig codecCfg) {
+    bool result = begin(codecCfg, *p_pins);
+    return result;
+  }
+  bool end(void) override { return ad1938.end(); }
+  bool setMute(bool enable) override { return ad1938.setMute(enable); }
+  /// Defines the Volume (in %) if volume is 0, mute is enabled,range is 0-100.
+  bool setVolume(int volume) override {
+    this->volume = volume;
+    return ad1938.setVolume(static_cast<float>(volume) / 100.0f);
+  }
+  bool setVolume(int dac, float volume) {
+    return ad1938.setVolumeDAC(dac, volume);
+  }
+
+  int getVolume() override { return volume; }
+  bool setInputVolume(int volume) override { return false; }
+  bool isVolumeSupported() override { return true; }
+  bool isInputVolumeSupported() override { return false; }
+
+  DriverPins &pins() { return *p_pins; }
+  AD1938 &driver() { return ad1938; }
+
+ protected:
+  AD1938 ad1938;
+  DriverPins *p_pins = nullptr;
+  int volume = 100;
+};
+
+/**
  * @brief Driver API for the CS43l22 codec chip on 0x94 (0x4A<<1)
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
 class AudioDriverCS43l22Class : public AudioDriver {
-public:
+ public:
   AudioDriverCS43l22Class(uint16_t deviceAddr = 0x4A) {
     this->deviceAddr = deviceAddr;
   }
@@ -331,8 +398,9 @@ public:
     uint32_t freq = getFrequency(codec_cfg.i2s.rate);
     uint16_t outputDevice = getOutput(codec_cfg.output_device);
     AD_LOGD("cs43l22_Init");
-    bool result = cs43l22_Init(deviceAddr, outputDevice, volume, freq, getI2C()) == 0;
-    if (!result){
+    bool result =
+        cs43l22_Init(deviceAddr, outputDevice, volume, freq, getI2C()) == 0;
+    if (!result) {
       AD_LOGE("error: cs43l22_Init");
     }
     cs43l22_Play(deviceAddr, nullptr, 0);
@@ -343,7 +411,8 @@ public:
     codec_cfg = codecCfg;
     uint32_t freq = getFrequency(codec_cfg.i2s.rate);
     uint16_t outputDevice = getOutput(codec_cfg.output_device);
-    return cs43l22_Init(deviceAddr, outputDevice, this->volume, freq, getI2C()) == 0;
+    return cs43l22_Init(deviceAddr, outputDevice, this->volume, freq,
+                        getI2C()) == 0;
   }
 
   bool setMute(bool mute) {
@@ -357,7 +426,7 @@ public:
   }
   int getVolume() { return volume; }
 
-protected:
+ protected:
   uint16_t deviceAddr;
   int volume = 100;
 
@@ -370,39 +439,103 @@ protected:
 
   uint32_t getFrequency(samplerate_t rateNum) {
     switch (rateNum) {
-    case RATE_8K:
-      return 8000; /*!< set to  8k samples per second */
-    case RATE_11K:
-      return 11024; /*!< set to 11.025k samples per second */
-    case RATE_16K:
-      return 16000; /*!< set to 16k samples in per second */
-    case RATE_22K:
-      return 22050; /*!< set to 22.050k samples per second */
-    case RATE_24K:
-      return 24000; /*!< set to 24k samples in per second */
-    case RATE_32K:
-      return 32000; /*!< set to 32k samples in per second */
-    case RATE_44K:
-      return 44100; /*!< set to 44.1k samples per second */
-    case RATE_48K:
-      return 48000; /*!< set to 48k samples per second */
+      case RATE_8K:
+        return 8000; /*!< set to  8k samples per second */
+      case RATE_11K:
+        return 11024; /*!< set to 11.025k samples per second */
+      case RATE_16K:
+        return 16000; /*!< set to 16k samples in per second */
+      case RATE_22K:
+        return 22050; /*!< set to 22.050k samples per second */
+      case RATE_24K:
+        return 24000; /*!< set to 24k samples in per second */
+      case RATE_32K:
+        return 32000; /*!< set to 32k samples in per second */
+      case RATE_44K:
+        return 44100; /*!< set to 44.1k samples per second */
+      case RATE_48K:
+        return 48000; /*!< set to 48k samples per second */
     }
     return 44100;
   }
 
   uint16_t getOutput(output_device_t output_device) {
     switch (output_device) {
-    case DAC_OUTPUT_NONE:
-      return 0;
-    case DAC_OUTPUT_LINE1:
-      return OUTPUT_DEVICE_SPEAKER;
-    case DAC_OUTPUT_LINE2:
-      return OUTPUT_DEVICE_HEADPHONE;
-    case DAC_OUTPUT_ALL:
-      return OUTPUT_DEVICE_BOTH;
+      case DAC_OUTPUT_NONE:
+        return 0;
+      case DAC_OUTPUT_LINE1:
+        return OUTPUT_DEVICE_SPEAKER;
+      case DAC_OUTPUT_LINE2:
+        return OUTPUT_DEVICE_HEADPHONE;
+      case DAC_OUTPUT_ALL:
+        return OUTPUT_DEVICE_BOTH;
     }
     return OUTPUT_DEVICE_BOTH;
   }
+};
+
+/**
+ * @brief Driver API for AD1938 TDS DAC/ADC
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class AudioDriverCS42448Class : public AudioDriver {
+ public:
+  bool begin(CodecConfig codecCfg, DriverPins &pins) override {
+    cfg = codecCfg;
+    // setup pins
+    pins.begin();
+    // setup ad1938
+    cs42448.begin(codecCfg, getI2C(), getI2CAddress());
+    cs42448.setMute(false);
+    return true;
+  }
+  virtual bool setConfig(CodecConfig codecCfg) {
+    bool result = true;
+    if (codecCfg.input_device == cfg.input_device &&
+        codecCfg.output_device == cfg.output_device &&
+        codecCfg.i2s.bits == cfg.i2s.bits &&
+        codecCfg.i2s.channels == cfg.i2s.channels &&
+        codecCfg.i2s.fmt == cfg.i2s.fmt && codecCfg.i2s.mode == cfg.i2s.mode) {
+      // just update the rate
+      if (cfg.i2s.rate != cfg.i2s.rate) {
+        cs42448.setSampleRate(codecCfg.getRateNumeric());
+      }
+    } else {
+      result = begin(codecCfg, *p_pins);
+    }
+    return result;
+  }
+  bool end(void) override { return cs42448.end(); }
+  bool setMute(bool enable) override { return cs42448.setMute(enable); }
+  bool setMute(int channel, bool enable) {
+    return cs42448.setMuteDAC(channel, enable);
+  }
+  /// Defines the Volume (in %) if volume is 0, mute is enabled,range is 0-100.
+  bool setVolume(int volume) override {
+    this->volume = volume;
+    return cs42448.setVolumeDAC(2.55f * volume);
+  }
+  bool setVolume(int dac, int volume) {
+    return cs42448.setVolumeDAC(dac, 2.55f * volume);
+  }
+
+  int getVolume() override { return volume; }
+  bool setInputVolume(int volume) override {
+    int vol = map(volume, 0, 100, -128, 127);
+    return cs42448.setVolumeADC(vol);
+  }
+  bool isVolumeSupported() override { return true; }
+  bool isInputVolumeSupported() override { return true; }
+
+  DriverPins &pins() { return *p_pins; }
+  CS42448 &driver() { return cs42448; }
+
+ protected:
+  CS42448 cs42448;
+  DriverPins *p_pins = nullptr;
+  int volume = 100;
+  CodecConfig cfg;
 };
 
 /**
@@ -411,7 +544,7 @@ protected:
  * @copyright GPLv3
  */
 class AudioDriverES7210Class : public AudioDriver {
-public:
+ public:
   bool setMute(bool mute) { return es7210_set_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     this->volume = volume;
@@ -419,7 +552,7 @@ public:
   }
   int getVolume() { return volume; }
 
-protected:
+ protected:
   int volume;
 
   bool init(codec_config_t codec_cfg) {
@@ -441,7 +574,7 @@ protected:
  * @copyright GPLv3
  */
 class AudioDriverES7243Class : public AudioDriver {
-public:
+ public:
   bool setMute(bool mute) {
     return es7243_adc_set_voice_mute(mute) == RESULT_OK;
   }
@@ -454,7 +587,7 @@ public:
     return vol;
   }
 
-protected:
+ protected:
   bool init(codec_config_t codec_cfg) {
     return es7243_adc_init(&codec_cfg, getI2C()) == RESULT_OK;
   }
@@ -475,7 +608,7 @@ protected:
  */
 
 class AudioDriverES7243eClass : public AudioDriver {
-public:
+ public:
   bool setMute(bool mute) {
     return mute ? setVolume(0) == RESULT_OK : setVolume(volume) == RESULT_OK;
   }
@@ -489,7 +622,7 @@ public:
     return vol;
   }
 
-protected:
+ protected:
   int volume = 0;
 
   bool init(codec_config_t codec_cfg) {
@@ -511,7 +644,7 @@ protected:
  * @copyright GPLv3
  */
 class AudioDriverES8156Class : public AudioDriver {
-public:
+ public:
   bool setMute(bool mute) {
     return es8156_codec_set_voice_mute(mute) == RESULT_OK;
   }
@@ -525,7 +658,7 @@ public:
     return vol;
   }
 
-protected:
+ protected:
   bool init(codec_config_t codec_cfg) {
     return es8156_codec_init(&codec_cfg, getI2C()) == RESULT_OK;
   }
@@ -545,10 +678,8 @@ protected:
  * @copyright GPLv3
  */
 class AudioDriverES8311Class : public AudioDriver {
-public:
-  AudioDriverES8311Class(int i2cAddr=0){
-    i2c_address = i2cAddr;
-  }
+ public:
+  AudioDriverES8311Class(int i2cAddr = 0) { i2c_address = i2cAddr; }
   bool setMute(bool mute) { return es8311_set_voice_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     return es8311_codec_set_voice_volume(limitValue(volume)) == RESULT_OK;
@@ -559,17 +690,15 @@ public:
     return vol;
   }
 
-protected:
+ protected:
   int i2c_address;
 
   bool init(codec_config_t codec_cfg) {
     int mclk_src = pins().getPinID(PinFunction::MCLK_SOURCE);
-    if (mclk_src == -1)
-      return false;
+    if (mclk_src == -1) return false;
 
     // determine address from data
-    if (i2c_address<=0)
-      i2c_address = getI2CAddress();
+    if (i2c_address <= 0) i2c_address = getI2CAddress();
 
     return es8311_codec_init(&codec_cfg, getI2C(), mclk_src, i2c_address) ==
            RESULT_OK;
@@ -590,10 +719,8 @@ protected:
  * @copyright GPLv3
  */
 class AudioDriverES8374Class : public AudioDriver {
-public:
-  AudioDriverES8374Class(int i2cAddr=0){
-    i2c_address = i2cAddr;
-  }
+ public:
+  AudioDriverES8374Class(int i2cAddr = 0) { i2c_address = i2cAddr; }
   bool setMute(bool mute) { return es8374_set_voice_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
@@ -605,12 +732,12 @@ public:
     return vol;
   }
 
-protected:
+ protected:
   int i2c_address;
 
   bool init(codec_config_t codec_cfg) {
     auto codec_mode = this->codec_cfg.get_mode();
-    if (i2c_address <= 0){
+    if (i2c_address <= 0) {
       i2c_address = getI2CAddress();
     }
     return es8374_codec_init(&codec_cfg, codec_mode, getI2C(), i2c_address) ==
@@ -632,7 +759,7 @@ protected:
  * @copyright GPLv3
  */
 class AudioDriverES8388Class : public AudioDriver {
-public:
+ public:
   bool setMute(bool mute) { return es8388_set_voice_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
@@ -657,7 +784,7 @@ public:
 
   bool isInputVolumeSupported() { return true; }
 
-protected:
+ protected:
   bool init(codec_config_t codec_cfg) {
     return es8388_init(&codec_cfg, getI2C()) == RESULT_OK;
   }
@@ -677,7 +804,7 @@ protected:
  * @copyright GPLv3
  */
 class AudioDriverTAS5805MClass : public AudioDriver {
-public:
+ public:
   bool setMute(bool mute) { return tas5805m_set_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
@@ -689,7 +816,7 @@ public:
     return vol;
   }
 
-protected:
+ protected:
   bool init(codec_config_t codec_cfg) {
     return tas5805m_init(&codec_cfg, getI2C()) == RESULT_OK;
   }
@@ -702,7 +829,7 @@ protected:
  * @copyright GPLv3
  */
 class AudioDriverWM8960Class : public AudioDriver {
-public:
+ public:
   bool begin(CodecConfig codecCfg, DriverPins &pins) {
     codec_cfg = codecCfg;
 
@@ -768,7 +895,7 @@ public:
 
   void dumpRegisters() { mtb_wm8960_dump(); }
 
-protected:
+ protected:
   int volume_in = 100;
   int volume_out = 100;
   int i2c_retry_count = 0;
@@ -778,31 +905,31 @@ protected:
   int getFeatures(CodecConfig cfg) {
     int features = 0;
     switch (cfg.output_device) {
-    case DAC_OUTPUT_LINE1:
-      features = features | WM8960_FEATURE_SPEAKER;
-      break;
-    case DAC_OUTPUT_LINE2:
-      features = features | WM8960_FEATURE_HEADPHONE;
-      break;
-    case DAC_OUTPUT_ALL:
-      features = features | WM8960_FEATURE_SPEAKER | WM8960_FEATURE_HEADPHONE;
-      break;
-    default:
-      break;
+      case DAC_OUTPUT_LINE1:
+        features = features | WM8960_FEATURE_SPEAKER;
+        break;
+      case DAC_OUTPUT_LINE2:
+        features = features | WM8960_FEATURE_HEADPHONE;
+        break;
+      case DAC_OUTPUT_ALL:
+        features = features | WM8960_FEATURE_SPEAKER | WM8960_FEATURE_HEADPHONE;
+        break;
+      default:
+        break;
     }
     switch (cfg.input_device) {
-    case ADC_INPUT_LINE1:
-      features = features | WM8960_FEATURE_MICROPHONE1;
-      break;
-    case ADC_INPUT_LINE2:
-      features = features | WM8960_FEATURE_MICROPHONE2;
-      break;
-    case ADC_INPUT_ALL:
-      features = features | WM8960_FEATURE_MICROPHONE1 |
-                 WM8960_FEATURE_MICROPHONE2 | WM8960_FEATURE_MICROPHONE3;
-      break;
-    default:
-      break;
+      case ADC_INPUT_LINE1:
+        features = features | WM8960_FEATURE_MICROPHONE1;
+        break;
+      case ADC_INPUT_LINE2:
+        features = features | WM8960_FEATURE_MICROPHONE2;
+        break;
+      case ADC_INPUT_ALL:
+        features = features | WM8960_FEATURE_MICROPHONE1 |
+                   WM8960_FEATURE_MICROPHONE2 | WM8960_FEATURE_MICROPHONE3;
+        break;
+      default:
+        break;
     }
     AD_LOGI("features: %d", features);
     return features;
@@ -826,45 +953,45 @@ protected:
 
   mtb_wm8960_adc_dac_sample_rate_t sampleRate(int rate) {
     switch (rate) {
-    case 48000:
-      return WM8960_ADC_DAC_SAMPLE_RATE_48_KHZ;
-    case 44100:
-      return WM8960_ADC_DAC_SAMPLE_RATE_44_1_KHZ;
-    case 32000:
-      return WM8960_ADC_DAC_SAMPLE_RATE_32_KHZ;
-    case 24000:
-      return WM8960_ADC_DAC_SAMPLE_RATE_24_KHZ;
-    case 22050:
-      return WM8960_ADC_DAC_SAMPLE_RATE_22_05_KHZ;
-    case 16000:
-      return WM8960_ADC_DAC_SAMPLE_RATE_16_KHZ;
-    case 12000:
-      return WM8960_ADC_DAC_SAMPLE_RATE_12_KHZ;
-    case 11025:
-      return WM8960_ADC_DAC_SAMPLE_RATE_11_025_KHZ;
-    case 8018:
-      return WM8960_ADC_DAC_SAMPLE_RATE_8_018_KHZ;
-    case 8000:
-      return WM8960_ADC_DAC_SAMPLE_RATE_8_KHZ;
-    default:
-      AD_LOGE("Unsupported rate: %d", rate);
-      return WM8960_ADC_DAC_SAMPLE_RATE_44_1_KHZ;
+      case 48000:
+        return WM8960_ADC_DAC_SAMPLE_RATE_48_KHZ;
+      case 44100:
+        return WM8960_ADC_DAC_SAMPLE_RATE_44_1_KHZ;
+      case 32000:
+        return WM8960_ADC_DAC_SAMPLE_RATE_32_KHZ;
+      case 24000:
+        return WM8960_ADC_DAC_SAMPLE_RATE_24_KHZ;
+      case 22050:
+        return WM8960_ADC_DAC_SAMPLE_RATE_22_05_KHZ;
+      case 16000:
+        return WM8960_ADC_DAC_SAMPLE_RATE_16_KHZ;
+      case 12000:
+        return WM8960_ADC_DAC_SAMPLE_RATE_12_KHZ;
+      case 11025:
+        return WM8960_ADC_DAC_SAMPLE_RATE_11_025_KHZ;
+      case 8018:
+        return WM8960_ADC_DAC_SAMPLE_RATE_8_018_KHZ;
+      case 8000:
+        return WM8960_ADC_DAC_SAMPLE_RATE_8_KHZ;
+      default:
+        AD_LOGE("Unsupported rate: %d", rate);
+        return WM8960_ADC_DAC_SAMPLE_RATE_44_1_KHZ;
     }
   }
 
   mtb_wm8960_word_length_t wordLength(int bits) {
     switch (bits) {
-    case 16:
-      return WM8960_WL_16BITS;
-    case 20:
-      return WM8960_WL_20BITS;
-    case 24:
-      return WM8960_WL_24BITS;
-    case 32:
-      return WM8960_WL_32BITS;
-    default:
-      AD_LOGE("Unsupported bits: %d", bits);
-      return WM8960_WL_16BITS;
+      case 16:
+        return WM8960_WL_16BITS;
+      case 20:
+        return WM8960_WL_20BITS;
+      case 24:
+        return WM8960_WL_24BITS;
+      case 32:
+        return WM8960_WL_32BITS;
+      default:
+        AD_LOGE("Unsupported bits: %d", bits);
+        return WM8960_WL_16BITS;
     }
   }
 
@@ -880,7 +1007,7 @@ protected:
  * @copyright GPLv3
  */
 class AudioDriverWM8994Class : public AudioDriver {
-public:
+ public:
   AudioDriverWM8994Class(uint16_t deviceAddr = 0x1A) {
     this->deviceAddr = deviceAddr;
   }
@@ -897,8 +1024,7 @@ public:
     uint32_t freq = codecCfg.getRateNumeric();
     uint16_t outputDevice = getOutput(codec_cfg.output_device);
 
-    return wm8994_Init(deviceAddr, outputDevice, vol, freq,
-                       getI2C()) == 0;
+    return wm8994_Init(deviceAddr, outputDevice, vol, freq, getI2C()) == 0;
   }
 
   bool setMute(bool mute) {
@@ -913,7 +1039,7 @@ public:
   }
   int getVolume() { return volume; }
 
-protected:
+ protected:
   uint16_t deviceAddr;
   int volume = 100;
 
@@ -926,14 +1052,14 @@ protected:
 
   uint16_t getOutput(output_device_t output_device) {
     switch (output_device) {
-    case DAC_OUTPUT_NONE:
-      return 0;
-    case DAC_OUTPUT_LINE1:
-      return OUTPUT_DEVICE_SPEAKER;
-    case DAC_OUTPUT_LINE2:
-      return OUTPUT_DEVICE_HEADPHONE;
-    case DAC_OUTPUT_ALL:
-      return OUTPUT_DEVICE_BOTH;
+      case DAC_OUTPUT_NONE:
+        return 0;
+      case DAC_OUTPUT_LINE1:
+        return OUTPUT_DEVICE_SPEAKER;
+      case DAC_OUTPUT_LINE2:
+        return OUTPUT_DEVICE_HEADPHONE;
+      case DAC_OUTPUT_ALL:
+        return OUTPUT_DEVICE_BOTH;
     }
     return OUTPUT_DEVICE_BOTH;
   }
@@ -945,7 +1071,7 @@ protected:
  * @copyright GPLv3
  */
 class AudioDriverLyratMiniClass : public AudioDriver {
-public:
+ public:
   bool begin(CodecConfig codecCfg, DriverPins &pins) {
     int rc = 0;
     if (codecCfg.output_device != DAC_OUTPUT_NONE)
@@ -967,7 +1093,7 @@ public:
   int getInputVolume() { return adc.getVolume(); }
   bool isInputVolumeSupported() { return true; }
 
-protected:
+ protected:
   AudioDriverES8311Class dac;
   AudioDriverES7243Class adc;
 };
@@ -999,5 +1125,9 @@ static AudioDriverWM8994Class AudioDriverWM8994;
 static AudioDriverLyratMiniClass AudioDriverLyratMini;
 /// @ingroup audio_driver
 static NoDriverClass NoDriver;
+/// @ingroup audio_driver
+static AudioDriverAD1938Class AudioDriverAD1938;
+/// @ingroup audio_driver
+static AudioDriverCS42448Class AudioDriverCS42448;
 
-} // namespace audio_driver
+}  // namespace audio_driver
