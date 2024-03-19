@@ -154,6 +154,10 @@ class CS42448 {
       this->i2c_address = i2cAddress;
     }
 
+    if (is_active){
+      setMuteADC(true);
+      setMuteDAC(true);
+    }
     setPowerAll(false);
 
     // slave mode, MCLK 25.6 MHz max
@@ -168,13 +172,15 @@ class CS42448 {
     setMuteDAC(true);
 
     // power on requested devices
-    return setPowerDevices(true);
+    is_active = setPowerDevices(true);
+    return is_active;
   }
 
   /// Mute ADC and DAC and then power down
   bool end() {
     setMuteADC(true);
     setMuteDAC(true);
+    is_active = false;
     return setPowerDevices(false);
   }
 
@@ -538,6 +544,7 @@ class CS42448 {
   codec_config_t codec_config;
   i2c_bus_handle_t i2c;
   int i2c_address = 0x48;
+  bool is_active = false;
 
   /// Set I2S format based on codec_config
   bool setFormat() {
