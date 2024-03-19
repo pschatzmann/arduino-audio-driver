@@ -297,7 +297,7 @@ public:
 protected:
   bool init(codec_config_t codec_cfg) {
     return ac101_init(&codec_cfg, getI2C(),getI2CAddress()) == RESULT_OK;
-  };
+  }
   bool deinit() { return ac101_deinit() == RESULT_OK; }
   bool controlState(codec_mode_t mode) {
     return ac101_ctrl_state_active(mode, true) == RESULT_OK;

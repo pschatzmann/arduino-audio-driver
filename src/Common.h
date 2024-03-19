@@ -120,6 +120,7 @@ typedef enum {
   I2S_LEFT = 1,       /*!< set all left format */
   I2S_RIGHT = 2,      /*!< set all right format */
   I2S_DSP = 3,        /*!< set dsp/pcm format */
+  TDM = 4,            /*!< set tdm format */
 } i2s_format_t;
 
 /**

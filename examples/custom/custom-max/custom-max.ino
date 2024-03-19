@@ -22,8 +22,8 @@ void setup() {
 
   // configure codec
   CodecConfig cfg;
-  cfg.input_device = input_device_LINE1;
-  cfg.output_device = output_device_ALL;
+  cfg.input_device = ADC_INPUT_LINE1;
+  cfg.output_device = DAC_OUTPUT_ALL;
   cfg.i2s.bits = BIT_LENGTH_16BITS;
   cfg.i2s.rate = RATE_44K;
   // cfg.i2s.fmt = I2S_NORMAL;
