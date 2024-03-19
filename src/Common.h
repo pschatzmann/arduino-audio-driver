@@ -94,6 +94,7 @@ typedef enum {
   RATE_32K,    /*!< set to 32k samples in per second */
   RATE_44K,    /*!< set to 44.1k samples per second */
   RATE_48K,    /*!< set to 48k samples per second */
+  RATE_64K,    /*!< set to 64k samples per second */
   RATE_88K,    /*!< set to 88.2k samples per second */
   RATE_96K,    /*!< set to 96k samples per second */
   RATE_128K,   /*!< set to 128K samples per second */

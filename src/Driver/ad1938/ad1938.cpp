@@ -485,16 +485,6 @@ bool AD1938::begin(codec_config_t configVal, int clatchPin, int resetPin,
   delay(400);  // wait for 300ms to load the code
 
   // setup basic information from codec_config_t
-  bool ok;
-  i2sMode = getI2SClockMode(ok);
-  if (!ok) return false;
-  wordLen = getWordLen(ok);
-  if (!ok) return false;
-  numChannels = getNumChannels(ok);
-  if (!ok) return false;
-  samplingRate = getSamplingRate(ok);
-  if (!ok) return false;
-
   config();
 
   return true;
@@ -554,22 +544,22 @@ bool AD1938::spi_write_reg(unsigned char reg, unsigned char val) {
 }
 
 bool AD1938::config() {
-  switch (samplingRate) {
-    case SamplingRate::FS_32000:
-    case SamplingRate::FS_44100:
-    case SamplingRate::FS_48000: {
+  switch (cfg.i2s.rate) {
+    case RATE_32K:
+    case RATE_44K:
+    case RATE_48K: {
       dac_fs = DAC_SR_48K;
       adc_fs = ADC_SR_48K;
     } break;
-    case SamplingRate::FS_64000:
-    case SamplingRate::FS_88200:
-    case SamplingRate::FS_96000: {
+    case RATE_64K:
+    case RATE_88K:
+    case RATE_96K: {
       dac_fs = DAC_SR_96K;
       adc_fs = ADC_SR_96K;
     } break;
-    case SamplingRate::FS_128000:
-    case SamplingRate::FS_176400:
-    case SamplingRate::FS_192000: {
+    case RATE_128K:
+    case RATE_176K:
+    case RATE_192K: {
       dac_fs = DAC_SR_192K;
       adc_fs = ADC_SR_192K;
     } break;
@@ -579,18 +569,18 @@ bool AD1938::config() {
     }
   }
 
-  switch (wordLen) {
-    case BitsPerSample::BITS_16: {
+  switch (cfg.i2s.bits) {
+    case BIT_LENGTH_16BITS: {
       dac_wl = DAC_WIDTH_16;
       adc_wl = ADC_WIDTH_16;
 
     } break;
-    case BitsPerSample::BITS_20: {
+    case BIT_LENGTH_20BITS: {
       dac_wl = DAC_WIDTH_20;
       adc_wl = ADC_WIDTH_20;
 
     } break;
-    case BitsPerSample::BITS_24: {
+    case BIT_LENGTH_24BITS: {
       dac_wl = DAC_WIDTH_24;
       adc_wl = ADC_WIDTH_24;
     }
@@ -603,22 +593,22 @@ bool AD1938::config() {
     }
   }
 
-  switch (numChannels) {
-    case I2sNumChannels::I2S_STEREO_2CH: {
+  switch (cfg.i2s.channels) {
+    case CHANNELS2: {
       dac_mode = DAC_FMT_I2S;
       adc_mode = ADC_FMT_I2S;
       dac_channels = DAC_CHANNELS_2;
       adc_channels = ADC_CHANNELS_2;
 
     } break;
-    case I2sNumChannels::I2S_TDM_8CH: {
+    case CHANNELS8: {
       dac_mode = DAC_FMT_TDM;
       adc_mode = ADC_FMT_TDM;
       dac_channels = DAC_CHANNELS_8;
       adc_channels = ADC_CHANNELS_8;
 
     } break;
-    case I2sNumChannels::I2S_TDM_16CH: {
+    case CHANNELS16: {
       dac_mode = DAC_FMT_TDM;
       adc_mode = ADC_FMT_TDM;
       dac_channels = DAC_CHANNELS_16;
@@ -633,7 +623,7 @@ bool AD1938::config() {
     }
   }
 
-  if (i2sMode == I2sClockMode::AD1938_I2S_SLAVE) {
+  if (cfg.i2s.mode == MODE_SLAVE) {
     configSlave();
   } else {
     configMaster();
@@ -724,7 +714,7 @@ bool AD1938::isPllLocked(void) {
 }
 
 bool AD1938::enable(void) {
-  if (i2sMode == I2sClockMode::AD1938_I2S_SLAVE) {
+  if (cfg.i2s.mode == MODE_SLAVE) {
     spi_write_reg(
         AD1938_PLL_CLK_CTRL0,
         (ENA_ADC_DAC | INPUT512 | PLL_IN_DLRCLK | MCLK_OUT_OFF | PLL_PWR_UP));
@@ -784,68 +774,3 @@ bool AD1938::setMuteADC(bool mute) {
 }
 
 
-AD1938::SamplingRate AD1938::getSamplingRate(bool &ok) {
-  ok = true;
-  switch (cfg.i2s.rate) {
-    case RATE_32K:
-      return AD1938::SamplingRate::FS_32000;
-    case RATE_44K:
-      return AD1938::SamplingRate::FS_44100;
-    case RATE_48K:
-      return AD1938::SamplingRate::FS_48000;
-    case RATE_88K:
-      return AD1938::SamplingRate::FS_88200;
-    case RATE_96K:
-      return AD1938::SamplingRate::FS_96000;
-    case RATE_128K:
-      return AD1938::SamplingRate::FS_128000;
-    case RATE_176K:
-      return AD1938::SamplingRate::FS_176400;
-    case RATE_192K:
-      return AD1938::SamplingRate::FS_192000;
-    default:
-      return AD1938::SamplingRate::FS_48000;
-      ok = false;
-  }
-}
-
-AD1938::I2sClockMode AD1938::getI2SClockMode(bool &ok) {
-  ok = true;
-  switch (cfg.i2s.mode) {
-    case MODE_SLAVE:
-      return AD1938::I2sClockMode::AD1938_I2S_SLAVE;
-    default:
-      return AD1938::I2sClockMode::AD1938_I2S_MASTER;
-  }
-}
-
-AD1938::BitsPerSample AD1938::getWordLen(bool &ok) {
-  ok = true;
-  switch (cfg.i2s.bits) {
-    case BIT_LENGTH_16BITS:
-      return AD1938::BitsPerSample::BITS_16;
-    case BIT_LENGTH_20BITS:
-      return AD1938::BitsPerSample::BITS_20;
-    case BIT_LENGTH_24BITS:
-      return AD1938::BitsPerSample::BITS_24;
-    default:
-      ok = false;
-      return AD1938::BitsPerSample::BITS_24;
-      break;
-  }
-}
-
-AD1938::I2sNumChannels AD1938::getNumChannels(bool &ok) {
-  ok = true;
-  switch (cfg.i2s.channels) {
-    case CHANNELS2:
-      return AD1938::I2sNumChannels::I2S_STEREO_2CH;
-    case CHANNELS8:
-      return AD1938::I2sNumChannels::I2S_TDM_8CH;
-    case CHANNELS16:
-      return AD1938::I2sNumChannels::I2S_TDM_16CH;
-    default:
-      ok = false;
-      return AD1938::I2sNumChannels::I2S_STEREO_2CH;
-  }
-}

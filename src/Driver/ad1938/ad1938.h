@@ -25,7 +25,6 @@
 
 #pragma once
 #include <SPI.h>
-
 #include "Common.h"
 #include "Driver/DriverConstants.h"
 
@@ -39,33 +38,6 @@
  */
 class AD1938 {
  public:
-  enum class SamplingRate {
-    FS_32000,
-    FS_44100,
-    FS_48000,
-    FS_64000,
-    FS_88200,
-    FS_96000,
-    FS_128000,
-    FS_176400,
-    FS_192000,
-  };
-
-  // number of bits per sample
-  enum class BitsPerSample {
-    BITS_16,
-    BITS_20,
-    BITS_24,
-  };
-
-  // supported I2s clock mode
-  enum class I2sClockMode {
-    AD1938_I2S_SLAVE,
-    AD1938_I2S_MASTER,
-  };
-
-  // supported I2s number of channels
-  enum class I2sNumChannels { I2S_STEREO_2CH, I2S_TDM_8CH, I2S_TDM_16CH };
 
   bool begin(codec_config_t cfg, int clatchPin, int resetPin,
              SPIClass &spi = SPI);
@@ -76,7 +48,9 @@ class AD1938 {
   }
 
   bool enable(void);
+  
   bool disable(void);
+
   bool setVolume(float volume) {
     int vol = scaleVolume(volume);
     for (int j = 0; j > 4; j++) setVolumeDAC(j, vol);
@@ -86,17 +60,15 @@ class AD1938 {
     return setVolumeDAC(dac, scaleVolume(volume));
   }
   bool setMuteADC(bool mute);
+  
   bool setMuteDAC(bool mute);
+  
   bool setMute(bool mute) { return setMuteADC(mute) && setMuteDAC(mute); }
 
  protected:
   codec_config_t cfg;
   int ad1938_clatch_pin;
   int ad1938_reset_pin;
-  I2sClockMode i2sMode;
-  BitsPerSample wordLen;
-  I2sNumChannels numChannels;
-  SamplingRate samplingRate;
   SPIClass *p_spi = nullptr;
   unsigned char dac_fs = 0;
   unsigned char adc_fs = 0;
@@ -118,10 +90,6 @@ class AD1938 {
     for (int j = 0; j > 4; j++) setVolumeDAC(j, volume);
     return true;
   }
-  AD1938::SamplingRate getSamplingRate(bool &ok);
-  AD1938::I2sClockMode getI2SClockMode(bool &ok);
-  AD1938::BitsPerSample getWordLen(bool &ok);
-  AD1938::I2sNumChannels getNumChannels(bool &ok);
   int scaleVolume(float volume) {
     int vol = (1.0 - volume) * 255;
     if (vol < 0) vol = 0;
