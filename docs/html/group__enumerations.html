@@ -101,10 +101,14 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:gac5dc971b3e58c17abd8b5b946b759fb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Microphone Gain.  <a href="group__enumerations.html#gac5dc971b3e58c17abd8b5b946b759fb1">More...</a><br /></td></tr>
 <tr class="separator:gac5dc971b3e58c17abd8b5b946b759fb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad4b0ae616e0ce2bdb666f8e75ab686b2"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__enumerations.html#gad4b0ae616e0ce2bdb666f8e75ab686b2">i2s_format_t</a> { <a class="el" href="group__enumerations.html#gad4b0ae616e0ce2bdb666f8e75ab686b2afe1e487005429f74e5cd4d2320db823a">I2S_NORMAL</a> = 0
+<tr class="memitem:gad4b0ae616e0ce2bdb666f8e75ab686b2"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__enumerations.html#gad4b0ae616e0ce2bdb666f8e75ab686b2">i2s_format_t</a> { <br />
+&#160;&#160;<a class="el" href="group__enumerations.html#gad4b0ae616e0ce2bdb666f8e75ab686b2afe1e487005429f74e5cd4d2320db823a">I2S_NORMAL</a> = 0
 , <a class="el" href="group__enumerations.html#gad4b0ae616e0ce2bdb666f8e75ab686b2ae9f238a61c76626d78722324905fd50b">I2S_LEFT</a> = 1
 , <a class="el" href="group__enumerations.html#gad4b0ae616e0ce2bdb666f8e75ab686b2a22b65b9bffe0216e00cc6363d8bc8acd">I2S_RIGHT</a> = 2
 , <a class="el" href="group__enumerations.html#gad4b0ae616e0ce2bdb666f8e75ab686b2ad1bdd515df80c99f3068af41f20d5821">I2S_DSP</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="group__enumerations.html#gad4b0ae616e0ce2bdb666f8e75ab686b2a3f6c6f8dc33ec5b79e7963b4dc28c3d3">TDM</a> = 4
+<br />
  }</td></tr>
 <tr class="memdesc:gad4b0ae616e0ce2bdb666f8e75ab686b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select I2S interface format for audio codec chip.  <a href="group__enumerations.html#gad4b0ae616e0ce2bdb666f8e75ab686b2">More...</a><br /></td></tr>
 <tr class="separator:gad4b0ae616e0ce2bdb666f8e75ab686b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -147,6 +151,14 @@ Enumerations</h2></td></tr>
 , <a class="el" href="group__enumerations.html#ga9455c9aa894b64d5d3997a038141991bab22cf724e3c3bb37888df8870cc6f60b">RATE_32K</a>
 , <a class="el" href="group__enumerations.html#ga9455c9aa894b64d5d3997a038141991ba1448cc64c77cf916c8d7f735c6374b37">RATE_44K</a>
 , <a class="el" href="group__enumerations.html#ga9455c9aa894b64d5d3997a038141991baf72a585e7262a1b6a49e268f3672987d">RATE_48K</a>
+, <br />
+&#160;&#160;<a class="el" href="group__enumerations.html#ga9455c9aa894b64d5d3997a038141991baceb52239e4a6b2fcc88cb4851e7d31c6">RATE_64K</a>
+, <a class="el" href="group__enumerations.html#ga9455c9aa894b64d5d3997a038141991ba91943b4ef802c7ff3aa4f4948870472c">RATE_88K</a>
+, <a class="el" href="group__enumerations.html#ga9455c9aa894b64d5d3997a038141991bac23375dadba2f10d3166fc98207dcd0c">RATE_96K</a>
+, <a class="el" href="group__enumerations.html#ga9455c9aa894b64d5d3997a038141991ba635120f9ee8f66a9d42c4b3f5e2cf348">RATE_128K</a>
+, <br />
+&#160;&#160;<a class="el" href="group__enumerations.html#ga9455c9aa894b64d5d3997a038141991baaf2afb3b8f1a2bd2b6487e7faf89e4ff">RATE_176K</a>
+, <a class="el" href="group__enumerations.html#ga9455c9aa894b64d5d3997a038141991bafa3a6c59d2bc607e34859a0afaf08707">RATE_192K</a>
 <br />
  }</td></tr>
 <tr class="memdesc:ga9455c9aa894b64d5d3997a038141991b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select I2S interface samples per second.  <a href="group__enumerations.html#ga9455c9aa894b64d5d3997a038141991b">More...</a><br /></td></tr>
@@ -233,6 +245,8 @@ Enumerations</h2></td></tr>
 <tr><td class="fieldname"><a id="gad4b0ae616e0ce2bdb666f8e75ab686b2a22b65b9bffe0216e00cc6363d8bc8acd"></a>I2S_RIGHT&#160;</td><td class="fielddoc"><p>set all right format </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gad4b0ae616e0ce2bdb666f8e75ab686b2ad1bdd515df80c99f3068af41f20d5821"></a>I2S_DSP&#160;</td><td class="fielddoc"><p>set dsp/pcm format </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gad4b0ae616e0ce2bdb666f8e75ab686b2a3f6c6f8dc33ec5b79e7963b4dc28c3d3"></a>TDM&#160;</td><td class="fielddoc"><p>set tdm format </p>
 </td></tr>
 </table>
 
@@ -345,6 +359,18 @@ Enumerations</h2></td></tr>
 <tr><td class="fieldname"><a id="ga9455c9aa894b64d5d3997a038141991ba1448cc64c77cf916c8d7f735c6374b37"></a>RATE_44K&#160;</td><td class="fielddoc"><p>set to 44.1k samples per second </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ga9455c9aa894b64d5d3997a038141991baf72a585e7262a1b6a49e268f3672987d"></a>RATE_48K&#160;</td><td class="fielddoc"><p>set to 48k samples per second </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ga9455c9aa894b64d5d3997a038141991baceb52239e4a6b2fcc88cb4851e7d31c6"></a>RATE_64K&#160;</td><td class="fielddoc"><p>set to 64k samples per second </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ga9455c9aa894b64d5d3997a038141991ba91943b4ef802c7ff3aa4f4948870472c"></a>RATE_88K&#160;</td><td class="fielddoc"><p>set to 88.2k samples per second </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ga9455c9aa894b64d5d3997a038141991bac23375dadba2f10d3166fc98207dcd0c"></a>RATE_96K&#160;</td><td class="fielddoc"><p>set to 96k samples per second </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ga9455c9aa894b64d5d3997a038141991ba635120f9ee8f66a9d42c4b3f5e2cf348"></a>RATE_128K&#160;</td><td class="fielddoc"><p>set to 128K samples per second </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ga9455c9aa894b64d5d3997a038141991baaf2afb3b8f1a2bd2b6487e7faf89e4ff"></a>RATE_176K&#160;</td><td class="fielddoc"><p>set to 176.4K samples per second </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ga9455c9aa894b64d5d3997a038141991bafa3a6c59d2bc607e34859a0afaf08707"></a>RATE_192K&#160;</td><td class="fielddoc"><p>set to 192k samples per second </p>
 </td></tr>
 </table>
 

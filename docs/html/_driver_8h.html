@@ -75,6 +75,8 @@ $(function() {
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="_common_8h_source.html">Common.h</a>&quot;</code><br />
 <code>#include &quot;Driver/ac101/ac101.h&quot;</code><br />
+<code>#include &quot;Driver/ad1938/ad1938.h&quot;</code><br />
+<code>#include &quot;Driver/cs42448/cs42448.h&quot;</code><br />
 <code>#include &quot;Driver/cs43l22/cs43l22.h&quot;</code><br />
 <code>#include &quot;Driver/es7210/es7210.h&quot;</code><br />
 <code>#include &quot;Driver/es7243/es7243.h&quot;</code><br />
@@ -97,6 +99,12 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_a_c101_class.html">AudioDriverAC101Class</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Driver API for AC101 codec chip.  <a href="classaudio__driver_1_1_audio_driver_a_c101_class.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_a_d1938_class.html">AudioDriverAD1938Class</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Driver API for AD1938 TDS DAC/ADC.  <a href="classaudio__driver_1_1_audio_driver_a_d1938_class.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_c_s42448_class.html">AudioDriverCS42448Class</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Driver API for AD1938 TDS DAC/ADC.  <a href="classaudio__driver_1_1_audio_driver_c_s42448_class.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_c_s43l22_class.html">AudioDriverCS43l22Class</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Driver API for the CS43l22 codec chip on 0x94 (0x4A&lt;&lt;1)  <a href="classaudio__driver_1_1_audio_driver_c_s43l22_class.html#details">More...</a><br /></td></tr>
@@ -150,6 +158,10 @@ Namespaces</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:ga6e512f44cc6db0994d6b1617abcc93b0"><td class="memItemLeft" align="right" valign="top">static AudioDriverAC101Class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga6e512f44cc6db0994d6b1617abcc93b0">AudioDriverAC101</a></td></tr>
 <tr class="separator:ga6e512f44cc6db0994d6b1617abcc93b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf75ddf37a3c0e9318d1b22be33ea1059"><td class="memItemLeft" align="right" valign="top">static AudioDriverAD1938Class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gaf75ddf37a3c0e9318d1b22be33ea1059">AudioDriverAD1938</a></td></tr>
+<tr class="separator:gaf75ddf37a3c0e9318d1b22be33ea1059"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga83d13359511c6ee2c627b33b94588ad5"><td class="memItemLeft" align="right" valign="top">static AudioDriverCS42448Class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga83d13359511c6ee2c627b33b94588ad5">AudioDriverCS42448</a></td></tr>
+<tr class="separator:ga83d13359511c6ee2c627b33b94588ad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga9752ab43ee1dc1a25230ddfbd0916c15"><td class="memItemLeft" align="right" valign="top">static AudioDriverCS43l22Class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga9752ab43ee1dc1a25230ddfbd0916c15">AudioDriverCS43l22</a></td></tr>
 <tr class="separator:ga9752ab43ee1dc1a25230ddfbd0916c15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4c214e0234a9999990e57646e330b6ac"><td class="memItemLeft" align="right" valign="top">static AudioDriverES7210Class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga4c214e0234a9999990e57646e330b6ac">AudioDriverES7210</a></td></tr>
@@ -174,10 +186,10 @@ Variables</h2></td></tr>
 <tr class="separator:ga0d7c21e6e7b5d9dd9e5937c57c60fb8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3fee80a3a7d33b4cd0af36720e919be4"><td class="memItemLeft" align="right" valign="top">static NoDriverClass&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga3fee80a3a7d33b4cd0af36720e919be4">NoDriver</a></td></tr>
 <tr class="separator:ga3fee80a3a7d33b4cd0af36720e919be4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a6bc2a780fcdf0d4db3335cc846de30"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__enumerations.html#ga9455c9aa894b64d5d3997a038141991b">samplerate_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaudio__driver.html#a7a6bc2a780fcdf0d4db3335cc846de30">rate_code</a> [8]</td></tr>
-<tr class="separator:a7a6bc2a780fcdf0d4db3335cc846de30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f68e5811f962dbd87e25a98d603d82b"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaudio__driver.html#a1f68e5811f962dbd87e25a98d603d82b">rate_num</a> [8] = {8000, 11025, 16000, 22050, 24000, 32000, 44100, 48000}</td></tr>
-<tr class="separator:a1f68e5811f962dbd87e25a98d603d82b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57ed9a91c0a184e4d8669f70d4cfb953"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="group__enumerations.html#ga9455c9aa894b64d5d3997a038141991b">samplerate_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaudio__driver.html#a57ed9a91c0a184e4d8669f70d4cfb953">rate_code</a> [14]</td></tr>
+<tr class="separator:a57ed9a91c0a184e4d8669f70d4cfb953"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee6eec1204925f0dfc2228bda0533d2f"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaudio__driver.html#aee6eec1204925f0dfc2228bda0533d2f">rate_num</a> [14]</td></tr>
+<tr class="separator:aee6eec1204925f0dfc2228bda0533d2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->
