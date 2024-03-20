@@ -46,6 +46,16 @@ class CodecConfig : public codec_config_t {
     i2s.mode = MODE_SLAVE;
   }
 
+  /// Compare all attributes but ignore sample rate
+  bool equalsExRate(CodecConfig alt){
+    return (input_device == alt.input_device &&
+        output_device == alt.output_device &&
+        i2s.bits == alt.i2s.bits &&
+        i2s.channels == alt.i2s.channels &&
+        i2s.fmt == alt.i2s.fmt && 
+        i2s.mode == alt.i2s.mode);
+  }
+
   /// Returns bits per sample as number
   int getBitsNumeric() {
     switch (i2s.bits) {
@@ -486,20 +496,18 @@ class AudioDriverCS42448Class : public AudioDriver {
     // setup pins
     pins.begin();
     // setup ad1938
-    cs42448.begin(codecCfg, getI2C(), getI2CAddress());
+    cs42448.begin(cfg, getI2C(), getI2CAddress());
     cs42448.setMute(false);
     return true;
   }
   virtual bool setConfig(CodecConfig codecCfg) {
     bool result = true;
-    if (codecCfg.input_device == cfg.input_device &&
-        codecCfg.output_device == cfg.output_device &&
-        codecCfg.i2s.bits == cfg.i2s.bits &&
-        codecCfg.i2s.channels == cfg.i2s.channels &&
-        codecCfg.i2s.fmt == cfg.i2s.fmt && codecCfg.i2s.mode == cfg.i2s.mode) {
+    if (codecCfg.equalsExRate(cfg)) {
       // just update the rate
       if (cfg.i2s.rate != cfg.i2s.rate) {
+        cs42448.setMute(true);
         cs42448.setSampleRate(codecCfg.getRateNumeric());
+        cs42448.setMute(false);
       }
     } else {
       result = begin(codecCfg, *p_pins);
