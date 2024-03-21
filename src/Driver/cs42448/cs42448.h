@@ -562,7 +562,7 @@ class CS42448 {
         } else
           return false;
         return setFormat(fmt);
-      case TDM:
+      case I2S_TDM:
         return setFormat(Format::TDM);
       default:
         return false;
