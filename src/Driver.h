@@ -353,14 +353,26 @@ class AudioDriverAD1938Class : public AudioDriver {
     return result;
   }
   bool end(void) override { return ad1938.end(); }
-  bool setMute(bool enable) override { return ad1938.setMute(enable); }
+  bool setMute(bool mute) override { return ad1938.setMute(mute); }
+  // mutes an individual DAC
+  bool setMute(bool mute, int line) { 
+    if (line > 7) return false;
+    return ad1938.setVolumeDAC(line, mute ? 0.0 : (static_cast<float>(volumes[line]) / 100.0f));
+  }
+
   /// Defines the Volume (in %) if volume is 0, mute is enabled,range is 0-100.
   bool setVolume(int volume) override {
     this->volume = volume;
+    for (int j=0;j<8;j++){
+      volumes[j] = volume;
+    }
     return ad1938.setVolume(static_cast<float>(volume) / 100.0f);
   }
-  bool setVolume(int dac, float volume) {
-    return ad1938.setVolumeDAC(dac, volume);
+  /// Defines the Volume per DAC (in %) if volume is 0, mute is enabled,range is 0-100.
+  bool setVolume(int volume, int line) {
+    if (line > 7) return false;
+    volumes[line] = volume;
+    return ad1938.setVolumeDAC(static_cast<float>(volume) / 100.0f, line);
   }
 
   int getVolume() override { return volume; }
@@ -375,6 +387,7 @@ class AudioDriverAD1938Class : public AudioDriver {
   AD1938 ad1938;
   DriverPins *p_pins = nullptr;
   int volume = 100;
+  int volumes[8] = {100};
 };
 
 /**
@@ -478,7 +491,7 @@ class AudioDriverCS43l22Class : public AudioDriver {
 };
 
 /**
- * @brief Driver API for AD1938 TDS DAC/ADC
+ * @brief Driver API for CS42448 TDS DAC/ADC
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
@@ -488,7 +501,7 @@ class AudioDriverCS42448Class : public AudioDriver {
     cfg = codecCfg;
     // setup pins
     pins.begin();
-    // setup ad1938
+    // setup cs42448
     cs42448.begin(cfg, getI2C(), getI2CAddress());
     cs42448.setMute(false);
     return true;
@@ -509,8 +522,8 @@ class AudioDriverCS42448Class : public AudioDriver {
   }
   bool end(void) override { return cs42448.end(); }
   bool setMute(bool enable) override { return cs42448.setMute(enable); }
-  bool setMute(int channel, bool enable) {
-    return cs42448.setMuteDAC(channel, enable);
+  bool setMute(bool enable, int line) {
+    return cs42448.setMuteDAC(line, enable);
   }
   /// Defines the Volume (in %) if volume is 0, mute is enabled,range is 0-100.
   bool setVolume(int volume) override {
@@ -762,19 +775,27 @@ class AudioDriverES8374Class : public AudioDriver {
 class AudioDriverES8388Class : public AudioDriver {
  public:
   bool setMute(bool mute) { return es8388_set_voice_mute(mute) == RESULT_OK; }
-  // bool setMute(bool mute, int line) {
-  //   switch (line) {
-  //     case 1:
-  //       return es8388_config_output_device(DAC_OUTPUT_LINE1) == RESULT_OK;
-  //       break;
-  //     case 2:
-  //       return es8388_config_output_device(DAC_OUTPUT_LINE2) == RESULT_OK;
-  //       break;
-  //     default:
-  //       AD_LOGE("Invalid dac %d", volume);
-  //       return false;
-  //   }
-  // }
+  // mute line: lines start at 0
+  bool setMute(bool mute, int line) {
+    bool line_active[2];
+    if (line > 1) {
+      AD_LOGD("invalid line %d", line);
+      return false;
+    }
+    line_active[line] = !mute;
+    // mute is managed on line level, so deactivate global mute
+    setMute(false);
+    if (line_active[0] && line_active[1]) {
+      return es8388_config_output_device(DAC_OUTPUT_ALL) == RESULT_OK;
+    } else if (!line_active[0] && !line_active[1]) {
+      return es8388_config_output_device(DAC_OUTPUT_NONE) == RESULT_OK;
+    } else if (line_active[0]) {
+      return es8388_config_output_device(DAC_OUTPUT_LINE1) == RESULT_OK;
+    } else if (line_active[1]) {
+      return es8388_config_output_device(DAC_OUTPUT_LINE2) == RESULT_OK;
+    }
+    return false;
+  }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
     return es8388_set_voice_volume(limitValue(volume)) == RESULT_OK;

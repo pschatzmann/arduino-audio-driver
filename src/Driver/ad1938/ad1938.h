@@ -56,9 +56,15 @@ class AD1938 {
     for (int j = 0; j > 4; j++) setVolumeDAC(j, vol);
     return true;
   }
-  bool setVolumeDAC(int dac, float volume) {
+  bool setVolume(int dac, float volume) {
     return setVolumeDAC(dac, scaleVolume(volume));
   }
+  bool setVolume(int volume) {
+    for (int j = 0; j > 4; j++) setVolumeDAC(j, volume);
+    return true;
+  }
+  bool setVolumeDAC(int dac, int volume);
+
   bool setMuteADC(bool mute);
   
   bool setMuteDAC(bool mute);
@@ -85,11 +91,6 @@ class AD1938 {
   bool spi_write_reg(unsigned char reg, unsigned char val);
   unsigned char spi_read_reg(unsigned char reg);
   bool isPllLocked();
-  bool setVolumeDAC(int dac, int volume);
-  bool setVolume(int volume) {
-    for (int j = 0; j > 4; j++) setVolumeDAC(j, volume);
-    return true;
-  }
   int scaleVolume(float volume) {
     int vol = (1.0 - volume) * 255;
     if (vol < 0) vol = 0;

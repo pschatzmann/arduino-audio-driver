@@ -230,12 +230,12 @@ class CS42448 {
 
     return true;
   }
-
-  bool setMuteDAC(uint8_t channel, bool mute) {
+  // line starts at 0
+  bool setMuteDAC(uint8_t line, bool mute) {
     uint8_t mute_reg_value;
-    if (channel >= 8) return false;
+    if (line >= 8) return false;
     if (!readReg(CS42448_DAC_Channel_Mute, &mute_reg_value)) return false;
-    setBit(mute_reg_value, channel, mute);
+    setBit(mute_reg_value, line, mute);
     if (!writeReg(CS42448_DAC_Channel_Mute, mute_reg_value)) return false;
     return true;
   }
