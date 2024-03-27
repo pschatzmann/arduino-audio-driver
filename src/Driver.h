@@ -653,7 +653,7 @@ class AudioDriverES7243eClass : public AudioDriver {
 };
 
 /**
- * @brief Driver API for ES8388 codec chip
+ * @brief Driver API for ES8156 codec chip
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
@@ -774,10 +774,13 @@ class AudioDriverES8374Class : public AudioDriver {
  */
 class AudioDriverES8388Class : public AudioDriver {
  public:
-  bool setMute(bool mute) { return es8388_set_voice_mute(mute) == RESULT_OK; }
+  bool setMute(bool mute) {
+    line_active[0] = !mute;
+    line_active[1] = !mute;
+    return es8388_set_voice_mute(mute) == RESULT_OK; 
+  }
   // mute line: lines start at 0
   bool setMute(bool mute, int line) {
-    bool line_active[2];
     if (line > 1) {
       AD_LOGD("invalid line %d", line);
       return false;
@@ -820,6 +823,8 @@ class AudioDriverES8388Class : public AudioDriver {
   bool isInputVolumeSupported() { return true; }
 
  protected:
+  bool line_active[2] = {true};
+
   bool init(codec_config_t codec_cfg) {
     return es8388_init(&codec_cfg, getI2C()) == RESULT_OK;
   }
