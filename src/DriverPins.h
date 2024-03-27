@@ -394,10 +394,10 @@ class DriverPins {
   bool hasPins() { return !pins.empty(); }
 
  protected:
-  Vector<PinsI2S> i2s{0};
-  Vector<PinsSPI> spi{0};
-  Vector<PinsI2C> i2c{0};
-  Vector<PinsFunction> pins{0};
+  audio_driver_local::Vector<PinsI2S> i2s{0};
+  audio_driver_local::Vector<PinsSPI> spi{0};
+  audio_driver_local::Vector<PinsI2C> i2c{0};
+  audio_driver_local::Vector<PinsFunction> pins{0};
   bool sd_active = true;
 
   template <typename T>

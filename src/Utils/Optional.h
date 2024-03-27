@@ -1,6 +1,6 @@
 #pragma once
 
-namespace audio_driver {
+namespace audio_driver_local {
 
 /**
  * @brief A simple optonal implementation

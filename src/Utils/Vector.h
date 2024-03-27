@@ -4,7 +4,7 @@
 #endif
 #include <assert.h>
 
-namespace audio_driver {
+namespace audio_driver_local {
 
 /**
  * @brief Vector implementation which provides the most important methods as defined by std::vector. This class it is quite handy 
