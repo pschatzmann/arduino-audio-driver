@@ -360,9 +360,9 @@ class AudioDriverAD1938Class : public AudioDriver {
   }
   bool end(void) override { return ad1938.end(); }
   bool setMute(bool mute) override { return ad1938.setMute(mute); }
-  // mutes an individual DAC
+  // mutes an individual DAC: valid range (0:3)
   bool setMute(bool mute, int line) { 
-    if (line > 7) return false;
+  if (dac_num > 3) return false;
     return ad1938.setVolumeDAC(line, mute ? 0.0 : (static_cast<float>(volumes[line]) / 100.0f));
   }
 
