@@ -779,7 +779,7 @@ class AudioDriverES8388Class : public AudioDriver {
     line_active[1] = !mute;
     return es8388_set_voice_mute(mute) == RESULT_OK; 
   }
-  // mute line: lines start at 0
+  // mute individual line: lines start at 0 (valid range 0:1)
   bool setMute(bool mute, int line) {
     if (line > 1) {
       AD_LOGD("invalid line %d", line);
