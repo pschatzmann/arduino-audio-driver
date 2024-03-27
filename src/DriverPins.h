@@ -291,7 +291,7 @@ class DriverPins {
     return addPin(pin);
   }
   /// Get pin information by function
-  Optional<PinsFunction> getPin(PinFunction function, int pos = 0) {
+  audio_driver_local::Optional<PinsFunction> getPin(PinFunction function, int pos = 0) {
     for (PinsFunction &pin : pins) {
       if (pin.function == function && pin.index == pos) return pin;
     }
@@ -299,7 +299,7 @@ class DriverPins {
   }
 
   /// Get pin information by pin ID
-  Optional<PinsFunction> getPin(GpioPin pinId) {
+  audio_driver_local::Optional<PinsFunction> getPin(GpioPin pinId) {
     for (PinsFunction &pin : pins) {
       if (pin.pin == pinId) return pin;
     }
@@ -313,21 +313,21 @@ class DriverPins {
   }
 
   /// Finds the I2C pin info with the help of the function
-  Optional<PinsI2C> getI2CPins(PinFunction function) {
+  audio_driver_local::Optional<PinsI2C> getI2CPins(PinFunction function) {
     PinsI2C *pins = getPtr<PinsI2C>(function, i2c);
     if (pins == nullptr) return {};
     return *pins;
   }
 
   /// Finds the SPI pin info with the help of the function
-  Optional<PinsSPI> getSPIPins(PinFunction function) {
+  audio_driver_local::Optional<PinsSPI> getSPIPins(PinFunction function) {
     PinsSPI *pins = getPtr<PinsSPI>(function, spi);
     if (pins == nullptr) return {};
     return *pins;
   }
 
   /// Finds the I2S pin info with the help of the port
-  Optional<PinsI2S> getI2SPins(int port) {
+  audio_driver_local::Optional<PinsI2S> getI2SPins(int port) {
     for (PinsI2S &pins : i2s) {
       if (pins.port == port) return pins;
     }
@@ -335,7 +335,7 @@ class DriverPins {
   }
 
   /// Finds the I2S pin info with the help of the function
-  Optional<PinsI2S> getI2SPins(PinFunction function = PinFunction::CODEC) {
+  audio_driver_local::Optional<PinsI2S> getI2SPins(PinFunction function = PinFunction::CODEC) {
     PinsI2S *pins = getPtr<PinsI2S>(function, i2s);
     if (pins == nullptr) return {};
     return *pins;
@@ -401,7 +401,7 @@ class DriverPins {
   bool sd_active = true;
 
   template <typename T>
-  T *getPtr(PinFunction function, Vector<T> &vect) {
+  T *getPtr(PinFunction function, audio_driver_local::Vector<T> &vect) {
     for (auto &pins : vect) {
       if (pins.function == function) return &pins;
     }
@@ -409,7 +409,7 @@ class DriverPins {
   }
 
   template <typename T>
-  bool set(T pin, Vector<T> &vect) {
+  bool set(T pin, audio_driver_local::Vector<T> &vect) {
     T *pins = getPtr<T>(pin.function, vect);
     if (pins == nullptr) return false;
     *pins = pin;
