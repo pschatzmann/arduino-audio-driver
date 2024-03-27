@@ -43,30 +43,32 @@ typedef void *i2c_cmd_handle_t;
 
 /**
  * @enum input_device_t
- * @brief Select adc channel for input mic signal
+ * @brief Select adc for input mic signal. If the chip only has one ADC this might provide the 
+ * functionality on the channel level
  * @ingroup enumerations
  * @ingroup audio_driver
  */
 typedef enum {
   ADC_INPUT_NONE = 0x00, /*!< no input */
-  ADC_INPUT_LINE1,       /*!< mic input to adc channel 1 */
-  ADC_INPUT_LINE2,       /*!< mic input to adc channel 2 */
-  ADC_INPUT_LINE3,       /*!< mic input to adc channel 3 */
-  ADC_INPUT_ALL,         /*!< mic input to both channels of adc */
+  ADC_INPUT_LINE1,       /*!< mic input from adc 1 */
+  ADC_INPUT_LINE2,       /*!< mic input from adc 2 */
+  ADC_INPUT_LINE3,       /*!< mic input from adc 3 */
+  ADC_INPUT_ALL,         /*!< mic input from all adc */
   ADC_INPUT_DIFFERENCE,  /*!< mic input to adc difference channel */
 } input_device_t;
 
 /**
  * @enum output_device_t
- * @brief Select channel for dac output
+ * @brief Select individual dac for dac output. If the device has only one DAC this might
+ * provide the functionality channel level
  * @ingroup enumerations
  * @ingroup audio_driver
  */
 typedef enum {
   DAC_OUTPUT_NONE = 0x00, /*!< no output */
-  DAC_OUTPUT_LINE1,       /*!< dac output signal to channel 1 */
-  DAC_OUTPUT_LINE2,       /*!< dac output signal to channel 2 */
-  DAC_OUTPUT_ALL,         /*!< dac output signal to both channels */
+  DAC_OUTPUT_LINE1,       /*!< dac output signal to dac 1 */
+  DAC_OUTPUT_LINE2,       /*!< dac output signal to dac 2 */
+  DAC_OUTPUT_ALL,         /*!< dac output signal to both dacs */
 } output_device_t;
 
 /**

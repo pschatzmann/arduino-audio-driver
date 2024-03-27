@@ -19,12 +19,11 @@
 
 namespace audio_driver {
 
-const int rate_num[14] = {8000, 11025, 16000, 22050, 24000, 32000, 44100, 48000,
-                        64000, 88200, 96000, 128000, 176400, 192000};
-const samplerate_t rate_code[14] = {RATE_8K,  RATE_11K, RATE_16K, RATE_22K,
-                                   RATE_24K, RATE_32K, RATE_44K, RATE_48K,
-                                   RATE_64K, RATE_88K,RATE_96K, RATE_128K,
-                                   RATE_176K, RATE_192K};
+const int rate_num[14] = {8000,  11025, 16000, 22050, 24000,  32000,  44100,
+                          48000, 64000, 88200, 96000, 128000, 176400, 192000};
+const samplerate_t rate_code[14] = {
+    RATE_8K,  RATE_11K, RATE_16K, RATE_22K, RATE_24K,  RATE_32K,  RATE_44K,
+    RATE_48K, RATE_64K, RATE_88K, RATE_96K, RATE_128K, RATE_176K, RATE_192K};
 
 /**
  * @brief I2S configuration and definition of input and output with default
@@ -47,13 +46,11 @@ class CodecConfig : public codec_config_t {
   }
 
   /// Compare all attributes but ignore sample rate
-  bool equalsExRate(CodecConfig alt){
+  bool equalsExRate(CodecConfig alt) {
     return (input_device == alt.input_device &&
-        output_device == alt.output_device &&
-        i2s.bits == alt.i2s.bits &&
-        i2s.channels == alt.i2s.channels &&
-        i2s.fmt == alt.i2s.fmt && 
-        i2s.mode == alt.i2s.mode);
+            output_device == alt.output_device && i2s.bits == alt.i2s.bits &&
+            i2s.channels == alt.i2s.channels && i2s.fmt == alt.i2s.fmt &&
+            i2s.mode == alt.i2s.mode);
   }
 
   /// Returns bits per sample as number
@@ -104,13 +101,9 @@ class CodecConfig : public codec_config_t {
     return 0;
   }
 
-  int getChannelsNumeric() {
-    return i2s.channels;
-  }
+  int getChannelsNumeric() { return i2s.channels; }
 
-  void setChannelsNumeric(int channels) {
-    i2s.channels = (channels_t) channels;
-  }
+  void setChannelsNumeric(int channels) { i2s.channels = (channels_t)channels; }
 
   /// sets the sample rate as number
   int setRateNumeric(int rateNum) {
@@ -769,6 +762,19 @@ class AudioDriverES8374Class : public AudioDriver {
 class AudioDriverES8388Class : public AudioDriver {
  public:
   bool setMute(bool mute) { return es8388_set_voice_mute(mute) == RESULT_OK; }
+  bool setMute(bool mute, int line) {
+    switch (line) {
+      case 1:
+        return es8388_config_output_device(DAC_OUTPUT_LINE1) == RESULT_OK;
+        break;
+      case 2:
+        return es8388_config_output_device(DAC_OUTPUT_LINE2) == RESULT_OK;
+        break;
+      default:
+        AD_LOGE("Invalid dac %d", volume);
+        return false;
+    }
+  }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
     return es8388_set_voice_volume(limitValue(volume)) == RESULT_OK;

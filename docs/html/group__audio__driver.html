@@ -103,14 +103,14 @@ Enumerations</h2></td></tr>
 , <a class="el" href="group__audio__driver.html#ga57493d56aec72d0d539dced15a738c50aed383e892e1fff2ff92159e3c0546352">ADC_INPUT_DIFFERENCE</a>
 <br />
  }</td></tr>
-<tr class="memdesc:ga57493d56aec72d0d539dced15a738c50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select adc channel for input mic signal.  <a href="group__audio__driver.html#ga57493d56aec72d0d539dced15a738c50">More...</a><br /></td></tr>
+<tr class="memdesc:ga57493d56aec72d0d539dced15a738c50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select adc for input mic signal. If the chip only has one ADC this might provide the functionality on the channel level.  <a href="group__audio__driver.html#ga57493d56aec72d0d539dced15a738c50">More...</a><br /></td></tr>
 <tr class="separator:ga57493d56aec72d0d539dced15a738c50"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga9144c83baaa7ebeaaecb236f9e21d264"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga9144c83baaa7ebeaaecb236f9e21d264">output_device_t</a> { <a class="el" href="group__audio__driver.html#ga9144c83baaa7ebeaaecb236f9e21d264ab839e055e11786256cd328d1b754a190">DAC_OUTPUT_NONE</a> = 0x00
 , <a class="el" href="group__audio__driver.html#ga9144c83baaa7ebeaaecb236f9e21d264a11a8487d0e17c9ac1d194c4f99974c85">DAC_OUTPUT_LINE1</a>
 , <a class="el" href="group__audio__driver.html#ga9144c83baaa7ebeaaecb236f9e21d264ae7351d9cbd1c1c3cd76bf4665e8d0cca">DAC_OUTPUT_LINE2</a>
 , <a class="el" href="group__audio__driver.html#ga9144c83baaa7ebeaaecb236f9e21d264a9f3f48105f92c53bfcc4d9546f666c43">DAC_OUTPUT_ALL</a>
  }</td></tr>
-<tr class="memdesc:ga9144c83baaa7ebeaaecb236f9e21d264"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select channel for dac output.  <a href="group__audio__driver.html#ga9144c83baaa7ebeaaecb236f9e21d264">More...</a><br /></td></tr>
+<tr class="memdesc:ga9144c83baaa7ebeaaecb236f9e21d264"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select individual dac for dac output. If the device has only one DAC this might provide the functionality channel level.  <a href="group__audio__driver.html#ga9144c83baaa7ebeaaecb236f9e21d264">More...</a><br /></td></tr>
 <tr class="separator:ga9144c83baaa7ebeaaecb236f9e21d264"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6b03ddbf1e0f5abd0e46e02555850aaf"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aaf">PinFunction</a> { <br />
 &#160;&#160;<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa9decb49b0b8a11118da5ae919a09e766">HEADPHONE_DETECT</a>
@@ -212,17 +212,17 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Select adc channel for input mic signal. </p>
+<p>Select adc for input mic signal. If the chip only has one ADC this might provide the functionality on the channel level. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ga57493d56aec72d0d539dced15a738c50a8fe55a6d1ba4245831483d4f3f3763ec"></a>ADC_INPUT_NONE&#160;</td><td class="fielddoc"><p>no input </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ga57493d56aec72d0d539dced15a738c50ac054fb9ae14a618d0425ded7f7f17bed"></a>ADC_INPUT_LINE1&#160;</td><td class="fielddoc"><p>mic input to adc channel 1 </p>
+<tr><td class="fieldname"><a id="ga57493d56aec72d0d539dced15a738c50ac054fb9ae14a618d0425ded7f7f17bed"></a>ADC_INPUT_LINE1&#160;</td><td class="fielddoc"><p>mic input from adc 1 </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ga57493d56aec72d0d539dced15a738c50ad6c7a8904c3ea81c09ac8558aa52d69d"></a>ADC_INPUT_LINE2&#160;</td><td class="fielddoc"><p>mic input to adc channel 2 </p>
+<tr><td class="fieldname"><a id="ga57493d56aec72d0d539dced15a738c50ad6c7a8904c3ea81c09ac8558aa52d69d"></a>ADC_INPUT_LINE2&#160;</td><td class="fielddoc"><p>mic input from adc 2 </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ga57493d56aec72d0d539dced15a738c50ace325297580254e540b10b2ac682397d"></a>ADC_INPUT_LINE3&#160;</td><td class="fielddoc"><p>mic input to adc channel 3 </p>
+<tr><td class="fieldname"><a id="ga57493d56aec72d0d539dced15a738c50ace325297580254e540b10b2ac682397d"></a>ADC_INPUT_LINE3&#160;</td><td class="fielddoc"><p>mic input from adc 3 </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ga57493d56aec72d0d539dced15a738c50a11f1754fb68fd4906c74368d9db39439"></a>ADC_INPUT_ALL&#160;</td><td class="fielddoc"><p>mic input to both channels of adc </p>
+<tr><td class="fieldname"><a id="ga57493d56aec72d0d539dced15a738c50a11f1754fb68fd4906c74368d9db39439"></a>ADC_INPUT_ALL&#160;</td><td class="fielddoc"><p>mic input from all adc </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ga57493d56aec72d0d539dced15a738c50aed383e892e1fff2ff92159e3c0546352"></a>ADC_INPUT_DIFFERENCE&#160;</td><td class="fielddoc"><p>mic input to adc difference channel </p>
 </td></tr>
@@ -242,15 +242,15 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Select channel for dac output. </p>
+<p>Select individual dac for dac output. If the device has only one DAC this might provide the functionality channel level. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ga9144c83baaa7ebeaaecb236f9e21d264ab839e055e11786256cd328d1b754a190"></a>DAC_OUTPUT_NONE&#160;</td><td class="fielddoc"><p>no output </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ga9144c83baaa7ebeaaecb236f9e21d264a11a8487d0e17c9ac1d194c4f99974c85"></a>DAC_OUTPUT_LINE1&#160;</td><td class="fielddoc"><p>dac output signal to channel 1 </p>
+<tr><td class="fieldname"><a id="ga9144c83baaa7ebeaaecb236f9e21d264a11a8487d0e17c9ac1d194c4f99974c85"></a>DAC_OUTPUT_LINE1&#160;</td><td class="fielddoc"><p>dac output signal to dac 1 </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ga9144c83baaa7ebeaaecb236f9e21d264ae7351d9cbd1c1c3cd76bf4665e8d0cca"></a>DAC_OUTPUT_LINE2&#160;</td><td class="fielddoc"><p>dac output signal to channel 2 </p>
+<tr><td class="fieldname"><a id="ga9144c83baaa7ebeaaecb236f9e21d264ae7351d9cbd1c1c3cd76bf4665e8d0cca"></a>DAC_OUTPUT_LINE2&#160;</td><td class="fielddoc"><p>dac output signal to dac 2 </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ga9144c83baaa7ebeaaecb236f9e21d264a9f3f48105f92c53bfcc4d9546f666c43"></a>DAC_OUTPUT_ALL&#160;</td><td class="fielddoc"><p>dac output signal to both channels </p>
+<tr><td class="fieldname"><a id="ga9144c83baaa7ebeaaecb236f9e21d264a9f3f48105f92c53bfcc4d9546f666c43"></a>DAC_OUTPUT_ALL&#160;</td><td class="fielddoc"><p>dac output signal to both dacs </p>
 </td></tr>
 </table>
 

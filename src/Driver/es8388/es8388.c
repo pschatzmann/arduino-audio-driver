@@ -497,14 +497,22 @@ error_t es8388_get_voice_mute(void)
  *     - (-1) Parameter error
  *     - (0)   Success
  */
-error_t es8388_config_output_device(es_output_device_t output)
+error_t es8388_config_output_device(output_device_t output_device)
 {
     AD_LOGD(LOG_METHOD);
+    AD_LOGI("output_device: %d",output_device);
+    if (DAC_OUTPUT_LINE2 == output_device) {
+        dac_power = _DAC_OUTPUT_LOUT1 | _DAC_OUTPUT_ROUT1;
+    } else if (DAC_OUTPUT_LINE1 == output_device) {
+        dac_power = _DAC_OUTPUT_LOUT2 | _DAC_OUTPUT_ROUT2;
+    } else {
+        dac_power = _DAC_OUTPUT_LOUT1 | _DAC_OUTPUT_LOUT2 | _DAC_OUTPUT_ROUT1 | _DAC_OUTPUT_ROUT2;
+    }
     error_t res;
     uint8_t reg = 0;
     res = es_read_reg(ES8388_DACPOWER, &reg);
     reg = reg & 0xc3;
-    res |= es_write_reg(ES8388_ADDR, ES8388_DACPOWER, reg | output);
+    res |= es_write_reg(ES8388_ADDR, ES8388_DACPOWER, reg | dac_power);
     return res;
 }
 
