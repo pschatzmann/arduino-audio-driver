@@ -248,7 +248,7 @@ error_t es8388_config_input_device(es_input_device_t input);
  *     - RESULT_FAIL Parameter error
  *     - RESULT_OK   Success
  */
-error_t es8388_config_output_device(es_output_device_t output);
+error_t es8388_config_output_device(output_device_t output);
 
 /**
  * @brief Write ES8388 register

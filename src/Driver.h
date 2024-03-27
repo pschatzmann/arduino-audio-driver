@@ -762,19 +762,19 @@ class AudioDriverES8374Class : public AudioDriver {
 class AudioDriverES8388Class : public AudioDriver {
  public:
   bool setMute(bool mute) { return es8388_set_voice_mute(mute) == RESULT_OK; }
-  bool setMute(bool mute, int line) {
-    switch (line) {
-      case 1:
-        return es8388_config_output_device(DAC_OUTPUT_LINE1) == RESULT_OK;
-        break;
-      case 2:
-        return es8388_config_output_device(DAC_OUTPUT_LINE2) == RESULT_OK;
-        break;
-      default:
-        AD_LOGE("Invalid dac %d", volume);
-        return false;
-    }
-  }
+  // bool setMute(bool mute, int line) {
+  //   switch (line) {
+  //     case 1:
+  //       return es8388_config_output_device(DAC_OUTPUT_LINE1) == RESULT_OK;
+  //       break;
+  //     case 2:
+  //       return es8388_config_output_device(DAC_OUTPUT_LINE2) == RESULT_OK;
+  //       break;
+  //     default:
+  //       AD_LOGE("Invalid dac %d", volume);
+  //       return false;
+  //   }
+  // }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
     return es8388_set_voice_volume(limitValue(volume)) == RESULT_OK;
