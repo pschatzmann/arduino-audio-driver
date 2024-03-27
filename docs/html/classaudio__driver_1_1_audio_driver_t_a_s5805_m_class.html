@@ -109,6 +109,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a11bf855250acaa1afbe0b8251660800d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2a08d0fd7c4e897419766a5a0ebc291"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_t_a_s5805_m_class.html#aa2a08d0fd7c4e897419766a5a0ebc291">setMute</a> (bool mute)</td></tr>
 <tr class="separator:aa2a08d0fd7c4e897419766a5a0ebc291"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c34b96573571f4fc5b12099a9d04e5b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a4c34b96573571f4fc5b12099a9d04e5b">setMute</a> (bool mute, int line)</td></tr>
+<tr class="memdesc:a4c34b96573571f4fc5b12099a9d04e5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mute individual lines: only supported for some rare DACs.  <a href="classaudio__driver_1_1_audio_driver.html#a4c34b96573571f4fc5b12099a9d04e5b">More...</a><br /></td></tr>
+<tr class="separator:a4c34b96573571f4fc5b12099a9d04e5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b3ee72f65915dcb4c875835d6e08aa1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a1b3ee72f65915dcb4c875835d6e08aa1">setPAPower</a> (bool enable)</td></tr>
 <tr class="memdesc:a1b3ee72f65915dcb4c875835d6e08aa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the PA Power pin to active or inactive.  <a href="classaudio__driver_1_1_audio_driver.html#a1b3ee72f65915dcb4c875835d6e08aa1">More...</a><br /></td></tr>
 <tr class="separator:a1b3ee72f65915dcb4c875835d6e08aa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -599,7 +602,7 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <a id="aa2a08d0fd7c4e897419766a5a0ebc291"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2a08d0fd7c4e897419766a5a0ebc291">&#9670;&nbsp;</a></span>setMute()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2a08d0fd7c4e897419766a5a0ebc291">&#9670;&nbsp;</a></span>setMute() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -624,6 +627,46 @@ Protected Attributes</h2></td></tr>
 <p>&lt; error_t value indicating success (no error)</p>
 
 <p>Implements <a class="el" href="classaudio__driver_1_1_audio_driver.html#a0065b12757039a60467b6b12ccefc4ba">AudioDriver</a>.</p>
+
+</div>
+</div>
+<a id="a4c34b96573571f4fc5b12099a9d04e5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c34b96573571f4fc5b12099a9d04e5b">&#9670;&nbsp;</a></span>setMute() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool setMute </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>mute</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>line</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Mute individual lines: only supported for some rare DACs. </p>
+
+<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8388_class.html#a59ea4d70e5093706baadc42b6854b6ab">AudioDriverES8388Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_a_d1938_class.html#a59ea4d70e5093706baadc42b6854b6ab">AudioDriverAD1938Class</a>, and <a class="el" href="classaudio__driver_1_1_audio_driver_c_s42448_class.html#ade3d888867e36d74b3cdc1cd3fe74c38">AudioDriverCS42448Class</a>.</p>
 
 </div>
 </div>

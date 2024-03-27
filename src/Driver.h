@@ -206,6 +206,12 @@ class AudioDriver {
   }
   virtual bool end(void) { return deinit(); }
   virtual bool setMute(bool enable) = 0;
+  /// Mute individual lines: only supported for some rare DACs
+  virtual bool setMute(bool mute, int line) {
+    AD_LOGE("setMute not supported on line level");
+    return false;
+  }
+
   /// Defines the Volume (in %) if volume is 0, mute is enabled,range is 0-100.
   virtual bool setVolume(int volume) = 0;
   virtual int getVolume() = 0;

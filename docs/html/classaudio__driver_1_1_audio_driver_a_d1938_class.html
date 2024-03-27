@@ -112,6 +112,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3e7b3b9da454d773e945e4053f6e2b75"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_a_d1938_class.html#a3e7b3b9da454d773e945e4053f6e2b75">setMute</a> (bool mute) override</td></tr>
 <tr class="separator:a3e7b3b9da454d773e945e4053f6e2b75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59ea4d70e5093706baadc42b6854b6ab"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_a_d1938_class.html#a59ea4d70e5093706baadc42b6854b6ab">setMute</a> (bool mute, int line)</td></tr>
+<tr class="memdesc:a59ea4d70e5093706baadc42b6854b6ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mute individual lines: only supported for some rare DACs.  <a href="classaudio__driver_1_1_audio_driver_a_d1938_class.html#a59ea4d70e5093706baadc42b6854b6ab">More...</a><br /></td></tr>
 <tr class="separator:a59ea4d70e5093706baadc42b6854b6ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b3ee72f65915dcb4c875835d6e08aa1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a1b3ee72f65915dcb4c875835d6e08aa1">setPAPower</a> (bool enable)</td></tr>
 <tr class="memdesc:a1b3ee72f65915dcb4c875835d6e08aa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the PA Power pin to active or inactive.  <a href="classaudio__driver_1_1_audio_driver.html#a1b3ee72f65915dcb4c875835d6e08aa1">More...</a><br /></td></tr>
@@ -691,10 +692,14 @@ Protected Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Mute individual lines: only supported for some rare DACs. </p>
+
+<p>Reimplemented from <a class="el" href="classaudio__driver_1_1_audio_driver.html#a4c34b96573571f4fc5b12099a9d04e5b">AudioDriver</a>.</p>
 
 </div>
 </div>
