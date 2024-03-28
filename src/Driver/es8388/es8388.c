@@ -26,11 +26,11 @@
 #include "es8388.h"
 
 typedef enum {
-  ES8388__OUTPUT_MIN = -1,
+  ES8388_OUTPUT_MIN = -1,
   ES8388_OUTPUT_LOUT1 = 0x04,
-  ES8388_OUTPUT_LOUT2 = 0x08,
+  ES8388_OUTPUT_ROUT1 = 0x08,
   ES8388_OUTPUT_SPK   = 0x09,
-  ES8388_OUTPUT_ROUT1 = 0x10,
+  ES8388_OUTPUT_LOUT2 = 0x10,
   ES8388_OUTPUT_ROUT2 = 0x20,
   ES8388_OUTPUT_ALL = 0x3c,
   ES8388_OUTPUT_MAX,
@@ -531,9 +531,9 @@ error_t es8388_set_voice_mute(bool enable) {
   error_t res = RESULT_OK;
   uint8_t reg = 0;
   res = es_read_reg(ES8388_DACCONTROL3, &reg);
-  reg = reg & 0xFB;
-  res |=
-      es_write_reg(ES8388_ADDR, ES8388_DACCONTROL3, reg | (((int)enable) << 2));
+  reg = reg & 0xC3; // keep 11000011
+  int value = enable ? 0x3C : 0; // enable is 00111100 / disable is 00000000
+  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL3, value | reg);
   return res;
 }
 
@@ -558,29 +558,32 @@ error_t es8388_get_voice_mute(void) {
 error_t es8388_config_output_device(output_device_t output_device) {
   AD_LOGD(LOG_METHOD);
   AD_LOGI("output_device: %d", output_device);
-  switch (output_device) {
-    case DAC_OUTPUT_LINE2:
-      AD_LOGI("DAC_OUTPUT_LINE2");
-      dac_power = ES8388_OUTPUT_LOUT1 | ES8388_OUTPUT_ROUT1;
-      break;
-    case DAC_OUTPUT_LINE1:
-      AD_LOGI("DAC_OUTPUT_LINE1");
-      dac_power = ES8388_OUTPUT_LOUT2 | ES8388_OUTPUT_ROUT2;
-      break;
-    case DAC_OUTPUT_ALL:
-      AD_LOGI("DAC_OUTPUT_ALL");
-      dac_power = ES8388_OUTPUT_LOUT1 | ES8388_OUTPUT_LOUT2 |
-                  ES8388_OUTPUT_ROUT1 | ES8388_OUTPUT_ROUT2;
-      break;
-    case DAC_OUTPUT_NONE:
-      AD_LOGI("DAC_OUTPUT_NONE");
-      dac_power = 0;
-      break;
-  }
+
   uint8_t reg = 0;
   error_t res = es_read_reg(ES8388_DACPOWER, &reg);
-  reg = reg & 0xc3;
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACPOWER, reg | dac_power);
+  reg = reg & 0xC3; // keep 11000011
+
+  uint8_t value = 0;
+  switch (output_device) {
+    case DAC_OUTPUT_LINE2:
+      value = ES8388_OUTPUT_LOUT1 | ES8388_OUTPUT_ROUT1;
+      AD_LOGI("DAC_OUTPUT_LINE2:  0x%x", reg | value);
+      break;
+    case DAC_OUTPUT_LINE1:
+      value = ES8388_OUTPUT_LOUT2 | ES8388_OUTPUT_ROUT2;
+      AD_LOGI("DAC_OUTPUT_LINE1: 0x%x",reg | value);
+      break;
+    case DAC_OUTPUT_ALL:
+      value = ES8388_OUTPUT_LOUT1 | ES8388_OUTPUT_LOUT2 |
+                  ES8388_OUTPUT_ROUT1 | ES8388_OUTPUT_ROUT2;
+      AD_LOGI("DAC_OUTPUT_ALL: 0x%x",reg | value);
+      break;
+    case DAC_OUTPUT_NONE:
+      value = 0;
+      AD_LOGI("DAC_OUTPUT_NONE: 0x%x",reg | value);
+      break;
+  }
+  res |= es_write_reg(ES8388_ADDR, ES8388_DACPOWER, reg | value);
   return res;
 }
 
