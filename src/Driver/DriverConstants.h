@@ -3,35 +3,6 @@
 #  include "Arduino.h" // for delay
 #endif
 
-typedef enum {
-    _DAC_OUTPUT_MIN = -1,
-    _DAC_OUTPUT_LOUT1 = 0x04,
-    _DAC_OUTPUT_LOUT2 = 0x08,
-    _DAC_OUTPUT_SPK   = 0x09,
-    _DAC_OUTPUT_ROUT1 = 0x10,
-    _DAC_OUTPUT_ROUT2 = 0x20,
-    _DAC_OUTPUT_ALL = 0x3c,
-    _DAC_OUTPUT_MAX,
-} es_output_device_t;
-
-typedef enum {
-    _ADC_INPUT_MIN = -1,
-    _ADC_INPUT_LINPUT1_RINPUT1 = 0x00,
-    _ADC_INPUT_MIC1  = 0x05,
-    _ADC_INPUT_MIC2  = 0x06,
-    _ADC_INPUT_LINPUT2_RINPUT2 = 0x50,
-    _ADC_INPUT_DIFFERENCE = 0xf0,
-    _ADC_INPUT_MAX,
-} es_input_device_t;
-
-
-typedef enum {
-    _D2SE_PGA_GAIN_MIN = -1,
-    _D2SE_PGA_GAIN_DIS = 0,
-    _D2SE_PGA_GAIN_EN = 1,
-    _D2SE_PGA_GAIN_MAX = 2,
-} es_d2se_pga_t;
-
 
 typedef enum {
     MCLK_DIV_MIN = -1,

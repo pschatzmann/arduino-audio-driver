@@ -52,6 +52,7 @@ public:
     return driver->end();
   }
   bool setMute(bool enable) { return driver->setMute(enable); }
+  bool setMute(bool enable, int line) { return driver->setMute(enable, line); }
   bool setVolume(int volume) { return driver->setVolume(volume); }
   int getVolume() { return driver->getVolume(); }
   DriverPins& getPins() { return *pins; }

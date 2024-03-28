@@ -791,9 +791,8 @@ class AudioDriverES8388Class : public AudioDriver {
       AD_LOGD("invalid line %d", line);
       return false;
     }
-    line_active[line] = !mute;
     // mute is managed on line level, so deactivate global mute
-    setMute(false);
+    line_active[line] = !mute;
     if (line_active[0] && line_active[1]) {
       return es8388_config_output_device(DAC_OUTPUT_ALL) == RESULT_OK;
     } else if (!line_active[0] && !line_active[1]) {

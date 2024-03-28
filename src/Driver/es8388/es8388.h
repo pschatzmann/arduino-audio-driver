@@ -97,6 +97,16 @@ extern "C" {
 #define ES8388_DACCONTROL29     0x33
 #define ES8388_DACCONTROL30     0x34
 
+typedef enum {
+  ESP8388_INPUT_MIN = -1,
+  ESP8388_INPUT_LINPUT1_RINPUT1 = 0x00,
+  ESP8388_INPUT_MIC1 = 0x05,
+  ESP8388_INPUT_MIC2 = 0x06,
+  ESP8388_INPUT_LINPUT2_RINPUT2 = 0x50,
+  ESP8388_INPUT_DIFFERENCE = 0xf0,
+  ESP8388_INPUT_MAX,
+} es8388_input_device_t;
+
 
 /**
  * @brief Initialize ES8388 codec chip
@@ -237,7 +247,7 @@ error_t es8388_set_mic_gain(es_mic_gain_t gain);
  *     - RESULT_FAIL Parameter error
  *     - RESULT_OK   Success
  */
-error_t es8388_config_input_device(es_input_device_t input);
+error_t es8388_config_input_device(es8388_input_device_t input);
 
 /**
  * @brief Set ES8388 dac output mode

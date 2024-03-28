@@ -175,7 +175,7 @@ error_t es8374_set_mic_gain(es_mic_gain_t gain);
  *     - RESULT_FAIL Parameter error
  *     - RESULT_OK   Success
  */
-error_t es8374_config_input_device(es_input_device_t input);
+error_t es8374_config_input_device();
 
 /**
  * @brief Set ES8374 DAC output mode
@@ -186,7 +186,7 @@ error_t es8374_config_input_device(es_input_device_t input);
  *     - RESULT_FAIL Parameter error
  *     - RESULT_OK   Success
  */
-error_t es8374_config_output_device(es_output_device_t output);
+error_t es8374_config_output_device();
 
 /**
  * @brief Write ES8374 register
@@ -231,6 +231,13 @@ error_t es8374_codec_config_i2s(codec_mode_t mode, I2SDefinition *iface);
  *     - RESULT_OK   Success
  */
 error_t es8374_codec_ctrl_state_active(codec_mode_t mode, bool ctrl_state_active);
+
+typedef enum {
+    ES8374_PGA_GAIN_MIN = -1,
+    ES8374_PGA_GAIN_DIS = 0,
+    ES8374_PGA_GAIN_EN = 1,
+    ES8374_PGA_GAIN_MAX = 2,
+} es_d2se_pga_t;
 
 
 #ifdef __cplusplus

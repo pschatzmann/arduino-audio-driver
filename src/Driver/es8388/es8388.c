@@ -25,6 +25,18 @@
  */
 #include "es8388.h"
 
+typedef enum {
+  ES8388__OUTPUT_MIN = -1,
+  ES8388_OUTPUT_LOUT1 = 0x04,
+  ES8388_OUTPUT_LOUT2 = 0x08,
+  ES8388_OUTPUT_SPK   = 0x09,
+  ES8388_OUTPUT_ROUT1 = 0x10,
+  ES8388_OUTPUT_ROUT2 = 0x20,
+  ES8388_OUTPUT_ALL = 0x3c,
+  ES8388_OUTPUT_MAX,
+} es_output_device_t;
+
+
 #include <string.h>
 // #include "audio_hal/board_pins_config.h"
 
@@ -303,12 +315,12 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle) {
   dac_power = 0;
   AD_LOGI("output_device: %d", cfg->output_device);
   if (DAC_OUTPUT_LINE2 == cfg->output_device) {
-    dac_power = _DAC_OUTPUT_LOUT1 | _DAC_OUTPUT_ROUT1;
+    dac_power = ES8388_OUTPUT_LOUT1 | ES8388_OUTPUT_ROUT1;
   } else if (DAC_OUTPUT_LINE1 == cfg->output_device) {
-    dac_power = _DAC_OUTPUT_LOUT2 | _DAC_OUTPUT_ROUT2;
-  } else {
-    dac_power = _DAC_OUTPUT_LOUT1 | _DAC_OUTPUT_LOUT2 | _DAC_OUTPUT_ROUT1 |
-                _DAC_OUTPUT_ROUT2;
+    dac_power = ES8388_OUTPUT_LOUT2 | ES8388_OUTPUT_ROUT2;
+  } else if (DAC_OUTPUT_ALL){
+    dac_power = ES8388_OUTPUT_LOUT1 | ES8388_OUTPUT_LOUT2 |
+                ES8388_OUTPUT_ROUT1 | ES8388_OUTPUT_ROUT2;
   }
   res |= es_write_reg(ES8388_ADDR, ES8388_DACPOWER,
                       dac_power);  // 0x3c Enable DAC and Enable Lout/Rout/1/2
@@ -331,9 +343,9 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle) {
   res |= es8388_set_mic_gain(mic_gain);
   int tmp = 0;
   if (ADC_INPUT_LINE1 == cfg->input_device) {
-    tmp = _ADC_INPUT_LINPUT1_RINPUT1;
+    tmp = ESP8388_INPUT_LINPUT1_RINPUT1;
   } else if (ADC_INPUT_LINE2 == cfg->input_device) {
-    tmp = _ADC_INPUT_LINPUT2_RINPUT2;
+    tmp = ESP8388_INPUT_LINPUT2_RINPUT2;
   } else {
     tmp = ADC_INPUT_DIFFERENCE;
   }
@@ -351,7 +363,7 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle) {
   res |= es_write_reg(ES8388_ADDR, ES8388_ADCPOWER,
                       0x09);  // Power on ADC, Enable LIN&RIN, Power off
                               // MICBIAS, set int1lp to low power mode
-  // es8388_pa_power(cfg->_DAC_OUTPUT!=_DAC_OUTPUT_LINE2);
+  // es8388_pa_power(cfg->_DAC_OUTPUT!=ES8388_OUTPUT_LINE2);
   //  AD_LOGI("init,out:%02x, in:%02x", cfg->_DAC_OUTPUT, cfg->input_device);
   return res;
 }
@@ -548,16 +560,20 @@ error_t es8388_config_output_device(output_device_t output_device) {
   AD_LOGI("output_device: %d", output_device);
   switch (output_device) {
     case DAC_OUTPUT_LINE2:
-      dac_power = _DAC_OUTPUT_LOUT1 | _DAC_OUTPUT_ROUT1;
+      AD_LOGI("DAC_OUTPUT_LINE2");
+      dac_power = ES8388_OUTPUT_LOUT1 | ES8388_OUTPUT_ROUT1;
       break;
     case DAC_OUTPUT_LINE1:
-      dac_power = _DAC_OUTPUT_LOUT2 | _DAC_OUTPUT_ROUT2;
+      AD_LOGI("DAC_OUTPUT_LINE1");
+      dac_power = ES8388_OUTPUT_LOUT2 | ES8388_OUTPUT_ROUT2;
       break;
     case DAC_OUTPUT_ALL:
-      dac_power = _DAC_OUTPUT_LOUT1 | _DAC_OUTPUT_LOUT2 | _DAC_OUTPUT_ROUT1 |
-                  _DAC_OUTPUT_ROUT2;
+      AD_LOGI("DAC_OUTPUT_ALL");
+      dac_power = ES8388_OUTPUT_LOUT1 | ES8388_OUTPUT_LOUT2 |
+                  ES8388_OUTPUT_ROUT1 | ES8388_OUTPUT_ROUT2;
       break;
     case DAC_OUTPUT_NONE:
+      AD_LOGI("DAC_OUTPUT_NONE");
       dac_power = 0;
       break;
   }
@@ -575,7 +591,7 @@ error_t es8388_config_output_device(output_device_t output_device) {
  *     - (-1) Parameter error
  *     - (0)   Success
  */
-error_t es8388_config_input_device(es_input_device_t input) {
+error_t es8388_config_input_device(es8388_input_device_t input) {
   AD_LOGD(LOG_METHOD);
   error_t res;
   uint8_t reg = 0;
