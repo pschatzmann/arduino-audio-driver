@@ -314,9 +314,9 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle) {
   res |= es8388_set_adc_dac_volume(CODEC_MODE_DECODE, 0, 0);    // 0db
   dac_power = 0;
   AD_LOGI("output_device: %d", cfg->output_device);
-  if (DAC_OUTPUT_LINE2 == cfg->output_device) {
+  if (DAC_OUTPUT_LINE1 == cfg->output_device) {
     dac_power = ES8388_OUTPUT_LOUT1 | ES8388_OUTPUT_ROUT1;
-  } else if (DAC_OUTPUT_LINE1 == cfg->output_device) {
+  } else if (DAC_OUTPUT_LINE2 == cfg->output_device) {
     dac_power = ES8388_OUTPUT_LOUT2 | ES8388_OUTPUT_ROUT2;
   } else if (DAC_OUTPUT_ALL){
     dac_power = ES8388_OUTPUT_LOUT1 | ES8388_OUTPUT_LOUT2 |
@@ -565,11 +565,11 @@ error_t es8388_config_output_device(output_device_t output_device) {
 
   uint8_t value = 0;
   switch (output_device) {
-    case DAC_OUTPUT_LINE2:
+    case DAC_OUTPUT_LINE1:
       value = ES8388_OUTPUT_LOUT1 | ES8388_OUTPUT_ROUT1;
       AD_LOGI("DAC_OUTPUT_LINE2:  0x%x", reg | value);
       break;
-    case DAC_OUTPUT_LINE1:
+    case DAC_OUTPUT_LINE2:
       value = ES8388_OUTPUT_LOUT2 | ES8388_OUTPUT_ROUT2;
       AD_LOGI("DAC_OUTPUT_LINE1: 0x%x",reg | value);
       break;

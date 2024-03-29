@@ -52,7 +52,10 @@ public:
     return driver->end();
   }
   bool setMute(bool enable) { return driver->setMute(enable); }
-  bool setMute(bool enable, int line) { return driver->setMute(enable, line); }
+  bool setMute(bool enable, int line) { 
+    if (line == power_amp_line) setPAPower(!enable);
+    return driver->setMute(enable, line); 
+  }
   bool setVolume(int volume) { return driver->setVolume(volume); }
   int getVolume() { return driver->getVolume(); }
   DriverPins& getPins() { return *pins; }
@@ -68,6 +71,7 @@ protected:
   DriverPins* pins;
   CodecConfig codec_cfg;
   AudioDriver* driver = nullptr;
+  int power_amp_line = ES8388_PA_LINE;
 };
 
 // -- Boards
