@@ -2,7 +2,7 @@
 
 // Default volume at startup
 #ifndef DRIVER_DEFAULT_VOLUME
-#define DRIVER_DEFAULT_VOLUME 70
+#  define DRIVER_DEFAULT_VOLUME 70
 #endif
 
 
