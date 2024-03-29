@@ -21,8 +21,8 @@
 #endif
 
 
-// For AI Thinker Audiokit we mute the power amplifier if the line is defined
-// with a value >= 0; set to -1 to deactivate
+// For AI Thinker Audiokit we mute the power amplifier if the line is defined;
+// set to -1 to deactivate this functionality
 #ifndef ES8388_PA_LINE 
 #  define ES8388_PA_LINE 1
 #endif
