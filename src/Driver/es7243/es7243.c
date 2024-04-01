@@ -140,7 +140,7 @@ error_t es7243_adc_set_voice_volume(int volume)
             ret |= es7243_write_reg(0x08, 0x23); //20.5db
             break;
         case 52 ... 65:
-            ret |= es7243_write_reg(0x08, 0x06); //22.5db
+            ret |= es7243_write_reg(0x08, 0x05); //22.5db
             break;
         case 66 ... 80:
             ret |= es7243_write_reg(0x08, 0x41); //24.5db
