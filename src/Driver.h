@@ -361,20 +361,22 @@ class AudioDriverAD1938Class : public AudioDriver {
   bool end(void) override { return ad1938.end(); }
   bool setMute(bool mute) override { return ad1938.setMute(mute); }
   // mutes an individual DAC: valid range (0:3)
-  bool setMute(bool mute, int line) { 
-  if (line > 3) return false;
-    return ad1938.setVolumeDAC(line, mute ? 0.0 : (static_cast<float>(volumes[line]) / 100.0f));
+  bool setMute(bool mute, int line) {
+    if (line > 3) return false;
+    return ad1938.setVolumeDAC(
+        line, mute ? 0.0 : (static_cast<float>(volumes[line]) / 100.0f));
   }
 
   /// Defines the Volume (in %) if volume is 0, mute is enabled,range is 0-100.
   bool setVolume(int volume) override {
     this->volume = volume;
-    for (int j=0;j<8;j++){
+    for (int j = 0; j < 8; j++) {
       volumes[j] = volume;
     }
     return ad1938.setVolume(static_cast<float>(volume) / 100.0f);
   }
-  /// Defines the Volume per DAC (in %) if volume is 0, mute is enabled,range is 0-100.
+  /// Defines the Volume per DAC (in %) if volume is 0, mute is enabled,range is
+  /// 0-100.
   bool setVolume(int volume, int line) {
     if (line > 7) return false;
     volumes[line] = volume;
@@ -783,7 +785,7 @@ class AudioDriverES8388Class : public AudioDriver {
   bool setMute(bool mute) {
     line_active[0] = !mute;
     line_active[1] = !mute;
-    return es8388_set_voice_mute(mute) == RESULT_OK; 
+    return es8388_set_voice_mute(mute) == RESULT_OK;
   }
   // mute individual line: lines start at 0 (valid range 0:1)
   bool setMute(bool mute, int line) {
@@ -815,8 +817,13 @@ class AudioDriverES8388Class : public AudioDriver {
   }
 
   bool setInputVolume(int volume) {
-    // map values from 0 - 100 to 0 to 10
-    es_mic_gain_t gain = (es_mic_gain_t)(limitValue(volume) / 10);
+    // map values from 0 - 100 to 0 to 9  MIC_GAIN_MIN = -1,
+    es_mic_gain_t gains[] = {MIC_GAIN_0DB,  MIC_GAIN_3DB,  MIC_GAIN_6DB,
+                             MIC_GAIN_9DB,  MIC_GAIN_12DB, MIC_GAIN_15DB,
+                             MIC_GAIN_18DB, MIC_GAIN_21DB, MIC_GAIN_24DB,
+                             MIC_GAIN_MAX};
+    int idx = limitValue(volume / 10, 9);
+    es_mic_gain_t gain = gains[idx];
     AD_LOGD("input volume: %d -> gain %d", volume, gain);
     return setMicrophoneGain(gain);
   }
