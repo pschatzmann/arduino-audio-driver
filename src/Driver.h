@@ -68,26 +68,26 @@ class CodecConfig : public codec_config_t {
     return 0;
   }
 
-  // sets the bits per sample with a numeric value
-  int setBitsNumeric(int bits) {
+  /// Sets the bits per sample with a numeric value
+  bool setBitsNumeric(int bits) {
     switch (bits) {
       case 16:
         i2s.bits = BIT_LENGTH_16BITS;
-        return bits;
+        return true;
       case 18:
         i2s.bits = BIT_LENGTH_18BITS;
-        return bits;
+        return true;
       case 20:
         i2s.bits = BIT_LENGTH_20BITS;
-        return bits;
+        return true;
       case 24:
         i2s.bits = BIT_LENGTH_24BITS;
-        return bits;
+        return true;
       case 32:
         i2s.bits = BIT_LENGTH_32BITS;
-        return bits;
+        return true;
     }
-    return 0;
+    return false;
   }
 
   /// get the sample rate as number
@@ -103,26 +103,41 @@ class CodecConfig : public codec_config_t {
 
   int getChannelsNumeric() { return i2s.channels; }
 
-  void setChannelsNumeric(int channels) { i2s.channels = (channels_t)channels; }
+  bool setChannelsNumeric(int channels) {
+    switch(2){
+      case CHANNELS2:
+        i2s.channels = (channels_t)channels; 
+        return true;
+      case CHANNELS8:
+        i2s.channels = (channels_t)channels; 
+        return true;
+      case CHANNELS16:
+        i2s.channels = (channels_t)channels; 
+        return true;
+      default:
+        i2s.channels = CHANNELS2; 
+        return false;
+    } 
+  }
 
-  /// sets the sample rate as number
-  int setRateNumeric(int rateNum) {
+  /// sets the sample rate as number: returns the effectively set rate
+  int setRateNumeric(int requestedRate) {
     int diff = 99999;
     int result = 0;
     for (int j = 0; j < 14; j++) {
-      if (rate_num[j] == rateNum) {
+      if (rate_num[j] == requestedRate) {
         AD_LOGD("-> %d", rate_num[j]);
         i2s.rate = rate_code[j];
-        return rateNum;
+        return requestedRate;
       } else {
-        int new_diff = abs(rate_code[j] - rateNum);
+        int new_diff = abs(rate_code[j] - requestedRate);
         if (new_diff < diff) {
           result = j;
           diff = new_diff;
         }
       }
     }
-    AD_LOGE("Sample Rate not supported: %d - using %d", rateNum,
+    AD_LOGE("Sample Rate not supported: %d - using %d", requestedRate,
             rate_num[result]);
     i2s.rate = rate_code[result];
     return rate_num[result];
