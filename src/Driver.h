@@ -187,6 +187,7 @@ class CodecConfig : public codec_config_t {
  */
 class AudioDriver {
  public:
+  /// Starts the processing
   virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
     AD_LOGD("AudioDriver::begin:pins");
     p_pins = &pins;
@@ -201,6 +202,7 @@ class AudioDriver {
     setVolume(DRIVER_DEFAULT_VOLUME);
     return result;
   }
+  /// changes the configuration
   virtual bool setConfig(CodecConfig codecCfg) {
     codec_cfg = codecCfg;
     if (!init(codec_cfg)) {
@@ -225,7 +227,9 @@ class AudioDriver {
     }
     return result;
   }
+  /// Ends the processing: shut down dac and adc
   virtual bool end(void) { return deinit(); }
+  /// Mutes all output lines
   virtual bool setMute(bool enable) = 0;
   /// Mute individual lines: only supported for some rare DACs
   virtual bool setMute(bool mute, int line) {
@@ -235,11 +239,15 @@ class AudioDriver {
 
   /// Defines the Volume (in %) if volume is 0, mute is enabled,range is 0-100.
   virtual bool setVolume(int volume) = 0;
+  /// Determines the actual volume (range: 0-100)
   virtual int getVolume() = 0;
+  /// Defines the input volume (range: 0-100) if supported
   virtual bool setInputVolume(int volume) { return false; }
+  /// Determines if setVolume() is suppored
   virtual bool isVolumeSupported() { return true; }
+  /// Determines if setInputVolume() is supported
   virtual bool isInputVolumeSupported() { return false; }
-
+  /// Provides the pin information
   DriverPins &pins() { return *p_pins; }
 
   /// Sets the PA Power pin to active or inactive
@@ -1085,7 +1093,6 @@ class AudioDriverWM8978Class : public AudioDriver {
 
   bool begin(CodecConfig codecCfg, DriverPins &pins) override {
     bool rc = true;
-    codec_cfg = codecCfg;
     auto i2c = pins.getI2CPins(PinFunction::CODEC);
     if (!i2c) {
       rc = wm8078.begin();
@@ -1093,6 +1100,17 @@ class AudioDriverWM8978Class : public AudioDriver {
       auto i2c_pins = i2c.value();
       rc = wm8078.begin(i2c_pins.sda, i2c_pins.scl, i2c_pins.frequency);
     }
+
+    setConfig(codecCfg);
+
+    // setup initial default volume
+    setVolume(DRIVER_DEFAULT_VOLUME);
+
+    return rc;
+  }
+  
+  bool setConfig(CodecConfig codecCfg) override {
+    codec_cfg = codecCfg;
     bool is_dac = codec_cfg.output_device != DAC_OUTPUT_NONE;
     bool is_adc = codec_cfg.input_device != ADC_INPUT_NONE;
     wm8078.cfgADDA(is_dac, is_adc);
@@ -1111,11 +1129,7 @@ class AudioDriverWM8978Class : public AudioDriver {
     int i2s = toI2S(codecCfg.i2s.fmt);
     if (i2s < 0) return false;
     wm8078.cfgI2S(i2s, bits);
-
-    // setup initial default volume
-    setVolume(DRIVER_DEFAULT_VOLUME);
-
-    return rc;
+    return true;
   }
 
   bool end() override {
