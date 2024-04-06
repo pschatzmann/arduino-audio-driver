@@ -106,6 +106,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:acd5d071057ce19f3718940329d202ef8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70628dacff2793c2793f7f30a4b9e994"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_board.html#a70628dacff2793c2793f7f30a4b9e994">setMute</a> (bool enable)</td></tr>
 <tr class="separator:a70628dacff2793c2793f7f30a4b9e994"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade3d888867e36d74b3cdc1cd3fe74c38"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_board.html#ade3d888867e36d74b3cdc1cd3fe74c38">setMute</a> (bool enable, int line)</td></tr>
+<tr class="separator:ade3d888867e36d74b3cdc1cd3fe74c38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b3ee72f65915dcb4c875835d6e08aa1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_board.html#a1b3ee72f65915dcb4c875835d6e08aa1">setPAPower</a> (bool enable)</td></tr>
 <tr class="separator:a1b3ee72f65915dcb4c875835d6e08aa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7d51b9e21a345d836cb4cfe2df2152c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_board.html#ad7d51b9e21a345d836cb4cfe2df2152c">setVolume</a> (int volume)</td></tr>
@@ -119,6 +121,8 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:ac6788b924e91cbb79dc2d936d4375fb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5858317e4d8f59f1e4480cbfc167d624"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classaudio__driver_1_1_driver_pins.html">DriverPins</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_board.html#a5858317e4d8f59f1e4480cbfc167d624">pins</a></td></tr>
 <tr class="separator:a5858317e4d8f59f1e4480cbfc167d624"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cf5d0493a0b3a3e05ec9d557acd1c83"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_board.html#a1cf5d0493a0b3a3e05ec9d557acd1c83">power_amp_line</a> = 1</td></tr>
+<tr class="separator:a1cf5d0493a0b3a3e05ec9d557acd1c83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Defitintion for audio board pins and an audio driver. </p>
@@ -409,7 +413,7 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <a id="a70628dacff2793c2793f7f30a4b9e994"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a70628dacff2793c2793f7f30a4b9e994">&#9670;&nbsp;</a></span>setMute()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a70628dacff2793c2793f7f30a4b9e994">&#9670;&nbsp;</a></span>setMute() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -423,6 +427,42 @@ Protected Attributes</h2></td></tr>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>enable</em></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ade3d888867e36d74b3cdc1cd3fe74c38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade3d888867e36d74b3cdc1cd3fe74c38">&#9670;&nbsp;</a></span>setMute() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool setMute </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enable</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>line</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -542,6 +582,28 @@ Protected Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classaudio__driver_1_1_driver_pins.html">DriverPins</a>* pins</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1cf5d0493a0b3a3e05ec9d557acd1c83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1cf5d0493a0b3a3e05ec9d557acd1c83">&#9670;&nbsp;</a></span>power_amp_line</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int power_amp_line = 1</td>
         </tr>
       </table>
   </td>

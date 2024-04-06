@@ -150,6 +150,11 @@ typedef enum {
   CODEC_MODE_MAX
 } codec_mode_t;
 
+/**
+ * @enum channels_t
+ * @brief Select the number of channels
+ * @ingroup enumerations
+ */
 typedef enum {
   CHANNELS2 = 2,
   CHANNELS8 = 8,

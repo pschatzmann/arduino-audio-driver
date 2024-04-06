@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['codec_5fconfig_5ft_387',['codec_config_t',['../structcodec__config__t.html',1,'']]],
-  ['codecconfig_388',['CodecConfig',['../classaudio__driver_1_1_codec_config.html',1,'audio_driver']]]
+  ['codec_5fconfig_5ft_391',['codec_config_t',['../structcodec__config__t.html',1,'']]],
+  ['codecconfig_392',['CodecConfig',['../classaudio__driver_1_1_codec_config.html',1,'audio_driver']]]
 ];
