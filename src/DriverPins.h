@@ -200,8 +200,8 @@ struct PinsI2C {
     return true;
   }
   void end() {
-#ifndef ESP8266
-    p_wire->end();
+#if !defined(ESP8266) && FORCE_WIRE_CLOSE
+     p_wire->end();
 #endif
   }
 };
