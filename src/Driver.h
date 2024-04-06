@@ -15,6 +15,7 @@
 #include "Driver/tas5805m/tas5805m.h"
 #include "Driver/wm8960/mtb_wm8960.h"
 #include "Driver/wm8994/wm8994.h"
+#include "Driver/wm8978/WM8978.h"
 #include "DriverPins.h"
 
 namespace audio_driver {
@@ -41,7 +42,7 @@ class CodecConfig : public codec_config_t {
     i2s.bits = BIT_LENGTH_16BITS;
     i2s.rate = RATE_44K;
     i2s.channels = CHANNELS2;
-    i2s.fmt = I2S_NORMAL;    
+    i2s.fmt = I2S_NORMAL;
     // codec is slave - microcontroller is master
     i2s.mode = MODE_SLAVE;
   }
@@ -107,20 +108,20 @@ class CodecConfig : public codec_config_t {
 
   /// Defines the number of channels
   bool setChannelsNumeric(int channels) {
-    switch(2){
+    switch (2) {
       case CHANNELS2:
-        i2s.channels = (channels_t)channels; 
+        i2s.channels = (channels_t)channels;
         return true;
       case CHANNELS8:
-        i2s.channels = (channels_t)channels; 
+        i2s.channels = (channels_t)channels;
         return true;
       case CHANNELS16:
-        i2s.channels = (channels_t)channels; 
+        i2s.channels = (channels_t)channels;
         return true;
       default:
-        i2s.channels = CHANNELS2; 
+        i2s.channels = CHANNELS2;
         return false;
-    } 
+    }
   }
 
   /// Sets the sample rate as number: returns the effectively set rate
@@ -196,6 +197,8 @@ class AudioDriver {
     AD_LOGD("AudioDriver::begin:setPAPower");
     setPAPower(true);
     AD_LOGD("AudioDriver::begin:completed");
+    // setup default volume
+    setVolume(DRIVER_DEFAULT_VOLUME);
     return result;
   }
   virtual bool setConfig(CodecConfig codecCfg) {
@@ -1068,6 +1071,129 @@ class AudioDriverWM8960Class : public AudioDriver {
   /// if microcontroller is master then module is slave
   mtb_wm8960_mode_t modeMasterSlave(bool is_master) {
     return is_master ? WM8960_MODE_MASTER : WM8960_MODE_SLAVE;
+  }
+};
+
+/**
+ * @brief Driver API for the wm8978 codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class AudioDriverWM8978Class : public AudioDriver {
+ public:
+  AudioDriverWM8978Class() {}
+
+  bool begin(CodecConfig codecCfg, DriverPins &pins) override {
+    bool rc = true;
+    codec_cfg = codecCfg;
+    auto i2c = pins.getI2CPins(PinFunction::CODEC);
+    if (!i2c) {
+      rc = wm8078.begin();
+    } else {
+      auto i2c_pins = i2c.value();
+      rc = wm8078.begin(i2c_pins.sda, i2c_pins.scl, i2c_pins.frequency);
+    }
+    bool is_dac = codec_cfg.output_device != DAC_OUTPUT_NONE;
+    bool is_adc = codec_cfg.input_device != ADC_INPUT_NONE;
+    wm8078.cfgADDA(is_dac, is_adc);
+
+    bool is_mic = codec_cfg.input_device == ADC_INPUT_LINE1 ||
+                  codec_cfg.input_device == ADC_INPUT_ALL;
+    bool is_linein = codec_cfg.input_device == ADC_INPUT_LINE2 ||
+                     codec_cfg.input_device == ADC_INPUT_ALL;
+    bool is_auxin = codec_cfg.input_device == ADC_INPUT_LINE3 ||
+                    codec_cfg.input_device == ADC_INPUT_ALL;
+    wm8078.cfgInput(is_mic, is_linein, is_auxin);
+    wm8078.cfgOutput(is_dac, false);
+
+    int bits = toBits(codecCfg.i2s.bits);
+    if (bits < 0) return false;
+    int i2s = toI2S(codecCfg.i2s.fmt);
+    if (i2s < 0) return false;
+    wm8078.cfgI2S(i2s, bits);
+
+    // setup initial default volume
+    setVolume(DRIVER_DEFAULT_VOLUME);
+
+    return rc;
+  }
+
+  bool end() override {
+    setVolume(0);
+    wm8078.cfgADDA(false, false);
+    return true;
+  }
+
+  bool setMute(bool mute) override {
+    if (mute) {
+      int tmp = volume;
+      setVolume(0);
+      volume = tmp;
+    } else {
+      setVolume(volume);
+    }
+    return true;
+  }
+
+  bool setVolume(int volume) override {
+    this->volume = volume;
+    int scaled = map(volume, 0, 100, 0, 63);
+    wm8078.setSPKvol(scaled);
+    wm8078.setHPvol(scaled, scaled);
+    return true;
+  }
+
+  int getVolume() override { return volume; }
+
+  bool setInputVolume(int volume) override {
+    int scaled = map(volume, 0, 100, 0, 63);
+    wm8078.setMICgain(scaled);
+    wm8078.setAUXgain(scaled);
+    wm8078.setLINEINgain(scaled);
+    return true;
+  }
+
+  bool isVolumeSupported() override { return true; }
+
+  bool isInputVolumeSupported() override { return true; }
+
+  WM8978& driver() {
+    return wm8078;
+  }
+
+ protected:
+  WM8978 wm8078;
+  int volume = 0;
+
+  /// fmt:0,LSB(right-aligned);1,MSB(left-aligned);2,Philips standard,
+  /// I2S;3,PCM/DSP;
+  int toI2S(i2s_format_t fmt) {
+    switch (fmt) {
+      case I2S_NORMAL:
+        return 2;
+      case I2S_LEFT:
+        return 1;
+      case I2S_RIGHT:
+        return 0;
+      case I2S_DSP:
+        return 3;
+    }
+    return -1;
+  }
+
+  // len: 0, 16 digits; 1, 20 digits; 2, 24 digits; 3, 32 digits;
+  int toBits(sample_bits_t bits) {
+    switch (bits) {
+      case BIT_LENGTH_16BITS:
+        return 0;
+      case BIT_LENGTH_20BITS:
+        return 1;
+      case BIT_LENGTH_24BITS:
+        return 2;
+      case BIT_LENGTH_32BITS:
+        return 3;
+    }
+    return -1;
   }
 };
 
