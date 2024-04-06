@@ -14,8 +14,8 @@
 #include "Driver/es8388/es8388.h"
 #include "Driver/tas5805m/tas5805m.h"
 #include "Driver/wm8960/mtb_wm8960.h"
-#include "Driver/wm8994/wm8994.h"
 #include "Driver/wm8978/WM8978.h"
+#include "Driver/wm8994/wm8994.h"
 #include "DriverPins.h"
 
 namespace audio_driver {
@@ -1081,7 +1081,7 @@ class AudioDriverWM8960Class : public AudioDriver {
  */
 class AudioDriverWM8978Class : public AudioDriver {
  public:
-  AudioDriverWM8978Class() {}
+  AudioDriverWM8978Class() = default;
 
   bool begin(CodecConfig codecCfg, DriverPins &pins) override {
     bool rc = true;
@@ -1124,12 +1124,29 @@ class AudioDriverWM8978Class : public AudioDriver {
     return true;
   }
 
+  /// Mute line 0 = speaker, line 1 = headphones
+  bool setMute(bool mute, int line) override {
+    int scaled = mute ? 0 : map(volume, 0, 100, 0, 63);
+    switch (line) {
+      case 0:
+        wm8078.setSPKvol(scaled);
+        return true;
+      case 1:
+        wm8078.setHPvol(scaled, scaled);
+        return true;
+      default:
+        return false;
+    }
+    return false;
+  }
+
   bool setMute(bool mute) override {
     if (mute) {
-      int tmp = volume;
-      setVolume(0);
-      volume = tmp;
+      // set volume to 0
+      wm8078.setSPKvol(0);
+      wm8078.setHPvol(0, 0);
     } else {
+      // restore volume
       setVolume(volume);
     }
     return true;
@@ -1157,9 +1174,7 @@ class AudioDriverWM8978Class : public AudioDriver {
 
   bool isInputVolumeSupported() override { return true; }
 
-  WM8978& driver() {
-    return wm8078;
-  }
+  WM8978 &driver() { return wm8078; }
 
  protected:
   WM8978 wm8078;
