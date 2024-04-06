@@ -1316,6 +1316,8 @@ static AudioDriverES8388Class AudioDriverES8388;
 /// @ingroup audio_driver
 static AudioDriverWM8960Class AudioDriverWM8960;
 /// @ingroup audio_driver
+static AudioDriverWM8978Class AudioDriverWM8978;
+/// @ingroup audio_driver
 static AudioDriverWM8994Class AudioDriverWM8994;
 /// @ingroup audio_driver
 static AudioDriverLyratMiniClass AudioDriverLyratMini;

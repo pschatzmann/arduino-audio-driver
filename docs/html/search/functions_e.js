@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['value_556',['value',['../classaudio__driver__local_1_1_optional.html#a464298ad7afeafebbb149f566ecabbab',1,'audio_driver_local::Optional']]],
-  ['valueor_557',['valueOr',['../classaudio__driver__local_1_1_optional.html#ac79ae016f6483a4b7510d4f621c167c8',1,'audio_driver_local::Optional']]],
-  ['vector_558',['Vector',['../classaudio__driver__local_1_1_vector.html#a4155c2064fb658b43b41b64756c6398f',1,'audio_driver_local::Vector::Vector(size_t len=20)'],['../classaudio__driver__local_1_1_vector.html#a3c671b50d8244040089ba15b0cb6592c',1,'audio_driver_local::Vector::Vector(int size, T value)'],['../classaudio__driver__local_1_1_vector.html#aeb52bff56db86416ddd8a9438d0336d7',1,'audio_driver_local::Vector::Vector(Vector&lt; T &gt; &amp;&amp;moveFrom)=default'],['../classaudio__driver__local_1_1_vector.html#a56c0272405a621eb8ef6725bad9a19a0',1,'audio_driver_local::Vector::Vector(Vector&lt; T &gt; &amp;copyFrom)'],['../classaudio__driver__local_1_1_vector.html#a11e874def9de9e45ce86f1d5ed73cc01',1,'audio_driver_local::Vector::Vector(T *from, T *to)']]]
+  ['tobits_563',['toBits',['../classaudio__driver_1_1_audio_driver_w_m8978_class.html#afaffd514793abc1a9dcdc3236bfd3f93',1,'audio_driver::AudioDriverWM8978Class']]],
+  ['toi2s_564',['toI2S',['../classaudio__driver_1_1_audio_driver_w_m8978_class.html#a4abfad10bc5430ad0f4c067ff5a4be1d',1,'audio_driver::AudioDriverWM8978Class']]]
 ];

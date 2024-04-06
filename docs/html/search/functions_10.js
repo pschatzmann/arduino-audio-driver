@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['_7evector_560',['~Vector',['../classaudio__driver__local_1_1_vector.html#a33fc4934cb870683ae08af71594844c7',1,'audio_driver_local::Vector']]]
+  ['wordlength_568',['wordLength',['../classaudio__driver_1_1_audio_driver_w_m8960_class.html#a3ac8404aa88c0fbb927d1704059b94c2',1,'audio_driver::AudioDriverWM8960Class']]]
 ];
