@@ -90,7 +90,7 @@ class CodecConfig : public codec_config_t {
     return false;
   }
 
-  /// get the sample rate as number
+  /// Get the sample rate as number
   int getRateNumeric() {
     for (int j = 0; j < 14; j++) {
       if (rate_code[j] == i2s.rate) {
@@ -101,8 +101,10 @@ class CodecConfig : public codec_config_t {
     return 0;
   }
 
+  /// Returns the number of channels as number
   int getChannelsNumeric() { return i2s.channels; }
 
+  /// Defines the number of channels
   bool setChannelsNumeric(int channels) {
     switch(2){
       case CHANNELS2:
@@ -120,7 +122,7 @@ class CodecConfig : public codec_config_t {
     } 
   }
 
-  /// sets the sample rate as number: returns the effectively set rate
+  /// Sets the sample rate as number: returns the effectively set rate
   int setRateNumeric(int requestedRate) {
     int diff = 99999;
     int result = 0;
@@ -143,7 +145,7 @@ class CodecConfig : public codec_config_t {
     return rate_num[result];
   }
 
-  /// determines the codec_mode_t dynamically based on the input and output
+  /// Determines the codec_mode_t dynamically based on the input and output
   codec_mode_t get_mode() {
     // codec_mode_t mode;
     bool is_input = false;
