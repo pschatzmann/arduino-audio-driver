@@ -40,7 +40,8 @@ class CodecConfig : public codec_config_t {
     output_device = DAC_OUTPUT_ALL;
     i2s.bits = BIT_LENGTH_16BITS;
     i2s.rate = RATE_44K;
-    i2s.fmt = I2S_NORMAL;
+    i2s.channels = CHANNELS2;
+    i2s.fmt = I2S_NORMAL;    
     // codec is slave - microcontroller is master
     i2s.mode = MODE_SLAVE;
   }
