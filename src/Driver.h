@@ -547,7 +547,7 @@ class AudioDriverCS42448Class : public AudioDriver {
     bool result = true;
     if (codecCfg.equalsExRate(cfg)) {
       // just update the rate
-      if (cfg.i2s.rate != cfg.i2s.rate) {
+      if (cfg.i2s.rate != codecCfg.getRateNumeric()) {
         cs42448.setMute(true);
         cs42448.setSampleRate(codecCfg.getRateNumeric());
         cs42448.setMute(false);
