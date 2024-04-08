@@ -325,6 +325,9 @@ class CS42448 {
       case ADC_INPUT_ALL:
         ok_dac = setPowerADC(active);
         break;
+      default:
+        ok_dac = false;
+        break;
     }
     switch (codec_config.output_device) {
       case DAC_OUTPUT_NONE:
@@ -337,6 +340,9 @@ class CS42448 {
         break;
       case DAC_OUTPUT_ALL:
         ok_adc = setPowerDAC(active);
+        break;
+      default:
+        ok_adc = false;
         break;
     }
     return ok_adc && ok_dac;

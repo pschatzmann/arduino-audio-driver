@@ -508,6 +508,8 @@ class AudioDriverCS43l22Class : public AudioDriver {
         return 44100; /*!< set to 44.1k samples per second */
       case RATE_48K:
         return 48000; /*!< set to 48k samples per second */
+      default:
+        break;
     }
     return 44100;
   }
@@ -522,6 +524,8 @@ class AudioDriverCS43l22Class : public AudioDriver {
         return OUTPUT_DEVICE_HEADPHONE;
       case DAC_OUTPUT_ALL:
         return OUTPUT_DEVICE_BOTH;
+      default:
+        break;
     }
     return OUTPUT_DEVICE_BOTH;
   }
@@ -1206,6 +1210,8 @@ class AudioDriverWM8978Class : public AudioDriver {
         return 0;
       case I2S_DSP:
         return 3;
+      default:
+        break;
     }
     return -1;
   }
@@ -1221,6 +1227,8 @@ class AudioDriverWM8978Class : public AudioDriver {
         return 2;
       case BIT_LENGTH_32BITS:
         return 3;
+      default:
+        break;
     }
     return -1;
   }
