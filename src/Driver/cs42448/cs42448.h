@@ -220,6 +220,8 @@ class CS42448 {
       master_freq = MasterFrequency::MasterDoubleSpeed;
     } else if (rate > 100000 && rate <= 200000) {
       master_freq = MasterFrequency::MasterQuadSpeed;
+    } else {
+      return false;
     }
 
     uint8_t reg_value = 0;
