@@ -1,9 +1,5 @@
 #include "WM8978.h"
 
-#include <Arduino.h>
-#include <Wire.h>
-#include <stdio.h>
-
 // WM8978 register value buffer zone (total 58 registers 0 to 57), occupies 116
 // bytes of memory Because the IIC WM8978 operation does not support read
 // operations, so save all the register values in the local Write WM8978
@@ -29,10 +25,10 @@ uint8_t WM8978::Write_Reg(uint8_t reg, uint16_t val) {
   char buf[2];
   buf[0] = (reg << 1) | ((val >> 8) & 0X01);
   buf[1] = val & 0XFF;
-  Wire.beginTransmission(
+  p_wire->beginTransmission(
       WM8978_ADDR);  // Send data to the slave with device number 4
-  Wire.write((const uint8_t*)buf, 2);
-  Wire.endTransmission();  // Stop sending
+  p_wire->write((const uint8_t*)buf, 2);
+  p_wire->endTransmission();  // Stop sending
   REGVAL_TBL[reg] = val;   // Save register value to local
   return 0;
 }
@@ -317,15 +313,15 @@ void WM8978::setHPF(uint8_t enable) {
 }
 
 bool WM8978::begin() {
-  Wire.beginTransmission(WM8978_ADDR);
-  const uint8_t error = Wire.endTransmission();
+  p_wire->beginTransmission(WM8978_ADDR);
+  const uint8_t error = p_wire->endTransmission();
   if (error) {
-    log_e("No WM8978 dac @ i2c address: 0x%X", WM8978_ADDR);
+    AD_LOGE("No WM8978 dac @ i2c address: 0x%X", WM8978_ADDR);
     return false;
   }
   const int err = Init();
   if (err) {
-    log_e("WM8978 init err: 0x%X", err);
+    AD_LOGE("WM8978 init err: 0x%X", err);
     return false;
   }
   cfgI2S(2, 0);       // Philips 16bit
@@ -347,11 +343,11 @@ bool WM8978::begin() {
   return true;
 }
 
-bool WM8978::begin(const uint8_t sda, const uint8_t scl,
-                   const uint32_t frequency) {
-  if (!Wire.begin(sda, scl, frequency)) {
-    log_e("Wire setup error sda=%i scl=%i frequency=%i", sda, scl, frequency);
-    return false;
-  }
-  return begin();
-}
+// bool WM8978::begin(const uint8_t sda, const uint8_t scl,
+//                    const uint32_t frequency) {
+//   if (!p_wire->begin(sda, scl, frequency)) {
+//     AD_LOGE("Wire setup error sda=%i scl=%i frequency=%i", sda, scl, frequency);
+//     return false;
+//   }
+//   return begin();
+// }

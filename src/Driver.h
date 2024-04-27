@@ -1098,13 +1098,11 @@ class AudioDriverWM8978Class : public AudioDriver {
   bool begin(CodecConfig codecCfg, DriverPins &pins) override {
     bool rc = true;
     auto i2c = pins.getI2CPins(PinFunction::CODEC);
-    if (!i2c) {
-      rc = wm8078.begin();
-    } else {
+    if (i2c && i2c.value().p_wire != nullptr) {
       auto i2c_pins = i2c.value();
-      rc = wm8078.begin(i2c_pins.sda, i2c_pins.scl, i2c_pins.frequency);
+      wm8078.setWire(*i2c_pins.p_wire);
     }
-
+    rc = wm8078.begin();
     setConfig(codecCfg);
 
     // setup initial default volume

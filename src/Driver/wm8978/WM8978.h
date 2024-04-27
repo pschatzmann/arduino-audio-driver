@@ -2,6 +2,9 @@
 #define __WM8978_H
 
 #include <stdio.h>
+#include "Common.h"
+#include "Utils/I2C.h"
+#include "Wire.h"
 
 #define WM8978_ADDR 0X1A  // WM8978��������ַ,�̶�Ϊ0X1A
 
@@ -35,8 +38,8 @@ class WM8978 {
   WM8978() {}
   ~WM8978() {}
   bool begin(); /* use this function if you want to setup i2c before */
-  bool begin(const uint8_t sda, const uint8_t scl,
-             const uint32_t frequency = 100000);
+  // bool begin(const uint8_t sda, const uint8_t scl,
+  //            const uint32_t frequency = 100000);
   void cfgADDA(uint8_t dacen, uint8_t adcen);
   void cfgInput(uint8_t micen, uint8_t lineinen, uint8_t auxen);
   void cfgOutput(uint8_t dacen, uint8_t bpsen);
@@ -56,8 +59,12 @@ class WM8978 {
   void setNoise(uint8_t enable, uint8_t gain);
   void setALC(uint8_t enable, uint8_t maxgain, uint8_t mingain);
   void setHPF(uint8_t enable);
+  void setWire(TwoWire& wire){
+    p_wire = &wire;
+  }
 
  private:
+  TwoWire* p_wire = &Wire;
   uint8_t Init(void);
   uint8_t Write_Reg(uint8_t reg, uint16_t val);
   uint16_t Read_Reg(uint8_t reg);
