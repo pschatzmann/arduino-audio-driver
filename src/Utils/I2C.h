@@ -1,6 +1,6 @@
 #pragma once
 #include <stdint.h>
-#include "Common.h"
+#include "DriverCommon.h"
 
 
 #ifdef __cplusplus

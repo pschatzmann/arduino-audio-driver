@@ -25,7 +25,7 @@
 
 #pragma once
 #include <SPI.h>
-#include "Common.h"
+#include "DriverCommon.h"
 #include "Driver/DriverConstants.h"
 
 /**

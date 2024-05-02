@@ -2,7 +2,7 @@
 #define __WM8978_H
 
 #include <stdio.h>
-#include "Common.h"
+#include "DriverCommon.h"
 #include "Utils/I2C.h"
 #include "Wire.h"
 

@@ -26,7 +26,7 @@
 #define _ES7243E_H_
 
 #include "stdbool.h"
-#include "Common.h"
+#include "DriverCommon.h"
 #include "Utils/I2C.h"
 #include "Driver/DriverConstants.h"
 

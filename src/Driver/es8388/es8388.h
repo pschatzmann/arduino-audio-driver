@@ -25,7 +25,7 @@
 #pragma once
 
 #include "stdbool.h"
-#include "Common.h"
+#include "DriverCommon.h"
 #include "Driver/DriverConstants.h"
 #include "Utils/I2C.h"
 

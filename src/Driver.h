@@ -1,6 +1,6 @@
 
 #pragma once
-#include "Common.h"
+#include "DriverCommon.h"
 #include "Driver/ac101/ac101.h"
 #include "Driver/ad1938/ad1938.h"
 #include "Driver/cs42448/cs42448.h"
@@ -260,6 +260,9 @@ class AudioDriver {
     digitalWrite(pin, enable ? HIGH : LOW);
     return true;
   }
+
+  /// Gets the number of I2S Interfaces
+  virtual int getI2SCount() { return 1;}
 
  protected:
   CodecConfig codec_cfg;
@@ -1323,6 +1326,8 @@ class AudioDriverLyratMiniClass : public AudioDriver {
   bool setInputVolume(int volume) { return adc.setVolume(volume); }
   int getInputVolume() { return adc.getVolume(); }
   bool isInputVolumeSupported() { return true; }
+  // Separate ADC and DAC I2S 
+  int getI2SCount() override { return 2;}
 
  protected:
   AudioDriverES8311Class dac;
