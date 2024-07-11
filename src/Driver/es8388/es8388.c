@@ -347,7 +347,7 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle) {
   } else if (ADC_INPUT_LINE2 == cfg->input_device) {
     tmp = ESP8388_INPUT_LINPUT2_RINPUT2;
   } else {
-    tmp = ADC_INPUT_DIFFERENCE;
+    tmp = ESP8388_INPUT_DIFFERENCE;
   }
   res |= es_write_reg(ES8388_ADDR, ES8388_ADCCONTROL2,
                       tmp);  // 0x00 LINSEL & RINSEL, LIN1/RIN1 as ADC Input;
