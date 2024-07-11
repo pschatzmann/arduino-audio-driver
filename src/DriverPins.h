@@ -195,13 +195,13 @@ struct PinsI2C {
       AD_LOGI("Setting i2c clock: %u", frequency);
       p_wire->setClock(frequency);
     } else {
-      AD_LOGI("I2C, not active, SDA, SCL, i2c clock not modified");
+      AD_LOGI("I2C, not activated, SDA, SCL, i2c clock not modified");
     }
     return true;
   }
   void end() {
 #if !defined(ESP8266) && FORCE_WIRE_CLOSE
-     p_wire->end();
+    if (set_active) p_wire->end();
 #endif
   }
 };
