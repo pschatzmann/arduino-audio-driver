@@ -151,13 +151,14 @@ PinsSPI ESP32PinsSD{PinFunction::SD, 14, 2, 15, 13, SPI};
 struct PinsI2C {
   PinsI2C() = default;
   PinsI2C(PinFunction function, GpioPin scl, GpioPin sda, int port = -1,
-          uint32_t frequency = 100000, TwoWire &wire = Wire) {
+          uint32_t frequency = 100000, TwoWire &wire = Wire, bool active=true) {
     this->function = function;
     this->scl = scl;
     this->sda = sda;
     this->port = port;
     this->frequency = frequency;
     this->p_wire = &wire;
+    this->set_active = active;
   }
 
   PinFunction function;
@@ -272,8 +273,14 @@ class DriverPins {
   }
   
   bool addI2C(PinFunction function, GpioPin scl, GpioPin sda, int port = -1,
-              uint32_t frequency = 100000, TwoWire &wire = Wire) {
-    PinsI2C pin(function, scl, sda, port, frequency, wire);
+              uint32_t frequency = 100000, TwoWire &wire = Wire, bool active = true) {
+    PinsI2C pin(function, scl, sda, port, frequency, wire, active);
+    return addI2C(pin);
+  }
+
+  /// Just define your initialzed wire object
+  bool addI2C(PinFunction function, TwoWire &wire, bool setActive = false) {
+    PinsI2C pin(function, -1, -1, -1, -1, wire, setActive);
     return addI2C(pin);
   }
 
