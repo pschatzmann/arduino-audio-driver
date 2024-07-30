@@ -24,6 +24,7 @@ enum class PinLogic {
   InputActiveTouch,
   Input,
   Output,
+  Inactive,
 };
 
 /**
