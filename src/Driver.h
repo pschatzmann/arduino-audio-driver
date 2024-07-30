@@ -753,7 +753,10 @@ class AudioDriverES8311Class : public AudioDriver {
 
   bool init(codec_config_t codec_cfg) {
     int mclk_src = pins().getPinID(PinFunction::MCLK_SOURCE);
-    if (mclk_src == -1) return false;
+    if (mclk_src == -1) {
+      AD_LOGW("Pin for PinFunction::MCLK_SOURCE not defined: we assume FROM_MCLK_PIN");
+      mclk_src = 0; // = FROM_MCLK_PIN; 
+    }
 
     // determine address from data
     if (i2c_address <= 0) i2c_address = getI2CAddress();
