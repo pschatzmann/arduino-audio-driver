@@ -1,10 +1,10 @@
 
 #pragma once
-#include "DriverCommon.h"
+#include "Wire.h"
 #include "SPI.h"
+#include "DriverCommon.h"
 #include "Utils/Optional.h"
 #include "Utils/Vector.h"
-#include "Wire.h"
 
 namespace audio_driver {
 
