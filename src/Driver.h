@@ -861,7 +861,7 @@ class AudioDriverES8388Class : public AudioDriver {
                              MIC_GAIN_9DB,  MIC_GAIN_12DB, MIC_GAIN_15DB,
                              MIC_GAIN_18DB, MIC_GAIN_21DB, MIC_GAIN_24DB,
                              MIC_GAIN_MAX};
-    int idx = limitValue(volume / 10, 9);
+    int idx = limitValue(volume / 10, 0, 9);
     es_mic_gain_t gain = gains[idx];
     AD_LOGD("input volume: %d -> gain %d", volume, gain);
     return setMicrophoneGain(gain);
