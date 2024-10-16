@@ -11,16 +11,10 @@ error_t i2c_bus_write_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
       addr, reglen, datalen, reg[0], data[0]);
   TwoWire *p_wire = (TwoWire *)bus;
   assert(p_wire!=nullptr);
-  //assert(reglen == 1);
-  //assert(datalen == 1);
-
   int result = RESULT_OK;
   p_wire->beginTransmission(addr);
   p_wire->write(reg, reglen);
   p_wire->write(data, datalen);
-  //p_wire->write(reg[0]);
-  //p_wire->write(data[0]);
- 
   int rc = p_wire->endTransmission(I2C_END);
   if (rc != 0) {
     AD_LOGE("->p_wire->endTransmission: %d", rc);
@@ -45,7 +39,7 @@ error_t i2c_bus_check(i2c_bus_handle_t bus, int addr) {
 }
 
 
-/// This method is used
+// this method is used !
 error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
                              int reglen, uint8_t *outdata, int datalen) {
   AD_LOGD("i2c_bus_read_bytes: addr=%d reglen=%d datalen=%d - reg=%d", addr,
@@ -64,7 +58,7 @@ error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
     AD_LOGE("->p_wire->endTransmission: %d", rc);
   }
 
-  uint8_t result_len = p_wire->requestFrom((addr), datalen, (int) true);
+  uint8_t result_len = p_wire->requestFrom((addr), datalen, I2C_END);
   if (result_len > 0) {
     result_len = p_wire->readBytes(outdata, datalen);
   } else {
