@@ -89,6 +89,7 @@ class CodecConfig : public codec_config_t {
         i2s.bits = BIT_LENGTH_32BITS;
         return true;
     }
+    AD_LOGE("bits not supported: %d", bits);
     return false;
   }
 
@@ -119,6 +120,7 @@ class CodecConfig : public codec_config_t {
         i2s.channels = (channels_t)channels;
         return true;
       default:
+        AD_LOGE("Channels not supported: %d - using %d", channels,2);
         i2s.channels = CHANNELS2;
         return false;
     }
