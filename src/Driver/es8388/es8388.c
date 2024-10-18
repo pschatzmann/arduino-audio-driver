@@ -413,12 +413,13 @@ error_t es8388_set_voice_volume(int volume) {
   else if (volume > 100)
     volume = 100;
   volume /= 3;
+  // DAC LDACVOL RDACVOL default 0 = 0DB; Default value 192 = – -96 dB
   res = es_write_reg(ES8388_ADDR, ES8388_DACCONTROL4, 0);
   res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL5, 0);
   // LOUT1 RLOUT1 volume: dataheet says only 6 bits
   res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL24, volume);
   res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL25, volume);
-  // DAC LDACVOL RDACVOL default 0 = 0DB; Default value 192 = – -96 dB
+  // LOUT2 ROUT2 volume: datasheet says only 6 bits
   res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL26, volume);
   res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL27, volume);
   return res;

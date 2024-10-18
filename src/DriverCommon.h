@@ -15,7 +15,8 @@
 #define RESULT_OK 0    /*!< error_t value indicating success (no error) */
 #define RESULT_FAIL -1 /*!< Generic error_t code indicating failure */
 #define ERROR_INVALID_ARG 1
-#define I2C_END true
+
+#define I2C_END true   // wether to send a stop bit at the end of the transmission
 
 #ifdef __cplusplus
 namespace audio_driver {

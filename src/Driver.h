@@ -339,7 +339,7 @@ class AudioDriverAC101Class : public AudioDriver {
  public:
   bool setMute(bool mute) { return ac101_set_voice_mute(mute); }
   bool setVolume(int volume) {
-    return ac101_set_voice_volume(limitValue(volume));
+    return ac101_set_voice_volume(limitValue(volume, 0, 100));
   };
   int getVolume() {
     int vol;
@@ -608,7 +608,7 @@ class AudioDriverES7210Class : public AudioDriver {
   bool setMute(bool mute) { return es7210_set_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     this->volume = volume;
-    return es7210_adc_set_volume(limitValue(volume)) == RESULT_OK;
+    return es7210_adc_set_volume(limitValue(volume, 0, 100)) == RESULT_OK;
   }
   int getVolume() { return volume; }
 
@@ -639,7 +639,7 @@ class AudioDriverES7243Class : public AudioDriver {
     return es7243_adc_set_voice_mute(mute) == RESULT_OK;
   }
   bool setVolume(int volume) {
-    return es7243_adc_set_voice_volume(limitValue(volume)) == RESULT_OK;
+    return es7243_adc_set_voice_volume(limitValue(volume, 0, 100)) == RESULT_OK;
   }
   int getVolume() {
     int vol;
@@ -674,7 +674,7 @@ class AudioDriverES7243eClass : public AudioDriver {
   }
   bool setVolume(int volume) {
     this->volume = volume;
-    return es7243e_adc_set_voice_volume(limitValue(volume)) == RESULT_OK;
+    return es7243e_adc_set_voice_volume(limitValue(volume, 0, 100)) == RESULT_OK;
   }
   int getVolume() {
     int vol;
@@ -710,7 +710,7 @@ class AudioDriverES8156Class : public AudioDriver {
   }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
-    return es8156_codec_set_voice_volume(limitValue(volume)) == RESULT_OK;
+    return es8156_codec_set_voice_volume(limitValue(volume, 0, 100)) == RESULT_OK;
   }
   int getVolume() {
     int vol;
@@ -742,7 +742,7 @@ class AudioDriverES8311Class : public AudioDriver {
   AudioDriverES8311Class(int i2cAddr = 0) { i2c_address = i2cAddr; }
   bool setMute(bool mute) { return es8311_set_voice_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
-    return es8311_codec_set_voice_volume(limitValue(volume)) == RESULT_OK;
+    return es8311_codec_set_voice_volume(limitValue(volume, 0, 100)) == RESULT_OK;
   }
   int getVolume() {
     int vol;
@@ -787,7 +787,7 @@ class AudioDriverES8374Class : public AudioDriver {
   bool setMute(bool mute) { return es8374_set_voice_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
-    return es8374_codec_set_voice_volume(limitValue(volume)) == RESULT_OK;
+    return es8374_codec_set_voice_volume(limitValue(volume, 0, 100)) == RESULT_OK;
   }
   int getVolume() {
     int vol;
@@ -849,7 +849,7 @@ class AudioDriverES8388Class : public AudioDriver {
   }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
-    return es8388_set_voice_volume(limitValue(volume)) == RESULT_OK;
+    return es8388_set_voice_volume(limitValue(volume, 0, 100)) == RESULT_OK;
   }
   int getVolume() {
     int vol;
@@ -858,14 +858,36 @@ class AudioDriverES8388Class : public AudioDriver {
   }
 
   bool setInputVolume(int volume) {
-    // map values from 0 - 100 to 0 to 9  MIC_GAIN_MIN = -1,
+    // map values from 0 - 100 to 0 to 8
+
+    // es_mic_gain_t: MIC_GAIN_MIN = -1, 0,3,6,9,12,15,18,21,24 MIC_GAIN_MAX = 25
+
+    // Vol:     0, 12.5, 25, 37.5, 50, 62.5, 75, 87.5, 100
+    // idx:     0,    1,  2,    3,  4,    5,  6,    7,   8
+    // dB/gain: 0,    3,  6,    9, 12,   15, 18,   21,  24
+    // factor:  1,    2,  4,    8, 16,   32, 63,  126, 252
+
+    // es8388 Register 9 – ADC Control 1
+    //dB MicL MicR
+    // 0 0000 0000
+    // 3 0001 0001
+    // 6 0010 0010
+    // 9 0011 0011
+    //12 0100 0100
+    //15 0101 0101
+    //18 0110 0110
+    //21 0111 0111
+    //24 1000 1000
+ 
     es_mic_gain_t gains[] = {MIC_GAIN_0DB,  MIC_GAIN_3DB,  MIC_GAIN_6DB,
                              MIC_GAIN_9DB,  MIC_GAIN_12DB, MIC_GAIN_15DB,
-                             MIC_GAIN_18DB, MIC_GAIN_21DB, MIC_GAIN_24DB,
-                             MIC_GAIN_MAX};
-    int idx = limitValue(volume / 10, 0, 9);
+                             MIC_GAIN_18DB, MIC_GAIN_21DB, MIC_GAIN_24DB};
+
+    int vol = limitValue(volume, 0, 100);
+    int idx = map(vol, 0, 100, 0, 8);
+
     es_mic_gain_t gain = gains[idx];
-    AD_LOGD("input volume: %d -> gain %d", volume, gain);
+    AD_LOGD("input volume: %d -> gain %d [dB] (idx: %d of 0..8)", volume, gain, idx);
     return setMicrophoneGain(gain);
   }
 
@@ -901,7 +923,7 @@ class AudioDriverTAS5805MClass : public AudioDriver {
   bool setMute(bool mute) { return tas5805m_set_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
-    return tas5805m_set_volume(limitValue(volume)) == RESULT_OK;
+    return tas5805m_set_volume(limitValue(volume, 0, 100)) == RESULT_OK;
   }
   int getVolume() {
     int vol;
