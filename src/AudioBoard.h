@@ -56,8 +56,13 @@ public:
     if (line == power_amp_line) setPAPower(!enable);
     return driver->setMute(enable, line); 
   }
-  bool setVolume(int volume) { return driver->setVolume(volume); }
-  int getVolume() { return driver->getVolume(); }
+  bool setVolume(int volume) {
+    // when we get the volume we make sure that we report the same value
+    // w/o rounding issues 
+    this->volume = volume; 
+    return driver->setVolume(volume); 
+  }
+  int getVolume() { return volume >= 0 ? volume : driver->getVolume(); }
   DriverPins& getPins() { return *pins; }
   bool setPAPower(bool enable) { return driver->setPAPower(enable); }
   /// set volume for adc: this is only supported on some defined codecs
@@ -72,6 +77,7 @@ protected:
   CodecConfig codec_cfg;
   AudioDriver* driver = nullptr;
   int power_amp_line = ES8388_PA_LINE;
+  int volume = -1;
 };
 
 // -- Boards
