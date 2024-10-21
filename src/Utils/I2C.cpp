@@ -58,7 +58,7 @@ error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
     AD_LOGE("->p_wire->endTransmission: %d", rc);
   }
 
-  uint8_t result_len = p_wire->requestFrom((addr), datalen, I2C_END);
+  uint8_t result_len = p_wire->requestFrom(addr, datalen, (int) I2C_END);
   if (result_len > 0) {
     result_len = p_wire->readBytes(outdata, datalen);
   } else {
