@@ -62,7 +62,12 @@ public:
     this->volume = volume; 
     return driver->setVolume(volume); 
   }
-  int getVolume() { return volume >= 0 ? volume : driver->getVolume(); }
+  int getVolume() { 
+#if DRIVER_REPORT_DRIVER_VOLUME
+    return driver->getVolume(); }
+#else
+    return volume >= 0 ? volume : driver->getVolume(); }
+#endif
   DriverPins& getPins() { return *pins; }
   bool setPAPower(bool enable) { return driver->setPAPower(enable); }
   /// set volume for adc: this is only supported on some defined codecs

@@ -5,6 +5,14 @@
 #  define DRIVER_DEFAULT_VOLUME 70
 #endif
 
+// AudioBoard getVolume() can report the volume reported by the driver or the volume that was last
+// set. When using the driver volume, there might be small rounding errors compared to
+// the last defined value.
+#ifndef DRIVER_REPORT_DRIVER_VOLUME
+#  define DRIVER_REPORT_DRIVER_VOLUME false
+#endif
+
+
 // To increase the max volume e.g. for ai_thinker (ES8388) 2957 or A202 -> set
 // to 1 or 2 0 AUX volume is LINE level 1 you can control the AUX volume with
 // setVolume()
@@ -30,3 +38,4 @@
 #ifndef FORCE_WIRE_CLOSE
 #  define FORCE_WIRE_CLOSE false
 #endif
+
