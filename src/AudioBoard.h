@@ -16,7 +16,7 @@ public:
     this->pins = pins;
     this->driver = driver;
   }
-  
+
   AudioBoard(AudioDriver &driver, DriverPins& pins=NoPins) {
     this->pins = &pins;
     this->driver = &driver;
@@ -52,17 +52,17 @@ public:
     return driver->end();
   }
   bool setMute(bool enable) { return driver->setMute(enable); }
-  bool setMute(bool enable, int line) { 
+  bool setMute(bool enable, int line) {
     if (line == power_amp_line) setPAPower(!enable);
-    return driver->setMute(enable, line); 
+    return driver->setMute(enable, line);
   }
   bool setVolume(int volume) {
     // when we get the volume we make sure that we report the same value
-    // w/o rounding issues 
-    this->volume = volume; 
-    return driver->setVolume(volume); 
+    // w/o rounding issues
+    this->volume = volume;
+    return driver->setVolume(volume);
   }
-  int getVolume() { 
+  int getVolume() {
 #if DRIVER_REPORT_DRIVER_VOLUME
     return driver->getVolume(); }
 #else
@@ -85,28 +85,49 @@ protected:
   int volume = -1;
 };
 
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES8388_DRIVER)
 // -- Boards
 /// @ingroup audio_driver
 static AudioBoard AudioKitEs8388V1{AudioDriverES8388, PinsAudioKitEs8388v1};
 /// @ingroup audio_driver
 static AudioBoard AudioKitEs8388V2{AudioDriverES8388, PinsAudioKitEs8388v2};
 /// @ingroup audio_driver
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_AC101_DRIVER)
 static AudioBoard AudioKitAC101{AudioDriverAC101, PinsAudioKitAC101};
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES8388_DRIVER)
 /// @ingroup audio_driver
 static AudioBoard LyratV43{AudioDriverES8388, PinsLyrat43};
 /// @ingroup audio_driver
 static AudioBoard LyratV42{AudioDriverES8388, PinsLyrat42};
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_LYRAT_MINI_DRIVER)
 /// @ingroup audio_driver
 static AudioBoard LyratMini{AudioDriverLyratMini, PinsLyratMini};
+#endif
+
 /// @ingroup audio_driver
 static AudioBoard NoBoard{NoDriver, NoPins};
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_WM8960_DRIVER)
 /// @ingroup audio_driver
 static AudioBoard GenericWM8960{AudioDriverWM8960, NoPins};
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_CS43L22_DRIVER)
 /// @ingroup audio_driver
 static AudioBoard GenericCS43l22{AudioDriverCS43l22, NoPins};
-#if defined(ARDUINO_GENERIC_F411VETX)
-/// @ingroup audio_driver
-static AudioBoard STM32F411Disco{AudioDriverCS43l22, PinsSTM32F411Disco};
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_CS43L22_DRIVER)
+    #if defined(ARDUINO_GENERIC_F411VETX)
+    /// @ingroup audio_driver
+    static AudioBoard STM32F411Disco{AudioDriverCS43l22, PinsSTM32F411Disco};
+    #endif
 #endif
 
 }

@@ -1,21 +1,66 @@
-
 #pragma once
 #include "DriverCommon.h"
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_AC101_DRIVER)
 #include "Driver/ac101/ac101.h"
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_AD1938_DRIVER)
 #include "Driver/ad1938/ad1938.h"
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_CS42448_DRIVER)
 #include "Driver/cs42448/cs42448.h"
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_CS43L22_DRIVER)
 #include "Driver/cs43l22/cs43l22.h"
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES7210_DRIVER)
 #include "Driver/es7210/es7210.h"
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES7243_DRIVER)
 #include "Driver/es7243/es7243.h"
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES7243E_DRIVER)
 #include "Driver/es7243e/es7243e.h"
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES8156_DRIVER)
 #include "Driver/es8156/es8156.h"
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES8311_DRIVER)
 #include "Driver/es8311/es8311.h"
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES8374_DRIVER)
 #include "Driver/es8374/es8374.h"
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES8388_DRIVER)
 #include "Driver/es8388/es8388.h"
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_TAS5805M_DRIVER)
 #include "Driver/tas5805m/tas5805m.h"
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_WM8960_DRIVER)
 #include "Driver/wm8960/mtb_wm8960.h"
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_WM8978_DRIVER)
 #include "Driver/wm8978/WM8978.h"
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_WM8994_DRIVER)
 #include "Driver/wm8994/wm8994.h"
+#endif
+
 #include "DriverPins.h"
 
 namespace audio_driver {
@@ -330,6 +375,7 @@ class NoDriverClass : public AudioDriver {
   virtual bool isInputVolumeSupported() { return false; }
 };
 
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_AC101_DRIVER)
 /**
  * @brief Driver API for AC101 codec chip
  * @author Phil Schatzmann
@@ -359,7 +405,9 @@ class AudioDriverAC101Class : public AudioDriver {
     return ac101_config_i2s(mode, &iface) == RESULT_OK;
   }
 };
+#endif // AC101 driver
 
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_AD1938_DRIVER)
 /**
  * @brief Driver API for AD1938 TDS DAC/ADC
  * @author Phil Schatzmann
@@ -431,7 +479,9 @@ class AudioDriverAD1938Class : public AudioDriver {
   int volume = 100;
   int volumes[8] = {100};
 };
+#endif // AD1938 driver
 
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_CS43L22_DRIVER)
 /**
  * @brief Driver API for the CS43l22 codec chip on 0x94 (0x4A<<1)
  * @author Phil Schatzmann
@@ -535,7 +585,9 @@ class AudioDriverCS43l22Class : public AudioDriver {
     return OUTPUT_DEVICE_BOTH;
   }
 };
+#endif // CS43L22 driver
 
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_CS42448_DRIVER)
 /**
  * @brief Driver API for CS42448 TDS DAC/ADC
  * @author Phil Schatzmann
@@ -597,7 +649,9 @@ class AudioDriverCS42448Class : public AudioDriver {
   int volume = 100;
   CodecConfig cfg;
 };
+#endif // CS42448 driver
 
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES7210_DRIVER)
 /**
  * @brief Driver API for ES7210 codec chip
  * @author Phil Schatzmann
@@ -627,7 +681,10 @@ class AudioDriverES7210Class : public AudioDriver {
     return es7210_adc_config_i2s(mode, &iface) == RESULT_OK;
   }
 };
+#endif // ES7210 driver
 
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES7243_DRIVER)
 /**
  * @brief Driver API for Lyrat ES7243 codec chip
  * @author Phil Schatzmann
@@ -660,13 +717,14 @@ class AudioDriverES7243Class : public AudioDriver {
     return es7243_adc_config_i2s(mode, &iface) == RESULT_OK;
   }
 };
+#endif // ES7243 driver
 
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES7243E_DRIVER)
 /**
  * @brief Driver API for ES7243e codec chip
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
-
 class AudioDriverES7243eClass : public AudioDriver {
  public:
   bool setMute(bool mute) {
@@ -697,7 +755,9 @@ class AudioDriverES7243eClass : public AudioDriver {
     return es7243e_adc_config_i2s(mode, &iface) == RESULT_OK;
   }
 };
+#endif // ES7243E driver
 
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES8156_DRIVER)
 /**
  * @brief Driver API for ES8156 codec chip
  * @author Phil Schatzmann
@@ -731,7 +791,9 @@ class AudioDriverES8156Class : public AudioDriver {
     return es8156_codec_config_i2s(mode, &iface) == RESULT_OK;
   }
 };
+#endif // ES8156 driver
 
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES8311_DRIVER)
 /**
  * @brief Driver API for Lyrat  ES8311 codec chip
  * @author Phil Schatzmann
@@ -757,7 +819,7 @@ class AudioDriverES8311Class : public AudioDriver {
     int mclk_src = pins().getPinID(PinFunction::MCLK_SOURCE);
     if (mclk_src == -1) {
       AD_LOGI("Pin for PinFunction::MCLK_SOURCE not defined: we assume FROM_MCLK_PIN");
-      mclk_src = 0; // = FROM_MCLK_PIN; 
+      mclk_src = 0; // = FROM_MCLK_PIN;
     }
 
     // determine address from data
@@ -775,7 +837,9 @@ class AudioDriverES8311Class : public AudioDriver {
     return es8311_codec_config_i2s(mode, &iface) == RESULT_OK;
   }
 };
+#endif // ES8311 driver
 
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES8374_DRIVER)
 /**
  * @brief Driver API for ES8374 codec chip
  * @author Phil Schatzmann
@@ -815,7 +879,9 @@ class AudioDriverES8374Class : public AudioDriver {
     return es8374_codec_config_i2s(mode, &iface) == RESULT_OK;
   }
 };
+#endif // ES8374 driver
 
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES8388_DRIVER)
 /**
  * @brief Driver API for ES8388 codec chip
  * @author Phil Schatzmann
@@ -878,7 +944,7 @@ class AudioDriverES8388Class : public AudioDriver {
     //18 0110 0110
     //21 0111 0111
     //24 1000 1000
- 
+
     es_mic_gain_t gains[] = {MIC_GAIN_0DB,  MIC_GAIN_3DB,  MIC_GAIN_6DB,
                              MIC_GAIN_9DB,  MIC_GAIN_12DB, MIC_GAIN_15DB,
                              MIC_GAIN_18DB, MIC_GAIN_21DB, MIC_GAIN_24DB};
@@ -912,7 +978,9 @@ class AudioDriverES8388Class : public AudioDriver {
     return es8388_config_i2s(mode, &iface) == RESULT_OK;
   }
 };
+#endif // ES8388 driver
 
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_TAS5805M_DRIVER)
 /**
  * @brief Driver API for TAS5805M codec chip
  * @author Phil Schatzmann
@@ -937,7 +1005,9 @@ class AudioDriverTAS5805MClass : public AudioDriver {
   }
   bool deinit() { return tas5805m_deinit() == RESULT_OK; }
 };
+#endif // TAS5805M driver
 
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_WM8960_DRIVER)
 /**
  * @brief Driver API for WM8990 codec chip
  * @author Phil Schatzmann
@@ -1115,7 +1185,9 @@ class AudioDriverWM8960Class : public AudioDriver {
     return is_master ? WM8960_MODE_MASTER : WM8960_MODE_SLAVE;
   }
 };
+#endif // WM8960 driver
 
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_WM8978_DRIVER)
 /**
  * @brief Driver API for the wm8978 codec chip
  * @author Phil Schatzmann
@@ -1140,7 +1212,7 @@ class AudioDriverWM8978Class : public AudioDriver {
 
     return rc;
   }
-  
+
   bool setConfig(CodecConfig codecCfg) override {
     codec_cfg = codecCfg;
     bool is_dac = codec_cfg.output_device != DAC_OUTPUT_NONE;
@@ -1261,7 +1333,9 @@ class AudioDriverWM8978Class : public AudioDriver {
     return -1;
   }
 };
+#endif // WM8978 driver
 
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_WM8994_DRIVER)
 /**
  * @brief Driver API for the wm8994 codec chip
  * @author Phil Schatzmann
@@ -1325,7 +1399,9 @@ class AudioDriverWM8994Class : public AudioDriver {
     return OUTPUT_DEVICE_BOTH;
   }
 };
+#endif // WM8994 driver
 
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_LYRAT_MINI_DRIVER)
 /**
  * @brief Driver API for Lyrat Mini with a ES8311 and a ES7243 codec chip
  * @author Phil Schatzmann
@@ -1353,46 +1429,92 @@ class AudioDriverLyratMiniClass : public AudioDriver {
   bool setInputVolume(int volume) { return adc.setVolume(volume); }
   int getInputVolume() { return adc.getVolume(); }
   bool isInputVolumeSupported() { return true; }
-  // Separate ADC and DAC I2S 
+  // Separate ADC and DAC I2S
   int getI2SCount() override { return 2;}
 
  protected:
   AudioDriverES8311Class dac;
   AudioDriverES7243Class adc;
 };
+#endif // Lyrat Mini driver
 
 // -- Drivers
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_AC101_DRIVER)
 /// @ingroup audio_driver
 static AudioDriverAC101Class AudioDriverAC101;
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_CS43L22_DRIVER)
 /// @ingroup audio_driver
 static AudioDriverCS43l22Class AudioDriverCS43l22;
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES7210_DRIVER)
 /// @ingroup audio_driver
 static AudioDriverES7210Class AudioDriverES7210;
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES7243_DRIVER)
 /// @ingroup audio_driver
 static AudioDriverES7243Class AudioDriverES7243;
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES7243E_DRIVER)
 /// @ingroup audio_driver
 static AudioDriverES7243eClass AudioDriverES7243e;
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES8156_DRIVER)
 /// @ingroup audio_driver
 static AudioDriverES8156Class AudioDriverES8156;
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES8311_DRIVER)
 /// @ingroup audio_driver
 static AudioDriverES8311Class AudioDriverES8311;
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES8374_DRIVER)
 /// @ingroup audio_driver
 static AudioDriverES8374Class AudioDriverES8374;
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_ES8388_DRIVER)
 /// @ingroup audio_driver
 static AudioDriverES8388Class AudioDriverES8388;
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_WM8960_DRIVER)
 /// @ingroup audio_driver
 static AudioDriverWM8960Class AudioDriverWM8960;
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_WM8978_DRIVER)
 /// @ingroup audio_driver
 static AudioDriverWM8978Class AudioDriverWM8978;
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_WM8994_DRIVER)
 /// @ingroup audio_driver
 static AudioDriverWM8994Class AudioDriverWM8994;
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_LYRAT_MINI_DRIVER)
 /// @ingroup audio_driver
 static AudioDriverLyratMiniClass AudioDriverLyratMini;
+#endif
+
 /// @ingroup audio_driver
 static NoDriverClass NoDriver;
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_AD1938_DRIVER)
 /// @ingroup audio_driver
 static AudioDriverAD1938Class AudioDriverAD1938;
+#endif
+
+#if !defined(USE_ONLY_SPECIFIED_DRIVERS) || defined(USE_CS2448_DRIVER)
 /// @ingroup audio_driver
 static AudioDriverCS42448Class AudioDriverCS42448;
+#endif
 
 }  // namespace audio_driver
