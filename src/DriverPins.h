@@ -142,7 +142,7 @@ struct PinsSPI {
 /**
  * @brief Default SPI pins for ESP32 Lyrat, AudioDriver etc
  */
-PinsSPI ESP32PinsSD{PinFunction::SD, 14, 2, 15, 13, SPI};
+static PinsSPI ESP32PinsSD{PinFunction::SD, 14, 2, 15, 13, SPI};
 
 /**
  * @brief I2C pins
