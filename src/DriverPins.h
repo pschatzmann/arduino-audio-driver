@@ -142,7 +142,7 @@ struct PinsSPI {
 /**
  * @brief Default SPI pins for ESP32 Lyrat, AudioDriver etc
  */
-PinsSPI ESP32PinsSD{PinFunction::SD, 14, 2, 15, 13, SPI};
+extern PinsSPI ESP32PinsSD;
 
 /**
  * @brief I2C pins
@@ -248,7 +248,7 @@ class DriverPins {
     PinsI2S pin{function, mclk, bck, ws, data_out, data_in, port};
     return addI2S(pin);
   }
-  
+
   /// Updates the I2S pin information using the function as key
   bool setI2S(PinsI2S pin) { return set<PinsI2S>(pin, i2s); }
 
@@ -257,13 +257,13 @@ class DriverPins {
     spi.push_back(pin);
     return true;
   }
-  
+
   bool addSPI(PinFunction function, GpioPin clk, GpioPin miso, GpioPin mosi,
               GpioPin cs, SPIClass &spi = SPI) {
     PinsSPI pin(function, clk, miso, mosi, cs, spi);
     return addSPI(pin);
   }
-  
+
   /// Updates the SPI pin information using the function as key
   bool setSPI(PinsSPI pin) { return set<PinsSPI>(pin, spi); }
 
@@ -272,7 +272,7 @@ class DriverPins {
     i2c.push_back(pin);
     return true;
   }
-  
+
   bool addI2C(PinFunction function, GpioPin scl, GpioPin sda, int port = -1,
               uint32_t frequency = 100000, TwoWire &wire = Wire, bool active = true) {
     PinsI2C pin(function, scl, sda, port, frequency, wire, active);
