@@ -108,7 +108,7 @@ class PCM3168 {
   bool setVolume(float level) { return volumeInteger(volumebyte(level)); }
 
   bool setVolume(int channel, float level) {
-    if (channel < 1 || channel > DAC_CHANNELS) return false;
+    if (channel < 1 || channel > DAC_CHANNELS_MAX) return false;
     return volumeInteger(channel, volumebyte(level));
   }
 
@@ -117,7 +117,7 @@ class PCM3168 {
   }
 
   bool setInputVolume(int channel, float level) {
-    if (channel < 1 || channel > DAC_CHANNELS) return false;
+    if (channel < 1 || channel > DAC_CHANNELS_MAX) return false;
     return inputLevelInteger(channel, inputlevelbyte(level));
   }
 
@@ -131,8 +131,8 @@ class PCM3168 {
 
  protected:
   const uint8_t I2C_BASE = 0x44;
-  const int ADC_CHANNELS = 6;
-  const int DAC_CHANNELS = 8;
+  const int ADC_CHANNELS_MAX = 6;
+  const int DAC_CHANNELS_MAX = 8;
   TwoWire *wire = &Wire;
   uint8_t i2c_addr = I2C_BASE;
   FMT fmt;
@@ -163,24 +163,24 @@ class PCM3168 {
   bool volumeInteger(int channel, uint32_t n) {
     bool rv = false;
 
-    if (0 != channel && channel <= DAC_CHANNELS)
+    if (0 != channel && channel <= DAC_CHANNELS_MAX)
       rv = write(DAC_ATTENUATION_BASE + channel - 1, n);
 
     return rv;
   }
 
   bool inputLevelInteger(int32_t n) {
-    uint8_t levels[ADC_CHANNELS];
+    uint8_t levels[ADC_CHANNELS_MAX];
 
-    for (int i = 0; i < ADC_CHANNELS; i++) levels[i] = n;
+    for (int i = 0; i < ADC_CHANNELS_MAX; i++) levels[i] = n;
 
-    return write(ADC_ATTENUATION_BASE, levels, ADC_CHANNELS);
+    return write(ADC_ATTENUATION_BASE, levels, ADC_CHANNELS_MAX);
   }
 
   bool inputLevelInteger(int channel, int32_t n) {
     bool rv = false;
 
-    if (0 != channel && channel <= ADC_CHANNELS)
+    if (0 != channel && channel <= ADC_CHANNELS_MAX)
       rv = write(ADC_ATTENUATION_BASE + channel - 1, n);
 
     return rv;
