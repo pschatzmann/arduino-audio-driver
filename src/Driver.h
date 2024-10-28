@@ -1,6 +1,5 @@
 
 #pragma once
-#include "DriverCommon.h"
 #include "Driver/ac101/ac101.h"
 #include "Driver/ad1938/ad1938.h"
 #include "Driver/cs42448/cs42448.h"
@@ -12,10 +11,12 @@
 #include "Driver/es8311/es8311.h"
 #include "Driver/es8374/es8374.h"
 #include "Driver/es8388/es8388.h"
+#include "Driver/pcm3168/pcm3168.h"
 #include "Driver/tas5805m/tas5805m.h"
 #include "Driver/wm8960/mtb_wm8960.h"
 #include "Driver/wm8978/WM8978.h"
 #include "Driver/wm8994/wm8994.h"
+#include "DriverCommon.h"
 #include "DriverPins.h"
 
 namespace audio_driver {
@@ -120,7 +121,7 @@ class CodecConfig : public codec_config_t {
         i2s.channels = (channels_t)channels;
         return true;
       default:
-        AD_LOGE("Channels not supported: %d - using %d", channels,2);
+        AD_LOGE("Channels not supported: %d - using %d", channels, 2);
         i2s.channels = CHANNELS2;
         return false;
     }
@@ -264,7 +265,7 @@ class AudioDriver {
   }
 
   /// Gets the number of I2S Interfaces
-  virtual int getI2SCount() { return 1;}
+  virtual int getI2SCount() { return 1; }
 
  protected:
   CodecConfig codec_cfg;
@@ -674,7 +675,8 @@ class AudioDriverES7243eClass : public AudioDriver {
   }
   bool setVolume(int volume) {
     this->volume = volume;
-    return es7243e_adc_set_voice_volume(limitValue(volume, 0, 100)) == RESULT_OK;
+    return es7243e_adc_set_voice_volume(limitValue(volume, 0, 100)) ==
+           RESULT_OK;
   }
   int getVolume() {
     int vol;
@@ -710,7 +712,8 @@ class AudioDriverES8156Class : public AudioDriver {
   }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
-    return es8156_codec_set_voice_volume(limitValue(volume, 0, 100)) == RESULT_OK;
+    return es8156_codec_set_voice_volume(limitValue(volume, 0, 100)) ==
+           RESULT_OK;
   }
   int getVolume() {
     int vol;
@@ -742,7 +745,8 @@ class AudioDriverES8311Class : public AudioDriver {
   AudioDriverES8311Class(int i2cAddr = 0) { i2c_address = i2cAddr; }
   bool setMute(bool mute) { return es8311_set_voice_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
-    return es8311_codec_set_voice_volume(limitValue(volume, 0, 100)) == RESULT_OK;
+    return es8311_codec_set_voice_volume(limitValue(volume, 0, 100)) ==
+           RESULT_OK;
   }
   int getVolume() {
     int vol;
@@ -756,8 +760,10 @@ class AudioDriverES8311Class : public AudioDriver {
   bool init(codec_config_t codec_cfg) {
     int mclk_src = pins().getPinID(PinFunction::MCLK_SOURCE);
     if (mclk_src == -1) {
-      AD_LOGI("Pin for PinFunction::MCLK_SOURCE not defined: we assume FROM_MCLK_PIN");
-      mclk_src = 0; // = FROM_MCLK_PIN; 
+      AD_LOGI(
+          "Pin for PinFunction::MCLK_SOURCE not defined: we assume "
+          "FROM_MCLK_PIN");
+      mclk_src = 0;  // = FROM_MCLK_PIN;
     }
 
     // determine address from data
@@ -787,7 +793,8 @@ class AudioDriverES8374Class : public AudioDriver {
   bool setMute(bool mute) { return es8374_set_voice_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
-    return es8374_codec_set_voice_volume(limitValue(volume, 0, 100)) == RESULT_OK;
+    return es8374_codec_set_voice_volume(limitValue(volume, 0, 100)) ==
+           RESULT_OK;
   }
   int getVolume() {
     int vol;
@@ -860,7 +867,8 @@ class AudioDriverES8388Class : public AudioDriver {
   bool setInputVolume(int volume) {
     // map values from 0 - 100 to 0 to 8
 
-    // es_mic_gain_t: MIC_GAIN_MIN = -1, 0,3,6,9,12,15,18,21,24 MIC_GAIN_MAX = 25
+    // es_mic_gain_t: MIC_GAIN_MIN = -1, 0,3,6,9,12,15,18,21,24 MIC_GAIN_MAX =
+    // 25
 
     // Vol:     0, 12.5, 25, 37.5, 50, 62.5, 75, 87.5, 100
     // idx:     0,    1,  2,    3,  4,    5,  6,    7,   8
@@ -868,17 +876,17 @@ class AudioDriverES8388Class : public AudioDriver {
     // factor:  1,    2,  4,    8, 16,   32, 63,  126, 252
 
     // es8388 Register 9 – ADC Control 1
-    //dB MicL MicR
+    // dB MicL MicR
     // 0 0000 0000
     // 3 0001 0001
     // 6 0010 0010
     // 9 0011 0011
-    //12 0100 0100
-    //15 0101 0101
-    //18 0110 0110
-    //21 0111 0111
-    //24 1000 1000
- 
+    // 12 0100 0100
+    // 15 0101 0101
+    // 18 0110 0110
+    // 21 0111 0111
+    // 24 1000 1000
+
     es_mic_gain_t gains[] = {MIC_GAIN_0DB,  MIC_GAIN_3DB,  MIC_GAIN_6DB,
                              MIC_GAIN_9DB,  MIC_GAIN_12DB, MIC_GAIN_15DB,
                              MIC_GAIN_18DB, MIC_GAIN_21DB, MIC_GAIN_24DB};
@@ -887,7 +895,8 @@ class AudioDriverES8388Class : public AudioDriver {
     int idx = map(vol, 0, 100, 0, 8);
 
     es_mic_gain_t gain = gains[idx];
-    AD_LOGD("input volume: %d -> gain %d [dB] (idx: %d of 0..8)", volume, gain, idx);
+    AD_LOGD("input volume: %d -> gain %d [dB] (idx: %d of 0..8)", volume, gain,
+            idx);
     return setMicrophoneGain(gain);
   }
 
@@ -1140,7 +1149,7 @@ class AudioDriverWM8978Class : public AudioDriver {
 
     return rc;
   }
-  
+
   bool setConfig(CodecConfig codecCfg) override {
     codec_cfg = codecCfg;
     bool is_dac = codec_cfg.output_device != DAC_OUTPUT_NONE;
@@ -1327,6 +1336,78 @@ class AudioDriverWM8994Class : public AudioDriver {
 };
 
 /**
+ * @brief Driver API for the CS43l22 codec chip on 0x94 (0x4A<<1)
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class AudioDriverPCM3168Class : public AudioDriver {
+ public:
+  AudioDriverPCM3168Class() = default;
+
+  bool setMute(bool mute) { return driver.setMute(mute); }
+
+  bool setMute(bool mute, int line) { return driver.setMute(line, mute); }
+
+  bool setVolume(int vol) {
+    volume = vol;
+    return driver.setVolume(100.0 * vol);
+  }
+  int getVolume() { return volume; }
+
+ protected:
+  int volume;
+  PCM3168 driver;
+
+  bool init(codec_config_t codec_cfg) {
+    driver.setWire(*getI2C());
+    driver.setAddress(getI2CAddress());
+    return true;
+  }
+  bool deinit() { return driver.end(); }
+  bool controlState(codec_mode_t mode) { return true; }
+  bool configInterface(codec_mode_t mode, I2SDefinition iface) {
+    if (iface.mode == MODE_MASTER) {
+      AD_LOGE("Only slave is supported: MCU must be master");
+      return false;
+    }
+    PCM3168::FMT fmt = PCM3168::FMT::I2SHighSpeedTDM24bit;
+    switch (iface.bits) {
+      case BIT_LENGTH_16BITS:
+        if (iface.fmt!= I2S_RIGHT) {
+          AD_LOGW("Only I2S_RIGHT is supported for 16 bits");
+        }
+        fmt = PCM3168::FMT::Right16bit;
+        break;
+      case BIT_LENGTH_32BITS:
+      case BIT_LENGTH_24BITS:
+        switch (iface.fmt) {
+          case I2S_NORMAL:
+            fmt = PCM3168::FMT::I2S24bit;
+            break;
+          case I2S_LEFT:
+            fmt = PCM3168::FMT::Left24bit;
+            break;
+          case I2S_RIGHT:
+            fmt = PCM3168::FMT::Right24bit;
+            break;
+          case I2S_DSP:
+            fmt = PCM3168::FMT::LeftDSP24bit;
+            break;
+          case I2S_TDM:
+            fmt = PCM3168::FMT::I2SHighSpeedTDM24bit;
+            break;
+        }
+        break;
+      default:
+        AD_LOGE("Unsupported bits");
+        return false;
+    }
+
+    return driver.begin(fmt);
+  }
+};
+
+/**
  * @brief Driver API for Lyrat Mini with a ES8311 and a ES7243 codec chip
  * @author Phil Schatzmann
  * @copyright GPLv3
@@ -1353,8 +1434,8 @@ class AudioDriverLyratMiniClass : public AudioDriver {
   bool setInputVolume(int volume) { return adc.setVolume(volume); }
   int getInputVolume() { return adc.getVolume(); }
   bool isInputVolumeSupported() { return true; }
-  // Separate ADC and DAC I2S 
-  int getI2SCount() override { return 2;}
+  // Separate ADC and DAC I2S
+  int getI2SCount() override { return 2; }
 
  protected:
   AudioDriverES8311Class dac;
@@ -1394,5 +1475,6 @@ static NoDriverClass NoDriver;
 static AudioDriverAD1938Class AudioDriverAD1938;
 /// @ingroup audio_driver
 static AudioDriverCS42448Class AudioDriverCS42448;
-
+/// @ingroup audio_driver
+static AudioDriverPCM3168Class AudioDriverPCM3168;
 }  // namespace audio_driver
