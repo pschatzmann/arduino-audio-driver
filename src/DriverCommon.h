@@ -19,6 +19,8 @@
 #define I2C_END true   // wether to send a stop bit at the end of the transmission
 
 #ifdef __cplusplus
+#include "Utils/AudioDriverLogger.h"
+
 namespace audio_driver {
 #endif
 

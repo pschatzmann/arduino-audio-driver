@@ -1,3 +1,4 @@
+// logging methods that can be called from C and C++
 #pragma once
 
 // maximum size of log string
@@ -9,9 +10,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-// define supported log levels
-enum AudioDriverLogLevels {AudioDriverDebug, AudioDriverInfo, AudioDriverWarning, AudioDriverError};
 
 // define default log level
 extern int LOGLEVEL_AUDIODRIVER;
