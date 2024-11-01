@@ -18,6 +18,16 @@ Supported audio codec chips are e.g
 
 While you can use this library stand alone, I recommend to use it together with my [AudioTools](https://github.com/pschatzmann/arduino-audio-tools) project which provides a nice integration with it's [I2SCodecStream](https://pschatzmann.github.io/arduino-audio-tools/classaudio__tools_1_1_i2_s_codec_stream.html) class. Further information can be found in the [Wiki](https://github.com/pschatzmann/arduino-audio-driver/wiki).
 
+## Logging
+
+The functionality has a built in logger. The default log level has been set to Warning. You can change it like this:
+
+```C++
+
+  AudioDriverLogger.begin(Serial,AudioDriverLogLevel::Info); 
+
+```
+Valid values are: Debug, Info, Warning, Error
 
 ## Documentation
 
