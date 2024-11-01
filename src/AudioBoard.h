@@ -12,24 +12,29 @@ namespace audio_driver {
  */
 class AudioBoard {
 public:
-  AudioBoard(AudioDriver *driver, DriverPins* pins=&NoPins) {
-    this->pins = pins;
-    this->driver = driver;
+
+  AudioBoard(AudioDriver *driver, DriverPins* pins) {
+    this->p_pins = pins;
+    this->p_driver = driver;
   }
   
-  AudioBoard(AudioDriver &driver, DriverPins& pins=NoPins) {
-    this->pins = &pins;
-    this->driver = &driver;
+  AudioBoard(AudioDriver &driver, DriverPins& pins) {
+    this->p_pins = &pins;
+    this->p_driver = &driver;
   }
 
   bool begin(){
     AD_LOGD("AudioBoard::begin");
-    pins->setSPIActiveForSD(codec_cfg.sd_active);
-    if (!pins->begin()){
+    if (p_pins==nullptr){
+      AD_LOGE("pins are null");
+      return false;
+    }
+    p_pins->setSPIActiveForSD(codec_cfg.sd_active);
+    if (!p_pins->begin()){
       AD_LOGE("AudioBoard::pins::begin failed");
       return false;
     }
-    if (!driver->begin(codec_cfg, *pins)){
+    if (!p_driver->begin(codec_cfg, *p_pins)){
       AD_LOGE("AudioBoard::driver::begin failed");
       return false;
     }
@@ -47,45 +52,53 @@ public:
   /// Updates the CodecConfig values -> reconfigures the codec only
   bool setConfig(CodecConfig cfg) {
     this->codec_cfg = cfg;
-    return driver->setConfig(cfg);
+    return p_driver->setConfig(cfg);
   }
 
   bool end(void) {
-    pins->end();
+    p_pins->end();
     is_active = false;
-    return driver->end();
+    return p_driver->end();
   }
-  bool setMute(bool enable) { return driver->setMute(enable); }
+  bool setMute(bool enable) { return p_driver->setMute(enable); }
   bool setMute(bool enable, int line) { 
     if (line == power_amp_line) setPAPower(!enable);
-    return driver->setMute(enable, line); 
+    return p_driver->setMute(enable, line); 
   }
   bool setVolume(int volume) {
     AD_LOGD("setVolume: %d", volume);
     // when we get the volume we make sure that we report the same value
     // w/o rounding issues 
     this->volume = volume; 
-    return (is_active) ? driver->setVolume(volume) : false; 
+    return (is_active) ? p_driver->setVolume(volume) : false; 
   }
   int getVolume() { 
 #if DRIVER_REPORT_DRIVER_VOLUME
     return driver->getVolume(); }
 #else
-    return volume >= 0 ? volume : driver->getVolume(); }
+    return volume >= 0 ? volume : p_driver->getVolume(); }
 #endif
-  DriverPins& getPins() { return *pins; }
-  bool setPAPower(bool enable) { return driver->setPAPower(enable); }
+  DriverPins& getPins() { return *p_pins; }
+  DriverPins& pins() { return *p_pins; }
+
+  bool setPAPower(bool enable) { return is_active ? p_driver->setPAPower(enable) : false; }
+  
   /// set volume for adc: this is only supported on some defined codecs
-  bool setInputVolume(int volume) {return driver->setInputVolume(volume);}
+  bool setInputVolume(int volume) {return p_driver->setInputVolume(volume);}
 
   AudioDriver* getDriver(){
-    return driver;
+    return p_driver;
+  }
+  AudioDriver& driver(){
+    return *p_driver;
   }
 
+  operator bool() { return is_active && p_driver != nullptr && p_pins != nullptr;}
+
 protected:
-  DriverPins* pins;
+  AudioDriver* p_driver = nullptr;
+  DriverPins* p_pins = nullptr;
   CodecConfig codec_cfg;
-  AudioDriver* driver = nullptr;
   int power_amp_line = ES8388_PA_LINE;
   int volume = -1;
   bool is_active = false;

@@ -190,9 +190,10 @@ class CodecConfig : public codec_config_t {
  */
 class AudioDriver {
  public:
+
   /// Starts the processing
   virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
-    AD_LOGD("AudioDriver::begin");
+    AD_LOGI("AudioDriver::begin");
     p_pins = &pins;
     pins.setSPIActiveForSD(codecCfg.sd_active);
     if (!setConfig(codecCfg)){
@@ -206,27 +207,22 @@ class AudioDriver {
   }
   /// changes the configuration
   virtual bool setConfig(CodecConfig codecCfg) {
+    AD_LOGI("AudioDriver::setConfig");
     codec_cfg = codecCfg;
     if (!init(codec_cfg)) {
-      AD_LOGE("AudioDriver::begin::init failed");
+      AD_LOGE("AudioDriver init failed");
       return false;
-    } else {
-      AD_LOGD("AudioDriver::begin::init succeeded");
-    }
+    } 
     codec_mode_t codec_mode = codec_cfg.get_mode();
     if (!controlState(codec_mode)) {
-      AD_LOGE("AudioDriver::begin::controlState failed");
+      AD_LOGE("AudioDriver controlState failed");
       return false;
-    } else {
-      AD_LOGD("AudioDriver::begin::controlState succeeded");
-    }
+    } 
     bool result = configInterface(codec_mode, codec_cfg.i2s);
     if (!result) {
-      AD_LOGE("AudioDriver::begin::configInterface failed");
+      AD_LOGE("AudioDriver configInterface failed");
       return false;
-    } else {
-      AD_LOGD("AudioDriver::begin::configInterface succeeded");
-    }
+    } 
     return result;
   }
   /// Ends the processing: shut down dac and adc
@@ -250,12 +246,17 @@ class AudioDriver {
   /// Determines if setInputVolume() is supported
   virtual bool isInputVolumeSupported() { return false; }
   /// Provides the pin information
-  DriverPins &pins() { return *p_pins; }
+  virtual DriverPins &pins() { return *p_pins; }
 
   /// Sets the PA Power pin to active or inactive
   bool setPAPower(bool enable) {
+    if (p_pins == nullptr) {
+      AD_LOGI("pins are null");
+      return false;
+    } 
     GpioPin pin = pins().getPinID(PinFunction::PA);
     if (pin == -1) {
+      AD_LOGI("PinFunction::PA not defined");
       return false;
     }
     AD_LOGI("setPAPower pin %d -> %d", pin, enable);
@@ -263,15 +264,14 @@ class AudioDriver {
     return true;
   }
 
-  /// Gets the number of I2S Interfaces
-  virtual int getI2SCount() { return 1; }
+  operator bool() {return p_pins != nullptr;}
 
  protected:
   CodecConfig codec_cfg;
   DriverPins *p_pins = nullptr;
 
   /// Determine the TwoWire object from the I2C config or use Wire
-  TwoWire *getI2C() {
+  virtual TwoWire *getI2C() {
     if (p_pins == nullptr) return &Wire;
     auto i2c = pins().getI2CPins(PinFunction::CODEC);
     if (!i2c) {
@@ -281,7 +281,7 @@ class AudioDriver {
     return result != nullptr ? result : &Wire;
   }
 
-  int getI2CAddress() {
+  virtual int getI2CAddress() {
     if (p_pins == nullptr) return -1;
     auto i2c = pins().getI2CPins(PinFunction::CODEC);
     if (i2c) {
@@ -316,8 +316,8 @@ class AudioDriver {
 class NoDriverClass : public AudioDriver {
  public:
   virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
-    codec_cfg = codecCfg;
-    p_pins = &pins;
+    //codec_cfg = codecCfg;
+    //p_pins = &pins;
     return true;
   }
   virtual bool end(void) { return true; }
@@ -390,6 +390,7 @@ class AudioDriverAD1938Class : public AudioDriver {
     return true;
   }
   virtual bool setConfig(CodecConfig codecCfg) {
+    assert(p_pins != nullptr);
     bool result = begin(codecCfg, *p_pins);
     return result;
   }
@@ -428,7 +429,6 @@ class AudioDriverAD1938Class : public AudioDriver {
 
  protected:
   AD1938 ad1938;
-  DriverPins *p_pins = nullptr;
   int volume = 100;
   int volumes[8] = {100};
 };
@@ -563,6 +563,7 @@ class AudioDriverCS42448Class : public AudioDriver {
         cs42448.setMute(false);
       }
     } else {
+      assert(p_pins != nullptr);
       result = begin(codecCfg, *p_pins);
     }
     return result;
@@ -594,7 +595,6 @@ class AudioDriverCS42448Class : public AudioDriver {
 
  protected:
   CS42448 cs42448;
-  DriverPins *p_pins = nullptr;
   int volume = 100;
   CodecConfig cfg;
 };
@@ -1414,18 +1414,28 @@ class AudioDriverPCM3168Class : public AudioDriver {
 class AudioDriverLyratMiniClass : public AudioDriver {
  public:
   bool begin(CodecConfig codecCfg, DriverPins &pins) {
-    int rc = 0;
-    if (codecCfg.output_device != DAC_OUTPUT_NONE)
-      rc += !dac.begin(codecCfg, pins);
-    if (codecCfg.input_device != ADC_INPUT_NONE)
-      rc += !adc.begin(codecCfg, pins);
-    return rc == 0;
+    AD_LOGI("AudioDriverLyratMiniClass::begin");
+    p_pins = &pins;
+    codec_cfg = codecCfg;
+    bool ok = true;
+    if (codecCfg.output_device != DAC_OUTPUT_NONE){
+      AD_LOGI("starting DAC");
+      ok = dac.begin(codecCfg, pins);
+    }
+    if (codecCfg.input_device != ADC_INPUT_NONE){
+      AD_LOGI("starting ADC");
+      ok = ok && adc.begin(codecCfg, pins);
+    }
+    if (!ok) {
+      AD_LOGI("AudioDriverLyratMiniClass::begin failed");
+    }
+    return ok;
   }
   bool end(void) {
     int rc = 0;
     rc += dac.end();
     rc += adc.end();
-    return rc == 0;
+    return rc == 2;
   }
   bool setMute(bool enable) { return dac.setMute(enable); }
   bool setVolume(int volume) { return dac.setVolume(volume); }
@@ -1433,8 +1443,6 @@ class AudioDriverLyratMiniClass : public AudioDriver {
   bool setInputVolume(int volume) { return adc.setVolume(volume); }
   int getInputVolume() { return adc.getVolume(); }
   bool isInputVolumeSupported() { return true; }
-  // Separate ADC and DAC I2S
-  int getI2SCount() override { return 2; }
 
  protected:
   AudioDriverES8311Class dac;

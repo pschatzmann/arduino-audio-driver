@@ -136,7 +136,10 @@ struct PinsSPI {
     }
     return true;
   }
-  void end() { p_spi->end(); }
+  void end() { 
+    AD_LOGD("PinsSPI::end");
+    p_spi->end();
+   }
 };
 
 /**
@@ -175,6 +178,7 @@ struct PinsI2C {
   operator bool() { return pinsAvailable(); }
 
   bool begin() {
+    AD_LOGD("PinsI2C::begin: %d", port);
     if (set_active) {
       AD_LOGD("PinsI2C::begin for %d", function);
       // if no pins are defined, just call begin
@@ -239,6 +243,10 @@ struct PinsFunction {
  */
 class DriverPins {
  public:
+  DriverPins (const DriverPins&) = delete;
+  DriverPins& operator= (const DriverPins&) = delete;
+  DriverPins() = default;
+
   bool addI2S(PinsI2S pin) {
     if (getI2SPins(pin.function)) return false;
     i2s.push_back(pin);
@@ -356,14 +364,11 @@ class DriverPins {
     AD_LOGD("DriverPins::begin");
 
     // setup function pins
-    AD_LOGD("DriverPins::begin::setupPinMode");
     setupPinMode();
 
     // setup spi
-    AD_LOGD("DriverPins::begin::SPI");
     bool result = true;
     for (auto &tmp : spi) {
-      AD_LOGD("DriverPins::begin::SPI::begin");
       if (tmp.function == PinFunction::SD) {
         if (sd_active)
           result &= tmp.begin();
@@ -373,9 +378,7 @@ class DriverPins {
     }
 
     // setup i2c
-    AD_LOGD("DriverPins::begin::I2C");
     for (auto &tmp : i2c) {
-      AD_LOGD("DriverPins::begin::I2C port:%d", tmp.port);
       result &= tmp.begin();
     }
     return result;
@@ -384,7 +387,6 @@ class DriverPins {
   void end() {
     // setup spi
     for (auto &tmp : spi) {
-      AD_LOGD("DriverPins::begin::SPI::end");
       tmp.end();
     }
     // setup i2c
@@ -427,6 +429,7 @@ class DriverPins {
   }
 
   void setupPinMode() {
+    AD_LOGD("DriverPins::setupPinMode");
     // setup pins
     for (auto &tmp : pins) {
       if (tmp.pin != -1) {
@@ -550,10 +553,9 @@ class PinsLyrat42Class : public DriverPins {
  */
 class PinsLyratMiniClass : public DriverPins {
  public:
+
   PinsLyratMiniClass() {
     // sd pins: CLK, MISO, MOSI, CS
-    //addSPI(PinFunction::SD, 14, 2, 15, 13, SPI);
-    //addSPI(PinFunction::SD, 18, 19, 23, 5, SPI);
     addSPI(ESP32PinsSD);
     // add i2c codec pins: scl, sda, port, frequency
     addI2C(PinFunction::CODEC, 23, 18);
@@ -561,7 +563,7 @@ class PinsLyratMiniClass : public DriverPins {
     addI2S(PinFunction::CODEC, 0, 5, 25, 26, 35, 0);
     addI2S(PinFunction::CODEC_ADC, 0, 32, 33, -1, 36, 1);
 
-    addPin(PinFunction::HEADPHONE_DETECT, 19, PinLogic::InputActiveLow);
+    addPin(PinFunction::HEADPHONE_DETECT, 19, PinLogic::InputActiveHigh);
     addPin(PinFunction::PA, 21, PinLogic::Output);
     addPin(PinFunction::LED, 22, PinLogic::Output, 1);
     addPin(PinFunction::LED, 27, PinLogic::Output, 2);
