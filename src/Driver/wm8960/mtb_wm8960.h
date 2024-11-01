@@ -38,6 +38,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+#include "DriverCommon.h"
 
 #ifdef ARDUINO
 #  include <Arduino.h>
@@ -51,11 +52,6 @@ extern "C"
 
 #define WM8960_I2C_ADDRESS (0x1A)
 
-#ifdef ARDUINO
-#  define WM8960_LOG(msg)  Serial.println(msg)
-#else
-#  define WM8960_LOG(msg)  
-#endif
 
 /**
  * \{
