@@ -34,7 +34,7 @@
 
 
 static int codec_init_flag = 0;
-static i2c_bus_handle_t i2c_handle;
+static i2c_bus_handle_t i2c_handle = NULL;
 static int i2c_address_es8374 = ES8374_ADDR;
 
 

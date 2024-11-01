@@ -103,7 +103,7 @@
 // };
 
 static uint8_t Is_cs43l22_Stop = 1;
-static i2c_bus_handle_t i2c_handle;
+static i2c_bus_handle_t i2c_handle = NULL;
 volatile uint8_t OutputDev = 0;
 
 /**

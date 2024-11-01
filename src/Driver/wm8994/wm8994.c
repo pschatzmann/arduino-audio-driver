@@ -106,7 +106,7 @@
 
 static uint32_t outputEnabled = 0;
 static uint32_t inputEnabled = 0;
-static void* i2c_handle;
+static void* i2c_handle = NULL;
 /**
   * @}
   */ 

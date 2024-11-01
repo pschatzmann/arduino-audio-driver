@@ -34,7 +34,7 @@
         return b;\
     }
 
-static i2c_bus_handle_t i2c_handle;
+static i2c_bus_handle_t i2c_handle = NULL;
 static int es7243_addr = 0x13; // 0x26>>1;
 static int mclk_gpio = 0;
 

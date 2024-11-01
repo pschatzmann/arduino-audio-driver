@@ -26,7 +26,7 @@
 
 
 //static char *TAG = "DRV7243E";
-static i2c_bus_handle_t i2c_handle;
+static i2c_bus_handle_t i2c_handle = NULL;
 static int es7243e_addr = 0x10; //0x20 >> 1;
 
 static error_t es7243e_write_reg(uint8_t reg_add, uint8_t data)

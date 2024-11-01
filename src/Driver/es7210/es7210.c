@@ -52,7 +52,7 @@ struct _coeff_div {
     uint32_t lrck_l;          /* The low 8 bits of lrck */
 };
 
-static i2c_bus_handle_t i2c_handle;
+static i2c_bus_handle_t i2c_handle = NULL;
 static es7210_input_mics_t mic_select = ES7210_INPUT_MIC1 | ES7210_INPUT_MIC2;         /* Number of microphones */
 
 /* Codec hifi mclk clock divider coefficients

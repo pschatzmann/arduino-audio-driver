@@ -53,23 +53,8 @@
 
 #define MCLK_DIV_FRE        256
 
-static i2c_bus_handle_t i2c_handle;
+static i2c_bus_handle_t i2c_handle = NULL;
 static int i2c_address_es8311 = ES8311_ADDR;
-
-// /*
-//  * operate function of codec
-//  */
-// func_t AUDIO_CODEC_ES8311_DEFAULT_HANDLE = {
-//     .audio_codec_initialize = es8311_codec_init,
-//     .audio_codec_deinitialize = es8311_codec_deinit,
-//     .audio_codec_ctrl = es8311_codec_ctrl_state_active,
-//     .audio_codec_config_iface = es8311_codec_config_i2s,
-//     .audio_codec_set_mute = es8311_set_voice_mute,
-//     .audio_codec_set_volume = es8311_codec_set_voice_volume,
-//     .audio_codec_get_volume = es8311_codec_get_voice_volume,
-//     .lock = NULL,
-//     .handle = NULL,
-// };
 
 /*
  * Clock coefficient structer
@@ -268,18 +253,6 @@ static void es8311_suspend(void)
     es8311_write_reg(ES8311_GP_REG45, 0x01);
 }
 
-// /*
-// * enable pa power
-// */
-// void es8311_pa_power(bool enable)
-// {
-// 	pinMode(get_pa_enable_gpio(), OUTPUT);
-//     if (enable) {
-//         digitalWrite(get_pa_enable_gpio(), HIGH); 
-//     } else {
-//         digitalWrite(get_pa_enable_gpio(), LOW); 
-//     }
-// }
 
 error_t es8311_codec_init(codec_config_t *codec_cfg, i2c_bus_handle_t handle, int8_t mclk_src, int i2c_address)
 {
@@ -288,6 +261,7 @@ error_t es8311_codec_init(codec_config_t *codec_cfg, i2c_bus_handle_t handle, in
     int coeff;
     error_t ret = RESULT_OK;
     i2c_handle = handle;
+    assert(i2c_handle != NULL);
     if (i2c_address > 0){
        i2c_address_es8311 = i2c_address;
     }
@@ -330,16 +304,19 @@ error_t es8311_codec_init(codec_config_t *codec_cfg, i2c_bus_handle_t handle, in
      */
     switch (get_es8311_mclk_src()) {
         case FROM_MCLK_PIN:
+            AD_LOGI( "ES8311 clock source: MCLK");
             regv = es8311_read_reg(ES8311_CLK_MANAGER_REG01);
             regv &= 0x7F;
             ret |= es8311_write_reg(ES8311_CLK_MANAGER_REG01, regv);
             break;
         case FROM_SCLK_PIN:
+            AD_LOGI( "ES8311 clock source: SCLK");
             regv = es8311_read_reg(ES8311_CLK_MANAGER_REG01);
             regv |= 0x80;
             ret |= es8311_write_reg(ES8311_CLK_MANAGER_REG01, regv);
             break;
         default:
+            AD_LOGI( "ES8311 clock source: MCLK");
             regv = es8311_read_reg(ES8311_CLK_MANAGER_REG01);
             regv &= 0x7F;
             ret |= es8311_write_reg(ES8311_CLK_MANAGER_REG01, regv);
@@ -651,6 +628,7 @@ error_t es8311_stop(codec_mode_t mode)
 
 error_t es8311_codec_set_voice_volume(int volume)
 {
+    if (i2c_handle == 0) return RESULT_FAIL;
     error_t res = RESULT_OK;
     if (volume < 0) {
         volume = 0;
@@ -665,6 +643,7 @@ error_t es8311_codec_set_voice_volume(int volume)
 
 error_t es8311_codec_get_voice_volume(int *volume)
 {
+    if (i2c_handle == 0) return RESULT_FAIL;
     error_t res = RESULT_OK;
     int regv = 0;
     regv = es8311_read_reg(ES8311_DAC_REG32);
@@ -681,12 +660,14 @@ error_t es8311_codec_get_voice_volume(int *volume)
 error_t es8311_set_voice_mute(bool enable)
 {
     AD_LOGD( "Es8311SetVoiceMute volume:%d", enable);
+    if (i2c_handle == 0) return RESULT_FAIL;
     es8311_mute(enable);
     return RESULT_OK;
 }
 
 error_t es8311_get_voice_mute(int *mute)
 {
+    if (i2c_handle == 0) return RESULT_FAIL;
     error_t res = RESULT_OK;
     uint8_t reg = 0;
     res = es8311_read_reg(ES8311_DAC_REG31);
@@ -699,6 +680,7 @@ error_t es8311_get_voice_mute(int *mute)
 
 error_t es8311_set_mic_gain(es8311_mic_gain_t gain_db)
 {
+    if (i2c_handle == 0) return RESULT_FAIL;
     error_t res = RESULT_OK;
     res = es8311_write_reg(ES8311_ADC_REG16, gain_db); // MIC gain scale
     return res;

@@ -35,7 +35,7 @@
 
 //static const char *TAG = "DRV8156";
 static bool codec_init_flag = 0;
-static i2c_bus_handle_t i2c_handle;
+static i2c_bus_handle_t i2c_handle = NULL;
 static codec_dac_volume_config_t *dac_vol_handle;
 
 #define ES8156_DAC_VOL_CFG_DEFAULT() {                      \
