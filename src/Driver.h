@@ -192,18 +192,17 @@ class AudioDriver {
  public:
   /// Starts the processing
   virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
-    AD_LOGD("AudioDriver::begin:pins");
+    AD_LOGD("AudioDriver::begin");
     p_pins = &pins;
-    AD_LOGD("AudioDriver::begin:setSPI");
     pins.setSPIActiveForSD(codecCfg.sd_active);
-    AD_LOGD("AudioDriver::begin:setConfig");
-    int result = setConfig(codecCfg);
-    AD_LOGD("AudioDriver::begin:setPAPower");
+    if (!setConfig(codecCfg)){
+      AD_LOGE("setConfig has failed");
+      return false;
+    }
     setPAPower(true);
-    AD_LOGD("AudioDriver::begin:completed");
     // setup default volume
     setVolume(DRIVER_DEFAULT_VOLUME);
-    return result;
+    return true;
   }
   /// changes the configuration
   virtual bool setConfig(CodecConfig codecCfg) {
@@ -278,7 +277,8 @@ class AudioDriver {
     if (!i2c) {
       return &Wire;
     }
-    return i2c.value().p_wire;
+    TwoWire* result = i2c.value().p_wire;
+    return result != nullptr ? result : &Wire;
   }
 
   int getI2CAddress() {
@@ -760,15 +760,14 @@ class AudioDriverES8311Class : public AudioDriver {
   bool init(codec_config_t codec_cfg) {
     int mclk_src = pins().getPinID(PinFunction::MCLK_SOURCE);
     if (mclk_src == -1) {
-      AD_LOGI(
-          "Pin for PinFunction::MCLK_SOURCE not defined: we assume "
-          "FROM_MCLK_PIN");
       mclk_src = 0;  // = FROM_MCLK_PIN;
     }
+    AD_LOGI("MCLK_SOURCE: %d", mclk_src);
 
     // determine address from data
     if (i2c_address <= 0) i2c_address = getI2CAddress();
 
+    assert(getI2C()!=nullptr);
     return es8311_codec_init(&codec_cfg, getI2C(), mclk_src, i2c_address) ==
            RESULT_OK;
   }

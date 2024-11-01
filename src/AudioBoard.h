@@ -23,16 +23,19 @@ public:
   }
 
   bool begin(){
+    AD_LOGD("AudioBoard::begin");
     pins->setSPIActiveForSD(codec_cfg.sd_active);
-    AD_LOGD("AudioBoard::pins::begin");
-    bool result_pins = pins->begin();
-    AD_LOGD("AudioBoard::pins::begin::returned:%s", result_pins ? "true" : "false");
-    AD_LOGD("AudioBoard::driver::begin");
-    bool result_driver = driver->begin(codec_cfg, *pins);
-    AD_LOGD("AudioBoard::driver::begin::returned:%s", result_driver ? "true" : "false");
+    if (!pins->begin()){
+      AD_LOGE("AudioBoard::pins::begin failed");
+      return false;
+    }
+    if (!driver->begin(codec_cfg, *pins)){
+      AD_LOGE("AudioBoard::driver::begin failed");
+      return false;
+    }
     setVolume(DRIVER_DEFAULT_VOLUME);
-    AD_LOGD("AudioBoard::volume::set");
-    return result_pins && result_driver;
+    is_active = true;
+    return true;
   }
 
   /// Starts the processing
@@ -49,6 +52,7 @@ public:
 
   bool end(void) {
     pins->end();
+    is_active = false;
     return driver->end();
   }
   bool setMute(bool enable) { return driver->setMute(enable); }
@@ -57,10 +61,11 @@ public:
     return driver->setMute(enable, line); 
   }
   bool setVolume(int volume) {
+    AD_LOGD("setVolume: %d", volume);
     // when we get the volume we make sure that we report the same value
     // w/o rounding issues 
     this->volume = volume; 
-    return driver->setVolume(volume); 
+    return (is_active) ? driver->setVolume(volume) : false; 
   }
   int getVolume() { 
 #if DRIVER_REPORT_DRIVER_VOLUME
@@ -83,6 +88,7 @@ protected:
   AudioDriver* driver = nullptr;
   int power_amp_line = ES8388_PA_LINE;
   int volume = -1;
+  bool is_active = false;
 };
 
 // -- Boards

@@ -141,7 +141,9 @@ struct PinsSPI {
 
 /**
  * @brief Default SPI pins for ESP32 Lyrat, AudioDriver etc
+ * CLK, MISO, MOSI, CS
  */
+
 static PinsSPI ESP32PinsSD{PinFunction::SD, 14, 2, 15, 13, SPI};
 
 /**
@@ -168,7 +170,7 @@ struct PinsI2C {
   GpioPin scl = -1;
   GpioPin sda = -1;
   bool set_active = true;
-  TwoWire *p_wire;
+  TwoWire *p_wire = &Wire;
   bool pinsAvailable() { return scl != -1 && sda != -1 && frequency != 0; }
   operator bool() { return pinsAvailable(); }
 
@@ -549,7 +551,9 @@ class PinsLyrat42Class : public DriverPins {
 class PinsLyratMiniClass : public DriverPins {
  public:
   PinsLyratMiniClass() {
-    // sd pins
+    // sd pins: CLK, MISO, MOSI, CS
+    //addSPI(PinFunction::SD, 14, 2, 15, 13, SPI);
+    //addSPI(PinFunction::SD, 18, 19, 23, 5, SPI);
     addSPI(ESP32PinsSD);
     // add i2c codec pins: scl, sda, port, frequency
     addI2C(PinFunction::CODEC, 23, 18);
@@ -557,18 +561,11 @@ class PinsLyratMiniClass : public DriverPins {
     addI2S(PinFunction::CODEC, 0, 5, 25, 26, 35, 0);
     addI2S(PinFunction::CODEC_ADC, 0, 32, 33, -1, 36, 1);
 
-    // add other pins
-    addPin(PinFunction::KEY, 5, PinLogic::InputActiveLow, 1);
-    addPin(PinFunction::KEY, 4, PinLogic::InputActiveLow, 2);
-    addPin(PinFunction::KEY, 2, PinLogic::InputActiveLow, 3);
-    addPin(PinFunction::KEY, 3, PinLogic::InputActiveLow, 4);
-    addPin(PinFunction::KEY, 1, PinLogic::InputActiveLow, 5);
-    //    addPin(PinFunction::KEY, 0, 6};
     addPin(PinFunction::HEADPHONE_DETECT, 19, PinLogic::InputActiveLow);
     addPin(PinFunction::PA, 21, PinLogic::Output);
     addPin(PinFunction::LED, 22, PinLogic::Output, 1);
     addPin(PinFunction::LED, 27, PinLogic::Output, 2);
-    addPin(PinFunction::MCLK_SOURCE, 0, PinLogic::Output);
+    addPin(PinFunction::MCLK_SOURCE, 0, PinLogic::Inactive);
   }
 };
 
