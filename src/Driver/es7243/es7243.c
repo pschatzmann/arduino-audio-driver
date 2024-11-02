@@ -149,6 +149,7 @@ error_t es7243_adc_set_voice_mute(bool mute) {
 }
 
 error_t es7243_adc_set_voice_volume(int volume) {
+  AD_LOGI("es7243_adc_set_voice_volume: %d", volume);
   error_t ret = RESULT_OK;
   if (volume > 100) {
     volume = 100;

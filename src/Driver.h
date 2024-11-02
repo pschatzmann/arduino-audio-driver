@@ -1450,12 +1450,12 @@ class AudioDriverLyratMiniClass : public AudioDriver {
     rc += adc.end();
     return rc == 2;
   }
-  bool setMute(bool enable) { return dac.setMute(enable); }
-  bool setVolume(int volume) { return dac.setVolume(volume); }
-  int getVolume() { return dac.getVolume(); }
-  bool setInputVolume(int volume) { return adc.setVolume(volume); }
-  int getInputVolume() { return adc.getVolume(); }
-  bool fInputVolumeSupported() { return true; }
+  bool setMute(bool enable)  override { return dac.setMute(enable); }
+  bool setVolume(int volume)  override { return dac.setVolume(volume); }
+  int getVolume()  override { return dac.getVolume(); }
+  bool setInputVolume(int volume) override { return adc.setVolume(volume); }
+  int getInputVolume()  { return adc.getVolume(); }
+  bool isInputVolumeSupported() override { return true; }
 
  protected:
   AudioDriverES8311Class dac;
