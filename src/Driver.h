@@ -248,6 +248,8 @@ class AudioDriver {
   /// Provides the pin information
   virtual DriverPins &pins() { return *p_pins; }
 
+  void setPins(DriverPins &pins) { p_pins = &pins; }
+
   /// Sets the PA Power pin to active or inactive
   bool setPAPower(bool enable) {
     if (p_pins == nullptr) {
@@ -1425,14 +1427,16 @@ class AudioDriverLyratMiniClass : public AudioDriver {
     bool ok = true;
     if (codecCfg.input_device != ADC_INPUT_NONE){
       AD_LOGI("starting ADC");
+      dac.setPins(this->pins());
       ok = ok && adc.setConfig(codecCfg);
     }
 
     // Start DAC
     if (codecCfg.output_device != DAC_OUTPUT_NONE){
       AD_LOGI("starting DAC");
+      dac.setPins(this->pins());
       ok = dac.setConfig(codecCfg);
-      adc.setPAPower(true);
+      setPAPower(true);
       setVolume(DRIVER_DEFAULT_VOLUME);
     }
 
@@ -1452,7 +1456,7 @@ class AudioDriverLyratMiniClass : public AudioDriver {
   int getVolume() { return dac.getVolume(); }
   bool setInputVolume(int volume) { return adc.setVolume(volume); }
   int getInputVolume() { return adc.getVolume(); }
-  bool isInputVolumeSupported() { return true; }
+  bool fInputVolumeSupported() { return true; }
 
  protected:
   AudioDriverES8311Class dac;

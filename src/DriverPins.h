@@ -10,6 +10,14 @@
 #  define TOUCH_LIMIT 20
 #endif
 
+#ifndef LYRAT_MINI_RANGE
+#  define LYRAT_MINI_RANGE 5
+#endif
+
+#ifndef LYRAT_MINI_DELAY_MS
+#  define LYRAT_MINI_DELAY_MS 5
+#endif
+
 namespace audio_driver {
 
 /** @file */
@@ -59,7 +67,7 @@ enum class PinFunction {
  * @ingroup enumerations
  * @ingroup audio_driver
  */
-enum AudioDriverKeys {
+enum AudioDriverKey {
   KEY_REC = 0,
   KEY_MODE,
   KEY_PLAY,
@@ -629,10 +637,18 @@ class PinsLyratMiniClass : public DriverPins {
     addPin(PinFunction::KEY, 39, PinLogic::Input, 0);
   }
 
+  /// When the button is released we might get some missreadings: so we read twice
+  /// to guarantee a stable result
   bool isKeyPressed(uint8_t key) override {
     if (key > 5) return false;
     int value = analogRead(39);
-    return inRange(value, analog_values[key]);    
+    bool result = inRange(value, analog_values[key]);   
+    delay(LYRAT_MINI_DELAY_MS);
+    int value1 = analogRead(39);
+    bool result1 = inRange(value, analog_values[key]);   
+    result = result && result1;
+    AD_LOGD("value: %d,%d for key: %d -> %d", value1, key, result);
+    return result; 
   }
 
   void setRange(int value) {
@@ -642,7 +658,7 @@ class PinsLyratMiniClass : public DriverPins {
 protected:
   // analog values for rec, mute, play, set, vol-, vol+
   int analog_values[6] {2802, 2270, 1754, 1284, 827, 304};
-  int range = 5;
+  int range = LYRAT_MINI_RANGE;
 
   bool inRange(int in, int toBe){
     return in >= (toBe-range)  &&  in <= (toBe+range); 
