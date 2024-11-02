@@ -1423,21 +1423,20 @@ class AudioDriverLyratMiniClass : public AudioDriver {
     // setup SPI for SD
     pins.setSPIActiveForSD(codecCfg.sd_active);
 
-    // Start ADC
+    // Start ES7243
     bool ok = true;
-    if (codecCfg.input_device != ADC_INPUT_NONE){
-      AD_LOGI("starting ADC");
-      dac.setPins(this->pins());
-      ok = ok && adc.setConfig(codecCfg);
-    }
 
-    // Start DAC
-    if (codecCfg.output_device != DAC_OUTPUT_NONE){
-      AD_LOGI("starting DAC");
-      dac.setPins(this->pins());
-      ok = dac.setConfig(codecCfg);
-      setPAPower(true);
-      setVolume(DRIVER_DEFAULT_VOLUME);
+    // Start ES8311
+    AD_LOGI("starting ES8311");
+    dac.setPins(this->pins());
+    ok = dac.setConfig(codecCfg);
+    setPAPower(true);
+    setVolume(DRIVER_DEFAULT_VOLUME);
+
+    if (codecCfg.input_device != ADC_INPUT_NONE){
+      AD_LOGI("starting ES7243");
+      adc.setPins(this->pins());
+      ok = ok && adc.setConfig(codecCfg);
     }
 
     if (!ok) {
