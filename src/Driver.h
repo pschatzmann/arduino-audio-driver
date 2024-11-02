@@ -1423,7 +1423,6 @@ class AudioDriverLyratMiniClass : public AudioDriver {
     // setup SPI for SD
     pins.setSPIActiveForSD(codecCfg.sd_active);
 
-    // Start ES7243
     bool ok = true;
 
     // Start ES8311
@@ -1433,6 +1432,7 @@ class AudioDriverLyratMiniClass : public AudioDriver {
     setPAPower(true);
     setVolume(DRIVER_DEFAULT_VOLUME);
 
+    // Start ES7243
     if (codecCfg.input_device != ADC_INPUT_NONE){
       AD_LOGI("starting ES7243");
       adc.setPins(this->pins());

@@ -37,6 +37,8 @@
 static i2c_bus_handle_t i2c_handle = NULL;
 static int es7243_addr = 0x13; // 0x26>>1;
 static int mclk_gpio = 0;
+static int actual_volume = 0;
+static uint8_t audio_format = 0x0C;
 
 void es7243_mclk_gpio(int gpio){
     mclk_gpio = gpio;
@@ -57,13 +59,12 @@ error_t es7243_adc_set_addr(int addr)
 
 static error_t es7243_mclk_active(uint8_t mclk_gpio)
 {
-#ifndef ARDUINO_ARCH_NRF52840
-    pinMode(mclk_gpio, OUTPUT);
-#endif    /*
+    /*
         Before initializing es7243, it is necessary to output
         mclk to es7243 to activate the I2C configuration.
         So give some clocks to active es7243.
     */
+    pinMode(mclk_gpio, OUTPUT);
     for (int i = 0; i < MCLK_PULSES_NUMBER; ++i) {
         digitalWrite(mclk_gpio, 0);
         delay(1);
@@ -78,12 +79,12 @@ error_t es7243_adc_init(codec_config_t *codec_cfg, i2c_bus_handle_t handle)
     error_t ret = RESULT_OK;
     i2c_handle = handle;
     es7243_mclk_active(mclk_gpio);
-    ret |= es7243_write_reg(0x00, 0x01);
+    ret |= es7243_write_reg(0x00, 0x01); // slave mode, software mode 
     ret |= es7243_write_reg(0x06, 0x00);
-    ret |= es7243_write_reg(0x05, 0x1B);
-    ret |= es7243_write_reg(0x01, 0x0C);
-    ret |= es7243_write_reg(0x08, 0x43);
-    ret |= es7243_write_reg(0x05, 0x13);
+    ret |= es7243_write_reg(0x05, 0x1B); // Mute ADC 
+    ret |= es7243_write_reg(0x01, audio_format); // i2s -16bit 
+    ret |= es7243_write_reg(0x08, 0x43); // enable AIN, PGA GAIN = 27DB 
+    ret |= es7243_write_reg(0x05, 0x13); // un Mute ADC 
     if (ret) {
         AD_LOGE( "Es7243 initialize failed!");
         return RESULT_FAIL;
@@ -93,17 +94,53 @@ error_t es7243_adc_init(codec_config_t *codec_cfg, i2c_bus_handle_t handle)
 
 error_t es7243_adc_deinit(void)
 {
-    return RESULT_OK;
+    return es7243_adc_set_voice_mute(true);
 }
 
 error_t es7243_adc_ctrl_state_active(codec_mode_t mode, bool ctrl_state_active)
 {
-    return RESULT_OK;
+    return es7243_adc_set_voice_mute(!ctrl_state_active);
 }
 
 error_t es7243_adc_config_i2s(codec_mode_t mode, I2SDefinition *iface)
 {
-    return RESULT_OK;
+    // master mode not supported
+    if (iface->mode == MODE_MASTER){
+        return RESULT_FAIL;
+    }
+
+    // set bits
+    switch(iface->bits){
+        case 16:
+            audio_format |= 0b011 < 2;
+            break;
+        case 24:
+            audio_format |= 0b000 < 2;
+            break;
+        case 32:
+            audio_format |= 0b100 < 2;
+            break;
+        default:
+            return RESULT_FAIL;
+    }
+
+    switch(iface->fmt){
+        case I2S_RIGHT:
+        case I2S_NORMAL:
+            audio_format |= 0b00;
+            break;
+        case I2S_LEFT:
+            audio_format |= 0b01;
+            break;
+        case I2S_DSP:
+            audio_format |= 0b11;
+            break;
+        default:
+            return RESULT_FAIL;
+    }
+
+    error_t ret = es7243_write_reg(0x01, audio_format);  
+    return ret;
 }
 
 error_t es7243_adc_set_voice_mute(bool mute)
@@ -126,6 +163,7 @@ error_t es7243_adc_set_voice_volume(int volume)
     if (volume < 0) {
         volume = 0;
     }
+    actual_volume = volume;
     switch (volume) {
         case 0 ... 12:
             ret |= es7243_write_reg(0x08, 0x11); // 1db
@@ -159,5 +197,6 @@ error_t es7243_adc_set_voice_volume(int volume)
 
 error_t es7243_adc_get_voice_volume(int *volume)
 {
+    *volume = actual_volume;
     return RESULT_OK;
 }
