@@ -6,6 +6,10 @@
 #include "Utils/Optional.h"
 #include "Utils/Vector.h"
 
+#ifndef TOUCH_LIMIT
+#  define TOUCH_LIMIT 20
+#endif
+
 namespace audio_driver {
 
 /** @file */
@@ -46,6 +50,22 @@ enum class PinFunction {
   LATCH,
   RESET,
   MCLK_SOURCE,
+};
+
+
+/**
+ * @enum AudioDriverKey
+ * @brief Key names
+ * @ingroup enumerations
+ * @ingroup audio_driver
+ */
+enum AudioDriverKeys {
+  KEY_REC = 0,
+  KEY_MODE,
+  KEY_PLAY,
+  KEY_SET,
+  KEY_VOLUME_DOWN,
+  KEY_VOLUME_UP
 };
 
 /**
@@ -405,6 +425,15 @@ class DriverPins {
   /// Returns true if some function pins have been defined
   bool hasPins() { return !pins.empty(); }
 
+  /// returns true if pressed
+  virtual bool isKeyPressed(uint8_t key) {
+    auto pin_opt = getPin(PinFunction::KEY, key);
+    if (!pin_opt) return false;
+    auto pin = pin_opt.value();
+    bool value = digitalRead(pin.pin);
+    return pin.pin_logic == PinLogic::InputActiveLow ? !value : value;
+  }
+
  protected:
   audio_driver_local::Vector<PinsI2S> i2s{0};
   audio_driver_local::Vector<PinsSPI> spi{0};
@@ -489,11 +518,40 @@ class DriverPins {
 };
 
 /**
+ * @brief Support for Touch
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class DriverTouchClass : public DriverPins {
+#ifdef ESP32
+  bool isKeyPressed(uint8_t key) override {
+    auto pin_opt = getPin(PinFunction::KEY, key);
+    if (!pin_opt) return false;
+    auto pin = pin_opt.value();
+    int value = touchRead(pin.pin);
+    bool result = value <= touch_limit;
+    if (result) {
+      // retry to confirm reading
+      value = touchRead(pin.pin);
+      result = value <= touch_limit;
+    }
+    return result;
+  }
+#endif
+  void setTouchLimit(int limit){
+    touch_limit = limit;
+  }
+
+  protected:
+    int touch_limit = TOUCH_LIMIT;
+};
+
+/**
  * @brief Pins for Lyrat 4.3 - use the PinsLyrat43 object!
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
-class PinsLyrat43Class : public DriverPins {
+class PinsLyrat43Class : public DriverTouchClass {
  public:
   PinsLyrat43Class() {
     // sd pins
@@ -522,7 +580,7 @@ class PinsLyrat43Class : public DriverPins {
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
-class PinsLyrat42Class : public DriverPins {
+class PinsLyrat42Class : public DriverTouchClass {
  public:
   PinsLyrat42Class() {
     // sd pins
@@ -568,7 +626,28 @@ class PinsLyratMiniClass : public DriverPins {
     addPin(PinFunction::LED, 22, PinLogic::Output, 1);
     addPin(PinFunction::LED, 27, PinLogic::Output, 2);
     addPin(PinFunction::MCLK_SOURCE, 0, PinLogic::Inactive);
+    addPin(PinFunction::KEY, 39, PinLogic::Input, 0);
   }
+
+  bool isKeyPressed(uint8_t key) override {
+    if (key > 5) return false;
+    int value = analogRead(39);
+    return inRange(value, analog_values[key]);    
+  }
+
+  void setRange(int value) {
+    range = value;
+  }
+
+protected:
+  // analog values for rec, mute, play, set, vol-, vol+
+  int analog_values[6] {2802, 2270, 1754, 1284, 827, 304};
+  int range = 5;
+
+  bool inRange(int in, int toBe){
+    return in >= (toBe-range)  &&  in <= (toBe+range); 
+  }
+
 };
 
 /**

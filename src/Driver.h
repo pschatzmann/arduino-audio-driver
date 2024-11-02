@@ -1417,15 +1417,25 @@ class AudioDriverLyratMiniClass : public AudioDriver {
     AD_LOGI("AudioDriverLyratMiniClass::begin");
     p_pins = &pins;
     codec_cfg = codecCfg;
+
+    // setup SPI for SD
+    pins.setSPIActiveForSD(codecCfg.sd_active);
+
+    // Start ADC
     bool ok = true;
-    if (codecCfg.output_device != DAC_OUTPUT_NONE){
-      AD_LOGI("starting DAC");
-      ok = dac.begin(codecCfg, pins);
-    }
     if (codecCfg.input_device != ADC_INPUT_NONE){
       AD_LOGI("starting ADC");
-      ok = ok && adc.begin(codecCfg, pins);
+      ok = ok && adc.setConfig(codecCfg);
     }
+
+    // Start DAC
+    if (codecCfg.output_device != DAC_OUTPUT_NONE){
+      AD_LOGI("starting DAC");
+      ok = dac.setConfig(codecCfg);
+      adc.setPAPower(true);
+      setVolume(DRIVER_DEFAULT_VOLUME);
+    }
+
     if (!ok) {
       AD_LOGI("AudioDriverLyratMiniClass::begin failed");
     }

@@ -93,6 +93,9 @@ public:
     return *p_driver;
   }
 
+  // platform specific logic to determine if key is pressed
+  bool isKeyPressed(uint8_t key) { return p_pins->isKeyPressed(key); }
+
   operator bool() { return is_active && p_driver != nullptr && p_pins != nullptr;}
 
 protected:
@@ -103,6 +106,9 @@ protected:
   int volume = -1;
   bool is_active = false;
 };
+
+
+
 
 // -- Boards
 /// @ingroup audio_driver
