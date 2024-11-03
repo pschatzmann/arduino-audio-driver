@@ -1421,7 +1421,7 @@ class AudioDriverLyratMiniClass : public AudioDriver {
     codec_cfg = codecCfg;
 
     // setup SPI for SD
-    pins.setSPIActiveForSD(codecCfg.sd_active);
+    //pins.setSPIActiveForSD(codecCfg.sd_active);
 
     bool ok = true;
 

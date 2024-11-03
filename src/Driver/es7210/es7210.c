@@ -430,6 +430,7 @@ error_t es7210_adc_ctrl_state_active(codec_mode_t mode, bool ctrl_state_active)
 
 error_t es7210_adc_set_gain(es7210_gain_value_t gain)
 {
+    AD_LOGD( "es7210_adc_set_gain:%d", gain);
     error_t ret = RESULT_OK;
     uint32_t  max_gain_vaule = 14;
     if (gain < 0) {
@@ -437,7 +438,6 @@ error_t es7210_adc_set_gain(es7210_gain_value_t gain)
     } else if (gain > max_gain_vaule) {
         gain = max_gain_vaule;
     }
-    AD_LOGD( "SET: gain:%d", gain);
     if (mic_select & ES7210_INPUT_MIC1) {
         ret |= es7210_update_reg_bit(ES7210_MIC1_ES7210_GAIN_REG43, 0x0f, gain);
     }

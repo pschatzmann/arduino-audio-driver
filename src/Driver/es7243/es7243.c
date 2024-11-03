@@ -140,12 +140,13 @@ error_t es7243_adc_config_i2s(codec_mode_t mode, I2SDefinition *iface) {
 
 error_t es7243_adc_set_voice_mute(bool mute) {
   AD_LOGI("es7243_adc_set_voice_mute es7243_mute(), mute = %d", mute);
+  error_t ret = RESULT_OK;
   if (mute) {
-    es7243_write_reg(0x05, 0x1B);
+    ret = es7243_write_reg(0x05, 0x1B);
   } else {
-    es7243_write_reg(0x05, 0x13);
+    ret = es7243_write_reg(0x05, 0x13);
   }
-  return RESULT_OK;
+  return ret;
 }
 
 error_t es7243_adc_set_voice_volume(int volume) {
@@ -186,7 +187,7 @@ error_t es7243_adc_set_voice_volume(int volume) {
     default:
       break;
   }
-  return RESULT_OK;
+  return ret;
 }
 
 error_t es7243_adc_get_voice_volume(int *volume) {

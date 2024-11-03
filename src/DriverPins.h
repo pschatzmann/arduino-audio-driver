@@ -471,7 +471,7 @@ class DriverPins {
     for (auto &tmp : pins) {
       if (tmp.pin != -1) {
         if (!hasConflict(tmp.pin)) {
-          AD_LOGD("pinMode %d", tmp.pin);
+          AD_LOGD("pinMode for %d", tmp.pin);
           switch (tmp.pin_logic) {
             case PinLogic::InputActiveHigh:
               pinMode(tmp.pin, INPUT);
@@ -496,7 +496,6 @@ class DriverPins {
       } else {
         AD_LOGD("Pin is -1");
       }
-      AD_LOGD("Pin %d set", tmp.pin);
     }
   }
 
@@ -621,8 +620,8 @@ class PinsLyratMiniClass : public DriverPins {
  public:
 
   PinsLyratMiniClass() {
-    // sd pins: CLK, MISO, MOSI, CS
-    addSPI(ESP32PinsSD);
+    // sd pins: CLK, MISO, MOSI, CS: the SD is not working, so this is commented out
+    // addSPI(ESP32PinsSD);
     // add i2c codec pins: scl, sda, port, frequency
     addI2C(PinFunction::CODEC, 23, 18);
     // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)

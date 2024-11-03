@@ -628,6 +628,7 @@ error_t es8311_stop(codec_mode_t mode)
 
 error_t es8311_codec_set_voice_volume(int volume)
 {
+    AD_LOGD( "es8311_codec_set_voice_volume:%d", volume);
     if (i2c_handle == 0) return RESULT_FAIL;
     error_t res = RESULT_OK;
     if (volume < 0) {
@@ -636,7 +637,6 @@ error_t es8311_codec_set_voice_volume(int volume)
         volume = 100;
     }
     int vol = (volume) * 2550 / 1000;
-    AD_LOGD( "SET: volume:%d", vol);
     es8311_write_reg(ES8311_DAC_REG32, vol);
     return res;
 }
