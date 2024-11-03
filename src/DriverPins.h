@@ -46,6 +46,7 @@ enum class PinLogic {
  * @ingroup audio_driver
  */
 enum class PinFunction {
+  UNDEFINED = 0,
   HEADPHONE_DETECT,
   AUXIN_DETECT,
   PA,  // Power Amplifier
