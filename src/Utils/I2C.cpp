@@ -42,7 +42,7 @@ error_t i2c_bus_check(i2c_bus_handle_t bus, int addr) {
 // this method is used !
 error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
                              int reglen, uint8_t *outdata, int datalen) {
-  AD_LOGD("i2c_bus_read_bytes: addr=%d reglen=%d datalen=%d - reg=%d", addr,
+  AD_LOGD("i2c_bus_read_bytes: addr=0x%X reglen=%d datalen=%d - reg=0x%X", addr,
            reglen, datalen, reg[0]);
   TwoWire *p_wire = (TwoWire *)bus;
   assert(reglen == 1);
