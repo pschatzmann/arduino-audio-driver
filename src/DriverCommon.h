@@ -160,6 +160,7 @@ typedef enum {
  */
 typedef enum {
   CHANNELS2 = 2,
+  CHANNELS4 = 4,
   CHANNELS8 = 8,
   CHANNELS16 = 16,
 } channels_t;

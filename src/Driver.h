@@ -114,6 +114,9 @@ class CodecConfig : public codec_config_t {
       case CHANNELS2:
         i2s.channels = (channels_t)channels;
         return true;
+      case CHANNELS4:
+        i2s.channels = (channels_t)channels;
+        return true;
       case CHANNELS8:
         i2s.channels = (channels_t)channels;
         return true;
@@ -602,7 +605,7 @@ class AudioDriverCS42448Class : public AudioDriver {
 };
 
 /**
- * @brief Driver API for ES7210 codec chip
+ * @brief Driver API for ES7210 codec chip. This chip supports only input!
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
@@ -614,6 +617,8 @@ class AudioDriverES7210Class : public AudioDriver {
     return es7210_adc_set_volume(limitValue(volume, 0, 100)) == RESULT_OK;
   }
   int getVolume() { return volume; }
+  bool setInputVolume(int volume) { return setVolume(volume); }
+  bool isInputVolumeSupported() { return true; }
 
  protected:
   int volume;

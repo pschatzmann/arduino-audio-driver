@@ -120,6 +120,22 @@ static const struct _coeff_div coeff_div[] = {
     {19200000,  96000,  0x01,  0x05,  0x00,  0x01,  0x28,  0x00,    0x00,  0xc8},
 };
 
+static error_t set_mics_for_channels(channels_t ch){
+    error_t ret = RESULT_OK;
+    switch(ch){
+        case CHANNELS2:
+            mic_select = ES7210_INPUT_MIC1 | ES7210_INPUT_MIC2; 
+            break;
+        case CHANNELS4:
+            mic_select = ES7210_INPUT_MIC1 | ES7210_INPUT_MIC2 | ES7210_INPUT_MIC3 | ES7210_INPUT_MIC4; 
+            break;
+        default:
+            AD_LOGE("Unsupported channels: %d",(int) ch);
+            ret = RESULT_FAIL;
+    }
+    return ret;
+}
+
 static error_t es7210_write_reg(uint8_t reg_addr, uint8_t data)
 {
     return i2c_bus_write_bytes(i2c_handle, ES7210_ADDR, &reg_addr, sizeof(reg_addr), &data, sizeof(data));
@@ -260,8 +276,10 @@ error_t es7210_mic_select(es7210_input_mics_t mic)
 
 error_t es7210_adc_init(codec_config_t *codec_cfg, void* i2c)
 {
+    // select microphones
+    error_t ret = set_mics_for_channels(codec_cfg->i2s.channels);
+
     i2c_handle = i2c;
-    error_t ret = RESULT_OK;
     ret |= es7210_write_reg(ES7210_RESET_REG00, 0xff);
     ret |= es7210_write_reg(ES7210_RESET_REG00, 0x41);
     ret |= es7210_write_reg(ES7210_CLOCK_OFF_REG01, 0x1f);
@@ -413,8 +431,8 @@ error_t es7210_adc_ctrl_state_active(codec_mode_t mode, bool ctrl_state_active)
     static uint8_t regv;
     error_t ret = RESULT_OK;
     AD_LOGW("ES7210 only supports ADC mode");
-    ret = es7210_read_reg(ES7210_CLOCK_OFF_REG01);
-    if ((ret != 0x7f) && (ret != 0xff)) {
+    regv = es7210_read_reg(ES7210_CLOCK_OFF_REG01);
+    if ((regv != 0x7f) && (regv != 0xff)) {
         regv = es7210_read_reg(ES7210_CLOCK_OFF_REG01);
     }
     if (ctrl_state_active) {
