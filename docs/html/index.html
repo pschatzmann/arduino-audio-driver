@@ -79,13 +79,20 @@ $(function() {
 </ul>
 <p>While you can use this library stand alone, I recommend to use it together with my <a href="https://github.com/pschatzmann/arduino-audio-tools">AudioTools</a> project which provides a nice integration with it's <a href="https://pschatzmann.github.io/arduino-audio-tools/classaudio__tools_1_1_i2_s_codec_stream.html">I2SCodecStream</a> class. Further information can be found in the <a href="https://github.com/pschatzmann/arduino-audio-driver/wiki">Wiki</a>.</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
+Logging</h1>
+<p>The functionality has a built in logger. The default log level has been set to Warning. You can change it like this:</p>
+<div class="fragment"><div class="line">{C++}</div>
+<div class="line"> </div>
+<div class="line"> AudioDriverLogger.begin(Serial,AudioDriverLogLevel::Info); </div>
+</div><!-- fragment --><p> Valid values are: Debug, Info, Warning, Error</p>
+<h1><a class="anchor" id="autotoc_md2"></a>
 Documentation</h1>
 <ul>
 <li><a href="https://github.com/pschatzmann/arduino-audio-driver/wiki">Wiki</a></li>
 <li><a href="https://pschatzmann.github.io/arduino-audio-driver/html/group__audio__driver.html">Classes and Objects</a></li>
 <li><a href="https://github.com/pschatzmann/arduino-audio-driver/tree/main/examples">Examples</a></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md2"></a>
+<h1><a class="anchor" id="autotoc_md3"></a>
 Support</h1>
 <p>I spent a lot of time to provide a comprehensive and complete documentation. So please read the documentation first and check the issues and discussions before posting any new ones on Github.</p>
 <p>Open issues only for bugs and if it is not a bug, use a discussion: Provide enough information about</p><ul>
@@ -97,13 +104,13 @@ Support</h1>
 </ul>
 <p>to enable others to understand and reproduce your issue.</p>
 <p>Finally, <b>don't</b> send me any e-mails or post questions on my personal website!</p>
-<h1><a class="anchor" id="autotoc_md3"></a>
+<h1><a class="anchor" id="autotoc_md4"></a>
 Installation in Arduino</h1>
 <p>You can download the library as zip and call include Library -&gt; zip library. Or you can git clone this project into the Arduino libraries folder e.g. with</p>
 <div class="fragment"><div class="line">cd  ~/Documents/Arduino/libraries</div>
 <div class="line">git clone https://github.com/pschatzmann/arduino-audio-driver.git</div>
 </div><!-- fragment --><p>I recommend to use git because you can easily update to the latest version just by executing the git pull command in the project folder.</p>
-<h1><a class="anchor" id="autotoc_md4"></a>
+<h1><a class="anchor" id="autotoc_md5"></a>
 Sponsor Me</h1>
 <p>This software is totally free, but you can make me happy by rewarding me with a treat</p>
 <ul>

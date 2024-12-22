@@ -51,6 +51,38 @@ to enable others to understand and reproduce your issue.
 
 Finally, __don't__ send me any e-mails or post questions on my personal website! 
 
+## Drivers and Boards
+
+This library privides the following drivers:
+
+- AudioDriverAC101
+- AudioDriverAD1938
+- AudioDriverCS42448
+- AudioDriverCS43l22
+- AudioDriverES7210
+- AudioDriverES7243
+- AudioDriverES7243e
+- AudioDriverES8156
+- AudioDriverES8311
+- AudioDriverES8374
+- AudioDriverES8388
+- AudioDriverLyratMini
+- AudioDriverPCM3168
+- AudioDriverWM8960
+- AudioDriverWM8978
+- AudioDriverWM8994
+
+And it supports the following boards:
+
+- AudioKitAC101 
+- AudioKitEs8388V1 
+- AudioKitEs8388V2 
+- GenericCS43l22 
+- GenericWM8960 
+- LyratMini
+- LyratV42 
+- LyratV43 
+- NoBoard 
 
 ## Installation in Arduino
 

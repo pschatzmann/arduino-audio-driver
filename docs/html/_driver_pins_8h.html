@@ -68,6 +68,7 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#var-members">Variables</a>  </div>
@@ -75,11 +76,11 @@ $(function() {
 <div class="title">DriverPins.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="_common_8h_source.html">Common.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;Wire.h&quot;</code><br />
 <code>#include &quot;SPI.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="_driver_common_8h_source.html">DriverCommon.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_optional_8h_source.html">Utils/Optional.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_vector_8h_source.html">Utils/Vector.h</a>&quot;</code><br />
-<code>#include &quot;Wire.h&quot;</code><br />
 </div>
 <p><a href="_driver_pins_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -87,6 +88,9 @@ $(function() {
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html">DriverPins</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">All pins for i2s, spi, i2c and other pins.  <a href="classaudio__driver_1_1_driver_pins.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_touch_class.html">DriverTouchClass</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Support for Touch.  <a href="classaudio__driver_1_1_driver_touch_class.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_pins_audio_kit_a_c101_class.html">PinsAudioKitAC101Class</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pins for alt AC101 <a class="el" href="classaudio__driver_1_1_audio_driver.html" title="Abstract Driver API for codec chips.">AudioDriver</a> - use the PinsAudioKitAC101 object!  <a href="classaudio__driver_1_1_pins_audio_kit_a_c101_class.html#details">More...</a><br /></td></tr>
@@ -124,6 +128,15 @@ Namespaces</h2></td></tr>
 <tr class="memitem:namespaceaudio__driver"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaudio__driver.html">audio_driver</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ac23b11cfe662ad3f945920ff7149d815"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_driver_pins_8h.html#ac23b11cfe662ad3f945920ff7149d815">LYRAT_MINI_DELAY_MS</a>&#160;&#160;&#160;5</td></tr>
+<tr class="separator:ac23b11cfe662ad3f945920ff7149d815"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a176edb2f120294a1bb3c7d73d8a0bb62"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_driver_pins_8h.html#a176edb2f120294a1bb3c7d73d8a0bb62">LYRAT_MINI_RANGE</a>&#160;&#160;&#160;5</td></tr>
+<tr class="separator:a176edb2f120294a1bb3c7d73d8a0bb62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe31fa239b035c625e0677db1bff910b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_driver_pins_8h.html#afe31fa239b035c625e0677db1bff910b">TOUCH_LIMIT</a>&#160;&#160;&#160;20</td></tr>
+<tr class="separator:afe31fa239b035c625e0677db1bff910b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr class="memitem:a4c343c4d8992a509dce6cff41726322a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> = int16_t</td></tr>
@@ -131,21 +144,35 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
+<tr class="memitem:ga0e38a8cbaae36dea9c9053a4ee8f9e18"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga0e38a8cbaae36dea9c9053a4ee8f9e18">AudioDriverKey</a> { <br />
+&#160;&#160;<a class="el" href="group__audio__driver.html#ga0e38a8cbaae36dea9c9053a4ee8f9e18aa67b95b87566b12f21da0f8dc7224e9c">KEY_REC</a> = 0
+, <a class="el" href="group__audio__driver.html#ga0e38a8cbaae36dea9c9053a4ee8f9e18a1b0a91ff3a855d6993930ebf0abaa518">KEY_MODE</a>
+, <a class="el" href="group__audio__driver.html#ga0e38a8cbaae36dea9c9053a4ee8f9e18a55c7db415d84b1af47010601aa8053e7">KEY_PLAY</a>
+, <a class="el" href="group__audio__driver.html#ga0e38a8cbaae36dea9c9053a4ee8f9e18a368a9f9c881efcaf697bdbd9d6e5cd8d">KEY_SET</a>
+, <br />
+&#160;&#160;<a class="el" href="group__audio__driver.html#ga0e38a8cbaae36dea9c9053a4ee8f9e18a2304f457aba66febcf852dbf1cbae8b0">KEY_VOLUME_DOWN</a>
+, <a class="el" href="group__audio__driver.html#ga0e38a8cbaae36dea9c9053a4ee8f9e18aedbb585f9e7ee87263a250c91542fb02">KEY_VOLUME_UP</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:ga0e38a8cbaae36dea9c9053a4ee8f9e18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Key names.  <a href="group__audio__driver.html#ga0e38a8cbaae36dea9c9053a4ee8f9e18">More...</a><br /></td></tr>
+<tr class="separator:ga0e38a8cbaae36dea9c9053a4ee8f9e18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6b03ddbf1e0f5abd0e46e02555850aaf"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aaf">PinFunction</a> { <br />
-&#160;&#160;<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa9decb49b0b8a11118da5ae919a09e766">HEADPHONE_DETECT</a>
+&#160;&#160;<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa0db45d2a4141101bdfe48e3314cfbca3">UNDEFINED</a> = 0
+, <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa9decb49b0b8a11118da5ae919a09e766">HEADPHONE_DETECT</a>
 , <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafadba053ed3f4606dd1426d1b170ef106b">AUXIN_DETECT</a>
 , <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa06f6a489209115c5cef3f45036aad3ec">PA</a>
-, <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafac9c9c146c630ca5ef9197c73c032f4a6">POWER</a>
 , <br />
-&#160;&#160;<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa53e0dbc06e48e3d381ac224fa8bae3df">LED</a>
+&#160;&#160;<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafac9c9c146c630ca5ef9197c73c032f4a6">POWER</a>
+, <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa53e0dbc06e48e3d381ac224fa8bae3df">LED</a>
 , <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa3b5949e0c26b87767a4752a276de9570">KEY</a>
 , <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa38f99abbc1d339c277c0669e7bc373c0">SD</a>
-, <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa472015a17943a0dd74293f32ce088542">CODEC</a>
 , <br />
-&#160;&#160;<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafacc567fdd9cbeac32e7b50b6ffd06f0d4">CODEC_ADC</a>
+&#160;&#160;<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa472015a17943a0dd74293f32ce088542">CODEC</a>
+, <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafacc567fdd9cbeac32e7b50b6ffd06f0d4">CODEC_ADC</a>
 , <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafab6e3c1cdb5c43961a2e081ef2564ba2e">LATCH</a>
 , <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafab5859d8721cfdc0312b2838b9c985bc1">RESET</a>
-, <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa0301a754913dd38062217d6b511a1696">MCLK_SOURCE</a>
+, <br />
+&#160;&#160;<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa0301a754913dd38062217d6b511a1696">MCLK_SOURCE</a>
 <br />
  }</td></tr>
 <tr class="memdesc:ga6b03ddbf1e0f5abd0e46e02555850aaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pin Functions.  <a href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aaf">More...</a><br /></td></tr>
@@ -157,6 +184,7 @@ Enumerations</h2></td></tr>
 , <a class="el" href="group__enumerations.html#ga541db2b810d671856e3d258a0e184d4fa324118a6721dd6b8a9b9f4e327df2bf5">Input</a>
 , <br />
 &#160;&#160;<a class="el" href="group__enumerations.html#ga541db2b810d671856e3d258a0e184d4fa29c2c02a361c9d7028472e5d92cd4a54">Output</a>
+, <a class="el" href="group__enumerations.html#ga541db2b810d671856e3d258a0e184d4fa3cab03c00dbd11bc3569afa0748013f0">Inactive</a>
 <br />
  }</td></tr>
 <tr class="memdesc:ga541db2b810d671856e3d258a0e184d4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">input or output  <a href="group__enumerations.html#ga541db2b810d671856e3d258a0e184d4f">More...</a><br /></td></tr>
@@ -164,8 +192,8 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a25716c39f0f3e90d31ed6c5084f9d358"><td class="memItemLeft" align="right" valign="top">PinsSPI&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaudio__driver.html#a25716c39f0f3e90d31ed6c5084f9d358">ESP32PinsSD</a> {PinFunction::SD, 14, 2, 15, 13, SPI}</td></tr>
-<tr class="memdesc:a25716c39f0f3e90d31ed6c5084f9d358"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default SPI pins for ESP32 Lyrat, <a class="el" href="classaudio__driver_1_1_audio_driver.html" title="Abstract Driver API for codec chips.">AudioDriver</a> etc.  <a href="namespaceaudio__driver.html#a25716c39f0f3e90d31ed6c5084f9d358">More...</a><br /></td></tr>
+<tr class="memitem:a25716c39f0f3e90d31ed6c5084f9d358"><td class="memItemLeft" align="right" valign="top">static PinsSPI&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaudio__driver.html#a25716c39f0f3e90d31ed6c5084f9d358">ESP32PinsSD</a> {PinFunction::SD, 14, 2, 15, 13, SPI}</td></tr>
+<tr class="memdesc:a25716c39f0f3e90d31ed6c5084f9d358"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default SPI pins for ESP32 Lyrat, <a class="el" href="classaudio__driver_1_1_audio_driver.html" title="Abstract Driver API for codec chips.">AudioDriver</a> etc CLK, MISO, MOSI, CS.  <a href="namespaceaudio__driver.html#a25716c39f0f3e90d31ed6c5084f9d358">More...</a><br /></td></tr>
 <tr class="separator:a25716c39f0f3e90d31ed6c5084f9d358"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae6031df2ec66c645dd42ae315b79e156"><td class="memItemLeft" align="right" valign="top">static DriverPins&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gae6031df2ec66c645dd42ae315b79e156">NoPins</a></td></tr>
 <tr class="memdesc:gae6031df2ec66c645dd42ae315b79e156"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pins need to be set up in the sketch.  <a href="group__audio__driver.html#gae6031df2ec66c645dd42ae315b79e156">More...</a><br /></td></tr>
@@ -183,6 +211,49 @@ Variables</h2></td></tr>
 <tr class="memitem:ga0f4a0dbd3aeea6d499d87a62293e012e"><td class="memItemLeft" align="right" valign="top">static PinsLyratMiniClass&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga0f4a0dbd3aeea6d499d87a62293e012e">PinsLyratMini</a></td></tr>
 <tr class="separator:ga0f4a0dbd3aeea6d499d87a62293e012e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ac23b11cfe662ad3f945920ff7149d815"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac23b11cfe662ad3f945920ff7149d815">&#9670;&nbsp;</a></span>LYRAT_MINI_DELAY_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LYRAT_MINI_DELAY_MS&#160;&#160;&#160;5</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a176edb2f120294a1bb3c7d73d8a0bb62"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a176edb2f120294a1bb3c7d73d8a0bb62">&#9670;&nbsp;</a></span>LYRAT_MINI_RANGE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LYRAT_MINI_RANGE&#160;&#160;&#160;5</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afe31fa239b035c625e0677db1bff910b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe31fa239b035c625e0677db1bff910b">&#9670;&nbsp;</a></span>TOUCH_LIMIT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TOUCH_LIMIT&#160;&#160;&#160;20</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

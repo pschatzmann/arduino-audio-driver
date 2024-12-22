@@ -95,20 +95,22 @@ $(function() {
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">void</span> <a class="code" href="etc_8h.html#acddceb736e707e38ea7332bebbd1ca55">logStr</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* msg);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#ifndef ARDUINO</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="etc_8h.html#a5fc313e20cf591fdc90c4c3867ac7717">   29</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="etc_8h.html#a5fc313e20cf591fdc90c4c3867ac7717">pinMode</a>(<span class="keywordtype">int</span>, <span class="keywordtype">int</span>);</div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="etc_8h.html#afb6322a0aff6851765ab32bfaa5080d6">   30</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="etc_8h.html#afb6322a0aff6851765ab32bfaa5080d6">digitalWrite</a>(<span class="keywordtype">int</span>, <span class="keywordtype">int</span>);</div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="etc_8h.html#ab074fe18b447a055b6dbcd5f9a484db5">   31</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="etc_8h.html#ab074fe18b447a055b6dbcd5f9a484db5">delay</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">void</span> <a class="code" href="etc_8h.html#a13adbc58d15884d5f751bacc69af8391">audioDriverLogStr</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* msg);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keywordtype">void</span> <a class="code" href="etc_8h.html#a660eaa73742d5132c2e84ba9eacfaa3d">setAudioDriverLogOutput</a>(<span class="keywordtype">void</span> *out);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#ifndef ARDUINO</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="etc_8h.html#a5fc313e20cf591fdc90c4c3867ac7717">   30</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="etc_8h.html#a5fc313e20cf591fdc90c4c3867ac7717">pinMode</a>(<span class="keywordtype">int</span>, <span class="keywordtype">int</span>);</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="etc_8h.html#afb6322a0aff6851765ab32bfaa5080d6">   31</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="etc_8h.html#afb6322a0aff6851765ab32bfaa5080d6">digitalWrite</a>(<span class="keywordtype">int</span>, <span class="keywordtype">int</span>);</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="etc_8h.html#ab074fe18b447a055b6dbcd5f9a484db5">   32</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="etc_8h.html#ab074fe18b447a055b6dbcd5f9a484db5">delay</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;}</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aetc_8h_html_a13adbc58d15884d5f751bacc69af8391"><div class="ttname"><a href="etc_8h.html#a13adbc58d15884d5f751bacc69af8391">audioDriverLogStr</a></div><div class="ttdeci">void audioDriverLogStr(const char *msg)</div><div class="ttdoc">Arcuino c++ println function.</div><div class="ttdef"><b>Definition:</b> etc.cpp:7</div></div>
 <div class="ttc" id="aetc_8h_html_a5fc313e20cf591fdc90c4c3867ac7717"><div class="ttname"><a href="etc_8h.html#a5fc313e20cf591fdc90c4c3867ac7717">pinMode</a></div><div class="ttdeci">void pinMode(int, int)</div></div>
+<div class="ttc" id="aetc_8h_html_a660eaa73742d5132c2e84ba9eacfaa3d"><div class="ttname"><a href="etc_8h.html#a660eaa73742d5132c2e84ba9eacfaa3d">setAudioDriverLogOutput</a></div><div class="ttdeci">void setAudioDriverLogOutput(void *out)</div><div class="ttdef"><b>Definition:</b> etc.cpp:11</div></div>
 <div class="ttc" id="aetc_8h_html_ab074fe18b447a055b6dbcd5f9a484db5"><div class="ttname"><a href="etc_8h.html#ab074fe18b447a055b6dbcd5f9a484db5">delay</a></div><div class="ttdeci">void delay(unsigned long)</div></div>
-<div class="ttc" id="aetc_8h_html_acddceb736e707e38ea7332bebbd1ca55"><div class="ttname"><a href="etc_8h.html#acddceb736e707e38ea7332bebbd1ca55">logStr</a></div><div class="ttdeci">void logStr(const char *msg)</div><div class="ttdoc">Arcuino c++ println function.</div><div class="ttdef"><b>Definition:</b> etc.cpp:5</div></div>
 <div class="ttc" id="aetc_8h_html_afb6322a0aff6851765ab32bfaa5080d6"><div class="ttname"><a href="etc_8h.html#afb6322a0aff6851765ab32bfaa5080d6">digitalWrite</a></div><div class="ttdeci">void digitalWrite(int, int)</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

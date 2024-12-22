@@ -93,25 +93,36 @@ Inheritance diagram for AudioDriverWM8994Class:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a85571b4bfeae93650d81dfc0bbe2c781"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_w_m8994_class.html#a85571b4bfeae93650d81dfc0bbe2c781">AudioDriverWM8994Class</a> (uint16_t <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8994_class.html#a4de4414c756798e6d4b5008c88a499f4">deviceAddr</a>=0x1A)</td></tr>
 <tr class="separator:a85571b4bfeae93650d81dfc0bbe2c781"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2082348800b00b641ee937bc99c58e2a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_w_m8994_class.html#a2082348800b00b641ee937bc99c58e2a">begin</a> (<a class="el" href="classaudio__driver_1_1_codec_config.html">CodecConfig</a> codecCfg, <a class="el" href="classaudio__driver_1_1_driver_pins.html">DriverPins</a> &amp;<a class="el" href="classaudio__driver_1_1_audio_driver.html#a42db9a98715e0b6383cd493d5ca06a8e">pins</a>)</td></tr>
+<tr class="memitem:a2082348800b00b641ee937bc99c58e2a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_w_m8994_class.html#a2082348800b00b641ee937bc99c58e2a">begin</a> (<a class="el" href="classaudio__driver_1_1_codec_config.html">CodecConfig</a> codecCfg, <a class="el" href="classaudio__driver_1_1_driver_pins.html">DriverPins</a> &amp;<a class="el" href="classaudio__driver_1_1_audio_driver.html#a4e2f18c6dc5dc9bd0529901b112a5df6">pins</a>)</td></tr>
+<tr class="memdesc:a2082348800b00b641ee937bc99c58e2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts the processing.  <a href="classaudio__driver_1_1_audio_driver_w_m8994_class.html#a2082348800b00b641ee937bc99c58e2a">More...</a><br /></td></tr>
 <tr class="separator:a2082348800b00b641ee937bc99c58e2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a063cb6038676fcc58f5a7cbc93ef27f1"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a063cb6038676fcc58f5a7cbc93ef27f1">end</a> (void)</td></tr>
+<tr class="memdesc:a063cb6038676fcc58f5a7cbc93ef27f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ends the processing: shut down dac and adc.  <a href="classaudio__driver_1_1_audio_driver.html#a063cb6038676fcc58f5a7cbc93ef27f1">More...</a><br /></td></tr>
 <tr class="separator:a063cb6038676fcc58f5a7cbc93ef27f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aac9746ddc550ec176b0957affafbdbe7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_w_m8994_class.html#aac9746ddc550ec176b0957affafbdbe7">getVolume</a> ()</td></tr>
+<tr class="memdesc:aac9746ddc550ec176b0957affafbdbe7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the actual volume (range: 0-100)  <a href="classaudio__driver_1_1_audio_driver_w_m8994_class.html#aac9746ddc550ec176b0957affafbdbe7">More...</a><br /></td></tr>
 <tr class="separator:aac9746ddc550ec176b0957affafbdbe7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a02060cfd35162a9112de61ebc3d5b974"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a02060cfd35162a9112de61ebc3d5b974">isInputVolumeSupported</a> ()</td></tr>
+<tr class="memdesc:a02060cfd35162a9112de61ebc3d5b974"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if <a class="el" href="classaudio__driver_1_1_audio_driver.html#a11bf855250acaa1afbe0b8251660800d" title="Defines the input volume (range: 0-100) if supported.">setInputVolume()</a> is supported.  <a href="classaudio__driver_1_1_audio_driver.html#a02060cfd35162a9112de61ebc3d5b974">More...</a><br /></td></tr>
 <tr class="separator:a02060cfd35162a9112de61ebc3d5b974"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22d2adeb316a5705b57114d4a5761017"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a22d2adeb316a5705b57114d4a5761017">isVolumeSupported</a> ()</td></tr>
+<tr class="memdesc:a22d2adeb316a5705b57114d4a5761017"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if <a class="el" href="classaudio__driver_1_1_audio_driver.html#a43d1eddbaad3e8e0f25004acb9c29efc" title="Defines the Volume (in %) if volume is 0, mute is enabled,range is 0-100.">setVolume()</a> is suppored.  <a href="classaudio__driver_1_1_audio_driver.html#a22d2adeb316a5705b57114d4a5761017">More...</a><br /></td></tr>
 <tr class="separator:a22d2adeb316a5705b57114d4a5761017"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42db9a98715e0b6383cd493d5ca06a8e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classaudio__driver_1_1_driver_pins.html">DriverPins</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a42db9a98715e0b6383cd493d5ca06a8e">pins</a> ()</td></tr>
-<tr class="separator:a42db9a98715e0b6383cd493d5ca06a8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b3baad8c612d81b96e46f84d7e97580"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a9b3baad8c612d81b96e46f84d7e97580">operator bool</a> ()</td></tr>
+<tr class="separator:a9b3baad8c612d81b96e46f84d7e97580"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e2f18c6dc5dc9bd0529901b112a5df6"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classaudio__driver_1_1_driver_pins.html">DriverPins</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a4e2f18c6dc5dc9bd0529901b112a5df6">pins</a> ()</td></tr>
+<tr class="memdesc:a4e2f18c6dc5dc9bd0529901b112a5df6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the pin information.  <a href="classaudio__driver_1_1_audio_driver.html#a4e2f18c6dc5dc9bd0529901b112a5df6">More...</a><br /></td></tr>
+<tr class="separator:a4e2f18c6dc5dc9bd0529901b112a5df6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6442182dfc4c54fb16b002b6f15c86e4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a6442182dfc4c54fb16b002b6f15c86e4">setConfig</a> (<a class="el" href="classaudio__driver_1_1_codec_config.html">CodecConfig</a> codecCfg)</td></tr>
+<tr class="memdesc:a6442182dfc4c54fb16b002b6f15c86e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">changes the configuration  <a href="classaudio__driver_1_1_audio_driver.html#a6442182dfc4c54fb16b002b6f15c86e4">More...</a><br /></td></tr>
 <tr class="separator:a6442182dfc4c54fb16b002b6f15c86e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa77bc0dbb16edbab31209efca6d609ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_w_m8994_class.html#aa77bc0dbb16edbab31209efca6d609ac">setI2CAddress</a> (uint16_t adr)</td></tr>
 <tr class="separator:aa77bc0dbb16edbab31209efca6d609ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11bf855250acaa1afbe0b8251660800d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a11bf855250acaa1afbe0b8251660800d">setInputVolume</a> (int <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8994_class.html#aed48ca0bcd2162fd4fd495873e2631f5">volume</a>)</td></tr>
+<tr class="memdesc:a11bf855250acaa1afbe0b8251660800d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the input volume (range: 0-100) if supported.  <a href="classaudio__driver_1_1_audio_driver.html#a11bf855250acaa1afbe0b8251660800d">More...</a><br /></td></tr>
 <tr class="separator:a11bf855250acaa1afbe0b8251660800d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2a08d0fd7c4e897419766a5a0ebc291"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_w_m8994_class.html#aa2a08d0fd7c4e897419766a5a0ebc291">setMute</a> (bool mute)</td></tr>
+<tr class="memdesc:aa2a08d0fd7c4e897419766a5a0ebc291"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutes all output lines.  <a href="classaudio__driver_1_1_audio_driver_w_m8994_class.html#aa2a08d0fd7c4e897419766a5a0ebc291">More...</a><br /></td></tr>
 <tr class="separator:aa2a08d0fd7c4e897419766a5a0ebc291"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c34b96573571f4fc5b12099a9d04e5b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a4c34b96573571f4fc5b12099a9d04e5b">setMute</a> (bool mute, int line)</td></tr>
 <tr class="memdesc:a4c34b96573571f4fc5b12099a9d04e5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mute individual lines: only supported for some rare DACs.  <a href="classaudio__driver_1_1_audio_driver.html#a4c34b96573571f4fc5b12099a9d04e5b">More...</a><br /></td></tr>
@@ -119,6 +130,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1b3ee72f65915dcb4c875835d6e08aa1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a1b3ee72f65915dcb4c875835d6e08aa1">setPAPower</a> (bool enable)</td></tr>
 <tr class="memdesc:a1b3ee72f65915dcb4c875835d6e08aa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the PA Power pin to active or inactive.  <a href="classaudio__driver_1_1_audio_driver.html#a1b3ee72f65915dcb4c875835d6e08aa1">More...</a><br /></td></tr>
 <tr class="separator:a1b3ee72f65915dcb4c875835d6e08aa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f92e615d05aebc0a1f229bd8b443952"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a4f92e615d05aebc0a1f229bd8b443952">setPins</a> (<a class="el" href="classaudio__driver_1_1_driver_pins.html">DriverPins</a> &amp;<a class="el" href="classaudio__driver_1_1_audio_driver.html#a4e2f18c6dc5dc9bd0529901b112a5df6">pins</a>)</td></tr>
+<tr class="separator:a4f92e615d05aebc0a1f229bd8b443952"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7d51b9e21a345d836cb4cfe2df2152c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_w_m8994_class.html#ad7d51b9e21a345d836cb4cfe2df2152c">setVolume</a> (int <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8994_class.html#aed48ca0bcd2162fd4fd495873e2631f5">volume</a>)</td></tr>
 <tr class="memdesc:ad7d51b9e21a345d836cb4cfe2df2152c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the Volume (in %) if volume is 0, mute is enabled,range is 0-100.  <a href="classaudio__driver_1_1_audio_driver_w_m8994_class.html#ad7d51b9e21a345d836cb4cfe2df2152c">More...</a><br /></td></tr>
 <tr class="separator:ad7d51b9e21a345d836cb4cfe2df2152c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -131,11 +144,11 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:aa6ef5ff45c46acc972bcf6686a7ae9eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5117a0a714bc6ffce07a792ca2b5c872"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_w_m8994_class.html#a5117a0a714bc6ffce07a792ca2b5c872">deinit</a> ()</td></tr>
 <tr class="separator:a5117a0a714bc6ffce07a792ca2b5c872"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ace4e6b6c01cac8e0d08d2e592f9651f2"><td class="memItemLeft" align="right" valign="top">TwoWire *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#ace4e6b6c01cac8e0d08d2e592f9651f2">getI2C</a> ()</td></tr>
-<tr class="memdesc:ace4e6b6c01cac8e0d08d2e592f9651f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine the TwoWire object from the I2C config or use Wire.  <a href="classaudio__driver_1_1_audio_driver.html#ace4e6b6c01cac8e0d08d2e592f9651f2">More...</a><br /></td></tr>
-<tr class="separator:ace4e6b6c01cac8e0d08d2e592f9651f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5913823f39bb4c4d7078b0e1a9cb0775"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a5913823f39bb4c4d7078b0e1a9cb0775">getI2CAddress</a> ()</td></tr>
-<tr class="separator:a5913823f39bb4c4d7078b0e1a9cb0775"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12fae62714368bd61bb2f3e622d60896"><td class="memItemLeft" align="right" valign="top">virtual TwoWire *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a12fae62714368bd61bb2f3e622d60896">getI2C</a> ()</td></tr>
+<tr class="memdesc:a12fae62714368bd61bb2f3e622d60896"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine the TwoWire object from the I2C config or use Wire.  <a href="classaudio__driver_1_1_audio_driver.html#a12fae62714368bd61bb2f3e622d60896">More...</a><br /></td></tr>
+<tr class="separator:a12fae62714368bd61bb2f3e622d60896"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55169a2805f1f2663a6922293f3af059"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#a55169a2805f1f2663a6922293f3af059">getI2CAddress</a> ()</td></tr>
+<tr class="separator:a55169a2805f1f2663a6922293f3af059"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4d0eb0d80056f9cdfc33796c83fd13f"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_w_m8994_class.html#af4d0eb0d80056f9cdfc33796c83fd13f">getOutput</a> (<a class="el" href="group__audio__driver.html#ga9144c83baaa7ebeaaecb236f9e21d264">output_device_t</a> output_device)</td></tr>
 <tr class="separator:af4d0eb0d80056f9cdfc33796c83fd13f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1579002eac8e19fe157965f55c7e24e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver.html#af1579002eac8e19fe157965f55c7e24e">init</a> (<a class="el" href="structcodec__config__t.html">codec_config_t</a> <a class="el" href="classaudio__driver_1_1_audio_driver.html#a4296f334f4441aae57fb5f43a0b77968">codec_cfg</a>)</td></tr>
@@ -220,6 +233,8 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Starts the processing. </p>
+
 <p>Reimplemented from <a class="el" href="classaudio__driver_1_1_audio_driver.html#a2082348800b00b641ee937bc99c58e2a">AudioDriver</a>.</p>
 
 </div>
@@ -258,7 +273,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8388_class.html#ae66e6d7efecbaf5dda6c0111da804ba9">AudioDriverES8388Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8374_class.html#ae66e6d7efecbaf5dda6c0111da804ba9">AudioDriverES8374Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8311_class.html#ae66e6d7efecbaf5dda6c0111da804ba9">AudioDriverES8311Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8156_class.html#ae66e6d7efecbaf5dda6c0111da804ba9">AudioDriverES8156Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7243e_class.html#ae66e6d7efecbaf5dda6c0111da804ba9">AudioDriverES7243eClass</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7243_class.html#ae66e6d7efecbaf5dda6c0111da804ba9">AudioDriverES7243Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7210_class.html#ae66e6d7efecbaf5dda6c0111da804ba9">AudioDriverES7210Class</a>, and <a class="el" href="classaudio__driver_1_1_audio_driver_a_c101_class.html#ae66e6d7efecbaf5dda6c0111da804ba9">AudioDriverAC101Class</a>.</p>
+<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_audio_driver_p_c_m3168_class.html#ae66e6d7efecbaf5dda6c0111da804ba9">AudioDriverPCM3168Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8388_class.html#ae66e6d7efecbaf5dda6c0111da804ba9">AudioDriverES8388Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8374_class.html#ae66e6d7efecbaf5dda6c0111da804ba9">AudioDriverES8374Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8311_class.html#ae66e6d7efecbaf5dda6c0111da804ba9">AudioDriverES8311Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8156_class.html#ae66e6d7efecbaf5dda6c0111da804ba9">AudioDriverES8156Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7243e_class.html#ae66e6d7efecbaf5dda6c0111da804ba9">AudioDriverES7243eClass</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7243_class.html#ae66e6d7efecbaf5dda6c0111da804ba9">AudioDriverES7243Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7210_class.html#ae66e6d7efecbaf5dda6c0111da804ba9">AudioDriverES7210Class</a>, and <a class="el" href="classaudio__driver_1_1_audio_driver_a_c101_class.html#ae66e6d7efecbaf5dda6c0111da804ba9">AudioDriverAC101Class</a>.</p>
 
 </div>
 </div>
@@ -286,7 +301,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8388_class.html#ae892b9ff017f1a8043dd40bd19b2beaa">AudioDriverES8388Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8374_class.html#ae892b9ff017f1a8043dd40bd19b2beaa">AudioDriverES8374Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8311_class.html#ae892b9ff017f1a8043dd40bd19b2beaa">AudioDriverES8311Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8156_class.html#ae892b9ff017f1a8043dd40bd19b2beaa">AudioDriverES8156Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7243e_class.html#ae892b9ff017f1a8043dd40bd19b2beaa">AudioDriverES7243eClass</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7243_class.html#ae892b9ff017f1a8043dd40bd19b2beaa">AudioDriverES7243Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7210_class.html#ae892b9ff017f1a8043dd40bd19b2beaa">AudioDriverES7210Class</a>, and <a class="el" href="classaudio__driver_1_1_audio_driver_a_c101_class.html#ae892b9ff017f1a8043dd40bd19b2beaa">AudioDriverAC101Class</a>.</p>
+<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_audio_driver_p_c_m3168_class.html#ae892b9ff017f1a8043dd40bd19b2beaa">AudioDriverPCM3168Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8388_class.html#ae892b9ff017f1a8043dd40bd19b2beaa">AudioDriverES8388Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8374_class.html#ae892b9ff017f1a8043dd40bd19b2beaa">AudioDriverES8374Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8311_class.html#ae892b9ff017f1a8043dd40bd19b2beaa">AudioDriverES8311Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8156_class.html#ae892b9ff017f1a8043dd40bd19b2beaa">AudioDriverES8156Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7243e_class.html#ae892b9ff017f1a8043dd40bd19b2beaa">AudioDriverES7243eClass</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7243_class.html#ae892b9ff017f1a8043dd40bd19b2beaa">AudioDriverES7243Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7210_class.html#ae892b9ff017f1a8043dd40bd19b2beaa">AudioDriverES7210Class</a>, and <a class="el" href="classaudio__driver_1_1_audio_driver_a_c101_class.html#ae892b9ff017f1a8043dd40bd19b2beaa">AudioDriverAC101Class</a>.</p>
 
 </div>
 </div>
@@ -341,12 +356,14 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Ends the processing: shut down dac and adc. </p>
+
 <p>Reimplemented in <a class="el" href="classaudio__driver_1_1_audio_driver_c_s42448_class.html#aba72f3c7e37f01ac993d5c425dafc0f2">AudioDriverCS42448Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_a_d1938_class.html#aba72f3c7e37f01ac993d5c425dafc0f2">AudioDriverAD1938Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_lyrat_mini_class.html#a1261028d75a47804743db047621c62ac">AudioDriverLyratMiniClass</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8960_class.html#a1261028d75a47804743db047621c62ac">AudioDriverWM8960Class</a>, <a class="el" href="classaudio__driver_1_1_no_driver_class.html#a063cb6038676fcc58f5a7cbc93ef27f1">NoDriverClass</a>, and <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8978_class.html#ae3d8911013b1bab653ee2d819ce44bb3">AudioDriverWM8978Class</a>.</p>
 
 </div>
 </div>
-<a id="ace4e6b6c01cac8e0d08d2e592f9651f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ace4e6b6c01cac8e0d08d2e592f9651f2">&#9670;&nbsp;</a></span>getI2C()</h2>
+<a id="a12fae62714368bd61bb2f3e622d60896"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12fae62714368bd61bb2f3e622d60896">&#9670;&nbsp;</a></span>getI2C()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -355,7 +372,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">TwoWire* getI2C </td>
+          <td class="memname">virtual TwoWire* getI2C </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -363,7 +380,7 @@ Protected Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -372,8 +389,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a5913823f39bb4c4d7078b0e1a9cb0775"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5913823f39bb4c4d7078b0e1a9cb0775">&#9670;&nbsp;</a></span>getI2CAddress()</h2>
+<a id="a55169a2805f1f2663a6922293f3af059"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55169a2805f1f2663a6922293f3af059">&#9670;&nbsp;</a></span>getI2CAddress()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -382,7 +399,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int getI2CAddress </td>
+          <td class="memname">virtual int getI2CAddress </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -390,7 +407,7 @@ Protected Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -446,6 +463,8 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Determines the actual volume (range: 0-100) </p>
+
 <p>Implements <a class="el" href="classaudio__driver_1_1_audio_driver.html#aaf041a73009a07b13117c75c1d09f00c">AudioDriver</a>.</p>
 
 </div>
@@ -474,7 +493,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_audio_driver_t_a_s5805_m_class.html#a52e4f3e14150fab743955aa7fb4a6af6">AudioDriverTAS5805MClass</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8388_class.html#a52e4f3e14150fab743955aa7fb4a6af6">AudioDriverES8388Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8374_class.html#a52e4f3e14150fab743955aa7fb4a6af6">AudioDriverES8374Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8311_class.html#a52e4f3e14150fab743955aa7fb4a6af6">AudioDriverES8311Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8156_class.html#a52e4f3e14150fab743955aa7fb4a6af6">AudioDriverES8156Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7243e_class.html#a52e4f3e14150fab743955aa7fb4a6af6">AudioDriverES7243eClass</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7243_class.html#a52e4f3e14150fab743955aa7fb4a6af6">AudioDriverES7243Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7210_class.html#a52e4f3e14150fab743955aa7fb4a6af6">AudioDriverES7210Class</a>, and <a class="el" href="classaudio__driver_1_1_audio_driver_a_c101_class.html#a52e4f3e14150fab743955aa7fb4a6af6">AudioDriverAC101Class</a>.</p>
+<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_audio_driver_p_c_m3168_class.html#a52e4f3e14150fab743955aa7fb4a6af6">AudioDriverPCM3168Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_t_a_s5805_m_class.html#a52e4f3e14150fab743955aa7fb4a6af6">AudioDriverTAS5805MClass</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8388_class.html#a52e4f3e14150fab743955aa7fb4a6af6">AudioDriverES8388Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8374_class.html#a52e4f3e14150fab743955aa7fb4a6af6">AudioDriverES8374Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8311_class.html#a52e4f3e14150fab743955aa7fb4a6af6">AudioDriverES8311Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8156_class.html#a52e4f3e14150fab743955aa7fb4a6af6">AudioDriverES8156Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7243e_class.html#a52e4f3e14150fab743955aa7fb4a6af6">AudioDriverES7243eClass</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7243_class.html#a52e4f3e14150fab743955aa7fb4a6af6">AudioDriverES7243Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7210_class.html#a52e4f3e14150fab743955aa7fb4a6af6">AudioDriverES7210Class</a>, and <a class="el" href="classaudio__driver_1_1_audio_driver_a_c101_class.html#a52e4f3e14150fab743955aa7fb4a6af6">AudioDriverAC101Class</a>.</p>
 
 </div>
 </div>
@@ -501,7 +520,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8978_class.html#a35ee14e345e291f347cb25380989aad9">AudioDriverWM8978Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_c_s42448_class.html#a35ee14e345e291f347cb25380989aad9">AudioDriverCS42448Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_a_d1938_class.html#a35ee14e345e291f347cb25380989aad9">AudioDriverAD1938Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_lyrat_mini_class.html#a935ad3a2898c94e433a1da3b948dff72">AudioDriverLyratMiniClass</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8960_class.html#a935ad3a2898c94e433a1da3b948dff72">AudioDriverWM8960Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8388_class.html#a935ad3a2898c94e433a1da3b948dff72">AudioDriverES8388Class</a>, and <a class="el" href="classaudio__driver_1_1_no_driver_class.html#a02060cfd35162a9112de61ebc3d5b974">NoDriverClass</a>.</p>
+<p>Determines if <a class="el" href="classaudio__driver_1_1_audio_driver.html#a11bf855250acaa1afbe0b8251660800d" title="Defines the input volume (range: 0-100) if supported.">setInputVolume()</a> is supported. </p>
+
+<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_audio_driver_lyrat_mini_class.html#a35ee14e345e291f347cb25380989aad9">AudioDriverLyratMiniClass</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8978_class.html#a35ee14e345e291f347cb25380989aad9">AudioDriverWM8978Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_c_s42448_class.html#a35ee14e345e291f347cb25380989aad9">AudioDriverCS42448Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_a_d1938_class.html#a35ee14e345e291f347cb25380989aad9">AudioDriverAD1938Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8960_class.html#a935ad3a2898c94e433a1da3b948dff72">AudioDriverWM8960Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8388_class.html#a935ad3a2898c94e433a1da3b948dff72">AudioDriverES8388Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7210_class.html#a935ad3a2898c94e433a1da3b948dff72">AudioDriverES7210Class</a>, and <a class="el" href="classaudio__driver_1_1_no_driver_class.html#a02060cfd35162a9112de61ebc3d5b974">NoDriverClass</a>.</p>
 
 </div>
 </div>
@@ -527,6 +548,8 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Determines if <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8994_class.html#ad7d51b9e21a345d836cb4cfe2df2152c" title="Defines the Volume (in %) if volume is 0, mute is enabled,range is 0-100.">setVolume()</a> is suppored. </p>
 
 <p>Reimplemented in <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8978_class.html#a4510f634312ee31f499f25c2a02b8b39">AudioDriverWM8978Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_c_s42448_class.html#a4510f634312ee31f499f25c2a02b8b39">AudioDriverCS42448Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_a_d1938_class.html#a4510f634312ee31f499f25c2a02b8b39">AudioDriverAD1938Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8960_class.html#a3dbae4234a4ef6e889c1d780f7aeab68">AudioDriverWM8960Class</a>, and <a class="el" href="classaudio__driver_1_1_no_driver_class.html#a22d2adeb316a5705b57114d4a5761017">NoDriverClass</a>.</p>
 
@@ -581,8 +604,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a42db9a98715e0b6383cd493d5ca06a8e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a42db9a98715e0b6383cd493d5ca06a8e">&#9670;&nbsp;</a></span>pins()</h2>
+<a id="a9b3baad8c612d81b96e46f84d7e97580"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b3baad8c612d81b96e46f84d7e97580">&#9670;&nbsp;</a></span>operator bool()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -591,7 +614,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classaudio__driver_1_1_driver_pins.html">DriverPins</a>&amp; pins </td>
+          <td class="memname">operator bool </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -603,6 +626,35 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4e2f18c6dc5dc9bd0529901b112a5df6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e2f18c6dc5dc9bd0529901b112a5df6">&#9670;&nbsp;</a></span>pins()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classaudio__driver_1_1_driver_pins.html">DriverPins</a>&amp; pins </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Provides the pin information. </p>
+
+<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_audio_driver_c_s42448_class.html#a42db9a98715e0b6383cd493d5ca06a8e">AudioDriverCS42448Class</a>, and <a class="el" href="classaudio__driver_1_1_audio_driver_a_d1938_class.html#a42db9a98715e0b6383cd493d5ca06a8e">AudioDriverAD1938Class</a>.</p>
 
 </div>
 </div>
@@ -630,7 +682,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8960_class.html#a6442182dfc4c54fb16b002b6f15c86e4">AudioDriverWM8960Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_c_s42448_class.html#a6442182dfc4c54fb16b002b6f15c86e4">AudioDriverCS42448Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_c_s43l22_class.html#a6442182dfc4c54fb16b002b6f15c86e4">AudioDriverCS43l22Class</a>, and <a class="el" href="classaudio__driver_1_1_audio_driver_a_d1938_class.html#a6442182dfc4c54fb16b002b6f15c86e4">AudioDriverAD1938Class</a>.</p>
+<p>changes the configuration </p>
+
+<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8978_class.html#af2ab7e7ee74342706391c77950eeec87">AudioDriverWM8978Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8960_class.html#a6442182dfc4c54fb16b002b6f15c86e4">AudioDriverWM8960Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_c_s42448_class.html#a6442182dfc4c54fb16b002b6f15c86e4">AudioDriverCS42448Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_c_s43l22_class.html#a6442182dfc4c54fb16b002b6f15c86e4">AudioDriverCS43l22Class</a>, and <a class="el" href="classaudio__driver_1_1_audio_driver_a_d1938_class.html#a6442182dfc4c54fb16b002b6f15c86e4">AudioDriverAD1938Class</a>.</p>
 
 </div>
 </div>
@@ -684,7 +738,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8978_class.html#ad3455849766196a8ab522b2da63a05d8">AudioDriverWM8978Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_c_s42448_class.html#ad3455849766196a8ab522b2da63a05d8">AudioDriverCS42448Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_a_d1938_class.html#ad3455849766196a8ab522b2da63a05d8">AudioDriverAD1938Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_lyrat_mini_class.html#acd5d071057ce19f3718940329d202ef8">AudioDriverLyratMiniClass</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8960_class.html#acd5d071057ce19f3718940329d202ef8">AudioDriverWM8960Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8388_class.html#acd5d071057ce19f3718940329d202ef8">AudioDriverES8388Class</a>, and <a class="el" href="classaudio__driver_1_1_no_driver_class.html#a11bf855250acaa1afbe0b8251660800d">NoDriverClass</a>.</p>
+<p>Defines the input volume (range: 0-100) if supported. </p>
+
+<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_audio_driver_lyrat_mini_class.html#ad3455849766196a8ab522b2da63a05d8">AudioDriverLyratMiniClass</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8978_class.html#ad3455849766196a8ab522b2da63a05d8">AudioDriverWM8978Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_c_s42448_class.html#ad3455849766196a8ab522b2da63a05d8">AudioDriverCS42448Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_a_d1938_class.html#ad3455849766196a8ab522b2da63a05d8">AudioDriverAD1938Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8960_class.html#acd5d071057ce19f3718940329d202ef8">AudioDriverWM8960Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8388_class.html#acd5d071057ce19f3718940329d202ef8">AudioDriverES8388Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7210_class.html#acd5d071057ce19f3718940329d202ef8">AudioDriverES7210Class</a>, and <a class="el" href="classaudio__driver_1_1_no_driver_class.html#a11bf855250acaa1afbe0b8251660800d">NoDriverClass</a>.</p>
 
 </div>
 </div>
@@ -701,7 +757,7 @@ Protected Attributes</h2></td></tr>
           <td class="memname">bool setMute </td>
           <td>(</td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>mute</em></td><td>)</td>
+          <td class="paramname"><em>enable</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -711,6 +767,8 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Mutes all output lines. </p>
 
 <p>Implements <a class="el" href="classaudio__driver_1_1_audio_driver.html#a0065b12757039a60467b6b12ccefc4ba">AudioDriver</a>.</p>
 
@@ -752,7 +810,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Mute individual lines: only supported for some rare DACs. </p>
 
-<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8388_class.html#a59ea4d70e5093706baadc42b6854b6ab">AudioDriverES8388Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_a_d1938_class.html#a59ea4d70e5093706baadc42b6854b6ab">AudioDriverAD1938Class</a>, and <a class="el" href="classaudio__driver_1_1_audio_driver_c_s42448_class.html#ade3d888867e36d74b3cdc1cd3fe74c38">AudioDriverCS42448Class</a>.</p>
+<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8978_class.html#a367d8ce5bbdd2499b4d159ff90cb8401">AudioDriverWM8978Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_p_c_m3168_class.html#a59ea4d70e5093706baadc42b6854b6ab">AudioDriverPCM3168Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s8388_class.html#a59ea4d70e5093706baadc42b6854b6ab">AudioDriverES8388Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_a_d1938_class.html#a59ea4d70e5093706baadc42b6854b6ab">AudioDriverAD1938Class</a>, and <a class="el" href="classaudio__driver_1_1_audio_driver_c_s42448_class.html#ade3d888867e36d74b3cdc1cd3fe74c38">AudioDriverCS42448Class</a>.</p>
 
 </div>
 </div>
@@ -781,6 +839,32 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Sets the PA Power pin to active or inactive. </p>
+
+</div>
+</div>
+<a id="a4f92e615d05aebc0a1f229bd8b443952"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f92e615d05aebc0a1f229bd8b443952">&#9670;&nbsp;</a></span>setPins()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setPins </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classaudio__driver_1_1_driver_pins.html">DriverPins</a> &amp;&#160;</td>
+          <td class="paramname"><em>pins</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

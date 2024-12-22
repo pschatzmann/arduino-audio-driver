@@ -93,8 +93,11 @@ Inheritance diagram for PinsLyratMiniClass:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a07d0e3d40548cb1043e8f426b2a66e9d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_pins_lyrat_mini_class.html#a07d0e3d40548cb1043e8f426b2a66e9d">PinsLyratMiniClass</a> ()</td></tr>
 <tr class="separator:a07d0e3d40548cb1043e8f426b2a66e9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3bca5b5606833315a22d4788138b0b1c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a3bca5b5606833315a22d4788138b0b1c">addI2C</a> (<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aaf">PinFunction</a> function, <a class="el" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> scl, <a class="el" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> sda, int port=-1, uint32_t frequency=100000, TwoWire &amp;wire=Wire)</td></tr>
-<tr class="separator:a3bca5b5606833315a22d4788138b0b1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62a8b892dc4322ea673b7ef456e0bc42"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a62a8b892dc4322ea673b7ef456e0bc42">addI2C</a> (<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aaf">PinFunction</a> function, <a class="el" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> scl, <a class="el" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> sda, int port=-1, uint32_t frequency=100000, TwoWire &amp;wire=Wire, bool active=true)</td></tr>
+<tr class="separator:a62a8b892dc4322ea673b7ef456e0bc42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1a5145719e020a308584fcfa0ed2e83"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#af1a5145719e020a308584fcfa0ed2e83">addI2C</a> (<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aaf">PinFunction</a> function, TwoWire &amp;wire, bool setActive=false)</td></tr>
+<tr class="memdesc:af1a5145719e020a308584fcfa0ed2e83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Just define your initialzed wire object.  <a href="classaudio__driver_1_1_driver_pins.html#af1a5145719e020a308584fcfa0ed2e83">More...</a><br /></td></tr>
+<tr class="separator:af1a5145719e020a308584fcfa0ed2e83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a971270d5c6ea5cfdd16ba30a4aee05d1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a971270d5c6ea5cfdd16ba30a4aee05d1">addI2C</a> (<a class="el" href="structaudio__driver_1_1_pins_i2_c.html">PinsI2C</a> pin)</td></tr>
 <tr class="separator:a971270d5c6ea5cfdd16ba30a4aee05d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3493e552b008d1593594675135f88400"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a3493e552b008d1593594675135f88400">addI2S</a> (<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aaf">PinFunction</a> function, <a class="el" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> mclk, <a class="el" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> bck, <a class="el" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> ws, <a class="el" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> data_out, <a class="el" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> data_in=-1, int port=0)</td></tr>
@@ -137,6 +140,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ace76b4671946819aff61b75c62717b08"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#ace76b4671946819aff61b75c62717b08">hasPins</a> ()</td></tr>
 <tr class="memdesc:ace76b4671946819aff61b75c62717b08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if some function pins have been defined.  <a href="classaudio__driver_1_1_driver_pins.html#ace76b4671946819aff61b75c62717b08">More...</a><br /></td></tr>
 <tr class="separator:ace76b4671946819aff61b75c62717b08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7f616cfc880ce402e08853636bc3f92"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_pins_lyrat_mini_class.html#ac7f616cfc880ce402e08853636bc3f92">isKeyPressed</a> (uint8_t key) override</td></tr>
+<tr class="separator:ac7f616cfc880ce402e08853636bc3f92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67b24a449a284e82cdda3ac6f49226fd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a67b24a449a284e82cdda3ac6f49226fd">isSPIActiveForSD</a> ()</td></tr>
 <tr class="memdesc:a67b24a449a284e82cdda3ac6f49226fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if SPI for SD should be started automatically.  <a href="classaudio__driver_1_1_driver_pins.html#a67b24a449a284e82cdda3ac6f49226fd">More...</a><br /></td></tr>
 <tr class="separator:a67b24a449a284e82cdda3ac6f49226fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -146,6 +151,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:adeb8e9ed06517c8f88db264c95a3bd50"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#adeb8e9ed06517c8f88db264c95a3bd50">setI2S</a> (<a class="el" href="structaudio__driver_1_1_pins_i2_s.html">PinsI2S</a> pin)</td></tr>
 <tr class="memdesc:adeb8e9ed06517c8f88db264c95a3bd50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the I2S pin information using the function as key.  <a href="classaudio__driver_1_1_driver_pins.html#adeb8e9ed06517c8f88db264c95a3bd50">More...</a><br /></td></tr>
 <tr class="separator:adeb8e9ed06517c8f88db264c95a3bd50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5368c9f19934c4d02b289d3b910af21f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_pins_lyrat_mini_class.html#a5368c9f19934c4d02b289d3b910af21f">setRange</a> (int value)</td></tr>
+<tr class="separator:a5368c9f19934c4d02b289d3b910af21f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab33faa4563eb42152aad851515ab71c6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#ab33faa4563eb42152aad851515ab71c6">setSPI</a> (<a class="el" href="structaudio__driver_1_1_pins_s_p_i.html">PinsSPI</a> pin)</td></tr>
 <tr class="memdesc:ab33faa4563eb42152aad851515ab71c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the SPI pin information using the function as key.  <a href="classaudio__driver_1_1_driver_pins.html#ab33faa4563eb42152aad851515ab71c6">More...</a><br /></td></tr>
 <tr class="separator:ab33faa4563eb42152aad851515ab71c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -164,6 +171,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:ae00a8041f5afb1b774a6d4c5168aaa7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae346dfc0d2db191574abf006ab44cc15"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#ae346dfc0d2db191574abf006ab44cc15">hasSPIConflict</a> (int pin)</td></tr>
 <tr class="separator:ae346dfc0d2db191574abf006ab44cc15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab04715fb6473017b793601abfc04dbcf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_pins_lyrat_mini_class.html#ab04715fb6473017b793601abfc04dbcf">inRange</a> (int in, int toBe)</td></tr>
+<tr class="separator:ab04715fb6473017b793601abfc04dbcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb8bdb3920517d33a7556b621c2a3ee6"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:acb8bdb3920517d33a7556b621c2a3ee6"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#acb8bdb3920517d33a7556b621c2a3ee6">set</a> (T pin, <a class="el" href="classaudio__driver__local_1_1_vector.html">audio_driver_local::Vector</a>&lt; T &gt; &amp;vect)</td></tr>
 <tr class="separator:acb8bdb3920517d33a7556b621c2a3ee6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -172,12 +181,16 @@ Protected Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
+<tr class="memitem:a81c5b5c06f88cec07ca29a335a59e5cb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_pins_lyrat_mini_class.html#a81c5b5c06f88cec07ca29a335a59e5cb">analog_values</a> [6] {2802, 2270, 1754, 1284, 827, 304}</td></tr>
+<tr class="separator:a81c5b5c06f88cec07ca29a335a59e5cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3fb5f991130c2a10a0cfecb026a70775"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classaudio__driver__local_1_1_vector.html">audio_driver_local::Vector</a>&lt; <a class="el" href="structaudio__driver_1_1_pins_i2_c.html">PinsI2C</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a3fb5f991130c2a10a0cfecb026a70775">i2c</a> {0}</td></tr>
 <tr class="separator:a3fb5f991130c2a10a0cfecb026a70775"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a595946501467f993c4cc65dac0972b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classaudio__driver__local_1_1_vector.html">audio_driver_local::Vector</a>&lt; <a class="el" href="structaudio__driver_1_1_pins_i2_s.html">PinsI2S</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a0a595946501467f993c4cc65dac0972b">i2s</a> {0}</td></tr>
 <tr class="separator:a0a595946501467f993c4cc65dac0972b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f1e09006b9f9f5c11b5cc30c3073977"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classaudio__driver__local_1_1_vector.html">audio_driver_local::Vector</a>&lt; <a class="el" href="structaudio__driver_1_1_pins_function.html">PinsFunction</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a1f1e09006b9f9f5c11b5cc30c3073977">pins</a> {0}</td></tr>
 <tr class="separator:a1f1e09006b9f9f5c11b5cc30c3073977"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a037e8e370380046bec287bdc96942091"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_pins_lyrat_mini_class.html#a037e8e370380046bec287bdc96942091">range</a> = 5</td></tr>
+<tr class="separator:a037e8e370380046bec287bdc96942091"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac585b3449d271276f8b679e8ab01b2ec"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#ac585b3449d271276f8b679e8ab01b2ec">sd_active</a> = true</td></tr>
 <tr class="separator:ac585b3449d271276f8b679e8ab01b2ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a99492c2ad28a9f4670873619573c7faf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classaudio__driver__local_1_1_vector.html">audio_driver_local::Vector</a>&lt; <a class="el" href="structaudio__driver_1_1_pins_s_p_i.html">PinsSPI</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a99492c2ad28a9f4670873619573c7faf">spi</a> {0}</td></tr>
@@ -214,8 +227,8 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a3bca5b5606833315a22d4788138b0b1c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3bca5b5606833315a22d4788138b0b1c">&#9670;&nbsp;</a></span>addI2C() <span class="overload">[1/2]</span></h2>
+<a id="a62a8b892dc4322ea673b7ef456e0bc42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62a8b892dc4322ea673b7ef456e0bc42">&#9670;&nbsp;</a></span>addI2C() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -257,7 +270,13 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">TwoWire &amp;&#160;</td>
-          <td class="paramname"><em>wire</em> = <code>Wire</code>&#160;</td>
+          <td class="paramname"><em>wire</em> = <code>Wire</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>active</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -274,8 +293,52 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="af1a5145719e020a308584fcfa0ed2e83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1a5145719e020a308584fcfa0ed2e83">&#9670;&nbsp;</a></span>addI2C() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool addI2C </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aaf">PinFunction</a>&#160;</td>
+          <td class="paramname"><em>function</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TwoWire &amp;&#160;</td>
+          <td class="paramname"><em>wire</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>setActive</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Just define your initialzed wire object. </p>
+
+</div>
+</div>
 <a id="a971270d5c6ea5cfdd16ba30a4aee05d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a971270d5c6ea5cfdd16ba30a4aee05d1">&#9670;&nbsp;</a></span>addI2C() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a971270d5c6ea5cfdd16ba30a4aee05d1">&#9670;&nbsp;</a></span>addI2C() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -959,6 +1022,71 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ab04715fb6473017b793601abfc04dbcf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab04715fb6473017b793601abfc04dbcf">&#9670;&nbsp;</a></span>inRange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool inRange </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>in</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>toBe</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac7f616cfc880ce402e08853636bc3f92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7f616cfc880ce402e08853636bc3f92">&#9670;&nbsp;</a></span>isKeyPressed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool isKeyPressed </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>key</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>When the button is released we might get some missreadings: so we read twice to guarantee a stable result </p>
+
+<p>Reimplemented from <a class="el" href="classaudio__driver_1_1_driver_pins.html#af3260e75df8bd3857278aa7709de1aec">DriverPins</a>.</p>
+
+</div>
+</div>
 <a id="a67b24a449a284e82cdda3ac6f49226fd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a67b24a449a284e82cdda3ac6f49226fd">&#9670;&nbsp;</a></span>isSPIActiveForSD()</h2>
 
@@ -1078,6 +1206,32 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a5368c9f19934c4d02b289d3b910af21f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5368c9f19934c4d02b289d3b910af21f">&#9670;&nbsp;</a></span>setRange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setRange </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ab33faa4563eb42152aad851515ab71c6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab33faa4563eb42152aad851515ab71c6">&#9670;&nbsp;</a></span>setSPI()</h2>
 
@@ -1160,6 +1314,28 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="a81c5b5c06f88cec07ca29a335a59e5cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81c5b5c06f88cec07ca29a335a59e5cb">&#9670;&nbsp;</a></span>analog_values</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int analog_values[6] {2802, 2270, 1754, 1284, 827, 304}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a3fb5f991130c2a10a0cfecb026a70775"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3fb5f991130c2a10a0cfecb026a70775">&#9670;&nbsp;</a></span>i2c</h2>
 
@@ -1220,6 +1396,28 @@ Protected Attributes</h2></td></tr>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a037e8e370380046bec287bdc96942091"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a037e8e370380046bec287bdc96942091">&#9670;&nbsp;</a></span>range</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int range = 5</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

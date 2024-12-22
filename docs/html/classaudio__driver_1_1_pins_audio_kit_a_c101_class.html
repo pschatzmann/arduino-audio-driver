@@ -93,8 +93,11 @@ Inheritance diagram for PinsAudioKitAC101Class:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:af8047f806dd07e4e7fb9af3b1046445c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_pins_audio_kit_a_c101_class.html#af8047f806dd07e4e7fb9af3b1046445c">PinsAudioKitAC101Class</a> ()</td></tr>
 <tr class="separator:af8047f806dd07e4e7fb9af3b1046445c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3bca5b5606833315a22d4788138b0b1c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a3bca5b5606833315a22d4788138b0b1c">addI2C</a> (<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aaf">PinFunction</a> function, <a class="el" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> scl, <a class="el" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> sda, int port=-1, uint32_t frequency=100000, TwoWire &amp;wire=Wire)</td></tr>
-<tr class="separator:a3bca5b5606833315a22d4788138b0b1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62a8b892dc4322ea673b7ef456e0bc42"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a62a8b892dc4322ea673b7ef456e0bc42">addI2C</a> (<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aaf">PinFunction</a> function, <a class="el" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> scl, <a class="el" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> sda, int port=-1, uint32_t frequency=100000, TwoWire &amp;wire=Wire, bool active=true)</td></tr>
+<tr class="separator:a62a8b892dc4322ea673b7ef456e0bc42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1a5145719e020a308584fcfa0ed2e83"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#af1a5145719e020a308584fcfa0ed2e83">addI2C</a> (<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aaf">PinFunction</a> function, TwoWire &amp;wire, bool setActive=false)</td></tr>
+<tr class="memdesc:af1a5145719e020a308584fcfa0ed2e83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Just define your initialzed wire object.  <a href="classaudio__driver_1_1_driver_pins.html#af1a5145719e020a308584fcfa0ed2e83">More...</a><br /></td></tr>
+<tr class="separator:af1a5145719e020a308584fcfa0ed2e83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a971270d5c6ea5cfdd16ba30a4aee05d1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a971270d5c6ea5cfdd16ba30a4aee05d1">addI2C</a> (<a class="el" href="structaudio__driver_1_1_pins_i2_c.html">PinsI2C</a> pin)</td></tr>
 <tr class="separator:a971270d5c6ea5cfdd16ba30a4aee05d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3493e552b008d1593594675135f88400"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a3493e552b008d1593594675135f88400">addI2S</a> (<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aaf">PinFunction</a> function, <a class="el" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> mclk, <a class="el" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> bck, <a class="el" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> ws, <a class="el" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> data_out, <a class="el" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> data_in=-1, int port=0)</td></tr>
@@ -137,6 +140,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ace76b4671946819aff61b75c62717b08"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#ace76b4671946819aff61b75c62717b08">hasPins</a> ()</td></tr>
 <tr class="memdesc:ace76b4671946819aff61b75c62717b08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if some function pins have been defined.  <a href="classaudio__driver_1_1_driver_pins.html#ace76b4671946819aff61b75c62717b08">More...</a><br /></td></tr>
 <tr class="separator:ace76b4671946819aff61b75c62717b08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3260e75df8bd3857278aa7709de1aec"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#af3260e75df8bd3857278aa7709de1aec">isKeyPressed</a> (uint8_t key)</td></tr>
+<tr class="memdesc:af3260e75df8bd3857278aa7709de1aec"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns true if pressed  <a href="classaudio__driver_1_1_driver_pins.html#af3260e75df8bd3857278aa7709de1aec">More...</a><br /></td></tr>
+<tr class="separator:af3260e75df8bd3857278aa7709de1aec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67b24a449a284e82cdda3ac6f49226fd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html#a67b24a449a284e82cdda3ac6f49226fd">isSPIActiveForSD</a> ()</td></tr>
 <tr class="memdesc:a67b24a449a284e82cdda3ac6f49226fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if SPI for SD should be started automatically.  <a href="classaudio__driver_1_1_driver_pins.html#a67b24a449a284e82cdda3ac6f49226fd">More...</a><br /></td></tr>
 <tr class="separator:a67b24a449a284e82cdda3ac6f49226fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -214,8 +220,8 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a3bca5b5606833315a22d4788138b0b1c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3bca5b5606833315a22d4788138b0b1c">&#9670;&nbsp;</a></span>addI2C() <span class="overload">[1/2]</span></h2>
+<a id="a62a8b892dc4322ea673b7ef456e0bc42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62a8b892dc4322ea673b7ef456e0bc42">&#9670;&nbsp;</a></span>addI2C() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -257,7 +263,13 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">TwoWire &amp;&#160;</td>
-          <td class="paramname"><em>wire</em> = <code>Wire</code>&#160;</td>
+          <td class="paramname"><em>wire</em> = <code>Wire</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>active</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -274,8 +286,52 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="af1a5145719e020a308584fcfa0ed2e83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1a5145719e020a308584fcfa0ed2e83">&#9670;&nbsp;</a></span>addI2C() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool addI2C </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aaf">PinFunction</a>&#160;</td>
+          <td class="paramname"><em>function</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TwoWire &amp;&#160;</td>
+          <td class="paramname"><em>wire</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>setActive</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Just define your initialzed wire object. </p>
+
+</div>
+</div>
 <a id="a971270d5c6ea5cfdd16ba30a4aee05d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a971270d5c6ea5cfdd16ba30a4aee05d1">&#9670;&nbsp;</a></span>addI2C() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a971270d5c6ea5cfdd16ba30a4aee05d1">&#9670;&nbsp;</a></span>addI2C() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -956,6 +1012,36 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="af3260e75df8bd3857278aa7709de1aec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3260e75df8bd3857278aa7709de1aec">&#9670;&nbsp;</a></span>isKeyPressed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool isKeyPressed </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>key</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>returns true if pressed </p>
+
+<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_pins_lyrat_mini_class.html#ac7f616cfc880ce402e08853636bc3f92">PinsLyratMiniClass</a>.</p>
 
 </div>
 </div>

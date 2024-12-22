@@ -92,7 +92,7 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Driver API for the CS43l22 codec chip on 0x94 (0x4A&lt;&lt;1)  <a href="classaudio__driver_1_1_audio_driver_c_s43l22_class.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_e_s7210_class.html">AudioDriverES7210Class</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Driver API for ES7210 codec chip.  <a href="classaudio__driver_1_1_audio_driver_e_s7210_class.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Driver API for ES7210 codec chip. This chip supports only input!  <a href="classaudio__driver_1_1_audio_driver_e_s7210_class.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_e_s7243_class.html">AudioDriverES7243Class</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Driver API for Lyrat ES7243 codec chip.  <a href="classaudio__driver_1_1_audio_driver_e_s7243_class.html#details">More...</a><br /></td></tr>
@@ -115,6 +115,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_lyrat_mini_class.html">AudioDriverLyratMiniClass</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Driver API for Lyrat Mini with a ES8311 and a ES7243 codec chip.  <a href="classaudio__driver_1_1_audio_driver_lyrat_mini_class.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_p_c_m3168_class.html">AudioDriverPCM3168Class</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Driver API for the CS43l22 codec chip on 0x94 (0x4A&lt;&lt;1)  <a href="classaudio__driver_1_1_audio_driver_p_c_m3168_class.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_audio_driver_t_a_s5805_m_class.html">AudioDriverTAS5805MClass</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Driver API for TAS5805M codec chip.  <a href="classaudio__driver_1_1_audio_driver_t_a_s5805_m_class.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -132,6 +135,9 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html">DriverPins</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">All pins for i2s, spi, i2c and other pins.  <a href="classaudio__driver_1_1_driver_pins.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_touch_class.html">DriverTouchClass</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Support for Touch.  <a href="classaudio__driver_1_1_driver_touch_class.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_no_driver_class.html">NoDriverClass</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dummy Driver which does nothing.  <a href="classaudio__driver_1_1_no_driver_class.html#details">More...</a><br /></td></tr>
@@ -174,21 +180,35 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
+<tr class="memitem:ga0e38a8cbaae36dea9c9053a4ee8f9e18"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga0e38a8cbaae36dea9c9053a4ee8f9e18">AudioDriverKey</a> { <br />
+&#160;&#160;<a class="el" href="group__audio__driver.html#ga0e38a8cbaae36dea9c9053a4ee8f9e18aa67b95b87566b12f21da0f8dc7224e9c">KEY_REC</a> = 0
+, <a class="el" href="group__audio__driver.html#ga0e38a8cbaae36dea9c9053a4ee8f9e18a1b0a91ff3a855d6993930ebf0abaa518">KEY_MODE</a>
+, <a class="el" href="group__audio__driver.html#ga0e38a8cbaae36dea9c9053a4ee8f9e18a55c7db415d84b1af47010601aa8053e7">KEY_PLAY</a>
+, <a class="el" href="group__audio__driver.html#ga0e38a8cbaae36dea9c9053a4ee8f9e18a368a9f9c881efcaf697bdbd9d6e5cd8d">KEY_SET</a>
+, <br />
+&#160;&#160;<a class="el" href="group__audio__driver.html#ga0e38a8cbaae36dea9c9053a4ee8f9e18a2304f457aba66febcf852dbf1cbae8b0">KEY_VOLUME_DOWN</a>
+, <a class="el" href="group__audio__driver.html#ga0e38a8cbaae36dea9c9053a4ee8f9e18aedbb585f9e7ee87263a250c91542fb02">KEY_VOLUME_UP</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:ga0e38a8cbaae36dea9c9053a4ee8f9e18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Key names.  <a href="group__audio__driver.html#ga0e38a8cbaae36dea9c9053a4ee8f9e18">More...</a><br /></td></tr>
+<tr class="separator:ga0e38a8cbaae36dea9c9053a4ee8f9e18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6b03ddbf1e0f5abd0e46e02555850aaf"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aaf">PinFunction</a> { <br />
-&#160;&#160;<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa9decb49b0b8a11118da5ae919a09e766">HEADPHONE_DETECT</a>
+&#160;&#160;<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa0db45d2a4141101bdfe48e3314cfbca3">UNDEFINED</a> = 0
+, <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa9decb49b0b8a11118da5ae919a09e766">HEADPHONE_DETECT</a>
 , <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafadba053ed3f4606dd1426d1b170ef106b">AUXIN_DETECT</a>
 , <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa06f6a489209115c5cef3f45036aad3ec">PA</a>
-, <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafac9c9c146c630ca5ef9197c73c032f4a6">POWER</a>
 , <br />
-&#160;&#160;<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa53e0dbc06e48e3d381ac224fa8bae3df">LED</a>
+&#160;&#160;<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafac9c9c146c630ca5ef9197c73c032f4a6">POWER</a>
+, <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa53e0dbc06e48e3d381ac224fa8bae3df">LED</a>
 , <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa3b5949e0c26b87767a4752a276de9570">KEY</a>
 , <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa38f99abbc1d339c277c0669e7bc373c0">SD</a>
-, <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa472015a17943a0dd74293f32ce088542">CODEC</a>
 , <br />
-&#160;&#160;<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafacc567fdd9cbeac32e7b50b6ffd06f0d4">CODEC_ADC</a>
+&#160;&#160;<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa472015a17943a0dd74293f32ce088542">CODEC</a>
+, <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafacc567fdd9cbeac32e7b50b6ffd06f0d4">CODEC_ADC</a>
 , <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafab6e3c1cdb5c43961a2e081ef2564ba2e">LATCH</a>
 , <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafab5859d8721cfdc0312b2838b9c985bc1">RESET</a>
-, <a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa0301a754913dd38062217d6b511a1696">MCLK_SOURCE</a>
+, <br />
+&#160;&#160;<a class="el" href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa0301a754913dd38062217d6b511a1696">MCLK_SOURCE</a>
 <br />
  }</td></tr>
 <tr class="memdesc:ga6b03ddbf1e0f5abd0e46e02555850aaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pin Functions.  <a href="group__audio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aaf">More...</a><br /></td></tr>
@@ -200,6 +220,7 @@ Enumerations</h2></td></tr>
 , <a class="el" href="group__enumerations.html#ga541db2b810d671856e3d258a0e184d4fa324118a6721dd6b8a9b9f4e327df2bf5">Input</a>
 , <br />
 &#160;&#160;<a class="el" href="group__enumerations.html#ga541db2b810d671856e3d258a0e184d4fa29c2c02a361c9d7028472e5d92cd4a54">Output</a>
+, <a class="el" href="group__enumerations.html#ga541db2b810d671856e3d258a0e184d4fa3cab03c00dbd11bc3569afa0748013f0">Inactive</a>
 <br />
  }</td></tr>
 <tr class="memdesc:ga541db2b810d671856e3d258a0e184d4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">input or output  <a href="group__enumerations.html#ga541db2b810d671856e3d258a0e184d4f">More...</a><br /></td></tr>
@@ -231,6 +252,8 @@ Variables</h2></td></tr>
 <tr class="separator:gad404af509b8a5ae73c689d6faa3d54df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3c281a9dabe9c42b609f386a515d7082"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_driver_lyrat_mini_class.html">AudioDriverLyratMiniClass</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga3c281a9dabe9c42b609f386a515d7082">AudioDriverLyratMini</a></td></tr>
 <tr class="separator:ga3c281a9dabe9c42b609f386a515d7082"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga345332f822ec0efadf48dca0418e68b5"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_driver_p_c_m3168_class.html">AudioDriverPCM3168Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga345332f822ec0efadf48dca0418e68b5">AudioDriverPCM3168</a></td></tr>
+<tr class="separator:ga345332f822ec0efadf48dca0418e68b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga9edaa629f0334ef75e1666c847bcb3c3"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8960_class.html">AudioDriverWM8960Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga9edaa629f0334ef75e1666c847bcb3c3">AudioDriverWM8960</a></td></tr>
 <tr class="separator:ga9edaa629f0334ef75e1666c847bcb3c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae422be678e9a5cc45b187b167f40ac43"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8978_class.html">AudioDriverWM8978Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gae422be678e9a5cc45b187b167f40ac43">AudioDriverWM8978</a></td></tr>
@@ -243,8 +266,8 @@ Variables</h2></td></tr>
 <tr class="separator:ga9282e4e123ca2db202b817e95b4c4d6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3ecb4bf2db338ccd232cad96a2e2341e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga3ecb4bf2db338ccd232cad96a2e2341e">AudioKitEs8388V2</a> {<a class="el" href="group__audio__driver.html#gad404af509b8a5ae73c689d6faa3d54df">AudioDriverES8388</a>, <a class="el" href="group__audio__driver.html#gaec73d289b40131bb320b17356793430e">PinsAudioKitEs8388v2</a>}</td></tr>
 <tr class="separator:ga3ecb4bf2db338ccd232cad96a2e2341e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25716c39f0f3e90d31ed6c5084f9d358"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structaudio__driver_1_1_pins_s_p_i.html">PinsSPI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaudio__driver.html#a25716c39f0f3e90d31ed6c5084f9d358">ESP32PinsSD</a> {<a class="el" href="namespaceaudio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa38f99abbc1d339c277c0669e7bc373c0">PinFunction::SD</a>, 14, 2, 15, 13, SPI}</td></tr>
-<tr class="memdesc:a25716c39f0f3e90d31ed6c5084f9d358"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default SPI pins for ESP32 Lyrat, <a class="el" href="classaudio__driver_1_1_audio_driver.html" title="Abstract Driver API for codec chips.">AudioDriver</a> etc.  <a href="namespaceaudio__driver.html#a25716c39f0f3e90d31ed6c5084f9d358">More...</a><br /></td></tr>
+<tr class="memitem:a25716c39f0f3e90d31ed6c5084f9d358"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structaudio__driver_1_1_pins_s_p_i.html">PinsSPI</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaudio__driver.html#a25716c39f0f3e90d31ed6c5084f9d358">ESP32PinsSD</a> {<a class="el" href="namespaceaudio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa38f99abbc1d339c277c0669e7bc373c0">PinFunction::SD</a>, 14, 2, 15, 13, SPI}</td></tr>
+<tr class="memdesc:a25716c39f0f3e90d31ed6c5084f9d358"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default SPI pins for ESP32 Lyrat, <a class="el" href="classaudio__driver_1_1_audio_driver.html" title="Abstract Driver API for codec chips.">AudioDriver</a> etc CLK, MISO, MOSI, CS.  <a href="namespaceaudio__driver.html#a25716c39f0f3e90d31ed6c5084f9d358">More...</a><br /></td></tr>
 <tr class="separator:a25716c39f0f3e90d31ed6c5084f9d358"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga469170589e8c1dde2c640c0aadfffd02"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga469170589e8c1dde2c640c0aadfffd02">GenericCS43l22</a> {<a class="el" href="group__audio__driver.html#ga9752ab43ee1dc1a25230ddfbd0916c15">AudioDriverCS43l22</a>, <a class="el" href="group__audio__driver.html#gae6031df2ec66c645dd42ae315b79e156">NoPins</a>}</td></tr>
 <tr class="separator:ga469170589e8c1dde2c640c0aadfffd02"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -301,14 +324,22 @@ Variables</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="structaudio__driver_1_1_pins_s_p_i.html">PinsSPI</a> ESP32PinsSD {<a class="el" href="namespaceaudio__driver.html#ga6b03ddbf1e0f5abd0e46e02555850aafa38f99abbc1d339c277c0669e7bc373c0">PinFunction::SD</a>, 14, 2, 15, 13, SPI}</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Default SPI pins for ESP32 Lyrat, <a class="el" href="classaudio__driver_1_1_audio_driver.html" title="Abstract Driver API for codec chips.">AudioDriver</a> etc. </p>
+<p>Default SPI pins for ESP32 Lyrat, <a class="el" href="classaudio__driver_1_1_audio_driver.html" title="Abstract Driver API for codec chips.">AudioDriver</a> etc CLK, MISO, MOSI, CS. </p>
 
 </div>
 </div>
@@ -324,22 +355,22 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">    <a class="code" href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba6c34cf487fbecbdb9c7282a24e338cb2">RATE_8K</a>,  <a class="code" href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991baccef6e39d6855b77e2ec01e10095ea6b">RATE_11K</a>, <a class="code" href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991bae713f819f76ea57722e5a1296fd77cf0">RATE_16K</a>, <a class="code" href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba48d81c4b3d3c47c2edaf53287a74440f">RATE_22K</a>, <a class="code" href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba3f394c7023481136a11456f4d6fd7674">RATE_24K</a>,  <a class="code" href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991bab22cf724e3c3bb37888df8870cc6f60b">RATE_32K</a>,  <a class="code" href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba1448cc64c77cf916c8d7f735c6374b37">RATE_44K</a>,</div>
-<div class="line">    <a class="code" href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991baf72a585e7262a1b6a49e268f3672987d">RATE_48K</a>, <a class="code" href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991baceb52239e4a6b2fcc88cb4851e7d31c6">RATE_64K</a>, <a class="code" href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba91943b4ef802c7ff3aa4f4948870472c">RATE_88K</a>, <a class="code" href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991bac23375dadba2f10d3166fc98207dcd0c">RATE_96K</a>, <a class="code" href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba635120f9ee8f66a9d42c4b3f5e2cf348">RATE_128K</a>, <a class="code" href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991baaf2afb3b8f1a2bd2b6487e7faf89e4ff">RATE_176K</a>, <a class="code" href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991bafa3a6c59d2bc607e34859a0afaf08707">RATE_192K</a>}</div>
-<div class="ttc" id="a_common_8h_html_ga9455c9aa894b64d5d3997a038141991ba1448cc64c77cf916c8d7f735c6374b37"><div class="ttname"><a href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba1448cc64c77cf916c8d7f735c6374b37">RATE_44K</a></div><div class="ttdeci">@ RATE_44K</div><div class="ttdef"><b>Definition:</b> Common.h:81</div></div>
-<div class="ttc" id="a_common_8h_html_ga9455c9aa894b64d5d3997a038141991ba3f394c7023481136a11456f4d6fd7674"><div class="ttname"><a href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba3f394c7023481136a11456f4d6fd7674">RATE_24K</a></div><div class="ttdeci">@ RATE_24K</div><div class="ttdef"><b>Definition:</b> Common.h:79</div></div>
-<div class="ttc" id="a_common_8h_html_ga9455c9aa894b64d5d3997a038141991ba48d81c4b3d3c47c2edaf53287a74440f"><div class="ttname"><a href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba48d81c4b3d3c47c2edaf53287a74440f">RATE_22K</a></div><div class="ttdeci">@ RATE_22K</div><div class="ttdef"><b>Definition:</b> Common.h:78</div></div>
-<div class="ttc" id="a_common_8h_html_ga9455c9aa894b64d5d3997a038141991ba635120f9ee8f66a9d42c4b3f5e2cf348"><div class="ttname"><a href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba635120f9ee8f66a9d42c4b3f5e2cf348">RATE_128K</a></div><div class="ttdeci">@ RATE_128K</div><div class="ttdef"><b>Definition:</b> Common.h:86</div></div>
-<div class="ttc" id="a_common_8h_html_ga9455c9aa894b64d5d3997a038141991ba6c34cf487fbecbdb9c7282a24e338cb2"><div class="ttname"><a href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba6c34cf487fbecbdb9c7282a24e338cb2">RATE_8K</a></div><div class="ttdeci">@ RATE_8K</div><div class="ttdef"><b>Definition:</b> Common.h:75</div></div>
-<div class="ttc" id="a_common_8h_html_ga9455c9aa894b64d5d3997a038141991ba91943b4ef802c7ff3aa4f4948870472c"><div class="ttname"><a href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba91943b4ef802c7ff3aa4f4948870472c">RATE_88K</a></div><div class="ttdeci">@ RATE_88K</div><div class="ttdef"><b>Definition:</b> Common.h:84</div></div>
-<div class="ttc" id="a_common_8h_html_ga9455c9aa894b64d5d3997a038141991baaf2afb3b8f1a2bd2b6487e7faf89e4ff"><div class="ttname"><a href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991baaf2afb3b8f1a2bd2b6487e7faf89e4ff">RATE_176K</a></div><div class="ttdeci">@ RATE_176K</div><div class="ttdef"><b>Definition:</b> Common.h:87</div></div>
-<div class="ttc" id="a_common_8h_html_ga9455c9aa894b64d5d3997a038141991bab22cf724e3c3bb37888df8870cc6f60b"><div class="ttname"><a href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991bab22cf724e3c3bb37888df8870cc6f60b">RATE_32K</a></div><div class="ttdeci">@ RATE_32K</div><div class="ttdef"><b>Definition:</b> Common.h:80</div></div>
-<div class="ttc" id="a_common_8h_html_ga9455c9aa894b64d5d3997a038141991bac23375dadba2f10d3166fc98207dcd0c"><div class="ttname"><a href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991bac23375dadba2f10d3166fc98207dcd0c">RATE_96K</a></div><div class="ttdeci">@ RATE_96K</div><div class="ttdef"><b>Definition:</b> Common.h:85</div></div>
-<div class="ttc" id="a_common_8h_html_ga9455c9aa894b64d5d3997a038141991baccef6e39d6855b77e2ec01e10095ea6b"><div class="ttname"><a href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991baccef6e39d6855b77e2ec01e10095ea6b">RATE_11K</a></div><div class="ttdeci">@ RATE_11K</div><div class="ttdef"><b>Definition:</b> Common.h:76</div></div>
-<div class="ttc" id="a_common_8h_html_ga9455c9aa894b64d5d3997a038141991baceb52239e4a6b2fcc88cb4851e7d31c6"><div class="ttname"><a href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991baceb52239e4a6b2fcc88cb4851e7d31c6">RATE_64K</a></div><div class="ttdeci">@ RATE_64K</div><div class="ttdef"><b>Definition:</b> Common.h:83</div></div>
-<div class="ttc" id="a_common_8h_html_ga9455c9aa894b64d5d3997a038141991bae713f819f76ea57722e5a1296fd77cf0"><div class="ttname"><a href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991bae713f819f76ea57722e5a1296fd77cf0">RATE_16K</a></div><div class="ttdeci">@ RATE_16K</div><div class="ttdef"><b>Definition:</b> Common.h:77</div></div>
-<div class="ttc" id="a_common_8h_html_ga9455c9aa894b64d5d3997a038141991baf72a585e7262a1b6a49e268f3672987d"><div class="ttname"><a href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991baf72a585e7262a1b6a49e268f3672987d">RATE_48K</a></div><div class="ttdeci">@ RATE_48K</div><div class="ttdef"><b>Definition:</b> Common.h:82</div></div>
-<div class="ttc" id="a_common_8h_html_ga9455c9aa894b64d5d3997a038141991bafa3a6c59d2bc607e34859a0afaf08707"><div class="ttname"><a href="_common_8h.html#ga9455c9aa894b64d5d3997a038141991bafa3a6c59d2bc607e34859a0afaf08707">RATE_192K</a></div><div class="ttdeci">@ RATE_192K</div><div class="ttdef"><b>Definition:</b> Common.h:88</div></div>
+<div class="line">    <a class="code" href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba6c34cf487fbecbdb9c7282a24e338cb2">RATE_8K</a>,  <a class="code" href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991baccef6e39d6855b77e2ec01e10095ea6b">RATE_11K</a>, <a class="code" href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991bae713f819f76ea57722e5a1296fd77cf0">RATE_16K</a>, <a class="code" href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba48d81c4b3d3c47c2edaf53287a74440f">RATE_22K</a>, <a class="code" href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba3f394c7023481136a11456f4d6fd7674">RATE_24K</a>,  <a class="code" href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991bab22cf724e3c3bb37888df8870cc6f60b">RATE_32K</a>,  <a class="code" href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba1448cc64c77cf916c8d7f735c6374b37">RATE_44K</a>,</div>
+<div class="line">    <a class="code" href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991baf72a585e7262a1b6a49e268f3672987d">RATE_48K</a>, <a class="code" href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991baceb52239e4a6b2fcc88cb4851e7d31c6">RATE_64K</a>, <a class="code" href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba91943b4ef802c7ff3aa4f4948870472c">RATE_88K</a>, <a class="code" href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991bac23375dadba2f10d3166fc98207dcd0c">RATE_96K</a>, <a class="code" href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba635120f9ee8f66a9d42c4b3f5e2cf348">RATE_128K</a>, <a class="code" href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991baaf2afb3b8f1a2bd2b6487e7faf89e4ff">RATE_176K</a>, <a class="code" href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991bafa3a6c59d2bc607e34859a0afaf08707">RATE_192K</a>}</div>
+<div class="ttc" id="a_driver_common_8h_html_ga9455c9aa894b64d5d3997a038141991ba1448cc64c77cf916c8d7f735c6374b37"><div class="ttname"><a href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba1448cc64c77cf916c8d7f735c6374b37">RATE_44K</a></div><div class="ttdeci">@ RATE_44K</div><div class="ttdef"><b>Definition:</b> DriverCommon.h:84</div></div>
+<div class="ttc" id="a_driver_common_8h_html_ga9455c9aa894b64d5d3997a038141991ba3f394c7023481136a11456f4d6fd7674"><div class="ttname"><a href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba3f394c7023481136a11456f4d6fd7674">RATE_24K</a></div><div class="ttdeci">@ RATE_24K</div><div class="ttdef"><b>Definition:</b> DriverCommon.h:82</div></div>
+<div class="ttc" id="a_driver_common_8h_html_ga9455c9aa894b64d5d3997a038141991ba48d81c4b3d3c47c2edaf53287a74440f"><div class="ttname"><a href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba48d81c4b3d3c47c2edaf53287a74440f">RATE_22K</a></div><div class="ttdeci">@ RATE_22K</div><div class="ttdef"><b>Definition:</b> DriverCommon.h:81</div></div>
+<div class="ttc" id="a_driver_common_8h_html_ga9455c9aa894b64d5d3997a038141991ba635120f9ee8f66a9d42c4b3f5e2cf348"><div class="ttname"><a href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba635120f9ee8f66a9d42c4b3f5e2cf348">RATE_128K</a></div><div class="ttdeci">@ RATE_128K</div><div class="ttdef"><b>Definition:</b> DriverCommon.h:89</div></div>
+<div class="ttc" id="a_driver_common_8h_html_ga9455c9aa894b64d5d3997a038141991ba6c34cf487fbecbdb9c7282a24e338cb2"><div class="ttname"><a href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba6c34cf487fbecbdb9c7282a24e338cb2">RATE_8K</a></div><div class="ttdeci">@ RATE_8K</div><div class="ttdef"><b>Definition:</b> DriverCommon.h:78</div></div>
+<div class="ttc" id="a_driver_common_8h_html_ga9455c9aa894b64d5d3997a038141991ba91943b4ef802c7ff3aa4f4948870472c"><div class="ttname"><a href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991ba91943b4ef802c7ff3aa4f4948870472c">RATE_88K</a></div><div class="ttdeci">@ RATE_88K</div><div class="ttdef"><b>Definition:</b> DriverCommon.h:87</div></div>
+<div class="ttc" id="a_driver_common_8h_html_ga9455c9aa894b64d5d3997a038141991baaf2afb3b8f1a2bd2b6487e7faf89e4ff"><div class="ttname"><a href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991baaf2afb3b8f1a2bd2b6487e7faf89e4ff">RATE_176K</a></div><div class="ttdeci">@ RATE_176K</div><div class="ttdef"><b>Definition:</b> DriverCommon.h:90</div></div>
+<div class="ttc" id="a_driver_common_8h_html_ga9455c9aa894b64d5d3997a038141991bab22cf724e3c3bb37888df8870cc6f60b"><div class="ttname"><a href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991bab22cf724e3c3bb37888df8870cc6f60b">RATE_32K</a></div><div class="ttdeci">@ RATE_32K</div><div class="ttdef"><b>Definition:</b> DriverCommon.h:83</div></div>
+<div class="ttc" id="a_driver_common_8h_html_ga9455c9aa894b64d5d3997a038141991bac23375dadba2f10d3166fc98207dcd0c"><div class="ttname"><a href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991bac23375dadba2f10d3166fc98207dcd0c">RATE_96K</a></div><div class="ttdeci">@ RATE_96K</div><div class="ttdef"><b>Definition:</b> DriverCommon.h:88</div></div>
+<div class="ttc" id="a_driver_common_8h_html_ga9455c9aa894b64d5d3997a038141991baccef6e39d6855b77e2ec01e10095ea6b"><div class="ttname"><a href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991baccef6e39d6855b77e2ec01e10095ea6b">RATE_11K</a></div><div class="ttdeci">@ RATE_11K</div><div class="ttdef"><b>Definition:</b> DriverCommon.h:79</div></div>
+<div class="ttc" id="a_driver_common_8h_html_ga9455c9aa894b64d5d3997a038141991baceb52239e4a6b2fcc88cb4851e7d31c6"><div class="ttname"><a href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991baceb52239e4a6b2fcc88cb4851e7d31c6">RATE_64K</a></div><div class="ttdeci">@ RATE_64K</div><div class="ttdef"><b>Definition:</b> DriverCommon.h:86</div></div>
+<div class="ttc" id="a_driver_common_8h_html_ga9455c9aa894b64d5d3997a038141991bae713f819f76ea57722e5a1296fd77cf0"><div class="ttname"><a href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991bae713f819f76ea57722e5a1296fd77cf0">RATE_16K</a></div><div class="ttdeci">@ RATE_16K</div><div class="ttdef"><b>Definition:</b> DriverCommon.h:80</div></div>
+<div class="ttc" id="a_driver_common_8h_html_ga9455c9aa894b64d5d3997a038141991baf72a585e7262a1b6a49e268f3672987d"><div class="ttname"><a href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991baf72a585e7262a1b6a49e268f3672987d">RATE_48K</a></div><div class="ttdeci">@ RATE_48K</div><div class="ttdef"><b>Definition:</b> DriverCommon.h:85</div></div>
+<div class="ttc" id="a_driver_common_8h_html_ga9455c9aa894b64d5d3997a038141991bafa3a6c59d2bc607e34859a0afaf08707"><div class="ttname"><a href="_driver_common_8h.html#ga9455c9aa894b64d5d3997a038141991bafa3a6c59d2bc607e34859a0afaf08707">RATE_192K</a></div><div class="ttdeci">@ RATE_192K</div><div class="ttdef"><b>Definition:</b> DriverCommon.h:91</div></div>
 </div><!-- fragment -->
 </div>
 </div>
