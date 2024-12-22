@@ -7,16 +7,40 @@ In this project I finally implemented some clean and simple C++ classes. This __
 
 The goal of this project is to provide an __easy API to configure different audio codec chips__. After setting up the codec, you can use the I2S functionality provided by your microcontroller.
 
-Supported audio codec chips are e.g
-
-- AC101
-- ES8388
-- ES8311
-- CS43l22
-- ES7243
-- etc
-
 While you can use this library stand alone, I recommend to use it together with my [AudioTools](https://github.com/pschatzmann/arduino-audio-tools) project which provides a nice integration with it's [I2SCodecStream](https://pschatzmann.github.io/arduino-audio-tools/classaudio__tools_1_1_i2_s_codec_stream.html) class. Further information can be found in the [Wiki](https://github.com/pschatzmann/arduino-audio-driver/wiki).
+
+## Drivers and Boards
+
+This library privides the following drivers:
+
+- AudioDriverAC101
+- AudioDriverAD1938
+- AudioDriverCS42448
+- AudioDriverCS43l22
+- AudioDriverES7210
+- AudioDriverES7243
+- AudioDriverES7243e
+- AudioDriverES8156
+- AudioDriverES8311
+- AudioDriverES8374
+- AudioDriverES8388
+- AudioDriverLyratMini
+- AudioDriverPCM3168
+- AudioDriverWM8960
+- AudioDriverWM8978
+- AudioDriverWM8994
+
+And it supports the following boards:
+
+- AudioKitAC101 
+- AudioKitEs8388V1 
+- AudioKitEs8388V2 
+- GenericCS43l22 
+- GenericWM8960 
+- LyratMini
+- LyratV42 
+- LyratV43 
+- NoBoard 
 
 ## Logging
 
@@ -51,38 +75,6 @@ to enable others to understand and reproduce your issue.
 
 Finally, __don't__ send me any e-mails or post questions on my personal website! 
 
-## Drivers and Boards
-
-This library privides the following drivers:
-
-- AudioDriverAC101
-- AudioDriverAD1938
-- AudioDriverCS42448
-- AudioDriverCS43l22
-- AudioDriverES7210
-- AudioDriverES7243
-- AudioDriverES7243e
-- AudioDriverES8156
-- AudioDriverES8311
-- AudioDriverES8374
-- AudioDriverES8388
-- AudioDriverLyratMini
-- AudioDriverPCM3168
-- AudioDriverWM8960
-- AudioDriverWM8978
-- AudioDriverWM8994
-
-And it supports the following boards:
-
-- AudioKitAC101 
-- AudioKitEs8388V1 
-- AudioKitEs8388V2 
-- GenericCS43l22 
-- GenericWM8960 
-- LyratMini
-- LyratV42 
-- LyratV43 
-- NoBoard 
 
 ## Installation in Arduino
 
