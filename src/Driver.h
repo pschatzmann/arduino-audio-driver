@@ -193,13 +193,12 @@ class CodecConfig : public codec_config_t {
  */
 class AudioDriver {
  public:
-
   /// Starts the processing
   virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
     AD_LOGI("AudioDriver::begin");
     p_pins = &pins;
     pins.setSPIActiveForSD(codecCfg.sd_active);
-    if (!setConfig(codecCfg)){
+    if (!setConfig(codecCfg)) {
       AD_LOGE("setConfig has failed");
       return false;
     }
@@ -215,17 +214,17 @@ class AudioDriver {
     if (!init(codec_cfg)) {
       AD_LOGE("AudioDriver init failed");
       return false;
-    } 
+    }
     codec_mode_t codec_mode = codec_cfg.get_mode();
     if (!controlState(codec_mode)) {
       AD_LOGE("AudioDriver controlState failed");
       return false;
-    } 
+    }
     bool result = configInterface(codec_mode, codec_cfg.i2s);
     if (!result) {
       AD_LOGE("AudioDriver configInterface failed");
       return false;
-    } 
+    }
     return result;
   }
   /// Ends the processing: shut down dac and adc
@@ -258,7 +257,7 @@ class AudioDriver {
     if (p_pins == nullptr) {
       AD_LOGI("pins are null");
       return false;
-    } 
+    }
     GpioPin pin = pins().getPinID(PinFunction::PA);
     if (pin == -1) {
       AD_LOGI("PinFunction::PA not defined");
@@ -269,7 +268,7 @@ class AudioDriver {
     return true;
   }
 
-  operator bool() {return p_pins != nullptr;}
+  operator bool() { return p_pins != nullptr; }
 
  protected:
   CodecConfig codec_cfg;
@@ -282,7 +281,7 @@ class AudioDriver {
     if (!i2c) {
       return &Wire;
     }
-    TwoWire* result = i2c.value().p_wire;
+    TwoWire *result = i2c.value().p_wire;
     return result != nullptr ? result : &Wire;
   }
 
@@ -321,8 +320,8 @@ class AudioDriver {
 class NoDriverClass : public AudioDriver {
  public:
   virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
-    //codec_cfg = codecCfg;
-    //p_pins = &pins;
+    // codec_cfg = codecCfg;
+    // p_pins = &pins;
     return true;
   }
   virtual bool end(void) { return true; }
@@ -331,7 +330,9 @@ class NoDriverClass : public AudioDriver {
   virtual int getVolume() { return 100; }
   virtual bool setInputVolume(int volume) { return false; }
   virtual bool isVolumeSupported() {
-    { return false; }
+    {
+      return false;
+    }
   }
   virtual bool isInputVolumeSupported() { return false; }
 };
@@ -774,7 +775,7 @@ class AudioDriverES8311Class : public AudioDriver {
     // determine address from data
     if (i2c_address <= 0) i2c_address = getI2CAddress();
 
-    assert(getI2C()!=nullptr);
+    assert(getI2C() != nullptr);
     return es8311_codec_init(&codec_cfg, getI2C(), mclk_src, i2c_address) ==
            RESULT_OK;
   }
@@ -1379,29 +1380,43 @@ class AudioDriverPCM3168Class : public AudioDriver {
     PCM3168::FMT fmt = PCM3168::FMT::I2SHighSpeedTDM24bit;
     switch (iface.bits) {
       case BIT_LENGTH_16BITS:
-        if (iface.fmt!= I2S_RIGHT) {
+        if (iface.fmt != I2S_RIGHT) {
           AD_LOGW("Only I2S_RIGHT is supported for 16 bits");
         }
         fmt = PCM3168::FMT::Right16bit;
         break;
       case BIT_LENGTH_32BITS:
       case BIT_LENGTH_24BITS:
-        switch (iface.fmt) {
-          case I2S_NORMAL:
-            fmt = PCM3168::FMT::I2S24bit;
-            break;
-          case I2S_LEFT:
-            fmt = PCM3168::FMT::Left24bit;
-            break;
-          case I2S_RIGHT:
-            fmt = PCM3168::FMT::Right24bit;
-            break;
-          case I2S_DSP:
-            fmt = PCM3168::FMT::LeftDSP24bit;
-            break;
-          case I2S_TDM:
-            fmt = PCM3168::FMT::I2SHighSpeedTDM24bit;
-            break;
+        if (iface.singal_type == TDM) {
+          switch (iface.fmt) {
+            case I2S_NORMAL:
+              fmt = PCM3168::FMT::I2STDM24bit;
+              break;
+            case I2S_LEFT:
+              fmt = PCM3168::FMT::LeftTDM24bit;
+              break;
+            default:
+              AD_LOGE("Unsupported fmt for tdm");
+              return false;
+          }
+        } else {
+          switch (iface.fmt) {
+            case I2S_NORMAL:
+              fmt = PCM3168::FMT::I2S24bit;
+              break;
+            case I2S_LEFT:
+              fmt = PCM3168::FMT::Left24bit;
+              break;
+            case I2S_RIGHT:
+              fmt = PCM3168::FMT::Right24bit;
+              break;
+            case I2S_DSP:
+              fmt = PCM3168::FMT::LeftDSP24bit;
+              break;
+            default:
+              AD_LOGE("Unsupported fmt");
+              return false;
+          }
         }
         break;
       default:
@@ -1426,7 +1441,7 @@ class AudioDriverLyratMiniClass : public AudioDriver {
     codec_cfg = codecCfg;
 
     // setup SPI for SD
-    //pins.setSPIActiveForSD(codecCfg.sd_active);
+    // pins.setSPIActiveForSD(codecCfg.sd_active);
 
     bool ok = true;
 
@@ -1438,7 +1453,7 @@ class AudioDriverLyratMiniClass : public AudioDriver {
     setVolume(DRIVER_DEFAULT_VOLUME);
 
     // Start ES7243
-    if (codecCfg.input_device != ADC_INPUT_NONE){
+    if (codecCfg.input_device != ADC_INPUT_NONE) {
       AD_LOGI("starting ES7243");
       adc.setPins(this->pins());
       ok = ok && adc.setConfig(codecCfg);
@@ -1455,11 +1470,11 @@ class AudioDriverLyratMiniClass : public AudioDriver {
     rc += adc.end();
     return rc == 2;
   }
-  bool setMute(bool enable)  override { return dac.setMute(enable); }
-  bool setVolume(int volume)  override { return dac.setVolume(volume); }
-  int getVolume()  override { return dac.getVolume(); }
+  bool setMute(bool enable) override { return dac.setMute(enable); }
+  bool setVolume(int volume) override { return dac.setVolume(volume); }
+  int getVolume() override { return dac.getVolume(); }
   bool setInputVolume(int volume) override { return adc.setVolume(volume); }
-  int getInputVolume()  { return adc.getVolume(); }
+  int getInputVolume() { return adc.getVolume(); }
   bool isInputVolumeSupported() override { return true; }
 
  protected:

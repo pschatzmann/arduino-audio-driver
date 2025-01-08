@@ -323,6 +323,14 @@ error_t es7210_adc_init(codec_config_t *codec_cfg, void* i2c)
     ret |= es7210_config_sample(i2s_cfg->rate);
     ret |= es7210_mic_select(mic_select);
     ret |= es7210_adc_set_gain(ES7210_GAIN_30DB);
+
+    // set REG12
+    uint8_t reg12 = 0;
+    if (i2s_cfg->singal_type == TDM) {
+        reg12 = 0x02; // TDM I2S
+    }
+    ret |= es7210_write_reg(ES7210_SDP_INTERFACE2_REG12, reg12);
+
     return RESULT_OK;
 }
 
@@ -335,8 +343,10 @@ error_t es7210_config_fmt(i2s_format_t fmt)
 {
     error_t ret = RESULT_OK;
     uint8_t adc_iface = 0;
+
     adc_iface = es7210_read_reg(ES7210_SDP_INTERFACE1_REG11);
     adc_iface &= 0xfc;
+
     switch (fmt) {
         case I2S_NORMAL:
             AD_LOGD( "ES7210 in I2S Format");

@@ -116,8 +116,21 @@ typedef enum {
   I2S_LEFT = 1,   /*!< set all left format */
   I2S_RIGHT = 2,  /*!< set all right format */
   I2S_DSP = 3,    /*!< set dsp/pcm format */
-  I2S_TDM = 4,        /*!< set tdm format */
 } i2s_format_t;
+
+/**
+ * @enum singal_t
+ * @brief Usually the value is digital for i2s
+ * @ingroup enumerations
+ */
+
+typedef enum {
+  DIGITAL,
+  AMALOG,
+  PDM,
+  TDM,
+} singal_t;
+
 
 /**
  * @enum es_mic_gain_t
@@ -165,6 +178,7 @@ typedef enum {
   CHANNELS16 = 16,
 } channels_t;
 
+
 /**
  * @brief I2s interface configuration for audio codec chip
  * @ingroup audio_driver
@@ -181,6 +195,9 @@ typedef struct {
   sample_bits_t bits;
   /*!< i2s number of channels */
   channels_t channels;
+  /*!< signal tpye */
+  singal_t singal_type;
+
 } I2SDefinition;
 
 /**

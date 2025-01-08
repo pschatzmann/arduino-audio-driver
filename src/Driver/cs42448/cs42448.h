@@ -24,8 +24,8 @@
  *
  */
 #pragma once
-#include "DriverCommon.h"
 #include "Driver/DriverConstants.h"
+#include "DriverCommon.h"
 #include "Utils/I2C.h"
 
 /*
@@ -154,7 +154,7 @@ class CS42448 {
       this->i2c_address = i2cAddress;
     }
 
-    if (is_active){
+    if (is_active) {
       setMuteADC(true);
       setMuteDAC(true);
     }
@@ -556,28 +556,28 @@ class CS42448 {
 
   /// Set I2S format based on codec_config
   bool setFormat() {
-    switch (codec_config.i2s.fmt) {
-      case I2S_NORMAL:
-        return setFormat(Format::I2S);
-      case I2S_LEFT:
-        return setFormat(Format::LeftJustified24Bit);
-      case I2S_RIGHT:
-        Format fmt;
-        if (codec_config.i2s.bits == BIT_LENGTH_16BITS) {
-          fmt = Format::RightJustified16Bits;
-        } else if (codec_config.i2s.bits == BIT_LENGTH_16BITS) {
-          fmt = Format::RightJustified24Bits;
-        } else
+    if (codec_config.i2s.singal_type == singal_t::TDM) {
+      return setFormat(Format::TDM);
+    } else {
+      switch (codec_config.i2s.fmt) {
+        case I2S_NORMAL:
+          return setFormat(Format::I2S);
+        case I2S_LEFT:
+          return setFormat(Format::LeftJustified24Bit);
+        case I2S_RIGHT:
+          Format fmt;
+          if (codec_config.i2s.bits == BIT_LENGTH_16BITS) {
+            fmt = Format::RightJustified16Bits;
+          } else if (codec_config.i2s.bits == BIT_LENGTH_16BITS) {
+            fmt = Format::RightJustified24Bits;
+          } else
+            return false;
+          return setFormat(fmt);
+        default:
           return false;
-        return setFormat(fmt);
-      case I2S_TDM:
-        return setFormat(Format::TDM);
-      default:
-        return false;
+      }
     }
   }
-
-
 
   bool writeReg(uint8_t reg, uint8_t value) { return writeReg(reg, &value, 1); }
 
