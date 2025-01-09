@@ -125,10 +125,10 @@ typedef enum {
  */
 
 typedef enum {
-  DIGITAL,
-  AMALOG,
-  PDM,
-  TDM,
+  SIGNAL_DIGITAL,
+  SIGNAL_AMALOG,
+  SIGNAL_PDM,
+  SIGNAL_TDM,
 } singal_t;
 
 
