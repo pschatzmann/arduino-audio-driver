@@ -33,7 +33,8 @@ void setup() {
   // Setup logging
   Serial.begin(115200);
   AudioLogger::instance().begin(Serial, AudioLogger::Warning);
-  LOGLEVEL_AUDIODRIVER = AudioDriverWarning;
+  AudioDriverLogger.begin(Serial,AudioDriverLogLevel::Warning); 
+
   delay(2000);
 
   Serial.println("Setup starting...");

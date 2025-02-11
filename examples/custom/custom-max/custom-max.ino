@@ -13,7 +13,7 @@ AudioBoard board(AudioDriverES8388, my_pins);
 void setup() {
   // Setup logging
   Serial.begin(115200);
-  LOGLEVEL_AUDIODRIVER = AudioDriverInfo;
+  AudioDriverLogger.begin(Serial,AudioDriverLogLevel::Info); 
 
   // add i2c codec pins: scl, sda, port
   my_pins.addI2C(CODEC, 32, 22, 0x20);

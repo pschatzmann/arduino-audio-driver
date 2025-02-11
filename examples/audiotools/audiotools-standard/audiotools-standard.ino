@@ -17,7 +17,7 @@ void setup() {
   // Setup logging
   Serial.begin(115200);
   AudioLogger::instance().begin(Serial, AudioLogger::Warning);
-  LOGLEVEL_AUDIODRIVER = AudioDriverWarning;
+  AudioDriverLogger.begin(Serial,AudioDriverLogLevel::Info); 
 
   // start I2S & codec with i2c and i2s configured above
   Serial.println("starting I2S...");

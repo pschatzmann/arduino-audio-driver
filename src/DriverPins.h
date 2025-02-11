@@ -525,29 +525,31 @@ class DriverPins {
   }
 };
 
+
 /**
  * @brief Support for Touch
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
 class DriverTouchClass : public DriverPins {
-#ifdef ESP32
-# if SOC_TOUCH_SENSOR_SUPPORTED
   bool isKeyPressed(uint8_t key) override {
+    bool result = false;
+#if defined(ESP32) && defined(ARDUINO)
+# if SOC_TOUCH_SENSOR_SUPPORTED
     auto pin_opt = getPin(PinFunction::KEY, key);
     if (!pin_opt) return false;
     auto pin = pin_opt.value();
     int value = touchRead(pin.pin);
-    bool result = value <= touch_limit;
+    result = value <= touch_limit;
     if (result) {
       // retry to confirm reading
       value = touchRead(pin.pin);
       result = value <= touch_limit;
     }
-    return result;
-  }
 # endif
 #endif
+        return result;
+  }
   void setTouchLimit(int limit){
     touch_limit = limit;
   }

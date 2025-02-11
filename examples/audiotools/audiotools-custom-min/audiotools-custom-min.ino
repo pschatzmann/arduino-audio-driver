@@ -18,7 +18,7 @@ void setup() {
   // Setup logging
   Serial.begin(115200);
   AudioLogger::instance().begin(Serial, AudioLogger::Warning);
-  LOGLEVEL_AUDIODRIVER = AudioDriverWarning;
+  AudioDriverLogger.begin(Serial,AudioDriverLogLevel::Info); 
 
   // initialize i2c because board has no i2c definition
   Wire.begin();

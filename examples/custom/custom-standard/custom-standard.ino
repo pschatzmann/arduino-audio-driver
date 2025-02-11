@@ -8,7 +8,7 @@
 void setup() {
   // Setup logging
   Serial.begin(115200);
-  LOGLEVEL_AUDIODRIVER = AudioDriverInfo;
+  AudioDriverLogger.begin(Serial,AudioDriverLogLevel::Info); 
 
   // configure codec
   CodecConfig cfg;
