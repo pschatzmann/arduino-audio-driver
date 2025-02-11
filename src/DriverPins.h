@@ -532,6 +532,7 @@ class DriverPins {
  */
 class DriverTouchClass : public DriverPins {
 #ifdef ESP32
+# if SOC_TOUCH_SENSOR_SUPPORTED
   bool isKeyPressed(uint8_t key) override {
     auto pin_opt = getPin(PinFunction::KEY, key);
     if (!pin_opt) return false;
@@ -545,6 +546,7 @@ class DriverTouchClass : public DriverPins {
     }
     return result;
   }
+# endif
 #endif
   void setTouchLimit(int limit){
     touch_limit = limit;
