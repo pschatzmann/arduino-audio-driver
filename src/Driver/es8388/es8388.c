@@ -265,15 +265,6 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle) {
 
   int res = 0;
 
-  // Here check if ES8388 is responding on the I2C bus
-  res = i2c_bus_check(handle, ES8388_ADDR);
-  if (res != 0) {
-    AD_LOGE("ES8388 not found on I2C address %x, check wiring", ES8388_ADDR);
-    return res;
-  } else {
-    AD_LOGI("Found ES8388");
-  }
-
   res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL3,
                       0x04);  // 0x04 mute/0x00 unmute&ramp;DAC unmute and
                               // disabled digital volume control soft ramp
