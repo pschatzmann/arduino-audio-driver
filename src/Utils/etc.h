@@ -20,18 +20,18 @@
 #endif
 #endif
 
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-void audioDriverLogStr(const char* msg);
-void setAudioDriverLogOutput(void *out);
 #ifndef ARDUINO
 void pinMode(int, int);
 void digitalWrite(int, int);
 void delay(unsigned long);
 #endif
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+void audioDriverLogStr(const char* msg);
+void setAudioDriverLogOutput(void *out);
 
 #ifdef __cplusplus
 }

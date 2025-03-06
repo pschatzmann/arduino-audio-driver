@@ -322,6 +322,7 @@ class AudioDriver {
   DriverPins *p_pins = nullptr;
   int i2c_default_address = -1;
 
+  #ifdef ARDUINO
   /// Determine the TwoWire object from the I2C config or use Wire
   virtual TwoWire *getI2C() {
     if (p_pins == nullptr) return &Wire;
@@ -332,7 +333,18 @@ class AudioDriver {
     TwoWire *result = (TwoWire *)i2c.value().p_wire;
     return result != nullptr ? result : &Wire;
   }
-
+#else
+  /// Determine the TwoWire object from the I2C config or use Wire
+  virtual i2c_bus_handle_t *getI2C() {
+    if (p_pins == nullptr) return nullptr;
+    auto i2c = pins().getI2CPins(PinFunction::CODEC);
+    if (!i2c) {
+      return nullptr;
+    }
+    i2c_bus_handle_t *result = (i2c_bus_handle_t *)i2c.value().p_wire;
+    return result;
+  }
+#endif
 
   virtual bool init(codec_config_t codec_cfg) { return false; }
   virtual bool deinit() { return false; }

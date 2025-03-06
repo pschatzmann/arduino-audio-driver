@@ -3,7 +3,9 @@
 
 #include "etc.h"
 #include "Logger.h"
-#include "Print.h"
+#ifdef ARDUINO
+#  include "Print.h"
+#endif
 
 // define supported log levels
 enum class AudioDriverLogLevel {Debug=0, Info, Warning, Error};
@@ -16,6 +18,7 @@ public:
     void setLogLevel(AudioDriverLogLevel level){
         LOGLEVEL_AUDIODRIVER = (int) level;
     }
+#ifdef ARDUINO
     void setOutput(Print& out) {
         setAudioDriverLogOutput(&out);
     }
@@ -24,6 +27,7 @@ public:
         setOutput(out);
         return true;
     }
+#endif
     void end(){
         setAudioDriverLogOutput(nullptr);
     }

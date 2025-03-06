@@ -1,8 +1,8 @@
 
 #pragma once
 #include "DriverCommon.h"
-#include "Utils/API_SPI.h"
 #include "Utils/API_I2C.h"
+#include "Utils/API_SPI.h"
 #include "Utils/Optional.h"
 #include "Utils/Vector.h"
 #ifdef ARDUINO
@@ -166,10 +166,16 @@ struct PinsI2C : public I2CConfig {
     sda = -1;
     frequency = 100000;
     set_active = true;
+#ifdef ARDUINO
     p_wire = &Wire;
+#else
+    p_wire = nullptr;
+#endif
   };
+
+#ifdef ARDUINO
   PinsI2C(PinFunction function, GpioPin scl, GpioPin sda, int address = -1,
-          uint32_t frequency = 100000, TwoWire &wire = Wire,
+          uint32_t frequency = 100000, Wire &wire = DEFAULT_WIRE,
           bool active = true) {
     this->function = function;
     this->scl = scl;
@@ -180,6 +186,19 @@ struct PinsI2C : public I2CConfig {
     this->set_active = active;
     this->address = address;
   }
+#else
+  PinsI2C(PinFunction function, GpioPin scl, GpioPin sda, int address = -1,
+          uint32_t frequency = 100000, bool active = true) {
+    this->function = function;
+    this->scl = scl;
+    this->sda = sda;
+    this->port = 0;
+    this->frequency = frequency;
+    this->p_wire = nullptr;
+    this->set_active = active;
+    this->address = address;
+  }
+#endif
 
   PinFunction function;
   bool set_active = true;
@@ -252,12 +271,14 @@ class DriverPins {
     return true;
   }
 
+#ifdef ARDUINO
   bool addSPI(PinFunction function, GpioPin clk, GpioPin miso, GpioPin mosi,
               GpioPin cs, SPIClass &spi = SPI) {
     PinsSPI pin(function, clk, miso, mosi, cs, spi);
     return addSPI(pin);
   }
 
+#endif
   /// Updates the SPI pin information using the function as key
   bool setSPI(PinsSPI pin) { return set<PinsSPI>(pin, spi); }
 
@@ -267,18 +288,25 @@ class DriverPins {
     return true;
   }
 
+#ifdef ARDUINO
   bool addI2C(PinFunction function, GpioPin scl, GpioPin sda, int port = -1,
               uint32_t frequency = 100000, TwoWire &wire = Wire,
               bool active = true) {
     PinsI2C pin(function, scl, sda, port, frequency, wire, active);
     return addI2C(pin);
   }
-
   /// Just define your initialzed wire object
   bool addI2C(PinFunction function, TwoWire &wire, bool setActive = false) {
     PinsI2C pin(function, -1, -1, -1, -1, wire, setActive);
     return addI2C(pin);
   }
+#else
+  bool addI2C(PinFunction function, GpioPin scl, GpioPin sda, int port = -1,
+              uint32_t frequency = 100000, bool active = true) {
+    PinsI2C pin(function, scl, sda, port, frequency, active);
+    return addI2C(pin);
+  }
+#endif
 
   /// Updates the I2C pin information using the function as key
   bool setI2C(PinsI2C pin) { return set<PinsI2C>(pin, i2c); }
@@ -594,6 +622,7 @@ class PinsLyratMiniClass : public DriverPins {
     addPin(PinFunction::KEY, 39, PinLogic::Input, 0);
   }
 
+#ifdef ARDUINO
   /// When the button is released we might get some missreadings: so we read
   /// twice to guarantee a stable result
   bool isKeyPressed(uint8_t key) override {
@@ -607,6 +636,7 @@ class PinsLyratMiniClass : public DriverPins {
     AD_LOGD("value: %d,%d for key: %d -> %d", value1, key, result);
     return result;
   }
+#endif
 
   void setRange(int value) { range = value; }
 

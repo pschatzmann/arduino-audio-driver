@@ -2,7 +2,13 @@
 #include <stdint.h>
 
 #include "DriverCommon.h"
-#ifdef __cplusplus
+
+#ifndef ARDUINO
+// prevent compile errors
+struct SPIClass {
+  void *ref = nullptr;
+} SPI;
+#endif
 
 typedef int16_t GpioPin;
 
@@ -14,6 +20,7 @@ struct SPIConfig {
   GpioPin cs;
 };
 
+#ifdef __cplusplus
 extern "C" {
 #endif
 
