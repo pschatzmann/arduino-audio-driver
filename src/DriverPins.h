@@ -5,6 +5,7 @@
 #include "Utils/API_SPI.h"
 #include "Utils/Optional.h"
 #include "Utils/Vector.h"
+
 #ifdef ARDUINO
 #include "Wire.h"
 #endif
@@ -175,7 +176,7 @@ struct PinsI2C : public I2CConfig {
 
 #ifdef ARDUINO
   PinsI2C(PinFunction function, GpioPin scl, GpioPin sda, int address = -1,
-          uint32_t frequency = 100000, Wire &wire = DEFAULT_WIRE,
+          uint32_t frequency = 100000, TwoWire &wire = Wire,
           bool active = true) {
     this->function = function;
     this->scl = scl;
