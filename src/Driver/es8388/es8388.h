@@ -27,7 +27,7 @@
 #include "stdbool.h"
 #include "DriverCommon.h"
 #include "Driver/DriverConstants.h"
-#include "Utils/I2C.h"
+#include "Utils/API_I2C.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -117,7 +117,7 @@ typedef enum {
  *     - RESULT_OK
  *     - RESULT_FAIL
  */
-error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle);
+error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle, int addr);
 
 /**
  * @brief Deinitialize ES8388 codec chip

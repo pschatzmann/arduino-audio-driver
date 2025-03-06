@@ -22,14 +22,16 @@ static uint16_t REGVAL_TBL[58] = {
 // Return value: 0, success;
 // Other, error code
 uint8_t WM8978::Write_Reg(uint8_t reg, uint16_t val) {
-  char buf[2];
-  buf[0] = (reg << 1) | ((val >> 8) & 0X01);
-  buf[1] = val & 0XFF;
-  p_wire->beginTransmission(
-      WM8978_ADDR);  // Send data to the slave with device number 4
-  p_wire->write((const uint8_t*)buf, 2);
-  p_wire->endTransmission();  // Stop sending
-  REGVAL_TBL[reg] = val;   // Save register value to local
+  // char buf[2];
+  // buf[0] = (reg << 1) | ((val >> 8) & 0X01);
+  // buf[1] = val & 0XFF;
+  //  p_wire->beginTransmission(
+  //      WM8978_ADDR);  // Send data to the slave with device number 4
+  //  p_wire->write((const uint8_t*)buf, 2);
+  //  p_wire->endTransmission();  // Stop sending
+  uint8_t byte_val = val;
+  i2c_bus_write_bytes(p_wire, address, &reg, 1, &byte_val, 1);
+  REGVAL_TBL[reg] = val;  // Save register value to local
   return 0;
 }
 
@@ -41,13 +43,13 @@ uint8_t WM8978::Init(void) {
   res = Write_Reg(0, 0);  // Soft reset WM8978
   if (res) return 1;      // Failed to send command, WM8978 exception
   // The following are common settings
-  Write_Reg(1, 0X1B);  // R1, MICEN is set to 1 (MIC enabled), BIASEN is set to
-                       // 1 (simulator works), VMIDSEL[1:0] is set to: 11 (5K)
+  Write_Reg(1, 0X1B);   // R1, MICEN is set to 1 (MIC enabled), BIASEN is set to
+                        // 1 (simulator works), VMIDSEL[1:0] is set to: 11 (5K)
   Write_Reg(2, 0X1B0);  // R2, ROUT1, LOUT1 output enable (headphones can work),
                         // BOOSTENR, BOOSTENL enable
-  Write_Reg(3, 0X6C);  // R3, LOUT2, ROUT2 output enable (speaker operation),
-                       // RMIX, LMIX enable
-  Write_Reg(6, 0);        // R6, MCLK is provided externally
+  Write_Reg(3, 0X6C);   // R3, LOUT2, ROUT2 output enable (speaker operation),
+                        // RMIX, LMIX enable
+  Write_Reg(6, 0);      // R6, MCLK is provided externally
   Write_Reg(43, 1 << 4);  // R43, INVROUT2 reverse, drives the speaker
   Write_Reg(
       47,
@@ -167,8 +169,8 @@ void WM8978::setAUXgain(uint8_t gain) {
 }
 
 // Set I2S working mode
-// fmt:0,LSB(right-aligned);1,MSB(left-aligned);2,Philips standard, I2S;3,PCM/DSP; 
-// len: 0, 16 digits; 1, 20 digits; 2, 24 digits; 3, 32 digits;
+// fmt:0,LSB(right-aligned);1,MSB(left-aligned);2,Philips standard,
+// I2S;3,PCM/DSP; len: 0, 16 digits; 1, 20 digits; 2, 24 digits; 3, 32 digits;
 void WM8978::cfgI2S(uint8_t fmt, uint8_t len) {
   fmt &= 0X03;
   len &= 0X03;                            // Limited range
@@ -313,12 +315,12 @@ void WM8978::setHPF(uint8_t enable) {
 }
 
 bool WM8978::begin() {
-  p_wire->beginTransmission(WM8978_ADDR);
-  const uint8_t error = p_wire->endTransmission();
-  if (error) {
-    AD_LOGE("No WM8978 dac @ i2c address: 0x%X", WM8978_ADDR);
-    return false;
-  }
+  // p_wire->beginTransmission(WM8978_ADDR);
+  // const uint8_t error = p_wire->endTransmission();
+  // if (error) {
+  //   AD_LOGE("No WM8978 dac @ i2c address: 0x%X", WM8978_ADDR);
+  //   return false;
+  // }
   const int err = Init();
   if (err) {
     AD_LOGE("WM8978 init err: 0x%X", err);
@@ -343,11 +345,8 @@ bool WM8978::begin() {
   return true;
 }
 
-// bool WM8978::begin(const uint8_t sda, const uint8_t scl,
-//                    const uint32_t frequency) {
-//   if (!p_wire->begin(sda, scl, frequency)) {
-//     AD_LOGE("Wire setup error sda=%i scl=%i frequency=%i", sda, scl, frequency);
-//     return false;
-//   }
-//   return begin();
-// }
+bool WM8978::begin(i2c_bus_handle_t p_wire, int address) {
+  this->address = address;
+  this->p_wire = p_wire;
+  return begin();
+}

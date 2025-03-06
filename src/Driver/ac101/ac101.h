@@ -4,7 +4,7 @@
 
 #include "stdbool.h"
 #include "DriverCommon.h"
-#include "Utils/I2C.h"
+#include "Utils/API_I2C.h"
 #include "Driver/DriverConstants.h"
 
 #define I2C_MASTER_WRITE 0
@@ -165,7 +165,6 @@ typedef struct {
 	ac_i2s1_bclk_div_t bclk_div;    /*!< bits clock divide */
 	ac_i2s1_lrck_div_t lclk_div;    /*!< WS clock divide */
 } ac_i2s_clock_t;
-
 
 error_t ac101_init(codec_config_t* codec_cfg, i2c_bus_handle_t i2c_handle, int addr);
 error_t ac101_deinit(void);

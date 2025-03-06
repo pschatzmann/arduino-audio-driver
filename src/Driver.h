@@ -197,7 +197,16 @@ class AudioDriver {
   virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
     AD_LOGI("AudioDriver::begin");
     p_pins = &pins;
-    pins.setSPIActiveForSD(codecCfg.sd_active);
+
+    // Store default i2c address to pins
+    setupI2CAddress();
+
+    p_pins->setSPIActiveForSD(codec_cfg.sd_active);
+    if (!p_pins->begin()){
+      AD_LOGE("AudioBoard::pins::begin failed");
+      return false;
+    }
+
     if (!setConfig(codecCfg)) {
       AD_LOGE("setConfig has failed");
       return false;
@@ -270,9 +279,48 @@ class AudioDriver {
 
   operator bool() { return p_pins != nullptr; }
 
+  /// Defines the i2c address
+  virtual bool setI2CAddress(uint16_t adr) {
+    if (p_pins == nullptr) return false;
+    // look it up from the pin definition
+    auto i2c = pins().getI2CPins(PinFunction::CODEC);
+    if (i2c) {
+      AD_LOGI("==> Updating address: 0x%x", adr);
+      PinsI2C val = i2c.value();
+      val.address = adr;
+      pins().setI2C(val);
+      return true;
+    } else {
+      // we must have a codec defined!
+      assert(false);
+    }
+    return false;
+  }
+
+  /// Provides the i2c address
+  virtual int getI2CAddress() {
+    if (p_pins == nullptr) return i2c_default_address;
+    // look it up from the pin definition
+    auto i2c = pins().getI2CPins(PinFunction::CODEC);
+    if (i2c) {
+      auto value = i2c.value();
+      auto addr = value.address;
+      if (addr > -1) return addr;
+    }
+    return i2c_default_address;
+  }
+
+  /// If no address is defined in the pins we provide it here
+  void setupI2CAddress() {
+    AD_LOGI("setupI2CAddress: 0x%x", i2c_default_address);
+    int adr = getI2CAddress();
+    setI2CAddress(adr);
+  }
+
  protected:
   CodecConfig codec_cfg;
   DriverPins *p_pins = nullptr;
+  int i2c_default_address = -1;
 
   /// Determine the TwoWire object from the I2C config or use Wire
   virtual TwoWire *getI2C() {
@@ -281,18 +329,10 @@ class AudioDriver {
     if (!i2c) {
       return &Wire;
     }
-    TwoWire *result = i2c.value().p_wire;
+    TwoWire *result = (TwoWire *)i2c.value().p_wire;
     return result != nullptr ? result : &Wire;
   }
 
-  virtual int getI2CAddress() {
-    if (p_pins == nullptr) return -1;
-    auto i2c = pins().getI2CPins(PinFunction::CODEC);
-    if (i2c) {
-      return i2c.value().port;
-    }
-    return -1;
-  }
 
   virtual bool init(codec_config_t codec_cfg) { return false; }
   virtual bool deinit() { return false; }
@@ -344,6 +384,7 @@ class NoDriverClass : public AudioDriver {
  */
 class AudioDriverAC101Class : public AudioDriver {
  public:
+  AudioDriverAC101Class() { i2c_default_address = 0x1A; }
   bool setMute(bool mute) { return ac101_set_voice_mute(mute); }
   bool setVolume(int volume) {
     return ac101_set_voice_volume(limitValue(volume, 0, 100));
@@ -367,6 +408,9 @@ class AudioDriverAC101Class : public AudioDriver {
   }
 };
 
+#ifdef ARDUINO
+// currently only supported in Arduino because we do not have a platform
+// independent SPI API
 /**
  * @brief Driver API for AD1938 TDS DAC/ADC
  * @author Phil Schatzmann
@@ -382,7 +426,7 @@ class AudioDriverAD1938Class : public AudioDriver {
     auto spi_opt = pins.getSPIPins(PinFunction::CODEC);
     SPIClass *p_spi = nullptr;
     if (spi_opt) {
-      p_spi = spi_opt.value().p_spi;
+      p_spi = (SPIClass *)spi_opt.value().p_spi;
     } else {
       p_spi = &SPI;
       p_spi->begin();
@@ -439,6 +483,8 @@ class AudioDriverAD1938Class : public AudioDriver {
   int volumes[8] = {100};
 };
 
+#endif
+
 /**
  * @brief Driver API for the CS43l22 codec chip on 0x94 (0x4A<<1)
  * @author Phil Schatzmann
@@ -447,10 +493,8 @@ class AudioDriverAD1938Class : public AudioDriver {
 class AudioDriverCS43l22Class : public AudioDriver {
  public:
   AudioDriverCS43l22Class(uint16_t deviceAddr = 0x4A) {
-    this->deviceAddr = deviceAddr;
+    i2c_default_address = deviceAddr;
   }
-
-  void setI2CAddress(uint16_t adr) { deviceAddr = adr; }
 
   virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
     AD_LOGD("AudioDriverCS43l22Class::begin");
@@ -550,6 +594,7 @@ class AudioDriverCS43l22Class : public AudioDriver {
  */
 class AudioDriverCS42448Class : public AudioDriver {
  public:
+  AudioDriverCS42448Class() { i2c_default_address = 0x48; }
   bool begin(CodecConfig codecCfg, DriverPins &pins) override {
     cfg = codecCfg;
     // setup pins
@@ -612,6 +657,7 @@ class AudioDriverCS42448Class : public AudioDriver {
  */
 class AudioDriverES7210Class : public AudioDriver {
  public:
+  AudioDriverES7210Class() { i2c_default_address = ES7210_AD1_AD0_00 >> 1; }
   bool setMute(bool mute) { return es7210_set_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     this->volume = volume;
@@ -644,6 +690,7 @@ class AudioDriverES7210Class : public AudioDriver {
  */
 class AudioDriverES7243Class : public AudioDriver {
  public:
+  AudioDriverES7243Class() { i2c_default_address = 0x13; }
   bool setMute(bool mute) {
     return es7243_adc_set_voice_mute(mute) == RESULT_OK;
   }
@@ -678,6 +725,7 @@ class AudioDriverES7243Class : public AudioDriver {
 
 class AudioDriverES7243eClass : public AudioDriver {
  public:
+  AudioDriverES7243eClass() { i2c_default_address = 0x13; }
   bool setMute(bool mute) {
     return mute ? setVolume(0) == RESULT_OK : setVolume(volume) == RESULT_OK;
   }
@@ -715,6 +763,7 @@ class AudioDriverES7243eClass : public AudioDriver {
  */
 class AudioDriverES8156Class : public AudioDriver {
  public:
+  AudioDriverES8156Class() { i2c_default_address = 0x8; }
   bool setMute(bool mute) {
     return es8156_codec_set_voice_mute(mute) == RESULT_OK;
   }
@@ -750,7 +799,7 @@ class AudioDriverES8156Class : public AudioDriver {
  */
 class AudioDriverES8311Class : public AudioDriver {
  public:
-  AudioDriverES8311Class(int i2cAddr = 0) { i2c_address = i2cAddr; }
+  AudioDriverES8311Class() { i2c_default_address = 0x18; }
   bool setMute(bool mute) { return es8311_set_voice_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     return es8311_codec_set_voice_volume(limitValue(volume, 0, 100)) ==
@@ -763,8 +812,6 @@ class AudioDriverES8311Class : public AudioDriver {
   }
 
  protected:
-  int i2c_address;
-
   bool init(codec_config_t codec_cfg) {
     int mclk_src = pins().getPinID(PinFunction::MCLK_SOURCE);
     if (mclk_src == -1) {
@@ -772,11 +819,8 @@ class AudioDriverES8311Class : public AudioDriver {
     }
     AD_LOGI("MCLK_SOURCE: %d", mclk_src);
 
-    // determine address from data
-    if (i2c_address <= 0) i2c_address = getI2CAddress();
-
     assert(getI2C() != nullptr);
-    return es8311_codec_init(&codec_cfg, getI2C(), mclk_src, i2c_address) ==
+    return es8311_codec_init(&codec_cfg, getI2C(), mclk_src, getI2CAddress()) ==
            RESULT_OK;
   }
   bool deinit() { return es8311_codec_deinit() == RESULT_OK; }
@@ -796,7 +840,7 @@ class AudioDriverES8311Class : public AudioDriver {
  */
 class AudioDriverES8374Class : public AudioDriver {
  public:
-  AudioDriverES8374Class(int i2cAddr = 0) { i2c_address = i2cAddr; }
+  AudioDriverES8374Class() { i2c_default_address = 0x10; }
   bool setMute(bool mute) { return es8374_set_voice_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
@@ -810,15 +854,10 @@ class AudioDriverES8374Class : public AudioDriver {
   }
 
  protected:
-  int i2c_address;
-
   bool init(codec_config_t codec_cfg) {
     auto codec_mode = this->codec_cfg.get_mode();
-    if (i2c_address <= 0) {
-      i2c_address = getI2CAddress();
-    }
-    return es8374_codec_init(&codec_cfg, codec_mode, getI2C(), i2c_address) ==
-           RESULT_OK;
+    return es8374_codec_init(&codec_cfg, codec_mode, getI2C(),
+                             getI2CAddress()) == RESULT_OK;
   }
   bool deinit() { return es8374_codec_deinit() == RESULT_OK; }
 
@@ -837,6 +876,7 @@ class AudioDriverES8374Class : public AudioDriver {
  */
 class AudioDriverES8388Class : public AudioDriver {
  public:
+  AudioDriverES8388Class() { i2c_default_address = 0x10; }
   bool setMute(bool mute) {
     line_active[0] = !mute;
     line_active[1] = !mute;
@@ -917,7 +957,7 @@ class AudioDriverES8388Class : public AudioDriver {
   bool line_active[2] = {true};
 
   bool init(codec_config_t codec_cfg) {
-    return es8388_init(&codec_cfg, getI2C()) == RESULT_OK;
+    return es8388_init(&codec_cfg, getI2C(), getI2CAddress()) == RESULT_OK;
   }
   bool deinit() { return es8388_deinit() == RESULT_OK; }
 
@@ -936,6 +976,7 @@ class AudioDriverES8388Class : public AudioDriver {
  */
 class AudioDriverTAS5805MClass : public AudioDriver {
  public:
+  AudioDriverTAS5805MClass() { i2c_default_address = 0x2E; }
   bool setMute(bool mute) { return tas5805m_set_mute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
@@ -961,6 +1002,7 @@ class AudioDriverTAS5805MClass : public AudioDriver {
  */
 class AudioDriverWM8960Class : public AudioDriver {
  public:
+  AudioDriverWM8960Class() { i2c_default_address = 0x1A; }
   bool begin(CodecConfig codecCfg, DriverPins &pins) {
     codec_cfg = codecCfg;
 
@@ -1144,11 +1186,7 @@ class AudioDriverWM8978Class : public AudioDriver {
   bool begin(CodecConfig codecCfg, DriverPins &pins) override {
     bool rc = true;
     auto i2c = pins.getI2CPins(PinFunction::CODEC);
-    if (i2c && i2c.value().p_wire != nullptr) {
-      auto i2c_pins = i2c.value();
-      wm8078.setWire(*i2c_pins.p_wire);
-    }
-    rc = wm8078.begin();
+    rc = wm8078.begin(getI2C(), getI2CAddress());
     setConfig(codecCfg);
 
     // setup initial default volume
@@ -1286,10 +1324,8 @@ class AudioDriverWM8978Class : public AudioDriver {
 class AudioDriverWM8994Class : public AudioDriver {
  public:
   AudioDriverWM8994Class(uint16_t deviceAddr = 0x1A) {
-    this->deviceAddr = deviceAddr;
+    this->i2c_default_address = deviceAddr;
   }
-
-  void setI2CAddress(uint16_t adr) { deviceAddr = adr; }
 
   virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
     codec_cfg = codecCfg;
@@ -1301,28 +1337,28 @@ class AudioDriverWM8994Class : public AudioDriver {
     uint32_t freq = codecCfg.getRateNumeric();
     uint16_t outputDevice = getOutput(codec_cfg.output_device);
 
-    return wm8994_Init(deviceAddr, outputDevice, vol, freq, getI2C()) == 0;
+    return wm8994_Init(getI2CAddress(), outputDevice, vol, freq, getI2C()) == 0;
   }
 
   bool setMute(bool mute) {
-    uint32_t rc = mute ? wm8994_Pause(deviceAddr) : wm8994_Resume(deviceAddr);
+    uint32_t rc =
+        mute ? wm8994_Pause(getI2CAddress()) : wm8994_Resume(getI2CAddress());
     return rc == 0;
   }
 
   bool setVolume(int volume) {
     this->volume = volume;
     int vol = map(volume, 0, 100, DEFAULT_VOLMIN, DEFAULT_VOLMAX);
-    return wm8994_SetVolume(deviceAddr, vol) == 0;
+    return wm8994_SetVolume(getI2CAddress(), vol) == 0;
   }
   int getVolume() { return volume; }
 
  protected:
-  uint16_t deviceAddr;
   int volume = 100;
 
   bool deinit() {
-    int cnt = wm8994_Stop(deviceAddr, AUDIO_MUTE_ON);
-    cnt += wm8994_Reset(deviceAddr);
+    int cnt = wm8994_Stop(getI2CAddress(), AUDIO_MUTE_ON);
+    cnt += wm8994_Reset(getI2CAddress());
     setPAPower(false);
     return cnt == 0;
   }
@@ -1349,7 +1385,7 @@ class AudioDriverWM8994Class : public AudioDriver {
  */
 class AudioDriverPCM3168Class : public AudioDriver {
  public:
-  AudioDriverPCM3168Class() = default;
+  AudioDriverPCM3168Class() { i2c_default_address = 0x44; };
 
   bool setMute(bool mute) { return driver.setMute(mute); }
 
@@ -1366,7 +1402,7 @@ class AudioDriverPCM3168Class : public AudioDriver {
   PCM3168 driver;
 
   bool init(codec_config_t codec_cfg) {
-    driver.setWire(*getI2C());
+    driver.setWire(getI2C());
     driver.setAddress(getI2CAddress());
     return true;
   }
@@ -1512,9 +1548,13 @@ static AudioDriverLyratMiniClass AudioDriverLyratMini;
 /// @ingroup audio_driver
 static NoDriverClass NoDriver;
 /// @ingroup audio_driver
-static AudioDriverAD1938Class AudioDriverAD1938;
-/// @ingroup audio_driver
 static AudioDriverCS42448Class AudioDriverCS42448;
 /// @ingroup audio_driver
 static AudioDriverPCM3168Class AudioDriverPCM3168;
+
+#ifdef ARDUINO
+/// @ingroup audio_driver
+static AudioDriverAD1938Class AudioDriverAD1938;
+#endif
+
 }  // namespace audio_driver

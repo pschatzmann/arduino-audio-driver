@@ -42,6 +42,7 @@ typedef enum {
 
 static i2c_bus_handle_t i2c_handle = NULL;
 static int dac_power = 0x3c;
+static int address = ES8388_ADDR;
 
 #define ES_ASSERT(a, format, b, ...) \
   if ((a) != 0) {                    \
@@ -55,7 +56,7 @@ static error_t es_write_reg(uint8_t slave_addr, uint8_t reg_add, uint8_t data) {
 }
 
 static error_t es_read_reg(uint8_t reg_add, uint8_t *p_data) {
-  return i2c_bus_read_bytes(i2c_handle, ES8388_ADDR, &reg_add, sizeof(reg_add),
+  return i2c_bus_read_bytes(i2c_handle, address, &reg_add, sizeof(reg_add),
                             p_data, 1);
 }
 
@@ -69,11 +70,11 @@ void es8388_read_all() {
 }
 
 error_t es8388_write_reg(uint8_t reg_add, uint8_t data) {
-  return es_write_reg(ES8388_ADDR, reg_add, data);
+  return es_write_reg(address, reg_add, data);
 }
 
 error_t es8388_read_reg(uint8_t reg_add, uint8_t *p_data) {
-  return i2c_bus_read_bytes(i2c_handle, ES8388_ADDR, &reg_add, sizeof(reg_add),
+  return i2c_bus_read_bytes(i2c_handle, address, &reg_add, sizeof(reg_add),
                             p_data, 1);
 }
 
@@ -104,13 +105,13 @@ static int es8388_set_adc_dac_volume(int mode, int volume, int dot) {
   dot = (dot >= 5 ? 1 : 0);
   volume = (-volume << 1) + dot;
   if (mode == CODEC_MODE_ENCODE || mode == CODEC_MODE_BOTH) {
-    res |= es_write_reg(ES8388_ADDR, ES8388_ADCCONTROL8, volume);
-    res |= es_write_reg(ES8388_ADDR, ES8388_ADCCONTROL9,
+    res |= es_write_reg(address, ES8388_ADCCONTROL8, volume);
+    res |= es_write_reg(address, ES8388_ADCCONTROL9,
                         volume);  // ADC Right Volume=0db
   }
   if (mode == CODEC_MODE_DECODE || mode == CODEC_MODE_BOTH) {
-    res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL5, volume);
-    res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL4, volume);
+    res |= es_write_reg(address, ES8388_DACCONTROL5, volume);
+    res |= es_write_reg(address, ES8388_DACCONTROL4, volume);
   }
   return res;
 }
@@ -133,38 +134,38 @@ error_t es8388_start(codec_mode_t mode) {
   es_read_reg(ES8388_DACCONTROL21, &prev_data);
   if (mode == CODEC_MODE_LINE_IN) {
     res |= es_write_reg(
-        ES8388_ADDR, ES8388_DACCONTROL16,
+        address, ES8388_DACCONTROL16,
         0x09);  // 0x00 audio on LIN1&RIN1,  0x09 LIN2&RIN2 by pass enable
     res |=
-        es_write_reg(ES8388_ADDR, ES8388_DACCONTROL17,
+        es_write_reg(address, ES8388_DACCONTROL17,
                      0x50);  // left DAC to left mixer enable  and  LIN signal
                              // to left mixer enable 0db  : bupass enable
     res |=
-        es_write_reg(ES8388_ADDR, ES8388_DACCONTROL20,
+        es_write_reg(address, ES8388_DACCONTROL20,
                      0x50);  // right DAC to right mixer enable  and  LIN signal
                              // to right mixer enable 0db : bupass enable
-    res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL21, 0xC0);  // enable adc
+    res |= es_write_reg(address, ES8388_DACCONTROL21, 0xC0);  // enable adc
   } else {
-    res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL21, 0x80);  // enable dac
+    res |= es_write_reg(address, ES8388_DACCONTROL21, 0x80);  // enable dac
   }
   es_read_reg(ES8388_DACCONTROL21, &data);
   if (prev_data != data) {
-    res |= es_write_reg(ES8388_ADDR, ES8388_CHIPPOWER,
+    res |= es_write_reg(address, ES8388_CHIPPOWER,
                         0xF0);  // start state machine
-    // res |= es_write_reg(ES8388_ADDR, ES8388_CONTROL1, 0x16);
-    // res |= es_write_reg(ES8388_ADDR, ES8388_CONTROL2, 0x50);
-    res |= es_write_reg(ES8388_ADDR, ES8388_CHIPPOWER,
+    // res |= es_write_reg(address, ES8388_CONTROL1, 0x16);
+    // res |= es_write_reg(address, ES8388_CONTROL2, 0x50);
+    res |= es_write_reg(address, ES8388_CHIPPOWER,
                         0x00);  // start state machine
   }
   if (mode == CODEC_MODE_ENCODE || mode == CODEC_MODE_BOTH ||
       mode == CODEC_MODE_LINE_IN) {
-    res |= es_write_reg(ES8388_ADDR, ES8388_ADCPOWER,
+    res |= es_write_reg(address, ES8388_ADCPOWER,
                         0x00);  // power up adc and line in
     AD_LOGD("es8388_start default is mode:%d", mode);
   }
   if (mode == CODEC_MODE_DECODE || mode == CODEC_MODE_BOTH ||
       mode == CODEC_MODE_LINE_IN) {
-    res |= es_write_reg(ES8388_ADDR, ES8388_DACPOWER,
+    res |= es_write_reg(address, ES8388_DACPOWER,
                         dac_power);  // power up dac and line out
     res |= es8388_set_voice_mute(false);
     AD_LOGD("es8388_start default is mode:%d", mode);
@@ -188,33 +189,33 @@ error_t es8388_stop(codec_mode_t mode) {
   AD_LOGD(LOG_METHOD);
   error_t res = RESULT_OK;
   if (mode == CODEC_MODE_LINE_IN) {
-    res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL21, 0x80);  // enable dac
-    res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL16,
+    res |= es_write_reg(address, ES8388_DACCONTROL21, 0x80);  // enable dac
+    res |= es_write_reg(address, ES8388_DACCONTROL16,
                         0x00);  // 0x00 audio on LIN1&RIN1,  0x09 LIN2&RIN2
-    res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL17,
+    res |= es_write_reg(address, ES8388_DACCONTROL17,
                         0x90);  // only left DAC to left mixer enable 0db
-    res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL20,
+    res |= es_write_reg(address, ES8388_DACCONTROL20,
                         0x90);  // only right DAC to right mixer enable 0db
     return res;
   }
   if (mode == CODEC_MODE_DECODE || mode == CODEC_MODE_BOTH) {
-    res |= es_write_reg(ES8388_ADDR, ES8388_DACPOWER, 0x00);
+    res |= es_write_reg(address, ES8388_DACPOWER, 0x00);
     res |= es8388_set_voice_mute(true);
     // res |= Es8388SetAdcDacVolume(CODEC_MODE_DECODE, -96, 5);      // 0db
-    // res |= es_write_reg(ES8388_ADDR, ES8388_DACPOWER, 0xC0);  //power down
+    // res |= es_write_reg(address, ES8388_DACPOWER, 0xC0);  //power down
     // dac and line out
   }
   if (mode == CODEC_MODE_ENCODE || mode == CODEC_MODE_BOTH) {
     // res |= Es8388SetAdcDacVolume(CODEC_MODE_ENCODE, -96, 5);      // 0db
-    res |= es_write_reg(ES8388_ADDR, ES8388_ADCPOWER,
+    res |= es_write_reg(address, ES8388_ADCPOWER,
                         0xFF);  // power down adc and line in
   }
   if (mode == CODEC_MODE_BOTH) {
-    res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL21, 0x9C);  // disable
+    res |= es_write_reg(address, ES8388_DACCONTROL21, 0x9C);  // disable
                                                                   // mclk
-    //        res |= es_write_reg(ES8388_ADDR, ES8388_CONTROL1, 0x00);
-    //        res |= es_write_reg(ES8388_ADDR, ES8388_CONTROL2, 0x58);
-    //        res |= es_write_reg(ES8388_ADDR, ES8388_CHIPPOWER, 0xF3);  //stop
+    //        res |= es_write_reg(address, ES8388_CONTROL1, 0x00);
+    //        res |= es_write_reg(address, ES8388_CONTROL2, 0x58);
+    //        res |= es_write_reg(address, ES8388_CHIPPOWER, 0xF3);  //stop
     //        state machine
   }
 
@@ -234,10 +235,10 @@ error_t es8388_stop(codec_mode_t mode) {
 error_t es8388_i2s_config_clock(es_i2s_clock_t cfg) {
   AD_LOGD(LOG_METHOD);
   error_t res = RESULT_OK;
-  res |= es_write_reg(ES8388_ADDR, ES8388_MASTERMODE, cfg.sclk_div);
-  res |= es_write_reg(ES8388_ADDR, ES8388_ADCCONTROL5,
+  res |= es_write_reg(address, ES8388_MASTERMODE, cfg.sclk_div);
+  res |= es_write_reg(address, ES8388_ADCCONTROL5,
                       cfg.lclk_div);  // ADCFsMode,singel SPEED,RATIO=256
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL2,
+  res |= es_write_reg(address, ES8388_DACCONTROL2,
                       cfg.lclk_div);  // ADCFsMode,singel SPEED,RATIO=256
   return res;
 }
@@ -245,7 +246,7 @@ error_t es8388_i2s_config_clock(es_i2s_clock_t cfg) {
 error_t es8388_deinit(void) {
   AD_LOGD(LOG_METHOD);
   int res = 0;
-  res = es_write_reg(ES8388_ADDR, ES8388_CHIPPOWER,
+  res = es_write_reg(address, ES8388_CHIPPOWER,
                      0xFF);  // reset and stop es8388
 #ifdef CONFIG_ESP_LYRAT_V4_3_BOARD
   headphone_detect_deinit();
@@ -259,49 +260,51 @@ error_t es8388_deinit(void) {
  *     - (-1)  Error
  *     - (0)   Success
  */
-error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle) {
+error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle, int addr) {
   AD_LOGD(LOG_METHOD);
   i2c_handle = handle;
+  // set address
+  if (addr>0) address = addr;
 
   int res = 0;
 
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL3,
+  res |= es_write_reg(address, ES8388_DACCONTROL3,
                       0x04);  // 0x04 mute/0x00 unmute&ramp;DAC unmute and
                               // disabled digital volume control soft ramp
   /* Chip Control and Power Management */
-  res |= es_write_reg(ES8388_ADDR, ES8388_CONTROL2, 0x50);
-  res |= es_write_reg(ES8388_ADDR, ES8388_CHIPPOWER,
+  res |= es_write_reg(address, ES8388_CONTROL2, 0x50);
+  res |= es_write_reg(address, ES8388_CHIPPOWER,
                       0x00);  // normal all and power up all
 
   // Disable the internal DLL to improve 8K sample rate
-  res |= es_write_reg(ES8388_ADDR, 0x35, 0xA0);
-  res |= es_write_reg(ES8388_ADDR, 0x37, 0xD0);
-  res |= es_write_reg(ES8388_ADDR, 0x39, 0xD0);
+  res |= es_write_reg(address, 0x35, 0xA0);
+  res |= es_write_reg(address, 0x37, 0xD0);
+  res |= es_write_reg(address, 0x39, 0xD0);
 
-  res |= es_write_reg(ES8388_ADDR, ES8388_MASTERMODE,
+  res |= es_write_reg(address, ES8388_MASTERMODE,
                       cfg->i2s.mode);  // CODEC IN I2S SLAVE MODE
 
   /* dac */
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACPOWER,
+  res |= es_write_reg(address, ES8388_DACPOWER,
                       0xC0);  // disable DAC and disable Lout/Rout/1/2
-  res |= es_write_reg(ES8388_ADDR, ES8388_CONTROL1,
+  res |= es_write_reg(address, ES8388_CONTROL1,
                       0x12);  // Enfr=0,Play&Record Mode,(0x17-both of mic&paly)
-  //    res |= es_write_reg(ES8388_ADDR, ES8388_CONTROL2, 0);
+  //    res |= es_write_reg(address, ES8388_CONTROL2, 0);
   //    //LPVrefBuf=0,Pdn_ana=0
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL1,
+  res |= es_write_reg(address, ES8388_DACCONTROL1,
                       0x18);  // 1a 0x18:16bit iis , 0x00:24
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL2,
+  res |= es_write_reg(address, ES8388_DACCONTROL2,
                       0x02);  // DACFsMode,SINGLE SPEED; DACFsRatio,256
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL16,
+  res |= es_write_reg(address, ES8388_DACCONTROL16,
                       0x00);  // 0x00 audio on LIN1&RIN1,  0x09 LIN2&RIN2
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL17,
+  res |= es_write_reg(address, ES8388_DACCONTROL17,
                       0x90);  // only left DAC to left mixer enable 0db
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL20,
+  res |= es_write_reg(address, ES8388_DACCONTROL20,
                       0x90);  // only right DAC to right mixer enable 0db
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL21,
+  res |= es_write_reg(address, ES8388_DACCONTROL21,
                       0x80);  // set internal ADC and DAC use the same LRCK
                               // clock, ADC LRCK as internal LRCK
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL23, 0x00);  // vroi=0
+  res |= es_write_reg(address, ES8388_DACCONTROL23, 0x00);  // vroi=0
   res |= es8388_set_adc_dac_volume(CODEC_MODE_DECODE, 0, 0);    // 0db
   dac_power = 0;
   AD_LOGI("output_device: %d", cfg->output_device);
@@ -313,10 +316,10 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle) {
     dac_power = ES8388_OUTPUT_LOUT1 | ES8388_OUTPUT_LOUT2 |
                 ES8388_OUTPUT_ROUT1 | ES8388_OUTPUT_ROUT2;
   }
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACPOWER,
+  res |= es_write_reg(address, ES8388_DACPOWER,
                       dac_power);  // 0x3c Enable DAC and Enable Lout/Rout/1/2
   /* adc */
-  res |= es_write_reg(ES8388_ADDR, ES8388_ADCPOWER, 0xFF);
+  res |= es_write_reg(address, ES8388_ADCPOWER, 0xFF);
 
   // // AudioDriver: WORKAROUND_MIC_LINEIN_MIXED
   es_mic_gain_t mic_gain = (es_mic_gain_t)ES8388_DEFAULT_INPUT_GAIN;
@@ -328,8 +331,8 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle) {
   //         cfg->input_device= ADC_INPUT_LINE2;
   //     }
   // }
-  // res |= es_write_reg(ES8388_ADDR, ES8388_ADCCONTROL1, 0xbb); // MIC Left and
-  // Right channel PGA gain res |= es_write_reg(ES8388_ADDR, ES8388_ADCCONTROL1,
+  // res |= es_write_reg(address, ES8388_ADCCONTROL1, 0xbb); // MIC Left and
+  // Right channel PGA gain res |= es_write_reg(address, ES8388_ADCCONTROL1,
   // ES8388_DEFAULT_INPUT_GAIN); // MIC Left and Right channel PGA gain
   res |= es8388_set_mic_gain(mic_gain);
   int tmp = 0;
@@ -340,18 +343,18 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle) {
   } else {
     tmp = ESP8388_INPUT_DIFFERENCE;
   }
-  res |= es_write_reg(ES8388_ADDR, ES8388_ADCCONTROL2,
+  res |= es_write_reg(address, ES8388_ADCCONTROL2,
                       tmp);  // 0x00 LINSEL & RINSEL, LIN1/RIN1 as ADC Input;
                              // DSSEL,use one DS Reg11; DSR, LINPUT1-RINPUT1
-  res |= es_write_reg(ES8388_ADDR, ES8388_ADCCONTROL3, 0x02);
-  res |= es_write_reg(ES8388_ADDR, ES8388_ADCCONTROL4,
+  res |= es_write_reg(address, ES8388_ADCCONTROL3, 0x02);
+  res |= es_write_reg(address, ES8388_ADCCONTROL4,
                       0x0d);  // Left/Right data, Left/Right justified mode,
                               // Bits length, I2S format
-  res |= es_write_reg(ES8388_ADDR, ES8388_ADCCONTROL5,
+  res |= es_write_reg(address, ES8388_ADCCONTROL5,
                       0x02);  // ADCFsMode,singel SPEED,RATIO=256
   // ALC for Microphone
   res |= es8388_set_adc_dac_volume(CODEC_MODE_ENCODE, 0, 0);  // 0db
-  res |= es_write_reg(ES8388_ADDR, ES8388_ADCPOWER,
+  res |= es_write_reg(address, ES8388_ADCPOWER,
                       0x09);  // Power on ADC, Enable LIN&RIN, Power off
                               // MICBIAS, set int1lp to low power mode
   // es8388_pa_power(cfg->_DAC_OUTPUT!=ES8388_OUTPUT_LINE2);
@@ -376,12 +379,12 @@ error_t es8388_config_fmt(codec_mode_t mode, i2s_format_t fmt) {
   if (mode == CODEC_MODE_ENCODE || mode == CODEC_MODE_BOTH) {
     res = es_read_reg(ES8388_ADCCONTROL4, &reg);
     reg = reg & 0xfc;
-    res |= es_write_reg(ES8388_ADDR, ES8388_ADCCONTROL4, reg | fmt);
+    res |= es_write_reg(address, ES8388_ADCCONTROL4, reg | fmt);
   }
   if (mode == CODEC_MODE_DECODE || mode == CODEC_MODE_BOTH) {
     res = es_read_reg(ES8388_DACCONTROL1, &reg);
     reg = reg & 0xf9;
-    res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL1, reg | (fmt << 1));
+    res |= es_write_reg(address, ES8388_DACCONTROL1, reg | (fmt << 1));
   }
   return res;
 }
@@ -405,14 +408,14 @@ error_t es8388_set_voice_volume(int volume) {
     volume = 100;
   volume /= 3;
   // DAC LDACVOL RDACVOL default 0 = 0DB; Default value 192 = – -96 dB
-  res = es_write_reg(ES8388_ADDR, ES8388_DACCONTROL4, 0);
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL5, 0);
+  res = es_write_reg(address, ES8388_DACCONTROL4, 0);
+  res |= es_write_reg(address, ES8388_DACCONTROL5, 0);
   // LOUT1 LOUT1 volume: dataheet says only 6 bits
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL24, volume);
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL25, volume);
+  res |= es_write_reg(address, ES8388_DACCONTROL24, volume);
+  res |= es_write_reg(address, ES8388_DACCONTROL25, volume);
   // LOUT2 ROUT2 volume: datasheet says only 6 bits
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL26, volume);
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL27, volume);
+  res |= es_write_reg(address, ES8388_DACCONTROL26, volume);
+  res |= es_write_reg(address, ES8388_DACCONTROL27, volume);
   return res;
 }
 
@@ -427,14 +430,14 @@ error_t es8388_set_voice_volume(int volume) {
     volume = 100;
   volume = (volume * 63) / 100;
   // LOUT1 RLOUT1 volume: dataheet says only 6 bits
-  res = es_write_reg(ES8388_ADDR, ES8388_DACCONTROL24, volume);
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL25, volume);
+  res = es_write_reg(address, ES8388_DACCONTROL24, volume);
+  res |= es_write_reg(address, ES8388_DACCONTROL25, volume);
   // DAC LDACVOL RDACVOL default 0 = 0DB; Default value 192 = – -96 dB
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL26, 0);
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL27, 0);
+  res |= es_write_reg(address, ES8388_DACCONTROL26, 0);
+  res |= es_write_reg(address, ES8388_DACCONTROL27, 0);
   // 30-bit a coefficient for shelving filter
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL8, 192 >> 2);
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL9, 192 >> 2);
+  res |= es_write_reg(address, ES8388_DACCONTROL8, 192 >> 2);
+  res |= es_write_reg(address, ES8388_DACCONTROL9, 192 >> 2);
   return res;
 }
 
@@ -449,11 +452,11 @@ error_t es8388_set_voice_volume(int volume) {
     volume = 100;
   volume /= 3;
   // ROUT1VOL LOUT1VOL 0 -> -45dB; 33 -> – 4.5dB
-  res = es_write_reg(ES8388_ADDR, ES8388_DACCONTROL24, volume);
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL25, volume);
+  res = es_write_reg(address, ES8388_DACCONTROL24, volume);
+  res |= es_write_reg(address, ES8388_DACCONTROL25, volume);
   // DAC LDACVOL RDACVOL default 0 = 0DB; Default value 192 = – -96 dB
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL26, 0);
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL27, 0);
+  res |= es_write_reg(address, ES8388_DACCONTROL26, 0);
+  res |= es_write_reg(address, ES8388_DACCONTROL27, 0);
   return res;
 }
 #endif
@@ -498,12 +501,12 @@ error_t es8388_set_bits_per_sample(codec_mode_t mode,
   if (mode == CODEC_MODE_ENCODE || mode == CODEC_MODE_BOTH) {
     res = es_read_reg(ES8388_ADCCONTROL4, &reg);
     reg = reg & 0xe3;
-    res |= es_write_reg(ES8388_ADDR, ES8388_ADCCONTROL4, reg | (bits << 2));
+    res |= es_write_reg(address, ES8388_ADCCONTROL4, reg | (bits << 2));
   }
   if (mode == CODEC_MODE_DECODE || mode == CODEC_MODE_BOTH) {
     res = es_read_reg(ES8388_DACCONTROL1, &reg);
     reg = reg & 0xc7;
-    res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL1, reg | (bits << 3));
+    res |= es_write_reg(address, ES8388_DACCONTROL1, reg | (bits << 3));
   }
   return res;
 }
@@ -525,7 +528,7 @@ error_t es8388_set_voice_mute(bool enable) {
   res = es_read_reg(ES8388_DACCONTROL3, &reg);
   reg = reg & 0xC3; // keep 11000011
   int value = enable ? 0x3C : 0; // enable is 00111100 / disable is 00000000
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACCONTROL3, value | reg);
+  res |= es_write_reg(address, ES8388_DACCONTROL3, value | reg);
   return res;
 }
 
@@ -575,7 +578,7 @@ error_t es8388_config_output_device(output_device_t output_device) {
       AD_LOGI("DAC_OUTPUT_NONE: 0x%x",reg | value);
       break;
   }
-  res |= es_write_reg(ES8388_ADDR, ES8388_DACPOWER, reg | value);
+  res |= es_write_reg(address, ES8388_DACPOWER, reg | value);
   return res;
 }
 
@@ -592,7 +595,7 @@ error_t es8388_config_input_device(es8388_input_device_t input) {
   uint8_t reg = 0;
   res = es_read_reg(ES8388_ADCCONTROL2, &reg);
   reg = reg & 0x0f;
-  res |= es_write_reg(ES8388_ADDR, ES8388_ADCCONTROL2, reg | input);
+  res |= es_write_reg(address, ES8388_ADCCONTROL2, reg | input);
   return res;
 }
 
@@ -608,7 +611,7 @@ error_t es8388_set_mic_gain(es_mic_gain_t gain) {
   error_t res, gain_n;
   gain_n = (int)gain / 3;
   gain_n = (gain_n << 4) + gain_n;
-  res = es_write_reg(ES8388_ADDR, ES8388_ADCCONTROL1, gain_n);  // MIC PGA
+  res = es_write_reg(address, ES8388_ADCCONTROL1, gain_n);  // MIC PGA
   return res;
 }
 

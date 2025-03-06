@@ -8,6 +8,7 @@
 static i2c_bus_handle_t i2c_handle = NULL;
 static int i2c_addr_ac101 = AC101_ADDR;
 
+
 #define AC_ASSERT(a, format, b, ...)          \
 	if ((a) != 0)                             \
 	{                                         \

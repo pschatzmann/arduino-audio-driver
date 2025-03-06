@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
+#ifdef ARDUINO
 #pragma once
 #include <SPI.h>
 #include "DriverCommon.h"
@@ -98,3 +98,5 @@ class AD1938 {
     return vol;
   }
 };
+
+#endif

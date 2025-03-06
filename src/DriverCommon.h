@@ -27,6 +27,7 @@ namespace audio_driver {
 typedef int error_t;
 typedef void *i2c_bus_handle_t;
 typedef void *i2c_cmd_handle_t;
+typedef void *spi_bus_handle_t;
 
 /**
  * @enum input_device_t

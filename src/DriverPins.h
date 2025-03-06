@@ -1,28 +1,29 @@
 
 #pragma once
-#include "Wire.h"
-#include "SPI.h"
 #include "DriverCommon.h"
+#include "Utils/API_SPI.h"
+#include "Utils/API_I2C.h"
 #include "Utils/Optional.h"
 #include "Utils/Vector.h"
+#ifdef ARDUINO
+#include "Wire.h"
+#endif
 
 #ifndef TOUCH_LIMIT
-#  define TOUCH_LIMIT 20
+#define TOUCH_LIMIT 20
 #endif
 
 #ifndef LYRAT_MINI_RANGE
-#  define LYRAT_MINI_RANGE 5
+#define LYRAT_MINI_RANGE 5
 #endif
 
 #ifndef LYRAT_MINI_DELAY_MS
-#  define LYRAT_MINI_DELAY_MS 5
+#define LYRAT_MINI_DELAY_MS 5
 #endif
 
 namespace audio_driver {
 
 /** @file */
-
-using GpioPin = int16_t;
 
 /**
  * @enum PinLogic
@@ -60,7 +61,6 @@ enum class PinFunction {
   RESET,
   MCLK_SOURCE,
 };
-
 
 /**
  * @enum AudioDriverKey
@@ -104,12 +104,19 @@ struct PinsI2S {
 };
 
 /**
- * @brief SPI pins
+ * @brief SPI pins: In Arduino we initialize the SPI, on other platform
+ * we just provide the pin information
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
-struct PinsSPI {
-  PinsSPI() = default;
+struct PinsSPI : public SPIConfig {
+  PinsSPI() {
+    this->clk = -1;
+    this->miso = -1;
+    this->mosi = -1;
+    this->cs = -1;
+    this->p_spi = &SPI;
+  };
   PinsSPI(PinFunction function, GpioPin clk, GpioPin miso, GpioPin mosi,
           GpioPin cs, SPIClass &spi = SPI) {
     this->function = function;
@@ -121,54 +128,22 @@ struct PinsSPI {
   }
 
   PinFunction function;
-  SPIClass *p_spi = &SPI;
-  GpioPin clk = -1;
-  GpioPin miso = -1;
-  GpioPin mosi = -1;
-  GpioPin cs = -1;
   bool set_active = true;
   bool pinsAvailable() { return clk != -1 && miso != -1 && mosi != -1; }
   operator bool() { return pinsAvailable(); }
   bool begin() {
     if (set_active) {
       AD_LOGD("PinsSPI::begin for %d", function);
-      // setup chip select
-      if (cs != -1) {
-        pinMode(cs, OUTPUT);
-        digitalWrite(cs, HIGH);
-      }
-      // if no pins are defined, just call begin
-      if (!pinsAvailable()) {
-        AD_LOGI("setting up SPI w/o pins");
-        p_spi->begin();
-      } else {
-// begin spi and set up pins if supported
-#if defined(ARDUINO_ARCH_STM32)
-        AD_LOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso, mosi,
-                clk, cs);
-        p_spi->setMISO(miso);
-        p_spi->setMOSI(mosi);
-        p_spi->setSCLK(clk);
-        p_spi->setSSEL(cs);
-        p_spi->begin();
-#elif defined(ESP32)
-        AD_LOGI("setting up SPI miso:%d,mosi:%d, clk:%d, cs:%d", miso, mosi,
-                clk, cs);
-        p_spi->begin(clk, miso, mosi, cs);
-#elif defined(ARDUINO_ARCH_AVR)
-        AD_LOGW("setting up SPI w/o pins");
-        p_spi->begin();
-#endif
-      }
+      spi_bus_create(this);
     } else {
       AD_LOGI("SPI, not active, MOSI, MISO, SCLK, SSEL not modified");
     }
     return true;
   }
-  void end() { 
+  void end() {
     AD_LOGD("PinsSPI::end");
-    p_spi->end();
-   }
+    spi_bus_delete(p_spi);
+  }
 };
 
 /**
@@ -183,63 +158,43 @@ static PinsSPI ESP32PinsSD{PinFunction::SD, 14, 2, 15, 13, SPI};
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
-struct PinsI2C {
-  PinsI2C() = default;
-  PinsI2C(PinFunction function, GpioPin scl, GpioPin sda, int port = -1,
-          uint32_t frequency = 100000, TwoWire &wire = Wire, bool active=true) {
+struct PinsI2C : public I2CConfig {
+  PinsI2C() {
+    port = 0;
+    address = -1;
+    scl = -1;
+    sda = -1;
+    frequency = 100000;
+    set_active = true;
+    p_wire = &Wire;
+  };
+  PinsI2C(PinFunction function, GpioPin scl, GpioPin sda, int address = -1,
+          uint32_t frequency = 100000, TwoWire &wire = Wire,
+          bool active = true) {
     this->function = function;
     this->scl = scl;
     this->sda = sda;
-    this->port = port;
+    this->port = 0;
     this->frequency = frequency;
     this->p_wire = &wire;
     this->set_active = active;
+    this->address = address;
   }
 
   PinFunction function;
-  uint32_t frequency = 100000;
-  int port = -1;
-  GpioPin scl = -1;
-  GpioPin sda = -1;
   bool set_active = true;
-  TwoWire *p_wire = &Wire;
   bool pinsAvailable() { return scl != -1 && sda != -1 && frequency != 0; }
   operator bool() { return pinsAvailable(); }
 
   bool begin() {
-    AD_LOGD("PinsI2C::begin: %d", port);
     if (set_active) {
-      AD_LOGD("PinsI2C::begin for %d", function);
-      // if no pins are defined, just call begin
-      if (!pinsAvailable()) {
-        AD_LOGI("setting up I2C w/o pins");
-        p_wire->begin();
-      } else {
-        // begin with defined pins, if supported
-#if defined(ESP32)
-        AD_LOGI("setting up I2C scl: %d, sda: %d", scl, sda);
-        p_wire->begin(sda, scl);
-#elif defined(ARDUINO_ARCH_RP2040) || defined(ARDUINO_ARCH_STM32)
-        AD_LOGI("setting up I2C scl: %d, sda: %d", scl, sda);
-        p_wire->setSCL(scl);
-        p_wire->setSDA(sda);
-        p_wire->begin();
-#else
-        AD_LOGW("setting up I2C w/o pins");
-        p_wire->begin();
-#endif
-      }
-      AD_LOGI("Setting i2c clock: %u", frequency);
-      p_wire->setClock(frequency);
-    } else {
-      AD_LOGI("I2C, not activated, SDA, SCL, i2c clock not modified");
+      AD_LOGD("PinsI2C::begin for function %d on port %d", function, port);
+      return i2c_bus_create(this) == RESULT_OK;
     }
     return true;
   }
   void end() {
-#if !defined(ESP8266) && FORCE_WIRE_CLOSE
-    if (set_active) p_wire->end();
-#endif
+    if (set_active) i2c_bus_delete(p_wire);
   }
 };
 
@@ -272,8 +227,8 @@ struct PinsFunction {
  */
 class DriverPins {
  public:
-  DriverPins (const DriverPins&) = delete;
-  DriverPins& operator= (const DriverPins&) = delete;
+  DriverPins(const DriverPins &) = delete;
+  DriverPins &operator=(const DriverPins &) = delete;
   DriverPins() = default;
 
   bool addI2S(PinsI2S pin) {
@@ -287,7 +242,7 @@ class DriverPins {
     PinsI2S pin{function, mclk, bck, ws, data_out, data_in, port};
     return addI2S(pin);
   }
-  
+
   /// Updates the I2S pin information using the function as key
   bool setI2S(PinsI2S pin) { return set<PinsI2S>(pin, i2s); }
 
@@ -296,13 +251,13 @@ class DriverPins {
     spi.push_back(pin);
     return true;
   }
-  
+
   bool addSPI(PinFunction function, GpioPin clk, GpioPin miso, GpioPin mosi,
               GpioPin cs, SPIClass &spi = SPI) {
     PinsSPI pin(function, clk, miso, mosi, cs, spi);
     return addSPI(pin);
   }
-  
+
   /// Updates the SPI pin information using the function as key
   bool setSPI(PinsSPI pin) { return set<PinsSPI>(pin, spi); }
 
@@ -311,9 +266,10 @@ class DriverPins {
     i2c.push_back(pin);
     return true;
   }
-  
+
   bool addI2C(PinFunction function, GpioPin scl, GpioPin sda, int port = -1,
-              uint32_t frequency = 100000, TwoWire &wire = Wire, bool active = true) {
+              uint32_t frequency = 100000, TwoWire &wire = Wire,
+              bool active = true) {
     PinsI2C pin(function, scl, sda, port, frequency, wire, active);
     return addI2C(pin);
   }
@@ -338,7 +294,8 @@ class DriverPins {
     return addPin(pin);
   }
   /// Get pin information by function
-  audio_driver_local::Optional<PinsFunction> getPin(PinFunction function, int pos = 0) {
+  audio_driver_local::Optional<PinsFunction> getPin(PinFunction function,
+                                                    int pos = 0) {
     for (PinsFunction &pin : pins) {
       if (pin.function == function && pin.index == pos) return pin;
     }
@@ -382,7 +339,8 @@ class DriverPins {
   }
 
   /// Finds the I2S pin info with the help of the function
-  audio_driver_local::Optional<PinsI2S> getI2SPins(PinFunction function = PinFunction::CODEC) {
+  audio_driver_local::Optional<PinsI2S> getI2SPins(
+      PinFunction function = PinFunction::CODEC) {
     PinsI2S *pins = getPtr<PinsI2S>(function, i2s);
     if (pins == nullptr) return {};
     return *pins;
@@ -525,7 +483,6 @@ class DriverPins {
   }
 };
 
-
 /**
  * @brief Support for Touch
  * @author Phil Schatzmann
@@ -535,7 +492,7 @@ class DriverTouchClass : public DriverPins {
   bool isKeyPressed(uint8_t key) override {
     bool result = false;
 #if defined(ESP32) && defined(ARDUINO)
-# if SOC_TOUCH_SENSOR_SUPPORTED
+#if SOC_TOUCH_SENSOR_SUPPORTED
     auto pin_opt = getPin(PinFunction::KEY, key);
     if (!pin_opt) return false;
     auto pin = pin_opt.value();
@@ -546,16 +503,14 @@ class DriverTouchClass : public DriverPins {
       value = touchRead(pin.pin);
       result = value <= touch_limit;
     }
-# endif
 #endif
-        return result;
+#endif
+    return result;
   }
-  void setTouchLimit(int limit){
-    touch_limit = limit;
-  }
+  void setTouchLimit(int limit) { touch_limit = limit; }
 
-  protected:
-    int touch_limit = TOUCH_LIMIT;
+ protected:
+  int touch_limit = TOUCH_LIMIT;
 };
 
 /**
@@ -623,11 +578,9 @@ class PinsLyrat42Class : public DriverTouchClass {
  */
 class PinsLyratMiniClass : public DriverPins {
  public:
-
   PinsLyratMiniClass() {
-    // sd pins: CLK, MISO, MOSI, CS: the SD is not working, so this is commented out
-    // addSPI(ESP32PinsSD);
-    // add i2c codec pins: scl, sda, port, frequency
+    // sd pins: CLK, MISO, MOSI, CS: the SD is not working, so this is commented
+    // out addSPI(ESP32PinsSD); add i2c codec pins: scl, sda, port, frequency
     addI2C(PinFunction::CODEC, 23, 18);
     // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
     addI2S(PinFunction::CODEC, 0, 5, 25, 26, 35, 0);
@@ -641,33 +594,30 @@ class PinsLyratMiniClass : public DriverPins {
     addPin(PinFunction::KEY, 39, PinLogic::Input, 0);
   }
 
-  /// When the button is released we might get some missreadings: so we read twice
-  /// to guarantee a stable result
+  /// When the button is released we might get some missreadings: so we read
+  /// twice to guarantee a stable result
   bool isKeyPressed(uint8_t key) override {
     if (key > 5) return false;
     int value = analogRead(39);
-    bool result = inRange(value, analog_values[key]);   
+    bool result = inRange(value, analog_values[key]);
     delay(LYRAT_MINI_DELAY_MS);
     int value1 = analogRead(39);
-    bool result1 = inRange(value, analog_values[key]);   
+    bool result1 = inRange(value, analog_values[key]);
     result = result && result1;
     AD_LOGD("value: %d,%d for key: %d -> %d", value1, key, result);
-    return result; 
+    return result;
   }
 
-  void setRange(int value) {
-    range = value;
-  }
+  void setRange(int value) { range = value; }
 
-protected:
+ protected:
   // analog values for rec, mute, play, set, vol-, vol+
-  int analog_values[6] {2802, 2270, 1754, 1284, 827, 304};
+  int analog_values[6]{2802, 2270, 1754, 1284, 827, 304};
   int range = LYRAT_MINI_RANGE;
 
-  bool inRange(int in, int toBe){
-    return in >= (toBe-range)  &&  in <= (toBe+range); 
+  bool inRange(int in, int toBe) {
+    return in >= (toBe - range) && in <= (toBe + range);
   }
-
 };
 
 /**

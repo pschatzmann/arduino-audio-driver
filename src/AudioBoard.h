@@ -29,11 +29,6 @@ public:
       AD_LOGE("pins are null");
       return false;
     }
-    p_pins->setSPIActiveForSD(codec_cfg.sd_active);
-    if (!p_pins->begin()){
-      AD_LOGE("AudioBoard::pins::begin failed");
-      return false;
-    }
     if (!p_driver->begin(codec_cfg, *p_pins)){
       AD_LOGE("AudioBoard::driver::begin failed");
       return false;
