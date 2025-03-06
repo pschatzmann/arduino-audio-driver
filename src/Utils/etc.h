@@ -18,7 +18,6 @@
 #ifndef INPUT_PULLUP
 #  define INPUT_PULLUP 0x2
 #endif
-#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -30,6 +29,8 @@ void delay(unsigned long);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif
 
 // avoid compile errors outside of Arduino
