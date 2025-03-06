@@ -28,6 +28,10 @@ public:
         return true;
     }
 #endif
+    bool begin(AudioDriverLogLevel level) {
+        setLogLevel(level);
+        return true;
+    }
     void end(){
         setAudioDriverLogOutput(nullptr);
     }

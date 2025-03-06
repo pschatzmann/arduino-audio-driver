@@ -35,7 +35,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "cs43l22.h"
-
+#include "stddef.h" //NULL
 /** @addtogroup BSP
   * @{
   */

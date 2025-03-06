@@ -4,6 +4,10 @@
 #include <stdio.h>
 #include <stdarg.h>
 
+#if defined(ARDUINO)
+Print *p_audio_driver_log_output = &Serial;
+#endif
+
 // Default log level is warning
 int LOGLEVEL_AUDIODRIVER = 2;
 
@@ -55,3 +59,17 @@ void AD_LOGE(const char* fmr, ...) {
   }
 }
 
+/// Arcuino c++ println function 
+void audioDriverLogStr(const char* msg){
+#if defined(ARDUINO)
+  if (p_audio_driver_log_output) p_audio_driver_log_output->println(msg);
+#else
+  printf("%s\n", msg);
+#endif
+}
+
+#if defined(ARDUINO)
+void setAudioDriverLogOutput(void *out){
+  p_audio_driver_log_output = (Print*) out;
+}
+#endif

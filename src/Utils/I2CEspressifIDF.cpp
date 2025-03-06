@@ -1,6 +1,8 @@
 // I2C Driver for Espressif IDF
 #ifdef ESP32_CMAKE
+
 #include <assert.h>
+#include <string.h> // memcpy
 
 #include "Utils/API_I2C.h"
 #include "driver/i2c_master.h"
@@ -40,7 +42,7 @@ error_t i2c_bus_create(struct I2CConfig *config) {
     return ESP_FAIL;
   }
 
-  if (i2c_master_probe(bus_handle, pins.address > 0, -1)!=IDF_OK){
+  if (i2c_master_probe(bus_handle, pins.address > 0, -1)!=RESULT_OK){
     AD_LOGE("Address check failed: scanning addresses:");
     for (int j=0;j<127;j++){
       auto rc = i2c_master_probe(bus_handle, j, -1);
@@ -94,14 +96,12 @@ error_t i2c_bus_write_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
   ret |= i2c_master_bus_wait_all_done(bus_handle, -1) == ESP_OK;
 
   if (i2c_master_bus_rm_device(dev_handle) != ESP_OK) {
-    AD_LOGI("i2c_bus_delete");
+    AD_LOGI("i2c_master_bus_rm_device");
   }
 
   if (ret != ESP_OK) {
     AD_LOGE("i2c_bus_write_bytes");
-    delay(10000);
   }
-  delay(10000);
   return ret;
 }
 
@@ -109,7 +109,6 @@ error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
                            int reglen, uint8_t *read_buffer, int read_size) {
   // get port
   AD_LOGI("i2c_bus_read_bytes address: 0x%x", addr);
-  AD_LOGI("i2c_bus_write_bytes address: 0x%x", addr);
   i2c_master_bus_handle_t bus_handle = (i2c_master_bus_handle_t)bus;
 
   I2CConfig *cfg = get_config(bus);
@@ -140,7 +139,7 @@ error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
     AD_LOGE("i2c_bus_read_bytes");
   }
   if (i2c_master_bus_rm_device(dev_handle) != ESP_OK) {
-    AD_LOGI("i2c_bus_delete");
+    AD_LOGI("i2c_master_bus_rm_device");
   }
 
   return ret;

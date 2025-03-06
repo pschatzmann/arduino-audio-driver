@@ -23,7 +23,7 @@
  */
 
 #include "es7243e.h"
-
+#include "stddef.h" // NULL
 
 //static char *TAG = "DRV7243E";
 static i2c_bus_handle_t i2c_handle = NULL;

@@ -10,6 +10,7 @@
  * $ Copyright 2021-YEAR Cypress Semiconductor $
  *******************************************************************************/
 #include "mtb_wm8960.h"
+#include "Utils/API_I2C.h"
 
 #define WM8960_TIMEOUT_MS           (100u)
 #define REGISTER_MAP_SIZE           (56u)
@@ -624,15 +625,16 @@ bool mtb_wm8960_write_ex(mtb_wm8960_reg_t enum_reg, uint16_t value)
     return result;
 }
 
-#ifdef ARDUINO
 bool i2c_write(uint8_t address, uint8_t data[2]) {
-    TwoWire* p_wire = (TwoWire*)i2c_ptr;
-    p_wire->beginTransmission(address);
-    p_wire->write(data, 2);
-    int result = p_wire->endTransmission(true);
-    return result == 0;
+    // TwoWire* p_wire = (TwoWire*)i2c_ptr;
+    // p_wire->beginTransmission(address);
+    // p_wire->write(data, 2);
+    // int result = p_wire->endTransmission(true);
+    // return result == 0;
+    return i2c_bus_write_bytes(i2c_ptr, address, data,
+        2, nullptr, 0) == RESULT_OK;
+
 }
-#endif
 
 
 bool mtb_wm8960_write(mtb_wm8960_reg_t enum_reg, uint16_t value){

@@ -20,19 +20,16 @@
 #endif
 #endif
 
-#ifndef ARDUINO
-void pinMode(int, int);
-void digitalWrite(int, int);
-void delay(unsigned long);
-#endif
-
-
 #ifdef __cplusplus
 extern "C" {
 #endif
-void audioDriverLogStr(const char* msg);
-void setAudioDriverLogOutput(void *out);
+
+void pinMode(int, int);
+void digitalWrite(int, int);
+void delay(unsigned long);
 
 #ifdef __cplusplus
 }
 #endif
+
+// avoid compile errors outside of Arduino

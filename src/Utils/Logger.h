@@ -19,6 +19,10 @@ void AD_LOGI(const char* fmr,...);
 void AD_LOGW(const char* fmr,...);
 void AD_LOGE(const char* fmr,...);
 
+void audioDriverLogStr(const char* msg);
+void setAudioDriverLogOutput(void *out);
+
+
 #ifdef __cplusplus
 }
 #endif

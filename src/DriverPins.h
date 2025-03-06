@@ -5,6 +5,7 @@
 #include "Utils/API_SPI.h"
 #include "Utils/Optional.h"
 #include "Utils/Vector.h"
+#include "Utils/Logger.h"
 
 #ifdef ARDUINO
 #include "Wire.h"

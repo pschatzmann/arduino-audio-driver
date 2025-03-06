@@ -1197,7 +1197,6 @@ class AudioDriverWM8978Class : public AudioDriver {
 
   bool begin(CodecConfig codecCfg, DriverPins &pins) override {
     bool rc = true;
-    auto i2c = pins.getI2CPins(PinFunction::CODEC);
     rc = wm8078.begin(getI2C(), getI2CAddress());
     setConfig(codecCfg);
 

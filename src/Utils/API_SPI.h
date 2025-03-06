@@ -7,7 +7,7 @@
 // prevent compile errors
 struct SPIClass {
   void *ref = nullptr;
-} SPI;
+} static SPI;
 #endif
 
 typedef int16_t GpioPin;

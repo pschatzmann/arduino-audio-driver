@@ -4,12 +4,13 @@ if (DEFINED ESP_PLATFORM)
 
     # idf component
     idf_component_register(
-        # SRC_DIRS src
+        SRC_DIRS src/Utils src/Driver/ac101 src/Driver/cs42448 src/Driver/es7243 src/Driver/es8156 src/Driver/es8374 src/Driver/pcm3168 src/Driver/wm8960 src/Driver/wm8994 src/Driver/cs43l22 src/Driver/es7210 src/Driver/es7243e src/Driver/es8311 src/Driver/es8388 src/Driver/tas5805m src/Driver/wm8978
         INCLUDE_DIRS src 
-        REQUIRES bt hal driver
+        REQUIRES hal driver
     )
-
-    target_compile_options(${COMPONENT_LIB} INTERFACE -DESP32_CMAKE=1)
+    # activate ESP32 I2C
+    add_compile_definitions(ESP32_CMAKE)
+    add_compile_options(-Wno-unused-variable)
 
 else()
 
@@ -21,9 +22,10 @@ else()
     set(CMAKE_CXX_STANDARD 17)
 
     file(GLOB_RECURSE SRC_LIST_C CONFIGURE_DEPENDS  "${PROJECT_SOURCE_DIR}/src/*.c" )
+    file(GLOB_RECURSE SRC_LIST_CPP CONFIGURE_DEPENDS  "${PROJECT_SOURCE_DIR}/src/*.cpp" )
 
     # define libraries
-    add_library (audio_driver ${SRC_LIST_C})
+    add_library (audio_driver ${SRC_LIST_C} ${GLOB_RECURSE SRC_LIST_CPP})
 
     # prevent compile errors
     target_compile_options(audio_driver PRIVATE -DUSE_DEFAULT_STDLIB)
