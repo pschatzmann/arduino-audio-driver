@@ -41,7 +41,7 @@
 
 /// Activate / Deactivate Logging: set to true or false
 #ifndef AUDIO_DRIVER_LOGGIN_ACTVIE 
-#  define AUDIO_DRIVER_LOGGIN_ACTVIE false
+#  define AUDIO_DRIVER_LOGGIN_ACTVIE true
 #endif
 
 /// Use IDF Logger: by default we use it if ESP32 outside of ARDUINO 
