@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include "DriverCommon.h"
-#include "Utils/API_I2C.h"
+#include "Platforms/API_I2C.h"
 
 #define WM8978_ADDR 0X1A  // WM8978��������ַ,�̶�Ϊ0X1A
 

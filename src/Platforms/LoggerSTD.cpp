@@ -1,5 +1,7 @@
-#include "Utils/Logger.h"
-#include "Utils/etc.h"
+#include "AudioDriverConfig.h"
+#if AUDIO_DRIVER_LOGGIN_ACTVIE && !defined(AUDIO_DRIVER_LOGGING_IDF)
+#include "Platforms/LoggerSTD.h"
+#include "Platforms/etc.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -72,4 +74,6 @@ void audioDriverLogStr(const char* msg){
 void setAudioDriverLogOutput(void *out){
   p_audio_driver_log_output = (Print*) out;
 }
+#endif
+
 #endif

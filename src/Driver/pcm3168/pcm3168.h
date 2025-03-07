@@ -30,7 +30,7 @@
 
 #include <math.h>
 
-#include "Utils/API_I2C.h"
+#include "Platforms/API_I2C.h"
 
 /***
  * Set up the PCM3168 in slave mode

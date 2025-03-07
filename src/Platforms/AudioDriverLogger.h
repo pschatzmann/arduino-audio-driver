@@ -1,8 +1,11 @@
 
 #pragma once
+#include "AudioDriverConfig.h"
+#if AUDIO_DRIVER_LOGGIN_ACTVIE && !defined(AUDIO_DRIVER_LOGGING_IDF)
 
+#include "LoggerSTD.h"
 #include "etc.h"
-#include "Logger.h"
+
 #ifdef ARDUINO
 #  include "Print.h"
 #endif
@@ -37,4 +40,7 @@ public:
     }
 };
 
+// global object for std logging api
 static AudioDriverLoggerClass AudioDriverLogger;
+
+#endif

@@ -25,7 +25,7 @@
 #include <stdint.h>
 #include "tas5805m.h"
 #include "tas5805m_reg_cfg.h"
-#include "Utils/etc.h"
+#include "Platforms/etc.h"
 // 0x5c>>1 = 0x2E
 
 #define TAS5805M_ADDR        0x2E    

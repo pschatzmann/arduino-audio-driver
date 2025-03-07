@@ -10,7 +10,7 @@
  * $ Copyright 2021-YEAR Cypress Semiconductor $
  *******************************************************************************/
 #include "mtb_wm8960.h"
-#include "Utils/API_I2C.h"
+#include "Platforms/API_I2C.h"
 
 #define WM8960_TIMEOUT_MS           (100u)
 #define REGISTER_MAP_SIZE           (56u)
@@ -640,7 +640,7 @@ bool i2c_write(uint8_t address, uint8_t data[2]) {
 bool mtb_wm8960_write(mtb_wm8960_reg_t enum_reg, uint16_t value){
     char msg[80];
     snprintf(msg, 80,  "mtb_wm8960_write 0x%x = 0x%x", enum_reg, value );
-    AD_LOGD(msg);
+    AD_LOGD("%s", msg);
     bool result = false;
     uint32_t count=0;
     while(!result){
@@ -884,7 +884,7 @@ bool mtb_wm8960_dump(){
         }
 
         snprintf(msg, 80, "%x: %x",j, data);
-        AD_LOGD(msg);
+        AD_LOGD("%s", msg);
     }
     return true;
 }

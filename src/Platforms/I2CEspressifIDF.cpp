@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <string.h> // memcpy
 
-#include "Utils/API_I2C.h"
+#include "Platforms/API_I2C.h"
 #include "driver/i2c_master.h"
 
 // store a collection of configs by port number

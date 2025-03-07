@@ -4,7 +4,7 @@
 
 #include "stdbool.h"
 #include "DriverCommon.h"
-#include "Utils/API_I2C.h"
+#include "Platforms/API_I2C.h"
 #include "Driver/DriverConstants.h"
 
 #define I2C_MASTER_WRITE 0

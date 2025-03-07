@@ -1,7 +1,7 @@
 // I2C Driver for Arduino
 #ifdef ARDUINO
 
-#include "Utils/API_I2C.h"
+#include "Platforms/API_I2C.h"
 
 #include <Wire.h>
 #include <assert.h>

@@ -28,7 +28,7 @@
 
 #include <string.h>
 
-#include "Utils/etc.h"
+#include "Platforms/etc.h"
 
 #define MCLK_PULSES_NUMBER (20)
 #define ES_ASSERT(a, format, b, ...) \

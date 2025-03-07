@@ -1,11 +1,11 @@
 
 #pragma once
 #include "DriverCommon.h"
-#include "Utils/API_I2C.h"
-#include "Utils/API_SPI.h"
-#include "Utils/Optional.h"
-#include "Utils/Vector.h"
-#include "Utils/Logger.h"
+#include "Platforms/API_I2C.h"
+#include "Platforms/API_SPI.h"
+#include "Platforms/Optional.h"
+#include "Platforms/Vector.h"
+#include "Platforms/Logger.h"
 
 #ifdef ARDUINO
 #include "Wire.h"
@@ -135,7 +135,7 @@ struct PinsSPI : public SPIConfig {
   operator bool() { return pinsAvailable(); }
   bool begin() {
     if (set_active) {
-      AD_LOGD("PinsSPI::begin for %d", function);
+      AD_LOGD("PinsSPI::begin for %d", (int) function);
       spi_bus_create(this);
     } else {
       AD_LOGI("SPI, not active, MOSI, MISO, SCLK, SSEL not modified");
@@ -209,7 +209,7 @@ struct PinsI2C : public I2CConfig {
 
   bool begin() {
     if (set_active) {
-      AD_LOGD("PinsI2C::begin for function %d on port %d", function, port);
+      AD_LOGD("PinsI2C::begin for function %d on port %d", (int)function, port);
       return i2c_bus_create(this) == RESULT_OK;
     }
     return true;

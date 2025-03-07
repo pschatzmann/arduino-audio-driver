@@ -46,8 +46,8 @@
 #include "stdbool.h"
 #include "DriverCommon.h"
 #include "Driver/DriverConstants.h"
-#include "Utils/API_I2C.h"
-#include "Utils/etc.h"
+#include "Platforms/API_I2C.h"
+#include "Platforms/etc.h"
 
 
 /** @addtogroup Component

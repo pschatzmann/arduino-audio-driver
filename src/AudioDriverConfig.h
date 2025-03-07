@@ -39,3 +39,13 @@
 #  define FORCE_WIRE_CLOSE false
 #endif
 
+/// Activate / Deactivate Logging: set to true or false
+#ifndef AUDIO_DRIVER_LOGGIN_ACTVIE 
+#  define AUDIO_DRIVER_LOGGIN_ACTVIE false
+#endif
+
+/// Use IDF Logger: by default we use it if ESP32 outside of ARDUINO 
+#if !defined(AUDIO_DRIVER_LOGGING_IDF) && defined(ESP32_CMAKE)
+#  define AUDIO_DRIVER_LOGGING_IDF
+#endif
+

@@ -61,7 +61,7 @@ static error_t es_read_reg(uint8_t reg_add, uint8_t *p_data) {
 }
 
 void es8388_read_all() {
-  AD_LOGD(LOG_METHOD);
+  AD_TRACED();
   for (int i = 0; i < 50; i++) {
     uint8_t reg = 0;
     es_read_reg(i, &reg);
@@ -128,7 +128,7 @@ static int es8388_set_adc_dac_volume(int mode, int volume, int dot) {
  *     - (0)   Success
  */
 error_t es8388_start(codec_mode_t mode) {
-  AD_LOGD(LOG_METHOD);
+  AD_TRACED();
   error_t res = RESULT_OK;
   uint8_t prev_data = 0, data = 0;
   es_read_reg(ES8388_DACCONTROL21, &prev_data);
@@ -186,7 +186,7 @@ error_t es8388_start(codec_mode_t mode) {
  *     - (0)   Success
  */
 error_t es8388_stop(codec_mode_t mode) {
-  AD_LOGD(LOG_METHOD);
+  AD_TRACED();
   error_t res = RESULT_OK;
   if (mode == CODEC_MODE_LINE_IN) {
     res |= es_write_reg(address, ES8388_DACCONTROL21, 0x80);  // enable dac
@@ -233,7 +233,7 @@ error_t es8388_stop(codec_mode_t mode) {
  *     - (0)   Success
  */
 error_t es8388_i2s_config_clock(es_i2s_clock_t cfg) {
-  AD_LOGD(LOG_METHOD);
+  AD_TRACED();
   error_t res = RESULT_OK;
   res |= es_write_reg(address, ES8388_MASTERMODE, cfg.sclk_div);
   res |= es_write_reg(address, ES8388_ADCCONTROL5,
@@ -244,7 +244,7 @@ error_t es8388_i2s_config_clock(es_i2s_clock_t cfg) {
 }
 
 error_t es8388_deinit(void) {
-  AD_LOGD(LOG_METHOD);
+  AD_TRACED();
   int res = 0;
   res = es_write_reg(address, ES8388_CHIPPOWER,
                      0xFF);  // reset and stop es8388
@@ -261,7 +261,7 @@ error_t es8388_deinit(void) {
  *     - (0)   Success
  */
 error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle, int addr) {
-  AD_LOGD(LOG_METHOD);
+  AD_TRACED();
   i2c_handle = handle;
   // set address
   if (addr>0) address = addr;
@@ -373,7 +373,7 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle, int addr) {
  *     - (0)  Success
  */
 error_t es8388_config_fmt(codec_mode_t mode, i2s_format_t fmt) {
-  AD_LOGD(LOG_METHOD);
+  AD_TRACED();
   error_t res = RESULT_OK;
   uint8_t reg = 0;
   if (mode == CODEC_MODE_ENCODE || mode == CODEC_MODE_BOTH) {
@@ -467,7 +467,7 @@ error_t es8388_set_voice_volume(int volume) {
  *           volume
  */
 error_t es8388_get_voice_volume(int *volume) {
-  AD_LOGD(LOG_METHOD);
+  AD_TRACED();
   error_t res = RESULT_OK;
   uint8_t reg = 0;
   res = es_read_reg(ES8388_DACCONTROL24, &reg);
@@ -493,7 +493,7 @@ error_t es8388_get_voice_volume(int *volume) {
  */
 error_t es8388_set_bits_per_sample(codec_mode_t mode,
                                    sample_bits_t bits_length) {
-  AD_LOGD(LOG_METHOD);
+  AD_TRACED();
   error_t res = RESULT_OK;
   uint8_t reg = 0;
   int bits = (int)bits_length;
@@ -522,7 +522,7 @@ error_t es8388_set_bits_per_sample(codec_mode_t mode,
  *     - (0)   Success
  */
 error_t es8388_set_voice_mute(bool enable) {
-  AD_LOGD(LOG_METHOD);
+  AD_TRACED();
   error_t res = RESULT_OK;
   uint8_t reg = 0;
   res = es_read_reg(ES8388_DACCONTROL3, &reg);
@@ -533,7 +533,7 @@ error_t es8388_set_voice_mute(bool enable) {
 }
 
 error_t es8388_get_voice_mute(void) {
-  AD_LOGD(LOG_METHOD);
+  AD_TRACED();
   error_t res = RESULT_OK;
   uint8_t reg = 0;
   res = es_read_reg(ES8388_DACCONTROL3, &reg);
@@ -551,7 +551,7 @@ error_t es8388_get_voice_mute(void) {
  *     - (0)   Success
  */
 error_t es8388_config_output_device(output_device_t output_device) {
-  AD_LOGD(LOG_METHOD);
+  AD_TRACED();
   AD_LOGI("output_device: %d", output_device);
 
   uint8_t reg = 0;
@@ -590,7 +590,7 @@ error_t es8388_config_output_device(output_device_t output_device) {
  *     - (0)   Success
  */
 error_t es8388_config_input_device(es8388_input_device_t input) {
-  AD_LOGD(LOG_METHOD);
+  AD_TRACED();
   error_t res;
   uint8_t reg = 0;
   res = es_read_reg(ES8388_ADCCONTROL2, &reg);
@@ -647,7 +647,7 @@ int es8388_ctrl_state_active(codec_mode_t mode, bool ctrl_state_active) {
 }
 
 error_t es8388_config_i2s(codec_mode_t mode, I2SDefinition *iface) {
-  AD_LOGD(LOG_METHOD);
+  AD_TRACED();
   error_t res = RESULT_OK;
   int tmp = 0;
   res |= es8388_config_fmt(CODEC_MODE_BOTH, iface->fmt);

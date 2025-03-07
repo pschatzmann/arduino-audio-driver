@@ -25,7 +25,7 @@
 
 #include "stdbool.h"
 #include "DriverCommon.h"
-#include "Utils/API_I2C.h"
+#include "Platforms/API_I2C.h"
 #include "Driver/DriverConstants.h"
 
 

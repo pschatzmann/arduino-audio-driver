@@ -26,7 +26,7 @@
 #pragma once
 #include "Driver/DriverConstants.h"
 #include "DriverCommon.h"
-#include "Utils/API_I2C.h"
+#include "Platforms/API_I2C.h"
 
 /*
  *  Definitions for Audio registers for CS42448

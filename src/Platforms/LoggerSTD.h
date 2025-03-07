@@ -1,11 +1,14 @@
 // logging methods that can be called from C and C++
 #pragma once
+#include "AudioDriverConfig.h"
 
 // maximum size of log string
 #define AD_LOGLENGTH 215
 
 // Logging of method
 #define LOG_METHOD __PRETTY_FUNCTION__
+// Log trace
+#define AD_TRACED() AD_LOGD(LOG_METHOD)
 
 #ifdef __cplusplus
 extern "C" {
@@ -26,3 +29,5 @@ void setAudioDriverLogOutput(void *out);
 #ifdef __cplusplus
 }
 #endif
+
+

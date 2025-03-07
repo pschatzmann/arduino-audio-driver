@@ -2,7 +2,7 @@
 #include <stdint.h>
 
 #include "AudioDriverConfig.h"
-#include "Utils/Logger.h"
+#include "Platforms/Logger.h"
 
 /*!
  * @file
@@ -19,7 +19,7 @@
 #define I2C_END true   // wether to send a stop bit at the end of the transmission
 
 #ifdef __cplusplus
-#include "Utils/AudioDriverLogger.h"
+#include "Platforms/AudioDriverLogger.h"
 
 namespace audio_driver {
 #endif
