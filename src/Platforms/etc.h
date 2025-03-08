@@ -3,6 +3,7 @@
 #ifdef ARDUINO
 #  include "Arduino.h"
 #else
+#undef delay
 #ifndef HIGH
 #  define HIGH 0x1
 #endif
