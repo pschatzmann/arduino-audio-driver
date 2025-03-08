@@ -2,7 +2,7 @@
 #ifdef ESP32_CMAKE
 
 #include <assert.h>
-#include <string.h> // memcpy
+#include <string.h>  // memcpy
 
 #include "Platforms/API_I2C.h"
 #include "driver/i2c_master.h"
@@ -37,18 +37,18 @@ error_t i2c_bus_create(struct I2CConfig *config) {
   i2c_mst_config.flags.enable_internal_pullup = true;
 
   i2c_master_bus_handle_t bus_handle;
-  if (i2c_new_master_bus(&i2c_mst_config, &bus_handle)!=ESP_OK){
+  if (i2c_new_master_bus(&i2c_mst_config, &bus_handle) != ESP_OK) {
     AD_LOGE("i2c_new_master_bus");
     return ESP_FAIL;
   }
 
-  if (i2c_master_probe(bus_handle, pins.address > 0, -1)!=RESULT_OK){
+  if (i2c_master_probe(bus_handle, pins.address, -1) != RESULT_OK) {
     AD_LOGE("Address check failed: scanning addresses:");
-    for (int j=0;j<127;j++){
+    for (int j = 0; j < 127; j++) {
       auto rc = i2c_master_probe(bus_handle, j, -1);
       AD_LOGE("- address: 0x%x -> %d", j, rc);
     }
-    return ESP_FAIL;  
+    return ESP_FAIL;
   }
 
   // store dev_handle
@@ -65,7 +65,7 @@ void i2c_bus_delete(i2c_bus_handle_t bus) {
 
 error_t i2c_bus_write_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
                             int reglen, uint8_t *data, int datalen) {
-  AD_LOGI("i2c_bus_write_bytes address: 0x%x", addr);
+  AD_LOGD("i2c_bus_write_bytes address: 0x%x", addr);
   i2c_master_bus_handle_t bus_handle = (i2c_master_bus_handle_t)bus;
 
   I2CConfig *cfg = get_config(bus);
@@ -74,11 +74,11 @@ error_t i2c_bus_write_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
 
   i2c_device_config_t dev_cfg = {};
   dev_cfg.dev_addr_length = I2C_ADDR_BIT_LEN_7;
-  dev_cfg.device_address = cfg->address > 1;
+  dev_cfg.device_address = cfg->address;
   dev_cfg.scl_speed_hz = cfg->frequency;
 
   i2c_master_dev_handle_t dev_handle;
-  if (!i2c_master_bus_add_device(bus_handle, &dev_cfg, &dev_handle)==ESP_OK){
+  if (!i2c_master_bus_add_device(bus_handle, &dev_cfg, &dev_handle) == ESP_OK) {
     AD_LOGE("i2c_new_master_bus");
     return ESP_FAIL;
   }
@@ -90,13 +90,16 @@ error_t i2c_bus_write_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
   memcpy(total_data + reglen, data, datalen);
 
   esp_err_t ret = ESP_OK;
-  ret |= i2c_master_transmit(dev_handle, total_data, total_len, -1) == ESP_OK;
-  // ret |= i2c_master_transmit(dev_handle, reg, reglen, -1) == ESP_OK;
-  // ret |= i2c_master_transmit(dev_handle, data, datalen, -1) == ESP_OK;
-  ret |= i2c_master_bus_wait_all_done(bus_handle, -1) == ESP_OK;
+  ret |= i2c_master_transmit(dev_handle, total_data, total_len, -1);
+  if (ret == ESP_OK) {
+    ret = i2c_master_bus_wait_all_done(bus_handle, -1);
+    if (ret != ESP_OK) AD_LOGE("i2c_master_bus_wait_all_done");
+  } else {
+    AD_LOGE("i2c_master_transmit");
+  }
 
   if (i2c_master_bus_rm_device(dev_handle) != ESP_OK) {
-    AD_LOGI("i2c_master_bus_rm_device");
+    AD_LOGE("i2c_master_bus_rm_device");
   }
 
   if (ret != ESP_OK) {
@@ -108,7 +111,7 @@ error_t i2c_bus_write_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
 error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
                            int reglen, uint8_t *read_buffer, int read_size) {
   // get port
-  AD_LOGI("i2c_bus_read_bytes address: 0x%x", addr);
+  AD_LOGD("i2c_bus_read_bytes address: 0x%x", addr);
   i2c_master_bus_handle_t bus_handle = (i2c_master_bus_handle_t)bus;
 
   I2CConfig *cfg = get_config(bus);
@@ -117,11 +120,11 @@ error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
 
   i2c_device_config_t dev_cfg = {};
   dev_cfg.dev_addr_length = I2C_ADDR_BIT_LEN_7;
-  dev_cfg.device_address = cfg->address > 1;
+  dev_cfg.device_address = cfg->address;
   dev_cfg.scl_speed_hz = cfg->frequency;
 
   i2c_master_dev_handle_t dev_handle;
-  if (!i2c_master_bus_add_device(bus_handle, &dev_cfg, &dev_handle)==ESP_OK){
+  if (!i2c_master_bus_add_device(bus_handle, &dev_cfg, &dev_handle) == ESP_OK) {
     AD_LOGE("i2c_master_bus_add_device");
     return ESP_FAIL;
   }
@@ -132,9 +135,9 @@ error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
   memcpy(write_buffer + 1, reg, reglen);
 
   esp_err_t ret = ESP_OK;
-  ret |= i2c_master_transmit_receive(dev_handle, write_buffer, write_size, read_buffer,
-                                     read_size, -1) == ESP_OK;
-  ret |= i2c_master_bus_wait_all_done(bus_handle, -1) == ESP_OK;
+  ret = i2c_master_transmit_receive(dev_handle, write_buffer, write_size,
+                                    read_buffer, read_size, -1);
+  ret = i2c_master_bus_wait_all_done(bus_handle, -1);
   if (ret != ESP_OK) {
     AD_LOGE("i2c_bus_read_bytes");
   }
