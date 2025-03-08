@@ -1,5 +1,5 @@
 #pragma once
-#include "AudioDriverConfig.h"
+#include "ConfigAudioDriver.h"
 
 #if AUDIO_DRIVER_LOGGIN_ACTVIE
 #  if defined(AUDIO_DRIVER_LOGGING_IDF)

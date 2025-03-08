@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
 
-#include "AudioDriverConfig.h"
+#include "ConfigAudioDriver.h"
 #include "Platforms/Logger.h"
 
 /*!

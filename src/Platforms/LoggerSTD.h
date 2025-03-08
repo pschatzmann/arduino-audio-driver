@@ -1,6 +1,6 @@
 // logging methods that can be called from C and C++
 #pragma once
-#include "AudioDriverConfig.h"
+#include "ConfigAudioDriver.h"
 
 // maximum size of log string
 #define AD_LOGLENGTH 215
