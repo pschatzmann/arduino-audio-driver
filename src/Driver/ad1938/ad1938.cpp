@@ -22,6 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+#ifdef ARDUINO
 
 #include "ad1938.h"
 
@@ -774,3 +775,4 @@ bool AD1938::setMuteADC(bool mute) {
 }
 
 
+#endif

@@ -23,8 +23,8 @@
  */
 
 #include <string.h>
+#include <assert.h>
 #include "es8311.h"
-
 
 #ifndef BIT
 #define BIT(nr)             (1 << (nr))

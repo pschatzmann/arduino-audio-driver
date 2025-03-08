@@ -25,12 +25,12 @@ else()
     file(GLOB_RECURSE SRC_LIST_CPP CONFIGURE_DEPENDS  "${PROJECT_SOURCE_DIR}/src/*.cpp" )
 
     # define libraries
-    add_library (audio_driver ${SRC_LIST_C} ${GLOB_RECURSE SRC_LIST_CPP})
+    add_library (audio_driver ${SRC_LIST_C} ${SRC_LIST_CPP})
 
     # prevent compile errors
     target_compile_options(audio_driver PRIVATE -DUSE_DEFAULT_STDLIB)
 
     # define location for header files
-    target_include_directories(audio_driver PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/src/libhelix-mp3 ${CMAKE_CURRENT_SOURCE_DIR}/src/libhelix-aac )
+    target_include_directories(audio_driver PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src )
 
 endif()
