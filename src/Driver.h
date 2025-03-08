@@ -322,29 +322,16 @@ class AudioDriver {
   DriverPins *p_pins = nullptr;
   int i2c_default_address = -1;
 
-  #ifdef ARDUINO
   /// Determine the TwoWire object from the I2C config or use Wire
-  virtual TwoWire *getI2C() {
-    if (p_pins == nullptr) return &Wire;
+  virtual i2c_bus_handle_t getI2C() {
+    if (p_pins == nullptr) return DEFAULT_WIRE;
     auto i2c = pins().getI2CPins(PinFunction::CODEC);
     if (!i2c) {
-      return &Wire;
-    }
-    TwoWire *result = (TwoWire *)i2c.value().p_wire;
-    return result != nullptr ? result : &Wire;
-  }
-#else
-  /// Determine the TwoWire object from the I2C config or use Wire
-  virtual i2c_bus_handle_t *getI2C() {
-    if (p_pins == nullptr) return nullptr;
-    auto i2c = pins().getI2CPins(PinFunction::CODEC);
-    if (!i2c) {
-      return nullptr;
+      return DEFAULT_WIRE;
     }
     i2c_bus_handle_t *result = (i2c_bus_handle_t *)i2c.value().p_wire;
     return result;
   }
-#endif
 
   virtual bool init(codec_config_t codec_cfg) { return false; }
   virtual bool deinit() { return false; }
@@ -419,83 +406,6 @@ class AudioDriverAC101Class : public AudioDriver {
     return ac101_config_i2s(mode, &iface) == RESULT_OK;
   }
 };
-
-#ifdef ARDUINO
-// currently only supported in Arduino because we do not have a platform
-// independent SPI API
-/**
- * @brief Driver API for AD1938 TDS DAC/ADC
- * @author Phil Schatzmann
- * @copyright GPLv3
- */
-class AudioDriverAD1938Class : public AudioDriver {
- public:
-  bool begin(CodecConfig codecCfg, DriverPins &pins) override {
-    int clatch = pins.getPinID(PinFunction::LATCH);
-    if (clatch < 0) return false;
-    int reset = pins.getPinID(PinFunction::RESET);
-    if (reset < 0) return false;
-    auto spi_opt = pins.getSPIPins(PinFunction::CODEC);
-    SPIClass *p_spi = nullptr;
-    if (spi_opt) {
-      p_spi = (SPIClass *)spi_opt.value().p_spi;
-    } else {
-      p_spi = &SPI;
-      p_spi->begin();
-    }
-    // setup pins
-    pins.begin();
-    // setup ad1938
-    ad1938.begin(codecCfg, clatch, reset, *p_spi);
-    ad1938.enable();
-    ad1938.setMute(false);
-    return true;
-  }
-  virtual bool setConfig(CodecConfig codecCfg) {
-    assert(p_pins != nullptr);
-    bool result = begin(codecCfg, *p_pins);
-    return result;
-  }
-  bool end(void) override { return ad1938.end(); }
-  bool setMute(bool mute) override { return ad1938.setMute(mute); }
-  // mutes an individual DAC: valid range (0:3)
-  bool setMute(bool mute, int line) {
-    if (line > 3) return false;
-    return ad1938.setVolumeDAC(
-        line, mute ? 0.0 : (static_cast<float>(volumes[line]) / 100.0f));
-  }
-
-  /// Defines the Volume (in %) if volume is 0, mute is enabled,range is 0-100.
-  bool setVolume(int volume) override {
-    this->volume = volume;
-    for (int j = 0; j < 8; j++) {
-      volumes[j] = volume;
-    }
-    return ad1938.setVolume(static_cast<float>(volume) / 100.0f);
-  }
-  /// Defines the Volume per DAC (in %) if volume is 0, mute is enabled,range is
-  /// 0-100.
-  bool setVolume(int volume, int line) {
-    if (line > 7) return false;
-    volumes[line] = volume;
-    return ad1938.setVolumeDAC(static_cast<float>(volume) / 100.0f, line);
-  }
-
-  int getVolume() override { return volume; }
-  bool setInputVolume(int volume) override { return false; }
-  bool isVolumeSupported() override { return true; }
-  bool isInputVolumeSupported() override { return false; }
-
-  DriverPins &pins() { return *p_pins; }
-  AD1938 &driver() { return ad1938; }
-
- protected:
-  AD1938 ad1938;
-  int volume = 100;
-  int volumes[8] = {100};
-};
-
-#endif
 
 /**
  * @brief Driver API for the CS43l22 codec chip on 0x94 (0x4A<<1)
@@ -1528,6 +1438,83 @@ class AudioDriverLyratMiniClass : public AudioDriver {
   AudioDriverES8311Class dac;
   AudioDriverES7243Class adc;
 };
+
+#ifdef ARDUINO
+// currently only supported in Arduino because we do not have a platform
+// independent SPI API
+/**
+ * @brief Driver API for AD1938 TDS DAC/ADC
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class AudioDriverAD1938Class : public AudioDriver {
+ public:
+  bool begin(CodecConfig codecCfg, DriverPins &pins) override {
+    int clatch = pins.getPinID(PinFunction::LATCH);
+    if (clatch < 0) return false;
+    int reset = pins.getPinID(PinFunction::RESET);
+    if (reset < 0) return false;
+    auto spi_opt = pins.getSPIPins(PinFunction::CODEC);
+    SPIClass *p_spi = nullptr;
+    if (spi_opt) {
+      p_spi = (SPIClass *)spi_opt.value().p_spi;
+    } else {
+      p_spi = &SPI;
+      p_spi->begin();
+    }
+    // setup pins
+    pins.begin();
+    // setup ad1938
+    ad1938.begin(codecCfg, clatch, reset, *p_spi);
+    ad1938.enable();
+    ad1938.setMute(false);
+    return true;
+  }
+  virtual bool setConfig(CodecConfig codecCfg) {
+    assert(p_pins != nullptr);
+    bool result = begin(codecCfg, *p_pins);
+    return result;
+  }
+  bool end(void) override { return ad1938.end(); }
+  bool setMute(bool mute) override { return ad1938.setMute(mute); }
+  // mutes an individual DAC: valid range (0:3)
+  bool setMute(bool mute, int line) {
+    if (line > 3) return false;
+    return ad1938.setVolumeDAC(
+        line, mute ? 0.0 : (static_cast<float>(volumes[line]) / 100.0f));
+  }
+
+  /// Defines the Volume (in %) if volume is 0, mute is enabled,range is 0-100.
+  bool setVolume(int volume) override {
+    this->volume = volume;
+    for (int j = 0; j < 8; j++) {
+      volumes[j] = volume;
+    }
+    return ad1938.setVolume(static_cast<float>(volume) / 100.0f);
+  }
+  /// Defines the Volume per DAC (in %) if volume is 0, mute is enabled,range is
+  /// 0-100.
+  bool setVolume(int volume, int line) {
+    if (line > 7) return false;
+    volumes[line] = volume;
+    return ad1938.setVolumeDAC(static_cast<float>(volume) / 100.0f, line);
+  }
+
+  int getVolume() override { return volume; }
+  bool setInputVolume(int volume) override { return false; }
+  bool isVolumeSupported() override { return true; }
+  bool isInputVolumeSupported() override { return false; }
+
+  DriverPins &pins() { return *p_pins; }
+  AD1938 &driver() { return ad1938; }
+
+ protected:
+  AD1938 ad1938;
+  int volume = 100;
+  int volumes[8] = {100};
+};
+
+#endif
 
 // -- Drivers
 /// @ingroup audio_driver
