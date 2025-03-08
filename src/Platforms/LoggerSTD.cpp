@@ -11,7 +11,7 @@ Print *p_audio_driver_log_output = &Serial;
 #endif
 
 // Default log level is warning
-int LOGLEVEL_AUDIODRIVER = 2;
+int LOGLEVEL_AUDIODRIVER = AUDIO_DRIVER_LOG_LEVEL;
 
 void AD_LOGD(const char* fmr, ...) {
   if (LOGLEVEL_AUDIODRIVER <= 0) { // LOGLEVEL_AUDIODRIVER = Debug

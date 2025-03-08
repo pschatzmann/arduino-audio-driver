@@ -9,9 +9,9 @@
 #ifdef ARDUINO
 #  include "Print.h"
 #endif
-
 // define supported log levels
-enum class AudioDriverLogLevel {Debug=0, Info, Warning, Error};
+enum class AudioDriverLogLevel {Debug=0, Info=1, Warning=2, Error=3};
+
 
 /***
  * C++ API to configure logging

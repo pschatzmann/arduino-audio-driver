@@ -53,6 +53,8 @@ The functionality has a built in logger. The default log level has been set to W
 ```
 Valid values are: Debug, Info, Warning, Error
 
+You can deactivate the logging completly and if you are using an ESP32, you can configure the use of the built in ESP32 IDF logger in AudioDriverConfig.h
+
 ## Documentation
 
 - [Wiki](https://github.com/pschatzmann/arduino-audio-driver/wiki)

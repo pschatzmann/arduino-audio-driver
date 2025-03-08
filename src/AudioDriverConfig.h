@@ -44,6 +44,11 @@
 #  define AUDIO_DRIVER_LOGGIN_ACTVIE true
 #endif
 
+/// Define the default log level for the standard logger (2=Warning)
+#ifndef AUDIO_DRIVER_LOG_LEVEL
+#  define AUDIO_DRIVER_LOG_LEVEL 2
+#endif 
+
 /// Use IDF Logger: by default we use it if ESP32 outside of ARDUINO 
 #if !defined(AUDIO_DRIVER_LOGGING_IDF) && defined(ESP32_CMAKE)
 #  define AUDIO_DRIVER_LOGGING_IDF
