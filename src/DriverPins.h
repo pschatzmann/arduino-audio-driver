@@ -3,12 +3,15 @@
 #include "DriverCommon.h"
 #include "Platforms/API_I2C.h"
 #include "Platforms/API_SPI.h"
+#include "Platforms/Logger.h"
 #include "Platforms/Optional.h"
 #include "Platforms/Vector.h"
-#include "Platforms/Logger.h"
 
 #ifdef ARDUINO
 #include "Wire.h"
+#define DEFAULT_WIRE &Wire
+#else
+#define DEFAULT_WIRE nullptr
 #endif
 
 #ifndef TOUCH_LIMIT
@@ -135,7 +138,7 @@ struct PinsSPI : public SPIConfig {
   operator bool() { return pinsAvailable(); }
   bool begin() {
     if (set_active) {
-      AD_LOGD("PinsSPI::begin for %d", (int) function);
+      AD_LOGD("PinsSPI::begin for %d", (int)function);
       spi_bus_create(this);
     } else {
       AD_LOGI("SPI, not active, MOSI, MISO, SCLK, SSEL not modified");
@@ -168,16 +171,11 @@ struct PinsI2C : public I2CConfig {
     sda = -1;
     frequency = 100000;
     set_active = true;
-#ifdef ARDUINO
-    p_wire = &Wire;
-#else
-    p_wire = nullptr;
-#endif
+    p_wire = DEFAULT_WIRE;
   };
 
-#ifdef ARDUINO
   PinsI2C(PinFunction function, GpioPin scl, GpioPin sda, int address = -1,
-          uint32_t frequency = 100000, TwoWire &wire = Wire,
+          uint32_t frequency = 100000, i2c_bus_handle_t wire = DEFAULT_WIRE,
           bool active = true) {
     this->function = function;
     this->scl = scl;
@@ -188,19 +186,6 @@ struct PinsI2C : public I2CConfig {
     this->set_active = active;
     this->address = address;
   }
-#else
-  PinsI2C(PinFunction function, GpioPin scl, GpioPin sda, int address = -1,
-          uint32_t frequency = 100000, bool active = true) {
-    this->function = function;
-    this->scl = scl;
-    this->sda = sda;
-    this->port = 0;
-    this->frequency = frequency;
-    this->p_wire = nullptr;
-    this->set_active = active;
-    this->address = address;
-  }
-#endif
 
   PinFunction function;
   bool set_active = true;
@@ -275,12 +260,12 @@ class DriverPins {
 
 #ifdef ARDUINO
   bool addSPI(PinFunction function, GpioPin clk, GpioPin miso, GpioPin mosi,
-              GpioPin cs, SPIClass &spi = SPI) {
+              GpioPin cs, SPIClass &spi) {
     PinsSPI pin(function, clk, miso, mosi, cs, spi);
     return addSPI(pin);
   }
-
 #endif
+
   /// Updates the SPI pin information using the function as key
   bool setSPI(PinsSPI pin) { return set<PinsSPI>(pin, spi); }
 
@@ -291,24 +276,25 @@ class DriverPins {
   }
 
 #ifdef ARDUINO
-  bool addI2C(PinFunction function, GpioPin scl, GpioPin sda, int port = -1,
-              uint32_t frequency = 100000, TwoWire &wire = Wire,
-              bool active = true) {
-    PinsI2C pin(function, scl, sda, port, frequency, wire, active);
-    return addI2C(pin);
-  }
   /// Just define your initialzed wire object
   bool addI2C(PinFunction function, TwoWire &wire, bool setActive = false) {
-    PinsI2C pin(function, -1, -1, -1, -1, wire, setActive);
+    PinsI2C pin(function, -1, -1, -1, -1, &wire, setActive);
     return addI2C(pin);
   }
-#else
-  bool addI2C(PinFunction function, GpioPin scl, GpioPin sda, int port = -1,
-              uint32_t frequency = 100000, bool active = true) {
-    PinsI2C pin(function, scl, sda, port, frequency, active);
+
+  bool addI2C(PinFunction function, GpioPin scl, GpioPin sda, int port,
+              uint32_t frequency, TwoWire &wire,
+              bool active = true) {
+    PinsI2C pin(function, scl, sda, port, frequency, &wire, active);
     return addI2C(pin);
   }
 #endif
+
+  bool addI2C(PinFunction function, GpioPin scl, GpioPin sda, int port = -1,
+              uint32_t frequency = 100000, i2c_bus_handle_t wire=DEFAULT_WIRE, bool active = true) {
+    PinsI2C pin(function, scl, sda, port, frequency, wire, active);
+    return addI2C(pin);
+  }
 
   /// Updates the I2C pin information using the function as key
   bool setI2C(PinsI2C pin) { return set<PinsI2C>(pin, i2c); }

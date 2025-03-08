@@ -103,8 +103,6 @@ protected:
 };
 
 
-
-
 // -- Boards
 /// @ingroup audio_driver
 static AudioBoard AudioKitEs8388V1{AudioDriverES8388, PinsAudioKitEs8388v1};
