@@ -258,13 +258,11 @@ class DriverPins {
     return true;
   }
 
-#ifdef ARDUINO
   bool addSPI(PinFunction function, GpioPin clk, GpioPin miso, GpioPin mosi,
               GpioPin cs, SPIClass &spi) {
     PinsSPI pin(function, clk, miso, mosi, cs, spi);
     return addSPI(pin);
   }
-#endif
 
   /// Updates the SPI pin information using the function as key
   bool setSPI(PinsSPI pin) { return set<PinsSPI>(pin, spi); }
