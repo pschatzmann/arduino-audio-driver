@@ -1,5 +1,5 @@
 // I2C Driver for Espressif IDF
-#ifdef ESP32_CMAKE
+#if !defined(ARDUINO) || AUDIO_DRIVER_FORCE_IDF
 
 #include <assert.h>
 #include <string.h>  // memcpy

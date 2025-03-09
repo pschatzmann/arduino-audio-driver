@@ -54,3 +54,7 @@
 #  define AUDIO_DRIVER_LOGGING_IDF
 #endif
 
+/// Force to use the IDF I2C Implementation instead of the Arduino Wire
+#if AUDIO_DRIVER_FORCE_IDF
+#  define AUDIO_DRIVER_FORCE_IDF false
+#endif
