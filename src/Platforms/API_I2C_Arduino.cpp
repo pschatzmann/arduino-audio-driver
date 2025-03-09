@@ -1,5 +1,5 @@
 // I2C Driver for Arduino
-#ifdef ARDUINO && !AUDIO_DRIVER_FORCE_IDF
+#if defined(ARDUINO) && !AUDIO_DRIVER_FORCE_IDF
 
 #include "Platforms/API_I2C.h"
 
