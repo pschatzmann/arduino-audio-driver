@@ -9,8 +9,11 @@
 
 
 error_t i2c_bus_create(struct I2CConfig *config) {
+  assert(config!=nullptr);
   I2CConfig &pins = *config;
   TwoWire *p_wire = (TwoWire*) pins.p_wire;
+  assert(p_wire != nullptr);
+
   // if no pins are defined, just call begin
   if (pins.scl == -1 || pins.sda == -1) {
     AD_LOGI("setting up I2C w/o pins");

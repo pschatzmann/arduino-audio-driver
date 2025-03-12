@@ -182,7 +182,7 @@ struct PinsI2C : public I2CConfig {
     this->sda = sda;
     this->port = 0;
     this->frequency = frequency;
-    this->p_wire = &wire;
+    this->p_wire = wire;
     this->set_active = active;
     this->address = address;
   }
