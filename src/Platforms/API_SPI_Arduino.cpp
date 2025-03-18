@@ -38,7 +38,7 @@ error_t spi_bus_create(struct SPIConfig *config) {
   return RESULT_OK;
 }
 
-void spi_bus_delete(i2c_bus_handle_t bus) {
+void spi_bus_delete(spi_bus_handle_t bus) {
   AD_LOGD("PinsSPI::end");
   SPIClass *p_spi = (SPIClass *)bus;
   p_spi->end();
