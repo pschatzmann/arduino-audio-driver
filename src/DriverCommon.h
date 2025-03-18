@@ -25,13 +25,8 @@ namespace audio_driver {
 #endif
 
 typedef int error_t;
-#if defined(ARDUINO) && !AUDIO_DRIVER_FORCE_IDF
-typedef Wire *i2c_bus_handle_t;
-typedef SPIClass *spi_bus_handle_t;
-#else
 typedef void *i2c_bus_handle_t;
 typedef void *spi_bus_handle_t;
-#endif
 
 /**
  * @enum input_device_t
