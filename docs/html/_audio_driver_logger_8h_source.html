@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>arduino-audio-driver: src/Utils/AudioDriverLogger.h Source File</title>
+<title>arduino-audio-driver: src/Platforms/AudioDriverLogger.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_a7363e98f9e0bdd87618633653859815.html">Utils</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_03d7d17aa0ae13f975c2241883b8df3e.html">Platforms</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -71,50 +71,54 @@ $(function() {
 <div class="contents">
 <a href="_audio_driver_logger_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="etc_8h.html">etc.h</a>&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_logger_8h.html">Logger.h</a>&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;Print.h&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">// define supported log levels</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="_audio_driver_logger_8h.html#a54677b0d53115c3e6f6e3b4d07c2ffc5">    9</a></span>&#160;<span class="keyword">enum class</span> <a class="code" href="_audio_driver_logger_8h.html#a54677b0d53115c3e6f6e3b4d07c2ffc5">AudioDriverLogLevel</a> {<a class="code" href="_audio_driver_logger_8h.html#a54677b0d53115c3e6f6e3b4d07c2ffc5aa603905470e2a5b8c13e96b579ef0dba">Debug</a>=0, <a class="code" href="_audio_driver_logger_8h.html#a54677b0d53115c3e6f6e3b4d07c2ffc5a4059b0251f66a18cb56f544728796875">Info</a>, <a class="code" href="_audio_driver_logger_8h.html#a54677b0d53115c3e6f6e3b4d07c2ffc5a0eaadb4fcb48a0a0ed7bc9868be9fbaa">Warning</a>, <a class="code" href="_audio_driver_logger_8h.html#a54677b0d53115c3e6f6e3b4d07c2ffc5a902b0d55fddef6f8d651fe1035b7d4bd">Error</a>};</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">/***</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * C++ API to configure logging</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="class_audio_driver_logger_class.html">   14</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_audio_driver_logger_class.html">AudioDriverLoggerClass</a> {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="class_audio_driver_logger_class.html#a02a4c87972c3d966249503734eb8b539">   16</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_audio_driver_logger_class.html#a02a4c87972c3d966249503734eb8b539">setLogLevel</a>(<a class="code" href="_audio_driver_logger_8h.html#a54677b0d53115c3e6f6e3b4d07c2ffc5">AudioDriverLogLevel</a> level){</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <a class="code" href="_logger_8c.html#a945fe534307abe9fa66afdb4f6476543">LOGLEVEL_AUDIODRIVER</a> = (int) level;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    }</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="class_audio_driver_logger_class.html#ae1220e7e3542f5a84c21fe2f7cef194c">   19</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_audio_driver_logger_class.html#ae1220e7e3542f5a84c21fe2f7cef194c">setOutput</a>(Print&amp; out) {</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <a class="code" href="etc_8cpp.html#a660eaa73742d5132c2e84ba9eacfaa3d">setAudioDriverLogOutput</a>(&amp;out);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    }</div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="class_audio_driver_logger_class.html#ae2948ef255c7ca046ab2773439ef6e31">   22</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_audio_driver_logger_class.html#ae2948ef255c7ca046ab2773439ef6e31">begin</a>(Print&amp; out, <a class="code" href="_audio_driver_logger_8h.html#a54677b0d53115c3e6f6e3b4d07c2ffc5">AudioDriverLogLevel</a> level) {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <a class="code" href="class_audio_driver_logger_class.html#a02a4c87972c3d966249503734eb8b539">setLogLevel</a>(level);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <a class="code" href="class_audio_driver_logger_class.html#ae1220e7e3542f5a84c21fe2f7cef194c">setOutput</a>(out);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    }</div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="class_audio_driver_logger_class.html#aaf81d3fdaf258088d7692fa70cece087">   27</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_audio_driver_logger_class.html#aaf81d3fdaf258088d7692fa70cece087">end</a>(){</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <a class="code" href="etc_8cpp.html#a660eaa73742d5132c2e84ba9eacfaa3d">setAudioDriverLogOutput</a>(<span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    }</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;};</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="_audio_driver_logger_8h.html#a8ccd822580bbe97e5761a446a6773190">   32</a></span>&#160;<span class="keyword">static</span> <a class="code" href="class_audio_driver_logger_class.html">AudioDriverLoggerClass</a> <a class="code" href="_audio_driver_logger_8h.html#a8ccd822580bbe97e5761a446a6773190">AudioDriverLogger</a>;</div>
-<div class="ttc" id="a_audio_driver_logger_8h_html_a54677b0d53115c3e6f6e3b4d07c2ffc5"><div class="ttname"><a href="_audio_driver_logger_8h.html#a54677b0d53115c3e6f6e3b4d07c2ffc5">AudioDriverLogLevel</a></div><div class="ttdeci">AudioDriverLogLevel</div><div class="ttdef"><b>Definition:</b> AudioDriverLogger.h:9</div></div>
-<div class="ttc" id="a_audio_driver_logger_8h_html_a54677b0d53115c3e6f6e3b4d07c2ffc5a0eaadb4fcb48a0a0ed7bc9868be9fbaa"><div class="ttname"><a href="_audio_driver_logger_8h.html#a54677b0d53115c3e6f6e3b4d07c2ffc5a0eaadb4fcb48a0a0ed7bc9868be9fbaa">AudioDriverLogLevel::Warning</a></div><div class="ttdeci">@ Warning</div></div>
-<div class="ttc" id="a_audio_driver_logger_8h_html_a54677b0d53115c3e6f6e3b4d07c2ffc5a4059b0251f66a18cb56f544728796875"><div class="ttname"><a href="_audio_driver_logger_8h.html#a54677b0d53115c3e6f6e3b4d07c2ffc5a4059b0251f66a18cb56f544728796875">AudioDriverLogLevel::Info</a></div><div class="ttdeci">@ Info</div></div>
-<div class="ttc" id="a_audio_driver_logger_8h_html_a54677b0d53115c3e6f6e3b4d07c2ffc5a902b0d55fddef6f8d651fe1035b7d4bd"><div class="ttname"><a href="_audio_driver_logger_8h.html#a54677b0d53115c3e6f6e3b4d07c2ffc5a902b0d55fddef6f8d651fe1035b7d4bd">AudioDriverLogLevel::Error</a></div><div class="ttdeci">@ Error</div></div>
-<div class="ttc" id="a_audio_driver_logger_8h_html_a54677b0d53115c3e6f6e3b4d07c2ffc5aa603905470e2a5b8c13e96b579ef0dba"><div class="ttname"><a href="_audio_driver_logger_8h.html#a54677b0d53115c3e6f6e3b4d07c2ffc5aa603905470e2a5b8c13e96b579ef0dba">AudioDriverLogLevel::Debug</a></div><div class="ttdeci">@ Debug</div></div>
-<div class="ttc" id="a_audio_driver_logger_8h_html_a8ccd822580bbe97e5761a446a6773190"><div class="ttname"><a href="_audio_driver_logger_8h.html#a8ccd822580bbe97e5761a446a6773190">AudioDriverLogger</a></div><div class="ttdeci">static AudioDriverLoggerClass AudioDriverLogger</div><div class="ttdef"><b>Definition:</b> AudioDriverLogger.h:32</div></div>
-<div class="ttc" id="a_logger_8c_html_a945fe534307abe9fa66afdb4f6476543"><div class="ttname"><a href="_logger_8c.html#a945fe534307abe9fa66afdb4f6476543">LOGLEVEL_AUDIODRIVER</a></div><div class="ttdeci">int LOGLEVEL_AUDIODRIVER</div><div class="ttdef"><b>Definition:</b> Logger.c:8</div></div>
-<div class="ttc" id="a_logger_8h_html"><div class="ttname"><a href="_logger_8h.html">Logger.h</a></div></div>
-<div class="ttc" id="aclass_audio_driver_logger_class_html"><div class="ttname"><a href="class_audio_driver_logger_class.html">AudioDriverLoggerClass</a></div><div class="ttdef"><b>Definition:</b> AudioDriverLogger.h:14</div></div>
-<div class="ttc" id="aclass_audio_driver_logger_class_html_a02a4c87972c3d966249503734eb8b539"><div class="ttname"><a href="class_audio_driver_logger_class.html#a02a4c87972c3d966249503734eb8b539">AudioDriverLoggerClass::setLogLevel</a></div><div class="ttdeci">void setLogLevel(AudioDriverLogLevel level)</div><div class="ttdef"><b>Definition:</b> AudioDriverLogger.h:16</div></div>
-<div class="ttc" id="aclass_audio_driver_logger_class_html_aaf81d3fdaf258088d7692fa70cece087"><div class="ttname"><a href="class_audio_driver_logger_class.html#aaf81d3fdaf258088d7692fa70cece087">AudioDriverLoggerClass::end</a></div><div class="ttdeci">void end()</div><div class="ttdef"><b>Definition:</b> AudioDriverLogger.h:27</div></div>
-<div class="ttc" id="aclass_audio_driver_logger_class_html_ae1220e7e3542f5a84c21fe2f7cef194c"><div class="ttname"><a href="class_audio_driver_logger_class.html#ae1220e7e3542f5a84c21fe2f7cef194c">AudioDriverLoggerClass::setOutput</a></div><div class="ttdeci">void setOutput(Print &amp;out)</div><div class="ttdef"><b>Definition:</b> AudioDriverLogger.h:19</div></div>
-<div class="ttc" id="aclass_audio_driver_logger_class_html_ae2948ef255c7ca046ab2773439ef6e31"><div class="ttname"><a href="class_audio_driver_logger_class.html#ae2948ef255c7ca046ab2773439ef6e31">AudioDriverLoggerClass::begin</a></div><div class="ttdeci">bool begin(Print &amp;out, AudioDriverLogLevel level)</div><div class="ttdef"><b>Definition:</b> AudioDriverLogger.h:22</div></div>
-<div class="ttc" id="aetc_8cpp_html_a660eaa73742d5132c2e84ba9eacfaa3d"><div class="ttname"><a href="etc_8cpp.html#a660eaa73742d5132c2e84ba9eacfaa3d">setAudioDriverLogOutput</a></div><div class="ttdeci">void setAudioDriverLogOutput(void *out)</div><div class="ttdef"><b>Definition:</b> etc.cpp:11</div></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_config_audio_driver_8h.html">ConfigAudioDriver.h</a>&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#if AUDIO_DRIVER_LOGGIN_ACTVIE &amp;&amp; !defined(AUDIO_DRIVER_LOGGING_IDF)</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_logger_s_t_d_8h.html">LoggerSTD.h</a>&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="etc_8h.html">etc.h</a>&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#ifdef ARDUINO</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#  include &quot;Print.h&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">// define supported log levels</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">enum class</span> AudioDriverLogLevel {Debug=0, Info=1, Warning=2, Error=3};</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">/***</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * C++ API to configure logging</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">class </span>AudioDriverLoggerClass {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">void</span> setLogLevel(AudioDriverLogLevel level){</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <a class="code" href="_logger_s_t_d_8h.html#a945fe534307abe9fa66afdb4f6476543">LOGLEVEL_AUDIODRIVER</a> = (int) level;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    }</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#ifdef ARDUINO</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">void</span> setOutput(Print&amp; out) {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <a class="code" href="_logger_s_t_d_8h.html#a660eaa73742d5132c2e84ba9eacfaa3d">setAudioDriverLogOutput</a>(&amp;out);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    }</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">bool</span> begin(Print&amp; out, AudioDriverLogLevel level) {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        setLogLevel(level);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        setOutput(out);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    }</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">bool</span> begin(AudioDriverLogLevel level) {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        setLogLevel(level);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    }</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">void</span> end(){</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <a class="code" href="_logger_s_t_d_8h.html#a660eaa73742d5132c2e84ba9eacfaa3d">setAudioDriverLogOutput</a>(<span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    }</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;};</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment">// global object for std logging api</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">static</span> AudioDriverLoggerClass AudioDriverLogger;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="a_config_audio_driver_8h_html"><div class="ttname"><a href="_config_audio_driver_8h.html">ConfigAudioDriver.h</a></div></div>
+<div class="ttc" id="a_logger_s_t_d_8h_html"><div class="ttname"><a href="_logger_s_t_d_8h.html">LoggerSTD.h</a></div></div>
+<div class="ttc" id="a_logger_s_t_d_8h_html_a660eaa73742d5132c2e84ba9eacfaa3d"><div class="ttname"><a href="_logger_s_t_d_8h.html#a660eaa73742d5132c2e84ba9eacfaa3d">setAudioDriverLogOutput</a></div><div class="ttdeci">void setAudioDriverLogOutput(void *out)</div></div>
+<div class="ttc" id="a_logger_s_t_d_8h_html_a945fe534307abe9fa66afdb4f6476543"><div class="ttname"><a href="_logger_s_t_d_8h.html#a945fe534307abe9fa66afdb4f6476543">LOGLEVEL_AUDIODRIVER</a></div><div class="ttdeci">int LOGLEVEL_AUDIODRIVER</div></div>
 <div class="ttc" id="aetc_8h_html"><div class="ttname"><a href="etc_8h.html">etc.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
