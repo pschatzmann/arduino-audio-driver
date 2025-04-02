@@ -322,6 +322,10 @@ class AudioDriver {
   DriverPins *p_pins = nullptr;
   int i2c_default_address = -1;
 
+  int mapVolume(int x, int in_min, int in_max, int out_min, int out_max) {
+    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+  }
+
   /// Determine the TwoWire object from the I2C config or use Wire
   virtual i2c_bus_handle_t getI2C() {
     if (p_pins == nullptr) return DEFAULT_WIRE;
@@ -557,7 +561,7 @@ class AudioDriverCS42448Class : public AudioDriver {
 
   int getVolume() override { return volume; }
   bool setInputVolume(int volume) override {
-    int vol = map(volume, 0, 100, -128, 127);
+    int vol = mapVolume(volume, 0, 100, -128, 127);
     return cs42448.setVolumeADC(vol);
   }
   bool isVolumeSupported() override { return true; }
@@ -834,7 +838,7 @@ class AudioDriverES8388Class : public AudioDriver {
   }
 
   bool setInputVolume(int volume) {
-    // map values from 0 - 100 to 0 to 8
+    // mapVolume values from 0 - 100 to 0 to 8
 
     // es_mic_gain_t: MIC_GAIN_MIN = -1, 0,3,6,9,12,15,18,21,24 MIC_GAIN_MAX =
     // 25
@@ -861,7 +865,7 @@ class AudioDriverES8388Class : public AudioDriver {
                              MIC_GAIN_18DB, MIC_GAIN_21DB, MIC_GAIN_24DB};
 
     int vol = limitValue(volume, 0, 100);
-    int idx = map(vol, 0, 100, 0, 8);
+    int idx = mapVolume(vol, 0, 100, 0, 8);
 
     es_mic_gain_t gain = gains[idx];
     AD_LOGD("input volume: %d -> gain %d [dB] (idx: %d of 0..8)", volume, gain,
@@ -964,7 +968,7 @@ class AudioDriverWM8960Class : public AudioDriver {
   /// Defines the Volume (in %) if volume is 0, mute is enabled,range is 0-100.
   bool setVolume(int volume) {
     volume_out = limitValue(volume, 0, 100);
-    int vol_int = volume_out == 0.0 ? 0 : map(volume_out, 0, 100, 30, 0x7F);
+    int vol_int = volume_out == 0.0 ? 0 : mapVolume(volume_out, 0, 100, 30, 0x7F);
     return mtb_wm8960_set_output_volume(vol_int);
   }
 
@@ -972,7 +976,7 @@ class AudioDriverWM8960Class : public AudioDriver {
 
   bool setInputVolume(int volume) {
     volume_in = limitValue(volume, 0, 100);
-    int vol_int = map(volume_in, 0, 100, 0, 30);
+    int vol_int = mapVolume(volume_in, 0, 100, 0, 30);
     return mtb_wm8960_adjust_input_volume(vol_int);
   }
   bool isVolumeSupported() { return true; }
@@ -1147,7 +1151,7 @@ class AudioDriverWM8978Class : public AudioDriver {
 
   /// Mute line 0 = speaker, line 1 = headphones
   bool setMute(bool mute, int line) override {
-    int scaled = mute ? 0 : map(volume, 0, 100, 0, 63);
+    int scaled = mute ? 0 : mapVolume(volume, 0, 100, 0, 63);
     switch (line) {
       case 0:
         wm8078.setSPKvol(scaled);
@@ -1175,7 +1179,7 @@ class AudioDriverWM8978Class : public AudioDriver {
 
   bool setVolume(int volume) override {
     this->volume = volume;
-    int scaled = map(volume, 0, 100, 0, 63);
+    int scaled = mapVolume(volume, 0, 100, 0, 63);
     wm8078.setSPKvol(scaled);
     wm8078.setHPvol(scaled, scaled);
     return true;
@@ -1184,7 +1188,7 @@ class AudioDriverWM8978Class : public AudioDriver {
   int getVolume() override { return volume; }
 
   bool setInputVolume(int volume) override {
-    int scaled = map(volume, 0, 100, 0, 63);
+    int scaled = mapVolume(volume, 0, 100, 0, 63);
     wm8078.setMICgain(scaled);
     wm8078.setAUXgain(scaled);
     wm8078.setLINEINgain(scaled);
@@ -1254,7 +1258,7 @@ class AudioDriverWM8994Class : public AudioDriver {
     setPAPower(true);
     delay(10);
     p_pins = &pins;
-    int vol = map(volume, 0, 100, DEFAULT_VOLMIN, DEFAULT_VOLMAX);
+    int vol = mapVolume(volume, 0, 100, DEFAULT_VOLMIN, DEFAULT_VOLMAX);
     uint32_t freq = codecCfg.getRateNumeric();
     uint16_t outputDevice = getOutput(codec_cfg.output_device);
 
@@ -1269,7 +1273,7 @@ class AudioDriverWM8994Class : public AudioDriver {
 
   bool setVolume(int volume) {
     this->volume = volume;
-    int vol = map(volume, 0, 100, DEFAULT_VOLMIN, DEFAULT_VOLMAX);
+    int vol = mapVolume(volume, 0, 100, DEFAULT_VOLMIN, DEFAULT_VOLMAX);
     return wm8994_SetVolume(getI2CAddress(), vol) == 0;
   }
   int getVolume() { return volume; }
