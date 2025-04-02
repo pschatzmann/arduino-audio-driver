@@ -307,6 +307,42 @@ class DriverPins {
     PinsFunction pin(function, pinNo, logic, index);
     return addPin(pin);
   }
+
+  /// Updates an existing pin information using the function and index as key
+  bool setPin(PinsFunction updatedPin){
+    for (PinsFunction &pin : pins) {
+      if (pin.function == updatedPin.function && pin.index == updatedPin.index){
+        pin = updatedPin;
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /// Updates an existing pin active flag for the indicated gpio
+  bool setPinActive(int gpioPin, bool active) {
+    for (PinsFunction &pin : pins) {
+      if (pin.pin == gpioPin){
+        pin.active = active;
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /// Updates an existing pin active flag for the indicated gpio
+  bool setPinActive(PinFunction func, int idx, bool active) {
+    auto pin = getPin(func, idx);
+    if (pin){
+      auto value = pin.value();
+      value.active = active;
+      // update pin
+      return setPin(value);
+    }
+    return false;
+  }
+
+
   /// Get pin information by function
   audio_driver_local::Optional<PinsFunction> getPin(PinFunction function,
                                                     int pos = 0) {
