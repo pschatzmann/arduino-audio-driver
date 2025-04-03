@@ -1348,7 +1348,7 @@ class AudioDriverPCM3168Class : public AudioDriver {
         break;
       case BIT_LENGTH_32BITS:
       case BIT_LENGTH_24BITS:
-        if (iface.singal_type == SIGNAL_TDM) {
+        if (iface.signal_type == SIGNAL_TDM) {
           switch (iface.fmt) {
             case I2S_NORMAL:
               fmt = PCM3168::FMT::I2STDM24bit;

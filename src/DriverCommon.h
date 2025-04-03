@@ -119,7 +119,7 @@ typedef enum {
 } i2s_format_t;
 
 /**
- * @enum singal_t
+ * @enum signal_t
  * @brief Usually the value is digital for i2s
  * @ingroup enumerations
  */
@@ -129,7 +129,7 @@ typedef enum {
   SIGNAL_AMALOG,
   SIGNAL_PDM,
   SIGNAL_TDM,
-} singal_t;
+} signal_t;
 
 
 /**
@@ -196,7 +196,7 @@ typedef struct {
   /*!< i2s number of channels */
   channels_t channels;
   /*!< signal tpye */
-  singal_t singal_type;
+  signal_t signal_type;
 
 } I2SDefinition;
 

@@ -326,7 +326,7 @@ error_t es7210_adc_init(codec_config_t *codec_cfg, void* i2c)
 
     // set REG12
     uint8_t reg12 = 0;
-    if (i2s_cfg->singal_type == SIGNAL_TDM) {
+    if (i2s_cfg->signal_type == SIGNAL_TDM) {
         reg12 = 0x02; // TDM I2S
     }
     ret |= es7210_write_reg(ES7210_SDP_INTERFACE2_REG12, reg12);

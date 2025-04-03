@@ -556,7 +556,7 @@ class CS42448 {
 
   /// Set I2S format based on codec_config
   bool setFormat() {
-    if (codec_config.i2s.singal_type == SIGNAL_TDM) {
+    if (codec_config.i2s.signal_type == SIGNAL_TDM) {
       return setFormat(Format::TDM);
     } else {
       switch (codec_config.i2s.fmt) {
