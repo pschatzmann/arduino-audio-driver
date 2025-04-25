@@ -14,14 +14,15 @@ class AudioBoard {
 public:
 
   AudioBoard(AudioDriver *driver, DriverPins* pins) {
-    this->p_pins = pins;
-    this->p_driver = driver;
+    setPins(*pins);
+    setDriver(*driver);
   }
   
   AudioBoard(AudioDriver &driver, DriverPins& pins) {
-    this->p_pins = &pins;
-    this->p_driver = &driver;
+    setPins(pins);
+    setDriver(driver);
   }
+
 
   bool begin(){
     AD_LOGD("AudioBoard::begin");
@@ -73,13 +74,16 @@ public:
 #else
     return volume >= 0 ? volume : p_driver->getVolume(); }
 #endif
+
+  void setPins(DriverPins&pins){
+    this->p_pins = &pins;
+  }
   DriverPins& getPins() { return *p_pins; }
   DriverPins& pins() { return *p_pins; }
 
-  bool setPAPower(bool enable) { return is_active ? p_driver->setPAPower(enable) : false; }
-  
-  /// set volume for adc: this is only supported on some defined codecs
-  bool setInputVolume(int volume) {return p_driver->setInputVolume(volume);}
+  void setDriver(AudioDriver& driver){
+    this->p_driver = &driver;
+  }
 
   AudioDriver* getDriver(){
     return p_driver;
@@ -88,6 +92,11 @@ public:
     return *p_driver;
   }
 
+  bool setPAPower(bool enable) { return is_active ? p_driver->setPAPower(enable) : false; }
+  
+  /// set volume for adc: this is only supported on some defined codecs
+  bool setInputVolume(int volume) {return p_driver->setInputVolume(volume);}
+ 
   // platform specific logic to determine if key is pressed
   bool isKeyPressed(uint8_t key) { return p_pins->isKeyPressed(key); }
 
