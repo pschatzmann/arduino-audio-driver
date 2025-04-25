@@ -1,17 +1,16 @@
 // I2C Driver for Arduino
 #if defined(ARDUINO) && !AUDIO_DRIVER_FORCE_IDF
 
-#include "Platforms/API_I2C.h"
-
 #include <Wire.h>
 #include <assert.h>
 #include <stdio.h>
 
+#include "Platforms/API_I2C.h"
 
 error_t i2c_bus_create(struct I2CConfig *config) {
-  assert(config!=nullptr);
+  assert(config != nullptr);
   I2CConfig &pins = *config;
-  TwoWire *p_wire = (TwoWire*) pins.p_wire;
+  TwoWire *p_wire = (TwoWire *)pins.p_wire;
   assert(p_wire != nullptr);
 
   // if no pins are defined, just call begin
@@ -51,10 +50,8 @@ void i2c_bus_delete(i2c_bus_handle_t bus) {
 // this method is used !
 error_t i2c_bus_write_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
                             int reglen, uint8_t *data, int datalen) {
-  AD_LOGD(
-      "i2c_bus_write_bytes: addr=0x%X reglen=%d datalen=%d - reg=0x%0X "
-      "value=0x%0X",
-      addr, reglen, datalen, reg[0], data[0]);
+  AD_LOGD("i2c_bus_write_bytes: addr=0x%X reglen=%d datalen=%d - reg=0x%0X ",
+          addr, reglen, datalen, reg[0]);
   TwoWire *p_wire = (TwoWire *)bus;
   assert(p_wire != nullptr);
   int result = RESULT_OK;
