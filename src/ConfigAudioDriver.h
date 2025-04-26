@@ -14,7 +14,7 @@
 
 
 // To increase the max volume e.g. for ai_thinker (ES8388) 2957 or A202 -> set
-// to 1 or 2 0 AUX volume is LINE level 1 you can control the AUX volume with
+// to 0, 1 or 2. 0: AUX volume is LINE level; 1: you can control the AUX volume with
 // setVolume()
 #ifndef AI_THINKER_ES8388_VOLUME_HACK
 #  define AI_THINKER_ES8388_VOLUME_HACK 1
