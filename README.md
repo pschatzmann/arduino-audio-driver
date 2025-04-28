@@ -24,6 +24,10 @@ This library privides the following drivers:
 - AudioDriverES8311
 - AudioDriverES8374
 - AudioDriverES8388
+  - AudioDriverES8388H0 (Volume Hack 0)
+  - AudioDriverES8388H1 (Volume Hack 1)
+  - AudioDriverES8388H2 (Volume Hack 2)
+  - AudioDriverES8388H3 (Volume Hack 3)
 - AudioDriverLyratMini
 - AudioDriverPCM3168
 - AudioDriverWM8960
