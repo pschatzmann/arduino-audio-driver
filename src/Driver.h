@@ -202,7 +202,7 @@ class AudioDriver {
     setupI2CAddress();
 
     p_pins->setSPIActiveForSD(codec_cfg.sd_active);
-    if (!p_pins->begin()){
+    if (!p_pins->begin()) {
       AD_LOGE("AudioBoard::pins::begin failed");
       return false;
     }
@@ -802,6 +802,10 @@ class AudioDriverES8374Class : public AudioDriver {
  */
 class AudioDriverES8388Class : public AudioDriver {
  public:
+  AudioDriverES8388Class(int volumeHack) {
+    i2c_default_address = 0x10;
+    volume_hack = volumeHack;
+  }
   AudioDriverES8388Class() { i2c_default_address = 0x10; }
   bool setMute(bool mute) {
     line_active[0] = !mute;
@@ -879,11 +883,16 @@ class AudioDriverES8388Class : public AudioDriver {
 
   bool isInputVolumeSupported() { return true; }
 
+  void setVolumeHack(int volume_hack) { this->volume_hack = volume_hack; }
+  int getVolumeHack() { return volume_hack; }
+
  protected:
   bool line_active[2] = {true};
+  int volume_hack = AI_THINKER_ES8388_VOLUME_HACK;
 
   bool init(codec_config_t codec_cfg) {
-    return es8388_init(&codec_cfg, getI2C(), getI2CAddress()) == RESULT_OK;
+    return es8388_init(&codec_cfg, getI2C(), getI2CAddress(), volume_hack) ==
+           RESULT_OK;
   }
   bool deinit() { return es8388_deinit() == RESULT_OK; }
 
@@ -968,7 +977,8 @@ class AudioDriverWM8960Class : public AudioDriver {
   /// Defines the Volume (in %) if volume is 0, mute is enabled,range is 0-100.
   bool setVolume(int volume) {
     volume_out = limitValue(volume, 0, 100);
-    int vol_int = volume_out == 0.0 ? 0 : mapVolume(volume_out, 0, 100, 30, 0x7F);
+    int vol_int =
+        volume_out == 0.0 ? 0 : mapVolume(volume_out, 0, 100, 30, 0x7F);
     return mtb_wm8960_set_output_volume(vol_int);
   }
 
@@ -1539,6 +1549,14 @@ static AudioDriverES8311Class AudioDriverES8311;
 static AudioDriverES8374Class AudioDriverES8374;
 /// @ingroup audio_driver
 static AudioDriverES8388Class AudioDriverES8388;
+/// @ingroup audio_driver
+static AudioDriverES8388Class AudioDriverES8388H0{0};
+/// @ingroup audio_driver
+static AudioDriverES8388Class AudioDriverES8388H1{1};
+/// @ingroup audio_driver
+static AudioDriverES8388Class AudioDriverES8388H2{2};
+/// @ingroup audio_driver
+static AudioDriverES8388Class AudioDriverES8388H3{3};
 /// @ingroup audio_driver
 static AudioDriverWM8960Class AudioDriverWM8960;
 /// @ingroup audio_driver

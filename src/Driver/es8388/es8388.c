@@ -43,6 +43,7 @@ typedef enum {
 static i2c_bus_handle_t i2c_handle = NULL;
 static int dac_power = 0x3c;
 static int address = ES8388_ADDR;
+static int esp8388_volume_hack = AI_THINKER_ES8388_VOLUME_HACK;
 
 #define ES_ASSERT(a, format, b, ...) \
   if ((a) != 0) {                    \
@@ -260,9 +261,10 @@ error_t es8388_deinit(void) {
  *     - (-1)  Error
  *     - (0)   Success
  */
-error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle, int addr) {
+error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle, int addr, int volumeHack) {
   AD_TRACED();
   i2c_handle = handle;
+  esp8388_volume_hack = volumeHack;
   // set address
   if (addr>0) address = addr;
 
@@ -389,17 +391,25 @@ error_t es8388_config_fmt(codec_mode_t mode, i2s_format_t fmt) {
   return res;
 }
 
-/**
- * @brief Sets the output volume
- * @param volume: 0 ~ 100
- *
- * @return
- *     - (-1)  Error
- *     - (0)   Success
- */
-#if AI_THINKER_ES8388_VOLUME_HACK == 1
+error_t es8388_set_voice_volume_0(int volume) {
+  AD_LOGD("es8388_set_voice_volume: %d", volume);
+  error_t res = RESULT_OK;
+  if (volume < 0)
+    volume = 0;
+  else if (volume > 100)
+    volume = 100;
+  volume /= 3;
+  // ROUT1VOL LOUT1VOL 0 -> -45dB; 33 -> – 4.5dB
+  res = es_write_reg(address, ES8388_DACCONTROL24, volume);
+  res |= es_write_reg(address, ES8388_DACCONTROL25, volume);
+  // DAC LDACVOL RDACVOL default 0 = 0DB; Default value 192 = – -96 dB
+  res |= es_write_reg(address, ES8388_DACCONTROL26, 0);
+  res |= es_write_reg(address, ES8388_DACCONTROL27, 0);
+  return res;
+}
 
-error_t es8388_set_voice_volume(int volume) {
+
+error_t es8388_set_voice_volume_1(int volume) {
   AD_LOGD("es8388_set_voice_volume (HACK 1): %d", volume);
   error_t res = RESULT_OK;
   if (volume < 0)
@@ -419,9 +429,8 @@ error_t es8388_set_voice_volume(int volume) {
   return res;
 }
 
-#elif AI_THINKER_ES8388_VOLUME_HACK == 2
 
-error_t es8388_set_voice_volume(int volume) {
+error_t es8388_set_voice_volume_2(int volume) {
   AD_LOGD("es8388_set_voice_volume (HACK 2): %d", volume);
   error_t res = RESULT_OK;
   if (volume < 0)
@@ -441,25 +450,28 @@ error_t es8388_set_voice_volume(int volume) {
   return res;
 }
 
-#else
+/**
+ * @brief Sets the output volume
+ * @param volume: 0 ~ 100
+ *
+ * @return
+ *     - (-1)  Error
+ *     - (0)   Success
+ */
 
-error_t es8388_set_voice_volume(int volume) {
-  AD_LOGD("es8388_set_voice_volume: %d", volume);
-  error_t res = RESULT_OK;
-  if (volume < 0)
-    volume = 0;
-  else if (volume > 100)
-    volume = 100;
-  volume /= 3;
-  // ROUT1VOL LOUT1VOL 0 -> -45dB; 33 -> – 4.5dB
-  res = es_write_reg(address, ES8388_DACCONTROL24, volume);
-  res |= es_write_reg(address, ES8388_DACCONTROL25, volume);
-  // DAC LDACVOL RDACVOL default 0 = 0DB; Default value 192 = – -96 dB
-  res |= es_write_reg(address, ES8388_DACCONTROL26, 0);
-  res |= es_write_reg(address, ES8388_DACCONTROL27, 0);
-  return res;
-}
-#endif
+ error_t es8388_set_voice_volume(int volume) {
+  switch(esp8388_volume_hack) {
+    case 0:
+      return es8388_set_voice_volume_0(volume);
+    case 1:
+      return es8388_set_voice_volume_1(volume);
+    case 2:
+      return es8388_set_voice_volume_2(volume);
+    default:
+      return es8388_set_voice_volume_0(volume);
+  }
+ }
+
 
 /**
  * Provides the volume

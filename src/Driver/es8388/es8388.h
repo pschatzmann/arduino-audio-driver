@@ -107,7 +107,6 @@ typedef enum {
   ESP8388_INPUT_MAX,
 } es8388_input_device_t;
 
-
 /**
  * @brief Initialize ES8388 codec chip
  *
@@ -117,7 +116,7 @@ typedef enum {
  *     - RESULT_OK
  *     - RESULT_FAIL
  */
-error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle, int addr);
+error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle, int addr, int volumeHack);
 
 /**
  * @brief Deinitialize ES8388 codec chip

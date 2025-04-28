@@ -120,9 +120,9 @@ static AudioBoard AudioKitEs8388V2{AudioDriverES8388, PinsAudioKitEs8388v2};
 /// @ingroup audio_driver
 static AudioBoard AudioKitAC101{AudioDriverAC101, PinsAudioKitAC101};
 /// @ingroup audio_driver
-static AudioBoard LyratV43{AudioDriverES8388, PinsLyrat43};
+static AudioBoard LyratV43{AudioDriverES8388H3, PinsLyrat43};
 /// @ingroup audio_driver
-static AudioBoard LyratV42{AudioDriverES8388, PinsLyrat42};
+static AudioBoard LyratV42{AudioDriverES8388H3, PinsLyrat42};
 /// @ingroup audio_driver
 static AudioBoard LyratMini{AudioDriverLyratMini, PinsLyratMini};
 /// @ingroup audio_driver
