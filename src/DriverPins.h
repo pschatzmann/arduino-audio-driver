@@ -655,7 +655,7 @@ class PinsLyratMiniClass : public DriverPins {
     int value1 = analogRead(39);
     bool result1 = inRange(value, analog_values[key]);
     result = result && result1;
-    AD_LOGD("value: %d,%d for key: %d -> %d", value1, key, result);
+    AD_LOGD("values: %d,%d for key: %d -> %s", value, value1, (int)key, result ? "true":"false");
     return result;
   }
 #endif
