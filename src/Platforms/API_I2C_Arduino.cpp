@@ -8,6 +8,7 @@
 #include "Platforms/API_I2C.h"
 
 error_t i2c_bus_create(struct I2CConfig *config) {
+  AD_LOGI("i2c_bus_create");
   assert(config != nullptr);
   I2CConfig &pins = *config;
   TwoWire *p_wire = (TwoWire *)pins.p_wire;
@@ -21,7 +22,7 @@ error_t i2c_bus_create(struct I2CConfig *config) {
     // begin with defined pins, if supported
 #if defined(ESP32)
     AD_LOGI("setting up I2C scl: %d, sda: %d", pins.scl, pins.sda);
-    p_wire->begin(pins.sda, pins.scl);
+    p_wire->begin(pins.sda,pins.scl);
 #elif defined(ARDUINO_ARCH_RP2040) || defined(ARDUINO_ARCH_STM32)
     AD_LOGI("setting up I2C scl: %d, sda: %d", pins.scl, pins.sda);
     p_wire->setSCL(pins.scl);

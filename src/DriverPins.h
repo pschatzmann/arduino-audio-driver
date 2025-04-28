@@ -192,7 +192,7 @@ struct PinsI2C : public I2CConfig {
   bool pinsAvailable() { return scl != -1 && sda != -1 && frequency != 0; }
   operator bool() { return pinsAvailable(); }
 
-  bool begin() {
+  bool begin() {    
     if (set_active) {
       AD_LOGD("PinsI2C::begin for function %d on port %d", (int)function, port);
       return i2c_bus_create(this) == RESULT_OK;

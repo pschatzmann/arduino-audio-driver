@@ -1414,12 +1414,14 @@ class AudioDriverLyratMiniClass : public AudioDriver {
     // setup SPI for SD
     // pins.setSPIActiveForSD(codecCfg.sd_active);
 
-    bool ok = true;
-
     // Start ES8311
     AD_LOGI("starting ES8311");
+    pins.begin();
     dac.setPins(this->pins());
-    ok = dac.setConfig(codecCfg);
+    if (!dac.setConfig(codecCfg)) {
+      AD_LOGE("setConfig failed");
+      return false;
+    }
     setPAPower(true);
     setVolume(DRIVER_DEFAULT_VOLUME);
 
@@ -1427,13 +1429,13 @@ class AudioDriverLyratMiniClass : public AudioDriver {
     if (codecCfg.input_device != ADC_INPUT_NONE) {
       AD_LOGI("starting ES7243");
       adc.setPins(this->pins());
-      ok = ok && adc.setConfig(codecCfg);
+      if (!adc.setConfig(codecCfg)) {
+        AD_LOGE("adc.begin failed");
+        return false;
+      }
     }
 
-    if (!ok) {
-      AD_LOGI("AudioDriverLyratMiniClass::begin failed");
-    }
-    return ok;
+    return true;
   }
   bool end(void) {
     int rc = 0;
