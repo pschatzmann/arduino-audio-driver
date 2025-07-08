@@ -808,5 +808,8 @@ static PinsAudioKitEs8388v1Class PinsAudioKitEs8388v1;
 static PinsAudioKitEs8388v2Class PinsAudioKitEs8388v2;
 /// @ingroup audio_driver
 static PinsAudioKitAC101Class PinsAudioKitAC101;
+/// @ingroup audio_driver
+static DriverPins PinsNAU8325;
+
 
 }  // namespace audio_driver
