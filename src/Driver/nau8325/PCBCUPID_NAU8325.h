@@ -449,7 +449,7 @@ public:
   void setOversampling(OversamplingMode mode);
   void setVolume(uint8_t left, uint8_t right); // public
 
-  bool setI2SFormat(NAU8325_I2SFormat format, NAU8325_ClockPolarity polarity);
+  
 
 private:
   // Add private members (Wire, I2C address, etc.) here later
@@ -470,6 +470,7 @@ private:
   int getMclkRatioAndN2Index(const SRateAttr *srate, int mclk_hz, int &n2_sel_out);
   const SRateAttr *getSRateAttr(int fs);
   const OsrAttr *getCurrentOSR();
+  bool setI2SFormat(NAU8325_I2SFormat format, NAU8325_ClockPolarity polarity);
 
   void enableDAPMBlocks();
 
