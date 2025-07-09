@@ -17,7 +17,7 @@
 #include "Driver/wm8978/WM8978.h"
 #include "Driver/wm8994/wm8994.h"
 #include "Driver/nau8325/PCBCUPID_NAU8325.h"
-#include "ConfigAudioDriver.h"      // CodecConfig, Enums
+#include "ConfigAudioDriver.h"      
 
 #include "DriverCommon.h"
 #include "DriverPins.h"
