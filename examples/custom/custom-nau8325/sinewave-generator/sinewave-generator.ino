@@ -58,7 +58,7 @@ void setup() {
   copier.begin(i2s_out, sound_stream);
 
   // Start sine wave
-  sine_wave.begin(audio_info, N_A4);
+  sine_wave.begin(audio_info, N_B4);
   Serial.println("Sinewave output started.");
 }
 

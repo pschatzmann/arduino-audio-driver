@@ -1738,7 +1738,7 @@ public:
 
   bool setMute(bool enable) override {
     if (!nau) return false;
-    nau->softMute(enable);  // assumed void return
+    nau->softMute(enable);  //  void return
     return true;
   }
 
