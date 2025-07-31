@@ -1671,7 +1671,7 @@ namespace audio_driver
     AudioDriverES7243Class adc;
   };
 
-// *************** NAU8325 DRIVER WRAPPER ************
+/* *************** NAU8325 DRIVER WRAPPER ************ */
 
 class AudioDriverNAU8325Class : public AudioDriver {
 public:
@@ -1694,7 +1694,7 @@ public:
     }
     PinsI2C val = i2c_opt.value();
 
-    nau8325 = new PCBCUPID_NAU8325(*((TwoWire *)val.p_wire), val.address);
+    nau8325 = new PCBCUPID_NAU8325(*((TwoWire *)val.p_wire));
 
     // Set MCLK if available
     int mclk = pins.getPinID(PinFunction::MCLK_SOURCE);

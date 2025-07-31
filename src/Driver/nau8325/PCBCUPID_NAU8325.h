@@ -4,6 +4,8 @@
 #include <Arduino.h>
 #include <Wire.h>
 
+#define NAU8325_I2C_ADDR 0x21
+
 #define NAU8325_R00_HARDWARE_RST 0x00
 #define NAU8325_R01_SOFTWARE_RST 0x01
 #define NAU8325_R02_DEVICE_ID 0x02
@@ -391,7 +393,7 @@ struct RegDefault
   uint16_t val;
 };
 
-enum NAU8325_I2SFormat
+enum AudioI2SFormat
 {
   I2S_STD,
   LEFT_JUSTIFIED,
@@ -399,7 +401,7 @@ enum NAU8325_I2SFormat
   DSP_A,
   DSP_B
 };
-enum NAU8325_ClockPolarity
+enum ClockPolarity
 {
   NORMAL_BCLK,
   INVERTED_BCLK
@@ -412,7 +414,7 @@ enum OversamplingMode
   OSR_32 = 4
 };
 
-enum
+enum ClockRatio
 {
   NAU8325_MCLK_FS_RATIO_256 = 0,
   NAU8325_MCLK_FS_RATIO_400 = 1,
@@ -423,7 +425,7 @@ enum
 class PCBCUPID_NAU8325
 {
 public:
-  PCBCUPID_NAU8325(TwoWire &wire, uint8_t i2c_addr);
+  PCBCUPID_NAU8325(TwoWire &wire);
 
   static const RegDefault reg_defaults[];
 
@@ -433,6 +435,34 @@ public:
   static const SrcAttr mclk_n3_mult[];
   static const OsrAttr osr_dac_sel[];
   static const SRateAttr target_srate_table[];
+
+  /*
+    @brief
+    fs- frame rate in Hz (e.g., 8000, 16000, 44100, 48000)
+    bits_per_sample- bits per sample (e.g., 16, 24)
+    ratio- MCLK to FS ratio (e.g., 256, 384, 512, 640)
+    @return
+    true if initialization is successful, false otherwise
+    @note
+    The begin() function initializes the NAU8325 codec with the specified
+    frame rate, bits per sample, and MCLK to FS ratio. It configures the codec
+    for audio playback and sets up the necessary registers. The function returns
+    true if the initialization is successful, or false if there is an error.
+    The default values for bits_per_sample and ratio are 16 and 256, respectively.
+    If only fs is provided, it uses the default values for bits_per_sample and ratio.
+    If no parameters are provided, it uses default values for fs, bits_per_sample,
+    and ratio.
+    Example:
+    PCBCUPID_NAU8325 codec;
+    codec.begin(44100, 16, 256); // Initialize with 44.1kHz, 16 bits, and MCLK/FS ratio of 256
+    codec.begin(16000, 24); // Initialize with 16kHz, 24 bits, and default MCLK/FS ratio of 256
+    codec.begin(); // Initialize with default values (e.g., 8000Hz, 16 bits, 256 ratio)
+    @note
+    The begin() function must be called before using the codec for audio playback.
+    It sets up the codec's internal registers and prepares it for audio processing.
+    If the initialization fails, the codec will not function correctly, and audio playback
+    may not work as expected.
+  */
 
   bool begin(uint32_t fs, uint8_t bits_per_sample, uint16_t ratio);
   bool begin(uint32_t fs, uint8_t bits_per_sample);
@@ -449,12 +479,9 @@ public:
   void setOversampling(OversamplingMode mode);
   void setVolume(uint8_t left, uint8_t right); // public
 
-  
-
 private:
-  // Add private members (Wire, I2C address, etc.) here later
   TwoWire &i2c;
-  uint8_t i2c_addr;
+  uint8_t i2c_addr = NAU8325_I2C_ADDR;
   uint32_t fs;
   uint32_t mclk;
 
@@ -462,7 +489,7 @@ private:
 
   void initRegisters(); // Initialize codec
 
-  bool setSysClock(uint32_t freq);
+  bool setSysClock(uint32_t freq); // setup MCLK for I2S
   bool configureAudio(uint32_t fs, uint32_t mclk, uint8_t bits_per_sample);
   bool chooseClockSource(int fs, int mclk, const SRateAttr *&srate, int &n1_sel, int &mult_sel, int &n2_sel);
   bool configureClocks(int fs, int mclk);
@@ -470,10 +497,11 @@ private:
   int getMclkRatioAndN2Index(const SRateAttr *srate, int mclk_hz, int &n2_sel_out);
   const SRateAttr *getSRateAttr(int fs);
   const OsrAttr *getCurrentOSR();
-  bool setI2SFormat(NAU8325_I2SFormat format, NAU8325_ClockPolarity polarity);
+  bool setI2SFormat(AudioI2SFormat format, ClockPolarity polarity);
 
-  void enableDAPMBlocks();
+  void enableDAPMBlocks(); // analog path power enable
 
+  // I2C register controls
   bool readRegister(uint16_t reg, uint16_t &value);
   bool writeRegister(uint16_t reg, uint16_t value);
   bool writeRegisterBits(uint16_t reg, uint16_t mask, uint16_t value);
