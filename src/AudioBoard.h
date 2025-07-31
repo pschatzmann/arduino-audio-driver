@@ -132,7 +132,7 @@ static AudioBoard GenericWM8960{AudioDriverWM8960, NoPins};
 /// @ingroup audio_driver
 static AudioBoard GenericCS43l22{AudioDriverCS43l22, NoPins};
 /// @ingroup audio_driver
-static AudioBoard NAU8325Board{AudioDriverNAU8325, NoPins};
+static AudioBoard NAU8325Board{AudioDriverNAU8325, NoPins}; //change name to GmodNAU8325
 
 #if defined(ARDUINO_GENERIC_F411VETX)
 /// @ingroup audio_driver

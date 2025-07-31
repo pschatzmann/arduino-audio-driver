@@ -1671,25 +1671,14 @@ namespace audio_driver
     AudioDriverES7243Class adc;
   };
 
-  /**
-   * @brief Driver API for NAU8325 CODEC WITH AMPLIFIER
-   * @author
-   * @copyright MIT Licence
-   */
-  // *************** NAU8325 DRIVER WRAPPER ************
+// *************** NAU8325 DRIVER WRAPPER ************
 
-/**
- * @brief Driver API for NAU8325 CODEC WITH AMPLIFIER
- * @author You
- * @copyright MIT License
- */
-// -- NAU8325 Driver Class
 class AudioDriverNAU8325Class : public AudioDriver {
 public:
-  PCBCUPID_NAU8325 *nau = nullptr;  // pointer to construct later
+  PCBCUPID_NAU8325 *nau8325 = nullptr;
 
   ~AudioDriverNAU8325Class() {
-    if (nau) delete nau;
+    if (nau8325) delete nau8325;
   }
 
   bool begin(CodecConfig cfg, DriverPins &pins) override {
@@ -1705,8 +1694,7 @@ public:
     }
     PinsI2C val = i2c_opt.value();
 
-    // Create instance with required params
-    nau = new PCBCUPID_NAU8325(*((TwoWire *)val.p_wire), val.address);
+    nau8325 = new PCBCUPID_NAU8325(*((TwoWire *)val.p_wire), val.address);
 
     // Set MCLK if available
     int mclk = pins.getPinID(PinFunction::MCLK_SOURCE);
@@ -1720,8 +1708,8 @@ public:
     int fs = cfg.getRateNumeric();
     int bits = cfg.getBitsNumeric();
 
-    AD_LOGI("Calling nau->begin(fs=%d, bits=%d)", fs, bits);
-    if (!nau->begin(fs, bits)) {
+    AD_LOGI("Calling nau8325->begin(fs=%d, bits=%d)", fs, bits);
+    if (!nau8325->begin(fs, bits)) {
       AD_LOGE("NAU8325 beginDynamic failed");
       return false;
     }
@@ -1730,23 +1718,23 @@ public:
   }
 
   bool end() override {
-    if (nau) {
-      nau->powerOff(); // if it's void, just call directly
+    if (nau8325) {
+      nau8325->powerOff(); // if it's void, just call directly
     }
     return true;
   }
 
   bool setMute(bool enable) override {
-    if (!nau) return false;
-    nau->softMute(enable);  //  void return
+    if (!nau8325) return false;
+    nau8325->softMute(enable);  //  void return
     return true;
   }
 
   bool setVolume(int volume) override {
-    if (!nau) return false;
-    // Mapping volume (0–100) to 0–255 (NAU range)
+    if (!nau8325) return false;
+    // Mapping volume (0–100) to 0–255 (nau8325 range)
     uint8_t val = map(volume, 0, 100, 0, 255);
-    nau->setVolume(val, val);  // assuming stereo
+    nau8325->setVolume(val, val);  // assuming stereo
     return true;
   }
 
