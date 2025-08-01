@@ -33,7 +33,7 @@ This library privides the following drivers:
 - AudioDriverWM8960
 - AudioDriverWM8978
 - AudioDriverWM8994
-- 
+- AudioDriverNAU8325
 
 And it supports the following boards:
 
