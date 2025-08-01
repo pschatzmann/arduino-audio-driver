@@ -1,4 +1,3 @@
-
 #pragma once
 #include "Driver/ac101/ac101.h"
 #include "Driver/ad1938/ad1938.h"
@@ -17,7 +16,7 @@
 #include "Driver/wm8978/WM8978.h"
 #include "Driver/wm8994/wm8994.h"
 #include "Driver/nau8325/PCBCUPID_NAU8325.h"
-#include "ConfigAudioDriver.h"      
+#include "ConfigAudioDriver.h"
 
 #include "DriverCommon.h"
 #include "DriverPins.h"
@@ -517,7 +516,7 @@ namespace audio_driver
     {
       codec_cfg = codecCfg;
       uint32_t freq = getFrequency(codec_cfg.i2s.rate);
-      uint16_t outputDevice = getOutput(codec_cfg.output_device);
+      uint16_t outputDevice = getOutput(codecCfg.output_device);
       return cs43l22_Init(deviceAddr, outputDevice, this->volume, freq,
                           getI2C()) == 0;
     }
@@ -1671,93 +1670,92 @@ namespace audio_driver
     AudioDriverES7243Class adc;
   };
 
-  /**
-   * @brief Driver API for NAU8325 CODEC WITH AMPLIFIER
-   * @author
-   * @copyright MIT Licence
-   */
-  // *************** NAU8325 DRIVER WRAPPER ************
+  /*  -- NAU8325 Driver Class---  */
+  class AudioDriverNAU8325Class : public AudioDriver
+  {
+  public:
+    PCBCUPID_NAU8325 *nau8325 = nullptr; // pointer to construct later
 
-/**
- * @brief Driver API for NAU8325 CODEC WITH AMPLIFIER
- * @author You
- * @copyright MIT License
- */
-// -- NAU8325 Driver Class
-class AudioDriverNAU8325Class : public AudioDriver {
-public:
-  PCBCUPID_NAU8325 *nau = nullptr;  // pointer to construct later
-
-  ~AudioDriverNAU8325Class() {
-    if (nau) delete nau;
-  }
-
-  bool begin(CodecConfig cfg, DriverPins &pins) override {
-    AD_LOGI("AudioDriverNAU8325Class::begin");
-
-    this->p_pins = &pins;
-
-    // Get I2C config
-    auto i2c_opt = pins.getI2CPins(PinFunction::CODEC);
-    if (!i2c_opt) {
-      AD_LOGE("No I2C pins defined for codec");
-      return false;
-    }
-    PinsI2C val = i2c_opt.value();
-
-    // Create instance with required params
-    nau = new PCBCUPID_NAU8325(*((TwoWire *)val.p_wire), val.address);
-
-    // Set MCLK if available
-    int mclk = pins.getPinID(PinFunction::MCLK_SOURCE);
-    if (mclk > 0) {
-      pinMode(mclk, OUTPUT);
-      digitalWrite(mclk, HIGH);
-      delay(10);  // optional small delay to stabilize
+    ~AudioDriverNAU8325Class()
+    {
+      if (nau8325)
+        delete nau;
     }
 
-    // Begin your driver using known public methods
-    int fs = cfg.getRateNumeric();
-    int bits = cfg.getBitsNumeric();
+    bool begin(CodecConfig cfg, DriverPins &pins) override
+    {
+      AD_LOGI("AudioDriverNAU8325Class::begin");
 
-    AD_LOGI("Calling nau->begin(fs=%d, bits=%d)", fs, bits);
-    if (!nau->begin(fs, bits)) {
-      AD_LOGE("NAU8325 beginDynamic failed");
-      return false;
+      this->p_pins = &pins;
+
+      // Get I2C config
+      auto i2c_opt = pins.getI2CPins(PinFunction::CODEC);
+      if (!i2c_opt)
+      {
+        AD_LOGE("No I2C pins defined for codec");
+        return false;
+      }
+      PinsI2C val = i2c_opt.value();
+
+      // Create instance with required params (only TwoWire&)
+      nau8325 = new PCBCUPID_NAU8325(*((TwoWire *)val.p_wire));
+
+      // Set MCLK if available
+      int mclk = pins.getPinID(PinFunction::MCLK_SOURCE);
+      if (mclk > 0)
+      {
+        pinMode(mclk, OUTPUT);
+        digitalWrite(mclk, HIGH);
+        delay(10); // optional small delay to stabilize
+      }
+
+      // Begin your driver using known public methods
+      int fs = cfg.getRateNumeric();
+      int bits = cfg.getBitsNumeric();
+
+      AD_LOGI("Calling nau->begin(fs=%d, bits=%d)", fs, bits);
+      if (!nau->begin(fs, bits))
+      {
+        AD_LOGE("NAU8325 begin failed");
+        return false;
+      }
+
+      return true;
     }
 
-    return true;
-  }
-
-  bool end() override {
-    if (nau) {
-      nau->powerOff(); // if it's void, just call directly
+    bool end() override
+    {
+      if (nau8325)
+      {
+        nau->powerOff();
+      }
+      return true;
     }
-    return true;
-  }
 
-  bool setMute(bool enable) override {
-    if (!nau) return false;
-    nau->softMute(enable);  //  void return
-    return true;
-  }
+    bool setMute(bool enable) override
+    {
+      if (!nau8325)
+        return false;
+      nau->softMute(enable);
+      return true;
+    }
 
-  bool setVolume(int volume) override {
-    if (!nau) return false;
-    // Mapping volume (0–100) to 0–255 (NAU range)
-    uint8_t val = map(volume, 0, 100, 0, 255);
-    nau->setVolume(val, val);  // assuming stereo
-    return true;
-  }
+    bool setVolume(int volume) override
+    {
+      if (!nau8325)
+        return false;
+      // Mapping volume (0–100) to 0–255 (NAU range)
+      uint8_t val = mapVolume(volume, 0, 100, 0, 255);
+      nau->setVolume(val, val); // assuming stereo
+      return true;
+    }
 
-  int getVolume() override {
-    // You can return dummy volume since NAU8325 doesn't have a getVolume
-    return 100;
-  }
-};
-
-
-
+    int getVolume() override
+    {
+      // NAU8325 doesn't have a getVolume, so return last set or dummy
+      return 100;
+    }
+  };
 
 #ifdef ARDUINO
   // currently only supported in Arduino because we do not have a platform
