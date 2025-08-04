@@ -131,6 +131,8 @@ static AudioBoard NoBoard{NoDriver, NoPins};
 static AudioBoard GenericWM8960{AudioDriverWM8960, NoPins};
 /// @ingroup audio_driver
 static AudioBoard GenericCS43l22{AudioDriverCS43l22, NoPins};
+
+
 #if defined(ARDUINO_GENERIC_F411VETX)
 /// @ingroup audio_driver
 static AudioBoard STM32F411Disco{AudioDriverCS43l22, PinsSTM32F411Disco};
