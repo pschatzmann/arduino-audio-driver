@@ -1679,7 +1679,7 @@ namespace audio_driver
     ~AudioDriverNAU8325Class()
     {
       if (nau8325)
-        delete nau;
+        delete nau8325;
     }
 
     bool begin(CodecConfig cfg, DriverPins &pins) override
@@ -1713,8 +1713,8 @@ namespace audio_driver
       int fs = cfg.getRateNumeric();
       int bits = cfg.getBitsNumeric();
 
-      AD_LOGI("Calling nau->begin(fs=%d, bits=%d)", fs, bits);
-      if (!nau->begin(fs, bits))
+      AD_LOGI("Calling nau8325->begin(fs=%d, bits=%d)", fs, bits);
+      if (!nau8325->begin(fs, bits))
       {
         AD_LOGE("NAU8325 begin failed");
         return false;
@@ -1727,7 +1727,7 @@ namespace audio_driver
     {
       if (nau8325)
       {
-        nau->powerOff();
+        nau8325->powerOff();
       }
       return true;
     }
@@ -1736,7 +1736,7 @@ namespace audio_driver
     {
       if (!nau8325)
         return false;
-      nau->softMute(enable);
+      nau8325->softMute(enable);
       return true;
     }
 
@@ -1746,7 +1746,7 @@ namespace audio_driver
         return false;
       // Mapping volume (0–100) to 0–255 (NAU range)
       uint8_t val = mapVolume(volume, 0, 100, 0, 255);
-      nau->setVolume(val, val); // assuming stereo
+      nau8325->setVolume(val, val); // assuming stereo
       return true;
     }
 
