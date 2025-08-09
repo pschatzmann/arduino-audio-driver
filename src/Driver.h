@@ -230,7 +230,8 @@ namespace audio_driver
       // Store default i2c address to pins
       setupI2CAddress();
 
-      p_pins->setSPIActiveForSD(codec_cfg.sd_active);
+      AD_LOGI("sd_active: %d", codecCfg.sd_active);
+      p_pins->setSPIActiveForSD(codecCfg.sd_active);
       if (!p_pins->begin())
       {
         AD_LOGE("AudioBoard::pins::begin failed");

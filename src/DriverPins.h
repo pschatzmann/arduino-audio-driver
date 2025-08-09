@@ -422,11 +422,16 @@ class DriverPins {
   }
 
   void end() {
-    // setup spi
+    // close spi
     for (auto &tmp : spi) {
+      // close SD only when sd_active
+      if (tmp.function == PinFunction::SD) {
+        if (sd_active) tmp.end();
+      } else {
       tmp.end();
+      }
     }
-    // setup i2c
+    // close i2c
     for (auto &tmp : i2c) {
       AD_LOGD("DriverPins::begin::I2C::end");
       tmp.end();
