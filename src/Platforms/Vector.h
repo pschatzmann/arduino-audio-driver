@@ -125,7 +125,15 @@ class Vector {
       }
     }
 
-    inline Vector(Vector<T> &&moveFrom) = default;
+    inline Vector(Vector<T> &&moveFrom) {
+      // move constructor
+      this->p_data = moveFrom.p_data;
+      this->len = moveFrom.len;
+      this->bufferLen = moveFrom.bufferLen;
+      moveFrom.p_data = nullptr; // avoid double delete
+      moveFrom.len = 0;
+      moveFrom.bufferLen = 0;
+    };
 
 
     /// copy constructor
