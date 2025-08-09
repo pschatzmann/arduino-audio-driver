@@ -428,7 +428,7 @@ class DriverPins {
       if (tmp.function == PinFunction::SD) {
         if (sd_active) tmp.end();
       } else {
-      tmp.end();
+        tmp.end();
       }
     }
     // close i2c
