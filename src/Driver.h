@@ -293,8 +293,8 @@ class AudioDriver {
       pins().setI2C(val);
       return true;
     } else {
-      // we must have a codec defined!
-      assert(false);
+      // we should have a codec defined!
+      AD_LOGW("No I2C Pins defined");
     }
     return false;
   }
