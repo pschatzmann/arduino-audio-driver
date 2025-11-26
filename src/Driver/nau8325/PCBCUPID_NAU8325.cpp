@@ -1,5 +1,5 @@
 #include "PCBCUPID_NAU8325.h"
-#include "esp_log.h"
+//#include "esp_log.h"
 
 #define MASTER_CLK_MIN 2048000
 #define MASTER_CLK_MAX 49152000
