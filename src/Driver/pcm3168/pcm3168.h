@@ -192,7 +192,7 @@ class PCM3168 {
     // wire->write(address);
     // wire->write(data);
     // return wire->endTransmission() == 0;
-    return i2c_bus_write_bytes(wire, address,(uint8_t*) &data, 4, nullptr, 0) == ESP_OK;
+    return i2c_bus_write_bytes(wire, address,(uint8_t*) &data, 4, nullptr, 0) == 0;
   }
 
   bool write(uint32_t address, const void *data, uint32_t len) {
@@ -202,6 +202,6 @@ class PCM3168 {
     // const uint8_t *p = (const uint8_t *)data;
     // wire->write(p, len);
     // return wire->endTransmission() == 0;
-    return i2c_bus_write_bytes(wire, address, (uint8_t*) data, len, nullptr, 0) == ESP_OK;
+    return i2c_bus_write_bytes(wire, address, (uint8_t*) data, len, nullptr, 0) == 0;
   }
 };

@@ -468,21 +468,22 @@ Bit Value Function Description
 #define ADC_LRCLK_FMT_50_50 (0x00)
 #define ADC_LRCLK_FMT_PULSE (0x01)
 
-bool AD1938::begin(codec_config_t configVal, int clatchPin, int resetPin,
+bool AD1938::begin(API_GPIO& gpio, codec_config_t configVal, int clatchPin, int resetPin,
                    SPIClass &spi) {
   ad1938_clatch_pin = clatchPin;
   ad1938_reset_pin = resetPin;
   cfg = configVal;
   p_spi = &spi;
+  p_gpio = &gpio;
 
   // setup pins
-  pinMode(ad1938_clatch_pin, OUTPUT);
-  pinMode(ad1938_reset_pin, OUTPUT);
+  p_gpio->pinMode(ad1938_clatch_pin, OUTPUT);
+  p_gpio->pinMode(ad1938_reset_pin, OUTPUT);
 
   // reset codec
-  digitalWrite(ad1938_reset_pin, LOW);
+  p_gpio->digitalWrite(ad1938_reset_pin, LOW);
   delay(200);
-  digitalWrite(ad1938_reset_pin, HIGH);
+  p_gpio->digitalWrite(ad1938_reset_pin, HIGH);
   delay(400);  // wait for 300ms to load the code
 
   // setup basic information from codec_config_t
@@ -503,7 +504,7 @@ unsigned char AD1938::spi_read_reg(unsigned char reg) {
   p_spi->beginTransaction(
       SPISettings(AD1938_SPI_CLK_FREQ, MSBFIRST, SPI_MODE3));
   // take the chip select low to select the device:
-  digitalWrite(ad1938_clatch_pin, LOW);
+  p_gpio->digitalWrite(ad1938_clatch_pin, LOW);
 
   p_spi->transfer(
       &data[0],
@@ -513,7 +514,7 @@ unsigned char AD1938::spi_read_reg(unsigned char reg) {
   result = (unsigned char)p_spi->transfer(0x00);
 
   // take the chip select high to de-select:
-  digitalWrite(ad1938_clatch_pin, HIGH);
+  p_gpio->digitalWrite(ad1938_clatch_pin, HIGH);
   // release control of the SPI port
   p_spi->endTransaction();
 
@@ -533,11 +534,11 @@ bool AD1938::spi_write_reg(unsigned char reg, unsigned char val) {
       AD1938_SPI_CLK_FREQ, MSBFIRST,
       SPI_MODE3));  // 3
                     //  take the chip select low to select the device:
-  digitalWrite(ad1938_clatch_pin, LOW);
+  p_gpio->digitalWrite(ad1938_clatch_pin, LOW);
 
   p_spi->transfer(&data[0], AD1938_SPI_WRITE_BYTE_COUNT);
   // take the chip select high to de-select:
-  digitalWrite(ad1938_clatch_pin, HIGH);
+  p_gpio->digitalWrite(ad1938_clatch_pin, HIGH);
   // release control of the SPI port
   p_spi->endTransaction();
 
