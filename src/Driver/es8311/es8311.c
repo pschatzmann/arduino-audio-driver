@@ -659,7 +659,14 @@ error_t es8311_codec_get_voice_volume(int *volume)
         *volume = 0;
         res = RESULT_FAIL;
     } else {
-        *volume = regv * 100 / 256;
+        // Inverse of the logarithmic mapping used in set_voice_volume
+        if (regv <= 0) {
+            *volume = 0;
+        } else {
+            double v = (double)regv / 255.0;
+            *volume = (int)((pow(10.0, v * log10(10.0)) - 1.0) / 9.0 * 100.0 + 0.5);
+            if (*volume > 100) *volume = 100;
+        }
     }
     AD_LOGD( "GET: res:%d, volume:%d", regv, *volume);
     return res;
