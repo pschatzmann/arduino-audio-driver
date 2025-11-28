@@ -19,6 +19,7 @@
 #include "Driver/wm8994/wm8994.h"
 #include "DriverCommon.h"
 #include "DriverPins.h"
+#include "Platforms/API_GPIO.h"
 
 namespace audio_driver {
 
@@ -183,7 +184,8 @@ class CodecConfig : public codec_config_t {
     return CODEC_MODE_NONE;
   }
   // if sd active we setup SPI for the SD
-  bool sd_active = true;
+  bool sd_active = false;
+  bool sdmmc_active = false;
 };
 
 /**
@@ -195,15 +197,20 @@ class CodecConfig : public codec_config_t {
 class AudioDriver {
  public:
   /// Starts the processing
-  virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
+  virtual bool begin(CodecConfig codecCfg, DriverPins& pins) {
     AD_LOGI("AudioDriver::begin");
     p_pins = &pins;
+
+    // start GPIO
+    getGPIO().begin(pins);
 
     // Store default i2c address to pins
     setupI2CAddress();
 
     AD_LOGI("sd_active: %d", codecCfg.sd_active);
     p_pins->setSPIActiveForSD(codecCfg.sd_active);
+    AD_LOGI("sdmmc_active: %d", codecCfg.sdmmc_active);
+    p_pins->setSDMMCActive(codecCfg.sdmmc_active);
     if (!p_pins->begin()) {
       AD_LOGE("AudioBoard::pins::begin failed");
       return false;
@@ -218,6 +225,7 @@ class AudioDriver {
     setVolume(DRIVER_DEFAULT_VOLUME);
     return true;
   }
+
   /// changes the configuration
   virtual bool setConfig(CodecConfig codecCfg) {
     AD_LOGI("AudioDriver::setConfig");
@@ -259,9 +267,9 @@ class AudioDriver {
   /// Determines if setInputVolume() is supported
   virtual bool isInputVolumeSupported() { return false; }
   /// Provides the pin information
-  virtual DriverPins &pins() { return *p_pins; }
+  virtual DriverPins& pins() { return *p_pins; }
 
-  void setPins(DriverPins &pins) { p_pins = &pins; }
+  void setPins(DriverPins& pins) { p_pins = &pins; }
 
   /// Sets the PA Power pin to active or inactive
   bool setPAPower(bool enable) {
@@ -275,7 +283,7 @@ class AudioDriver {
       return false;
     }
     AD_LOGI("setPAPower pin %d -> %d", pin, enable);
-    digitalWrite(pin, enable ? HIGH : LOW);
+    getGPIO().digitalWrite(pin, enable ? HIGH : LOW);
     return true;
   }
 
@@ -319,9 +327,14 @@ class AudioDriver {
     setI2CAddress(adr);
   }
 
+  API_GPIO& getGPIO() {
+    assert(p_pins != nullptr);
+    return p_pins->getGPIO();
+  }
+
  protected:
   CodecConfig codec_cfg;
-  DriverPins *p_pins = nullptr;
+  DriverPins* p_pins = nullptr;
   int i2c_default_address = -1;
 
   int mapVolume(int x, int in_min, int in_max, int out_min, int out_max) {
@@ -335,7 +348,7 @@ class AudioDriver {
     if (!i2c) {
       return DEFAULT_WIRE;
     }
-    i2c_bus_handle_t *result = (i2c_bus_handle_t *)i2c.value().p_wire;
+    i2c_bus_handle_t* result = (i2c_bus_handle_t*)i2c.value().p_wire;
     return result;
   }
 
@@ -364,7 +377,7 @@ class AudioDriver {
  */
 class NoDriverClass : public AudioDriver {
  public:
-  virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
+  virtual bool begin(CodecConfig codecCfg, DriverPins& pins) {
     // codec_cfg = codecCfg;
     // p_pins = &pins;
     return true;
@@ -424,7 +437,7 @@ class AudioDriverCS43l22Class : public AudioDriver {
     i2c_default_address = deviceAddr;
   }
 
-  virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
+  virtual bool begin(CodecConfig codecCfg, DriverPins& pins) {
     AD_LOGD("AudioDriverCS43l22Class::begin");
     p_pins = &pins;
     codec_cfg = codecCfg;
@@ -523,7 +536,7 @@ class AudioDriverCS43l22Class : public AudioDriver {
 class AudioDriverCS42448Class : public AudioDriver {
  public:
   AudioDriverCS42448Class() { i2c_default_address = 0x48; }
-  bool begin(CodecConfig codecCfg, DriverPins &pins) override {
+  bool begin(CodecConfig codecCfg, DriverPins& pins) override {
     cfg = codecCfg;
     // setup pins
     pins.begin();
@@ -569,8 +582,8 @@ class AudioDriverCS42448Class : public AudioDriver {
   bool isVolumeSupported() override { return true; }
   bool isInputVolumeSupported() override { return true; }
 
-  DriverPins &pins() { return *p_pins; }
-  CS42448 &driver() { return cs42448; }
+  DriverPins& pins() { return *p_pins; }
+  CS42448& driver() { return cs42448; }
 
  protected:
   CS42448 cs42448;
@@ -940,7 +953,7 @@ class AudioDriverTAS5805MClass : public AudioDriver {
 class AudioDriverWM8960Class : public AudioDriver {
  public:
   AudioDriverWM8960Class() { i2c_default_address = 0x1A; }
-  bool begin(CodecConfig codecCfg, DriverPins &pins) {
+  bool begin(CodecConfig codecCfg, DriverPins& pins) {
     codec_cfg = codecCfg;
 
     // define wire object
@@ -1121,7 +1134,7 @@ class AudioDriverWM8978Class : public AudioDriver {
  public:
   AudioDriverWM8978Class() = default;
 
-  bool begin(CodecConfig codecCfg, DriverPins &pins) override {
+  bool begin(CodecConfig codecCfg, DriverPins& pins) override {
     bool rc = true;
     rc = wm8078.begin(getI2C(), getI2CAddress());
     setConfig(codecCfg);
@@ -1211,7 +1224,7 @@ class AudioDriverWM8978Class : public AudioDriver {
 
   bool isInputVolumeSupported() override { return true; }
 
-  WM8978 &driver() { return wm8078; }
+  WM8978& driver() { return wm8078; }
 
  protected:
   WM8978 wm8078;
@@ -1264,7 +1277,7 @@ class AudioDriverWM8994Class : public AudioDriver {
     this->i2c_default_address = deviceAddr;
   }
 
-  virtual bool begin(CodecConfig codecCfg, DriverPins &pins) {
+  virtual bool begin(CodecConfig codecCfg, DriverPins& pins) {
     codec_cfg = codecCfg;
     // manage reset pin -> active high
     setPAPower(true);
@@ -1408,7 +1421,7 @@ class AudioDriverPCM3168Class : public AudioDriver {
  */
 class AudioDriverLyratMiniClass : public AudioDriver {
  public:
-  bool begin(CodecConfig codecCfg, DriverPins &pins) {
+  bool begin(CodecConfig codecCfg, DriverPins& pins) {
     AD_LOGI("AudioDriverLyratMiniClass::begin");
     p_pins = &pins;
     codec_cfg = codecCfg;
@@ -1457,16 +1470,79 @@ class AudioDriverLyratMiniClass : public AudioDriver {
   AudioDriverES7243Class adc;
 };
 
+/**
+ * @brief Generic Driver API for boards with a different DAC and ADC codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class AudioDriverCombined : public AudioDriver {
+ public:
+  AudioDriverCombined(AudioDriver& dac, AudioDriver& adc, bool sdActive = true)
+      : p_dac(&dac), p_adc(&adc) {}
+
+  bool begin(CodecConfig codecCfg, DriverPins& pins) {
+    AD_LOGI("AudioDriverCombined::begin");
+    p_pins = &pins;
+    codec_cfg = codecCfg;
+
+    assert(p_dac != nullptr);
+    assert(p_adc != nullptr); 
+
+    AD_LOGI("sd_active: %d", codecCfg.sd_active);
+    p_pins->setSPIActiveForSD(codecCfg.sd_active);
+    AD_LOGI("sdmmc_active: %d", codecCfg.sdmmc_active);
+    p_pins->setSDMMCActive(codecCfg.sdmmc_active);
+
+    // Start 
+    AD_LOGI("starting DAC");
+    pins.begin();
+    p_dac->setPins(this->pins());
+    if (!p_dac->setConfig(codecCfg)) {
+      AD_LOGE("setConfig failed");
+      return false;
+    }
+    setPAPower(true);
+    setVolume(DRIVER_DEFAULT_VOLUME);
+
+    // Start ADC
+    if (codecCfg.input_device != ADC_INPUT_NONE) {
+      AD_LOGI("starting ADC");
+      p_adc->setPins(this->pins());
+      if (!p_adc->setConfig(codecCfg)) {
+        AD_LOGE("adc.begin failed");
+        return false;
+      }
+    }
+    return true;
+  }
+  bool end(void) {
+    int rc = 0;
+    rc += p_dac->end();
+    rc += p_adc->end();
+    return rc == 2;
+  }
+  bool setMute(bool enable) override { return p_dac->setMute(enable); }
+  bool setVolume(int volume) override { return p_dac->setVolume(volume); }
+  int getVolume() override { return p_dac->getVolume(); }
+  bool setInputVolume(int volume) override { return p_adc->setVolume(volume); }
+  int getInputVolume() { return p_adc->getVolume(); }
+  bool isInputVolumeSupported() override { return true; }
+
+ protected:
+  AudioDriver* p_dac = nullptr;
+  AudioDriver* p_adc = nullptr;
+};
+
 /*  -- NAU8325 Driver Class---  */
 class AudioDriverNAU8325Class : public AudioDriver {
  public:
-  PCBCUPID_NAU8325 *nau8325 = nullptr;  // pointer to construct later
+  PCBCUPID_NAU8325* nau8325 = nullptr;  // pointer to construct later
 
   ~AudioDriverNAU8325Class() {
     if (nau8325) delete nau8325;
   }
 
-  bool begin(CodecConfig cfg, DriverPins &pins) override {
+  bool begin(CodecConfig cfg, DriverPins& pins) override {
     AD_LOGI("AudioDriverNAU8325Class::begin");
 
     this->p_pins = &pins;
@@ -1480,13 +1556,13 @@ class AudioDriverNAU8325Class : public AudioDriver {
     PinsI2C val = i2c_opt.value();
 
     // Create instance with required params (only TwoWire&)
-    nau8325 = new PCBCUPID_NAU8325(*((TwoWire *)val.p_wire));
+    nau8325 = new PCBCUPID_NAU8325(*((TwoWire*)val.p_wire));
 
     // Set MCLK if available
     int mclk = pins.getPinID(PinFunction::MCLK_SOURCE);
     if (mclk > 0) {
       pinMode(mclk, OUTPUT);
-      digitalWrite(mclk, HIGH);
+      getGPIO().digitalWrite(mclk, HIGH);
       delay(10);  // optional small delay to stabilize
     }
 
@@ -1540,15 +1616,15 @@ class AudioDriverNAU8325Class : public AudioDriver {
  */
 class AudioDriverAD1938Class : public AudioDriver {
  public:
-  bool begin(CodecConfig codecCfg, DriverPins &pins) override {
+  bool begin(CodecConfig codecCfg, DriverPins& pins) override {
     int clatch = pins.getPinID(PinFunction::LATCH);
     if (clatch < 0) return false;
     int reset = pins.getPinID(PinFunction::RESET);
     if (reset < 0) return false;
     auto spi_opt = pins.getSPIPins(PinFunction::CODEC);
-    SPIClass *p_spi = nullptr;
+    SPIClass* p_spi = nullptr;
     if (spi_opt) {
-      p_spi = (SPIClass *)spi_opt.value().p_spi;
+      p_spi = (SPIClass*)spi_opt.value().p_spi;
     } else {
       p_spi = &SPI;
       p_spi->begin();
@@ -1556,7 +1632,7 @@ class AudioDriverAD1938Class : public AudioDriver {
     // setup pins
     pins.begin();
     // setup ad1938
-    ad1938.begin(codecCfg, clatch, reset, *p_spi);
+    ad1938.begin(getGPIO(), codecCfg, clatch, reset, *p_spi);
     ad1938.enable();
     ad1938.setMute(false);
     return true;
@@ -1596,8 +1672,8 @@ class AudioDriverAD1938Class : public AudioDriver {
   bool isVolumeSupported() override { return true; }
   bool isInputVolumeSupported() override { return false; }
 
-  DriverPins &pins() { return *p_pins; }
-  AD1938 &driver() { return ad1938; }
+  DriverPins& pins() { return *p_pins; }
+  AD1938& driver() { return ad1938; }
 
  protected:
   AD1938 ad1938;
@@ -1650,6 +1726,10 @@ static AudioDriverCS42448Class AudioDriverCS42448;
 static AudioDriverPCM3168Class AudioDriverPCM3168;
 /// @ingroup audio_driver
 static AudioDriverNAU8325Class AudioDriverNAU8325;
+/// @ingroup audio_driver
+static AudioDriverCombined AudioDriverES8311_ES7210(AudioDriverES8311, AudioDriverES7210);
+/// @ingroup audio_driver
+static AudioDriverCombined AudioDriverES8311_ES7243(AudioDriverES8311, AudioDriverES7243);
 
 #ifdef ARDUINO
 /// @ingroup audio_driver

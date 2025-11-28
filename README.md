@@ -45,6 +45,7 @@ And it supports the following boards:
 - LyratMini
 - LyratV42 
 - LyratV43 
+- ESP32S3AISmartSpeaker (ES8311 & ES7210)
 - NoBoard 
 
 

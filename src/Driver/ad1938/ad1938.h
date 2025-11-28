@@ -27,6 +27,7 @@
 #include <SPI.h>
 #include "DriverCommon.h"
 #include "Driver/DriverConstants.h"
+#include "Platforms/API_GPIO.h"
 
 /**
  * @brief The AD1938 is a high performance, single-chip codec that pro-
@@ -39,8 +40,8 @@
 class AD1938 {
  public:
 
-  bool begin(codec_config_t cfg, int clatchPin, int resetPin,
-             SPIClass &spi = SPI);
+  bool begin(API_GPIO& gpio, codec_config_t cfg, int clatchPin, int resetPin,
+              SPIClass &spi = SPI);
 
   bool end() {
     setMute(true);
@@ -84,6 +85,7 @@ class AD1938 {
   unsigned char adc_wl = 0;
   unsigned char dac_channels = 0;
   unsigned char adc_channels = 0;
+  API_GPIO *p_gpio = nullptr;
 
   bool config();
   bool configMaster();
