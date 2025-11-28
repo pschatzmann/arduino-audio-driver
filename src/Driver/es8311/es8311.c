@@ -22,8 +22,10 @@
  *
  */
 
+
 #include <string.h>
 #include <assert.h>
+#include <math.h>
 #include "es8311.h"
 
 #ifndef BIT
@@ -636,7 +638,13 @@ error_t es8311_codec_set_voice_volume(int volume)
     } else if (volume > 100) {
         volume = 100;
     }
-    int vol = (volume) * 2550 / 1000;
+    // Use a logarithmic scale for more natural volume control
+    int vol = 0;
+    if (volume == 0) {
+        vol = 0;
+    } else {
+        vol = (int)(255.0 * log10(9.0 * volume / 100.0 + 1.0) / log10(10.0));
+    }
     es8311_write_reg(ES8311_DAC_REG32, vol);
     return res;
 }
