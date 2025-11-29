@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['i2cconfig_452',['I2CConfig',['../struct_i2_c_config.html',1,'']]],
-  ['i2sdefinition_453',['I2SDefinition',['../struct_i2_s_definition.html',1,'']]],
-  ['iterator_454',['iterator',['../classaudio__driver__local_1_1_vector_1_1iterator.html',1,'audio_driver_local::Vector']]]
+  ['gpio_0',['GPIO',['../classaudio__driver_1_1_g_p_i_o.html',1,'audio_driver']]],
+  ['gpioext_1',['GPIOExt',['../classaudio__driver_1_1_g_p_i_o_ext.html',1,'audio_driver']]]
 ];

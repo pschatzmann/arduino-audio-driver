@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['twowire_469',['TwoWire',['../struct_two_wire.html',1,'']]]
+  ['spiclass_0',['SPIClass',['../struct_s_p_i_class.html',1,'']]],
+  ['spiconfig_1',['SPIConfig',['../struct_s_p_i_config.html',1,'']]]
 ];
