@@ -48,9 +48,9 @@ class PinsESP32S3AISmartSpeakerClass : public DriverPins {
     addI2S(PinFunction::CODEC, 12, 13, 14, 16, 15);
 
     // add other pins
-    addPin(PinFunction::KEY, EXIO11, PinLogic::InputActiveLow, 1);
-    addPin(PinFunction::KEY, EXIO12, PinLogic::InputActiveLow, 2);
-    addPin(PinFunction::KEY, EXIO13, PinLogic::InputActiveLow, 3);
+    addPin(PinFunction::KEY, EXIO10, PinLogic::InputActiveLow, 1);
+    addPin(PinFunction::KEY, EXIO11, PinLogic::InputActiveLow, 2);
+    addPin(PinFunction::KEY, EXIO12, PinLogic::InputActiveLow, 3);
     addPin(PinFunction::PA, EXIO9, PinLogic::Output);
     addPin(PinFunction::SD, EXIO4, PinLogic::Output);  // SD CS
     addPin(PinFunction::LED, 38, PinLogic::Output);
