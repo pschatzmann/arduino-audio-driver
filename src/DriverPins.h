@@ -566,6 +566,25 @@ class PinsAudioKitAC101Class : public DriverPins {
   }
 };
 
+/**
+ * @brief Pins for M5stack Atom EchoS3R
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class PinsM5stackAtomEchoS3RClass : public DriverPins {
+ public:
+  PinsM5stackAtomEchoS3RClass() {
+    // add i2c codec pins: scl, sda, port, frequency
+    addI2C(PinFunction::CODEC, 0, 45, 0x18);
+    // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
+    addI2S(PinFunction::CODEC, 11, 17, 3, 48, 4);
+
+    // add other pins
+    addPin(PinFunction::PA, 18, PinLogic::Output);
+    addPin(PinFunction::KEY, 41, PinLogic::InputActiveLow, 1);
+  }
+};
+
 
 // -- Pins
 /**
@@ -585,4 +604,6 @@ static PinsAudioKitEs8388v1Class PinsAudioKitEs8388v1;
 static PinsAudioKitEs8388v2Class PinsAudioKitEs8388v2;
 /// @ingroup audio_driver
 static PinsAudioKitAC101Class PinsAudioKitAC101;
+/// @ingroup audio_driver
+static PinsM5stackAtomEchoS3RClass PinsM5stackAtomEchoS3R;
 }  // namespace audio_driver

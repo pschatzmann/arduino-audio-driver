@@ -46,6 +46,7 @@ And it supports the following boards:
 - LyratV42 
 - LyratV43 
 - ESP32S3AISmartSpeaker (ES8311 & ES7210)
+- M5stackAtomEchoS3R
 - NoBoard 
 
 

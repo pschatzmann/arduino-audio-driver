@@ -131,6 +131,8 @@ static AudioBoard NoBoard{NoDriver, NoPins};
 static AudioBoard GenericWM8960{AudioDriverWM8960, NoPins};
 /// @ingroup audio_driver
 static AudioBoard GenericCS43l22{AudioDriverCS43l22, NoPins};
+/// @ingroup audio_driver
+static AudioBoard M5stackAtomEchoS3R{AudioDriverES8311, PinsM5stackAtomEchoS3R};
 
 
 }
