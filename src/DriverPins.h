@@ -377,7 +377,7 @@ class DriverTouchClass : public DriverPins {
 class PinsLyrat43Class : public DriverTouchClass {
  public:
   PinsLyrat43Class() {
-    // sd pins
+    // sd pins 14, 2, 15, 13
     addSPI(ESP32PinsSD);
     // add i2c codec pins: scl, sda, port, frequency
     addI2C(PinFunction::CODEC, 23, 18);
@@ -406,7 +406,7 @@ class PinsLyrat43Class : public DriverTouchClass {
 class PinsLyrat42Class : public DriverTouchClass {
  public:
   PinsLyrat42Class() {
-    // sd pins
+    // sd pins 14, 2, 15, 13
     addSPI(ESP32PinsSD);
     // add i2c codec pins: scl, sda, port, frequency
     addI2C(PinFunction::CODEC, 23, 18);
@@ -487,7 +487,7 @@ class PinsLyratMiniClass : public DriverPins {
 class PinsAudioKitEs8388v1Class : public DriverPins {
  public:
   PinsAudioKitEs8388v1Class() {
-    // sd pins
+    // sd pins 14, 2, 15, 13
     addSPI(ESP32PinsSD);
     // add i2c codec pins: scl, sda, port, frequency
     addI2C(PinFunction::CODEC, 32, 33);
@@ -516,7 +516,7 @@ class PinsAudioKitEs8388v1Class : public DriverPins {
 class PinsAudioKitEs8388v2Class : public DriverPins {
  public:
   PinsAudioKitEs8388v2Class() {
-    // sd pins
+    // sd pins 14, 2, 15, 13
     addSPI(ESP32PinsSD);
     // add i2c codec pins: scl, sda, port, frequency
     addI2C(PinFunction::CODEC, 23, 18);
@@ -545,7 +545,7 @@ class PinsAudioKitEs8388v2Class : public DriverPins {
 class PinsAudioKitAC101Class : public DriverPins {
  public:
   PinsAudioKitAC101Class() {
-    // sd pins
+    // sd pins 14, 2, 15, 13
     addSPI(ESP32PinsSD);
     // add i2c codec pins: scl, sda, port, frequency
     addI2C(PinFunction::CODEC, 32, 33);
