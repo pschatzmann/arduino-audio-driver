@@ -6,7 +6,7 @@
 
 #include "AudioBoard.h"
 
-AudioBoard board(AudioDriverES8388);
+AudioBoard board(AudioDriverES8388, NoPins);
 
 void setup() {
   // Setup logging

@@ -5,7 +5,7 @@
  */
 
 #include "AudioTools.h" // install https://github.com/pschatzmann/arduino-audio-tools
-#include "AudioLibs/I2SCodecStream.h"
+#include "AudioTools/AudioLibs/I2SCodecStream.h"
 
 // I2C
 #define SDAPIN               3 // I2C Data,  Adafruit ESP32 S3 3, Sparkfun Thing Plus C 23
