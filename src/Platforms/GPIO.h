@@ -4,12 +4,6 @@
 #include "API_GPIO.h"
 #include "Arduino.h"
 
-// RP2040 needs PinMode and PinStatus
-#if !defined(ARDUINO_ARCH_RP2040)
-using PinMode = uint8_t;
-using PinStatus = uint8_t;
-#endif
-
 
 /**
  * @file GPIO.h
@@ -31,9 +25,19 @@ class GPIO : public API_GPIO {
   GPIO() = default;
   bool begin(IDriverPins& pins) { return true; }
   void end() {}
-  void pinMode(int pin, int mode) { ::pinMode(pin, (PinMode)mode); }
+  void pinMode(int pin, int mode) { 
+#if defined(ARDUINO_ARCH_RP2040)
+    ::pinMode(pin, (PinMode)mode); 
+#else
+    ::pinMode(pin, mode);
+#endif
+  }
   bool digitalWrite(int pin, bool value) {
-    ::digitalWrite(pin, (PinStatus)value);
+#if defined(ARDUINO_ARCH_RP2040)
+    ::digitalWrite(pin, value ? HIGH : LOW);
+#else
+    ::digitalWrite(pin, value);
+#endif
     return true;
   }
   bool digitalRead(int pin) { return ::digitalRead(pin); }
