@@ -4,6 +4,12 @@
 #include "API_GPIO.h"
 #include "Arduino.h"
 
+#if defined(ARDUINO_ARCH_ESP32) || defined(ARDUINO_ARCH_ESP8266)
+using PinMode = uint8_t;
+using PinStatus = uint8_t;
+#endif
+
+
 /**
  * @file GPIO.h
  * @brief Simple GPIO abstraction for digital input/output.
