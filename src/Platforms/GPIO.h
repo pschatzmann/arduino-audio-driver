@@ -33,11 +33,7 @@ class GPIO : public API_GPIO {
 #endif
   }
   bool digitalWrite(int pin, bool value) {
-#if defined(ARDUINO_ARCH_RP2040)
     ::digitalWrite(pin, value ? HIGH : LOW);
-#else
-    ::digitalWrite(pin, value);
-#endif
     return true;
   }
   bool digitalRead(int pin) { return ::digitalRead(pin); }
