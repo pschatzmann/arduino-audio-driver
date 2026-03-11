@@ -24,9 +24,9 @@ class GPIO : public API_GPIO {
   GPIO() = default;
   bool begin(IDriverPins& pins) { return true; }
   void end() {}
-  void pinMode(int pin, int mode) { ::pinMode(pin, mode); }
+  void pinMode(int pin, int mode) { ::pinMode(pin, (PinMode)mode); }
   bool digitalWrite(int pin, bool value) {
-    ::digitalWrite(pin, value);
+    ::digitalWrite(pin, (PinStatus)value);
     return true;
   }
   bool digitalRead(int pin) { return ::digitalRead(pin); }

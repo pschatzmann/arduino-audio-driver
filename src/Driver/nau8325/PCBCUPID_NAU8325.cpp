@@ -1,5 +1,5 @@
 #include "PCBCUPID_NAU8325.h"
-//#include "esp_log.h"
+#include "Platforms/Logger.h"
 
 #define MASTER_CLK_MIN 2048000
 #define MASTER_CLK_MAX 49152000
@@ -60,15 +60,15 @@ PCBCUPID_NAU8325::PCBCUPID_NAU8325(TwoWire &wire)
 bool PCBCUPID_NAU8325::begin(uint32_t fs, uint8_t bits_per_sample, uint16_t ratio)
 {
 
-  log_i("[NAU8325] beginDynamic() starting...");
-  log_i("  fs = %lu Hz", fs);
-  log_i("  ratio = %u Hz", ratio);
-  log_i("  bits = %u", bits_per_sample);
+  AD_LOGI("[NAU8325] beginDynamic() starting...");
+  AD_LOGI("  fs = %lu Hz", fs);
+  AD_LOGI("  ratio = %u Hz", ratio);
+  AD_LOGI("  bits = %u", bits_per_sample);
 
   if (bits_per_sample != 16 && bits_per_sample != 24 && bits_per_sample != 32)
   {
 
-    log_i("[NAU8325] Unsupported bit width: %u\n", bits_per_sample);
+    AD_LOGI("[NAU8325] Unsupported bit width: %u\n", bits_per_sample);
     return false;
   }
 
@@ -103,7 +103,7 @@ bool PCBCUPID_NAU8325::begin(uint32_t fs, uint8_t bits_per_sample, uint16_t rati
   /*default powerOn*/
   powerOn();
 
-  log_i("[NAU8325] beginDynamic() complete - sound should play");
+  AD_LOGI("[NAU8325] beginDynamic() complete - sound should play");
   return true;
 }
 
@@ -162,15 +162,15 @@ bool PCBCUPID_NAU8325::applySampleRateClocks(const SRateAttr *srate, int n1_sel,
 {
   if (!srate || n1_sel < 0 || n1_sel >= 3 || n2_sel < 0 || n2_sel >= 5)
   {
-    log_i("[NAU8325] Invalid N1/N2 divider index.");
+    AD_LOGI("[NAU8325] Invalid N1/N2 divider index.");
     return false;
   }
 
   // --- Debug ---
-  log_i("--- Debugging clock dividers ---");
-  log_i("n1_sel=%d (val=%d)", n1_sel, mclk_n1_div[n1_sel].val);
-  log_i("n2_sel=%d (val=%d)", n2_sel, mclk_n2_div[n2_sel].val);
-  log_i("mult_sel=%d", mclk_mult_sel);
+  AD_LOGI("--- Debugging clock dividers ---");
+  AD_LOGI("n1_sel=%d (val=%d)", n1_sel, mclk_n1_div[n1_sel].val);
+  AD_LOGI("n2_sel=%d (val=%d)", n2_sel, mclk_n2_div[n2_sel].val);
+  AD_LOGI("mult_sel=%d", mclk_mult_sel);
 
   // Set sample rate range and max mode
   writeRegisterBits(NAU8325_R40_CLK_DET_CTRL,
@@ -263,14 +263,14 @@ bool PCBCUPID_NAU8325::chooseClockSource(int fs, int mclk,
 {
   if (fs <= 0 || mclk <= 0)
   {
-    log_i("[NAU8325] Invalid fs or mclk.");
+    AD_LOGI("[NAU8325] Invalid fs or mclk.");
     return false;
   }
 
   srate = getSRateAttr(fs);
   if (!srate)
   {
-    log_i("[NAU8325] Unsupported fs: %d\n", fs);
+    AD_LOGI("[NAU8325] Unsupported fs: %d\n", fs);
     return false;
   }
 
@@ -280,7 +280,7 @@ bool PCBCUPID_NAU8325::chooseClockSource(int fs, int mclk,
   {
     n1_sel = 0;
     mult_sel = -1; // Bypass
-    log_i("[NAU8325] Direct match: fs=%d, mclk=%d → N2=%d (Ratio=%d)\n",
+    AD_LOGI("[NAU8325] Direct match: fs=%d, mclk=%d → N2=%d (Ratio=%d)\n",
           fs, mclk, n2_sel, ratio);
     return true;
   }
@@ -312,14 +312,14 @@ bool PCBCUPID_NAU8325::chooseClockSource(int fs, int mclk,
     mult_sel = best_mult;
     n2_sel = best_n2;
 
-    log_i("[NAU8325] Matched via N1/N3 combo: fs=%d, mclk=%d → N1=%d, N3(mult)=%d, N2=%d\n",
+    AD_LOGI("[NAU8325] Matched via N1/N3 combo: fs=%d, mclk=%d → N1=%d, N3(mult)=%d, N2=%d\n",
           fs, mclk, n1_sel, mult_sel, n2_sel);
-    log_i("[NAU8325] chooseClockSource(): fs=%d, mclk=%d\n", fs, mclk);
+    AD_LOGI("[NAU8325] chooseClockSource(): fs=%d, mclk=%d\n", fs, mclk);
 
     return true;
   }
 
-  log_i("[NAU8325] Failed to match MCLK %d Hz with fs %d Hz\n", mclk, fs);
+  AD_LOGI("[NAU8325] Failed to match MCLK %d Hz with fs %d Hz\n", mclk, fs);
   return false;
 }
 
@@ -330,16 +330,16 @@ bool PCBCUPID_NAU8325::configureClocks(int fs, int mclk)
 
   if (!chooseClockSource(fs, mclk, srate, n1_sel, mult_sel, n2_sel))
   {
-    log_i("[NAU8325] Failed to choose clock source for fs=%d, mclk=%d\n", fs, mclk);
+    AD_LOGI("[NAU8325] Failed to choose clock source for fs=%d, mclk=%d\n", fs, mclk);
     return false;
   }
 
   if (!applySampleRateClocks(srate, n1_sel, mult_sel, n2_sel))
   {
-    log_i("[NAU8325] Failed to apply sample rate clocks.");
+    AD_LOGI("[NAU8325] Failed to apply sample rate clocks.");
     return false;
   }
-  log_i("[NAU8325] configureClocks(): fs=%u, mclk=%u\n", fs, mclk);
+  AD_LOGI("[NAU8325] configureClocks(): fs=%u, mclk=%u\n", fs, mclk);
 
   return true;
 }
@@ -379,7 +379,7 @@ bool PCBCUPID_NAU8325::configureAudio(uint32_t fs, uint32_t mclk, uint8_t bits_p
   const OsrAttr *osr = getCurrentOSR();
   if (!osr || osr->osr == 0 || (fs * osr->osr > CLK_DA_AD_MAX))
   {
-    log_i("[NAU8325] Invalid OSR or fs × OSR exceeds max.");
+    AD_LOGI("[NAU8325] Invalid OSR or fs × OSR exceeds max.");
     return false;
   }
 
@@ -405,14 +405,14 @@ bool PCBCUPID_NAU8325::configureAudio(uint32_t fs, uint32_t mclk, uint8_t bits_p
     val_len = NAU8325_I2S_DL_32;
     break;
   default:
-    log_i("[NAU8325] Invalid bit width: %u\n", bits_per_sample);
+    AD_LOGI("[NAU8325] Invalid bit width: %u\n", bits_per_sample);
     return false;
   }
 
   writeRegisterBits(NAU8325_R0D_I2S_PCM_CTRL1,
                     NAU8325_I2S_DL_MASK, val_len);
 
-  log_i("[NAU8325] configureAudio(): fs=%u, mclk=%u, bits=%u\n", fs, mclk, bits_per_sample);
+  AD_LOGI("[NAU8325] configureAudio(): fs=%u, mclk=%u, bits=%u\n", fs, mclk, bits_per_sample);
 
   return true;
 }
@@ -459,12 +459,12 @@ bool PCBCUPID_NAU8325::setSysClock(uint32_t freq)
 {
   if (freq < MASTER_CLK_MIN || freq > MASTER_CLK_MAX)
   {
-    log_i("[NAU8325] Invalid MCLK: %u Hz (allowed: %u - %u)\n", freq, MASTER_CLK_MIN, MASTER_CLK_MAX);
+    AD_LOGI("[NAU8325] Invalid MCLK: %u Hz (allowed: %u - %u)\n", freq, MASTER_CLK_MIN, MASTER_CLK_MAX);
     return false;
   }
 
   this->mclk = freq;
-  log_i("[NAU8325] MCLK set to %u Hz\n", mclk);
+  AD_LOGI("[NAU8325] MCLK set to %u Hz\n", mclk);
   return true;
 }
 
@@ -536,7 +536,7 @@ void PCBCUPID_NAU8325::initRegisters()
   }
   else
   {
-    log_i("[NAU8325] Invalid DAC Vref: %lu uV\n", dac_vref_microvolt);
+    AD_LOGI("[NAU8325] Invalid DAC Vref: %lu uV\n", dac_vref_microvolt);
   }
 
   /* DAC Reference Voltage Decoupling Capacitors. */
@@ -561,7 +561,7 @@ void PCBCUPID_NAU8325::initRegisters()
   }
   else
   {
-    log_i("[NAU8325] Invalid VMID impedance: %lu ohms\n", vref_impedance_ohms);
+    AD_LOGI("[NAU8325] Invalid VMID impedance: %lu ohms\n", vref_impedance_ohms);
   }
 
   // Enable VMID, BIAS, DACs, etc., Voltage / current Amps
@@ -628,7 +628,7 @@ void PCBCUPID_NAU8325::powerOff()
 
 bool PCBCUPID_NAU8325::writeRegister(uint16_t reg, uint16_t val)
 {
-  log_i("[WRITE] reg=0x%04X val=0x%04X\n", reg, val);
+  AD_LOGI("[WRITE] reg=0x%04X val=0x%04X\n", reg, val);
   i2c.beginTransmission(i2c_addr);
   i2c.write((reg >> 8) & 0xFF);
   i2c.write(reg & 0xFF);
