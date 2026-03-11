@@ -4,7 +4,8 @@
 #include "API_GPIO.h"
 #include "Arduino.h"
 
-#if defined(ARDUINO_ARCH_ESP32) || defined(ARDUINO_ARCH_ESP8266)
+// RP2040 needs PinMode and PinStatus
+#if !defined(ARDUINO_ARCH_RP2040)
 using PinMode = uint8_t;
 using PinStatus = uint8_t;
 #endif

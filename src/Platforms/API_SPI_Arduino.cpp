@@ -1,6 +1,7 @@
 #ifdef ARDUINO
 #include "API_SPI.h"
 #include "SPI.h"
+#include "assert.h"
 
 error_t spi_bus_create(struct SPIConfig *config) {
   SPIConfig &pins = *config;
