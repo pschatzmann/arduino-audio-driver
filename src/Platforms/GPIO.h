@@ -4,13 +4,18 @@
 #include "API_GPIO.h"
 #include "Arduino.h"
 
-
 /**
  * @file GPIO.h
  * @brief Simple GPIO abstraction for digital input/output.
  */
 
 namespace audio_driver {
+
+#if defined(ARDUINO_ARCH_RP2040)
+using PinModeType = PinMode;
+#else
+using PinModeType = uint8_t;
+#endif
 
 /**
  * @class GPIO
@@ -25,13 +30,7 @@ class GPIO : public API_GPIO {
   GPIO() = default;
   bool begin(IDriverPins& pins) { return true; }
   void end() {}
-  void pinMode(int pin, int mode) { 
-#if defined(ARDUINO_ARCH_RP2040)
-    ::pinMode(pin, (PinMode)mode); 
-#else
-    ::pinMode(pin, mode);
-#endif
-  }
+  void pinMode(int pin, int mode) { ::pinMode(pin, (PinModeType)mode); }
   bool digitalWrite(int pin, bool value) {
     ::digitalWrite(pin, value ? HIGH : LOW);
     return true;
