@@ -1,0 +1,69 @@
+#pragma once
+/**
+ * @file ESP32S3AISmartSpeaker.h
+ * @brief Device definition for ESP32 S3 AI Smart Speaker with TCA9555 GPIO exp
+ */
+
+#include "AudioBoard.h"
+#include "FS.h"
+#include "SD_MMC.h"
+
+namespace audio_driver {
+
+/**
+ * @brief Pins for ESP32 S3 AI Smart Speaker - use the PinsESP32S3AISmartSpeaker
+ * object! We support the TCA9555 GPIO expander!
+ * @author Phil Schatzmann
+ */
+class PinsESP32S3AISmartSpeakerClass : public DriverDeviceInfo {
+ public:
+  PinsESP32S3AISmartSpeakerClass() {
+    // setup TCA9555 GPIO expander
+    gpio.setAltGPIO(tca9555, 1000);
+    // add i2c codec pins: scl, sda, port, frequency
+    addI2C(PinFunction::EXPANDER, DEVICE_DT_GET(DT_ALIAS(i2c_1)));
+    // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
+    addI2S(PinFunction::CODEC, DEVICE_DT_GET(DT_ALIAS(i2s_1)));
+
+    // add other pins
+    addPin(PinFunction::KEY, GPIO_DT_SPEC_GET(DT_ALIAS(key_1), gpios), PinLogic::InputActiveLow, 1);
+    addPin(PinFunction::KEY, GPIO_DT_SPEC_GET(DT_ALIAS(key_2), gpios), PinLogic::InputActiveLow, 2);
+    addPin(PinFunction::KEY, GPIO_DT_SPEC_GET(DT_ALIAS(key_3), gpios), PinLogic::InputActiveLow, 3);
+    addPin(PinFunction::PA, GPIO_DT_SPEC_GET(DT_ALIAS(pa), gpios), PinLogic::Output);
+    addPin(PinFunction::SD, GPIO_DT_SPEC_GET(DT_ALIAS(sd), gpios), PinLogic::Output);  // SD CS
+    addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led), gpios), PinLogic::Output);
+  }
+
+  bool begin() override {
+    AD_LOGD("PinsESP32S3AISmartSpeakerClass::begin");
+    bool rc = DriverDeviceInfo::begin();
+    // activate SD CS
+    if (sd_active) {
+      AD_LOGD("Activate SD CS");
+      tca9555.digitalWrite(EXIO4, true);  // activate SD CS
+    }
+    // activate SDMMC
+    if (sdmmc_active) {
+      AD_LOGD("Activate SDMMC");
+      if (!SD_MMC.setPins(40, 42, 41, -1, -1, -1)) {
+        AD_LOGE("SDMMC setPins failed");
+      }
+      tca9555.digitalWrite(EXIO4, true);  // deactivate SD CS
+    }
+    return rc;
+  }
+
+  TCA9555& getTCA9555() { return tca9555; }
+
+ protected:
+  TCA9555 tca9555;
+};
+
+/// @ingroup audio_driver
+static PinsESP32S3AISmartSpeakerClass PinsESP32S3AISmartSpeaker;
+
+/// @ingroup audio_driver
+static AudioBoard ESP32S3AISmartSpeaker{AudioDriverES8311_ES7210,
+                                        PinsESP32S3AISmartSpeaker};
+
+}  // namespace audio_driver

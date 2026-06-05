@@ -7,7 +7,7 @@
 
 #include "AudioBoard.h"
 
-DriverPins my_pins;
+DriverDeviceInfo my_pins;
 AudioBoard board(AudioDriverES8388, my_pins);
 
 void setup() {

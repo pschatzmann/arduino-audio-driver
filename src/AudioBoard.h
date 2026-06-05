@@ -1,6 +1,6 @@
 #pragma once
 #include "Driver.h"
-#include "DriverPins.h"
+#include "DriverDeviceInfo.h"
 
 namespace audio_driver {
 
@@ -13,12 +13,12 @@ namespace audio_driver {
 class AudioBoard {
 public:
 
-  AudioBoard(AudioDriver *driver, DriverPins* pins) {
+  AudioBoard(AudioDriver *driver, DriverDeviceInfo* pins) {
     setPins(*pins);
     setDriver(*driver);
   }
   
-  AudioBoard(AudioDriver &driver, DriverPins& pins) {
+  AudioBoard(AudioDriver &driver, DriverDeviceInfo& pins) {
     setPins(pins);
     setDriver(driver);
   }
@@ -75,11 +75,11 @@ public:
     return volume >= 0 ? volume : p_driver->getVolume(); }
 #endif
 
-  void setPins(DriverPins&pins){
+  void setPins(DriverDeviceInfo&pins){
     this->p_pins = &pins;
   }
-  DriverPins& getPins() { return *p_pins; }
-  DriverPins& pins() { return *p_pins; }
+  DriverDeviceInfo& getPins() { return *p_pins; }
+  DriverDeviceInfo& pins() { return *p_pins; }
 
   void setDriver(AudioDriver& driver){
     this->p_driver = &driver;
@@ -104,19 +104,24 @@ public:
 
 protected:
   AudioDriver* p_driver = nullptr;
-  DriverPins* p_pins = nullptr;
+  DriverDeviceInfo* p_pins = nullptr;
   CodecConfig codec_cfg;
   int power_amp_line = ES8388_PA_LINE;
   int volume = -1;
   bool is_active = false;
 };
 
+/// @ingroup audio_driver
+static AudioBoard NoBoard{NoDriver, NoPins};
+/// @ingroup audio_driver
+static AudioBoard GenericWM8960{AudioDriverWM8960, NoPins};
+/// @ingroup audio_driver
+static AudioBoard GenericCS43l22{AudioDriverCS43l22, NoPins};
 
+#ifndef __zephyr__
 // -- Boards
 /// @ingroup audio_driver
 static AudioBoard AudioKitEs8388V1{AudioDriverES8388, PinsAudioKitEs8388v1};
-/// @ingroup audio_driver
-static AudioBoard AudioKitEs8388V2{AudioDriverES8388, PinsAudioKitEs8388v2};
 /// @ingroup audio_driver
 static AudioBoard AudioKitAC101{AudioDriverAC101, PinsAudioKitAC101};
 /// @ingroup audio_driver
@@ -126,13 +131,7 @@ static AudioBoard LyratV42{AudioDriverES8388H3, PinsLyrat42};
 /// @ingroup audio_driver
 static AudioBoard LyratMini{AudioDriverLyratMini, PinsLyratMini};
 /// @ingroup audio_driver
-static AudioBoard NoBoard{NoDriver, NoPins};
-/// @ingroup audio_driver
-static AudioBoard GenericWM8960{AudioDriverWM8960, NoPins};
-/// @ingroup audio_driver
-static AudioBoard GenericCS43l22{AudioDriverCS43l22, NoPins};
-/// @ingroup audio_driver
 static AudioBoard M5stackAtomEchoS3R{AudioDriverES8311, PinsM5stackAtomEchoS3R};
-
+#endif
 
 }

@@ -2,15 +2,20 @@
 #include <stdint.h>
 #include "DriverCommon.h"
 
-typedef int16_t GpioPin;
+#if defined(__zephyr__)
+using i2c_bus_handle_t = struct device *;
+#endif
 
 struct I2CConfig {
+  i2c_bus_handle_t p_wire;
   uint32_t frequency;
   int port;
+  int address;
+// Zephyr manages the pins in the devicetree!
+#if !defined(__zephyr__)
   GpioPin scl;
   GpioPin sda;
-  i2c_bus_handle_t p_wire;
-  int address;
+#endif
 };
 
 #ifndef ARDUINO

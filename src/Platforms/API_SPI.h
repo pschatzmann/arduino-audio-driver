@@ -10,8 +10,6 @@ struct SPIClass {
 } static SPI;
 #endif
 
-typedef int16_t GpioPin;
-
 struct SPIConfig {
   spi_bus_handle_t p_spi;
   GpioPin clk;

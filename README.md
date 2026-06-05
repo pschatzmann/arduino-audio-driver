@@ -11,7 +11,7 @@ In this project I finally implemented some clean and simple C++ classes. This __
 
 The goal of this project is to provide an __easy API to configure different audio codec chips__. After setting up the codec, you can use the I2S functionality provided by your microcontroller.
 
-While you can use this library stand alone, I recommend to use it together with my [AudioTools](https://github.com/pschatzmann/arduino-audio-tools) project which provides a nice integration with it's [I2SCodecStream](https://pschatzmann.github.io/arduino-audio-tools/classaudio__tools_1_1_i2_s_codec_stream.html) class. Further information can be found in the [Wiki](https://github.com/pschatzmann/arduino-audio-driver/wiki).
+While you can use this library stand alone, I recommend to use it together with my [AudioTools](https://github.com/pschatzmann/arduino-audio-tools) project which provides a nice integration with it's [I2SCodecStream](https://pschatzmann.github.io/arduino-audio-tools/classaudio__tools_1_1_i2_s_codec_stream.html) class. Further information can be found in the [Wiki](https://github.com/pschatzmann/arduino-audio-Codecs/wiki).
 
 ## Drivers and Boards
 
@@ -69,9 +69,9 @@ You can deactivate the logging completly and if you are using an ESP32, you can 
 
 ## Documentation
 
-- [Wiki](https://github.com/pschatzmann/arduino-audio-driver/wiki)
-- [Classes and Objects](https://pschatzmann.github.io/arduino-audio-driver/html/group__audio__driver.html)
-- [Examples](https://github.com/pschatzmann/arduino-audio-driver/tree/main/examples)
+- [Wiki](https://github.com/pschatzmann/arduino-audio-Codecs/wiki)
+- [Classes and Objects](https://pschatzmann.github.io/arduino-audio-Codecs/html/group__audio__driver.html)
+- [Examples](https://github.com/pschatzmann/arduino-audio-Codecs/tree/main/examples)
 
 ## Support
 

@@ -23,7 +23,7 @@
 AudioInfo                     audio_info(44200, 2, 16);                // sampling rate, # channels, bit depth
 SineWaveGenerator<int16_t>    sine_wave(32000);                        // amplitude
 GeneratedSoundStream<int16_t> sound_stream(sine_wave);                 // sound generator
-DriverPins                    my_pins;                                 // board pins
+DriverDeviceInfo              my_pins;                                 // board pins
 AudioBoard                    audio_board(AudioDriverES8388, my_pins); // audio board
 I2SCodecStream                i2s_out_stream(audio_board);             // i2s coded
 StreamCopy                    copier(i2s_out_stream, sound_stream);    // stream copy sound generator to i2s codec

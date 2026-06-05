@@ -10,13 +10,13 @@
  * @defgroup enumerations Public enumeration types
  */
 
-
 /// Fixed Definitions
 #define RESULT_OK 0    /*!< error_t value indicating success (no error) */
 #define RESULT_FAIL -1 /*!< Generic error_t code indicating failure */
 #define ERROR_INVALID_ARG 1
 
-#define I2C_END true   // wether to send a stop bit at the end of the transmission
+#define I2C_END \
+  true  // wether to send a stop bit at the end of the transmission
 
 #ifdef __cplusplus
 #include "Platforms/AudioDriverLogger.h"
@@ -25,13 +25,22 @@ namespace audio_driver {
 #endif
 
 typedef int error_t;
-typedef void *i2c_bus_handle_t;
-typedef void *spi_bus_handle_t;
+typedef void* i2c_bus_handle_t;
+typedef void* spi_bus_handle_t;
+
+#ifdef __zephyr__
+// In Zephyr, GPIO pins are defined as device tree specifications, so we use a
+// pointer to the gpio_dt_spec struct instead of an integer pin number.
+typedef struct gpio_dt_spec* GpioPin;
+#else
+// For Arduino and other platforms, we can use a simple integer pin number.
+typedef int16_t GpioPin;
+#endif
 
 /**
  * @enum input_device_t
- * @brief Select adc for input mic signal. If the chip only has one ADC this might provide the 
- * functionality on the channel level
+ * @brief Select adc for input mic signal. If the chip only has one ADC this
+ * might provide the functionality on the channel level
  * @ingroup enumerations
  * @ingroup audio_driver
  */
@@ -46,8 +55,8 @@ typedef enum {
 
 /**
  * @enum output_device_t
- * @brief Select individual dac for dac output. If the device has only one DAC this might
- * provide the functionality channel level
+ * @brief Select individual dac for dac output. If the device has only one DAC
+ * this might provide the functionality channel level
  * @ingroup enumerations
  * @ingroup audio_driver
  */
@@ -131,7 +140,6 @@ typedef enum {
   SIGNAL_TDM,
 } signal_t;
 
-
 /**
  * @enum es_mic_gain_t
  * @brief Microphone Gain
@@ -177,7 +185,6 @@ typedef enum {
   CHANNELS8 = 8,
   CHANNELS16 = 16,
 } channels_t;
-
 
 /**
  * @brief I2s interface configuration for audio codec chip
