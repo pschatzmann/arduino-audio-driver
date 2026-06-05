@@ -1,8 +1,9 @@
 #ifndef PCBCUPID_NAU8325_H
 #define PCBCUPID_NAU8325_H
 
-#include <Arduino.h>
-#include <Wire.h>
+#include "stdint.h"
+#include "DriverCommon.h"
+#include "Platforms/API_I2C.h"
 
 #define NAU8325_I2C_ADDR 0x21
 
@@ -425,7 +426,7 @@ enum ClockRatio
 class PCBCUPID_NAU8325
 {
 public:
-  PCBCUPID_NAU8325(TwoWire &wire);
+  PCBCUPID_NAU8325(i2c_bus_handle_t wire);
 
   static const RegDefault reg_defaults[];
 
@@ -480,7 +481,7 @@ public:
   void setVolume(uint8_t left, uint8_t right); // public
 
 private:
-  TwoWire &i2c;
+  i2c_bus_handle_t i2c;
   uint8_t i2c_addr = NAU8325_I2C_ADDR;
   uint32_t fs;
   uint32_t mclk;

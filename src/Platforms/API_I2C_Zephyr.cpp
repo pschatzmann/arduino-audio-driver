@@ -5,7 +5,6 @@
 #include <string.h>
 #include <zephyr/drivers/i2c.h>
 #include <zephyr/kernel.h>
-#include <zephyr/logging/log.h>
 
 #include "Platforms/API_I2C.h"
 
@@ -14,14 +13,14 @@
 // and the bus handle is also struct device *.
 
 error_t i2c_bus_create(struct I2CConfig* config) {
-  LOG_INF("i2c_bus_create");
+  AD_LOGI("i2c_bus_create");
   assert(config != NULL);
 
   struct device* dev = (struct device*)config->p_wire;
   assert(dev != NULL);
 
   if (!device_is_ready(dev)) {
-    LOG_ERR("I2C device not ready");
+    AD_LOGE("I2C device not ready");
     return RESULT_FAIL;
   }
 
@@ -41,10 +40,10 @@ error_t i2c_bus_create(struct I2CConfig* config) {
 
     int rc = i2c_configure(dev, i2c_cfg);
     if (rc != 0) {
-      LOG_ERR("Failed to configure I2C: %d", rc);
+      AD_LOGE("Failed to configure I2C: %d", rc);
       return RESULT_FAIL;
     }
-    LOG_INF("Setting I2C clock: %u Hz", config->frequency);
+    AD_LOGI("Setting I2C clock: %u Hz", config->frequency);
   }
 
   return RESULT_OK;
@@ -58,7 +57,7 @@ void i2c_bus_delete(i2c_bus_handle_t bus) {
 
 error_t i2c_bus_write_bytes(i2c_bus_handle_t bus, int addr, uint8_t* reg,
                             int reglen, uint8_t* data, int datalen) {
-  LOG_DBG("i2c_bus_write_bytes: addr=0x%X reglen=%d datalen=%d reg=0x%02X",
+  AD_LOGD("i2c_bus_write_bytes: addr=0x%X reglen=%d datalen=%d reg=0x%02X",
           addr, reglen, datalen, reglen > 0 ? reg[0] : 0);
 
   struct device* dev = (struct device*)bus;
@@ -89,7 +88,7 @@ error_t i2c_bus_write_bytes(i2c_bus_handle_t bus, int addr, uint8_t* reg,
 
   int rc = i2c_transfer(dev, msgs, num_msgs, (uint16_t)addr);
   if (rc != 0) {
-    LOG_ERR("i2c_transfer (write) failed: %d", rc);
+    AD_LOGE("i2c_transfer (write) failed: %d", rc);
     return RESULT_FAIL;
   }
   return RESULT_OK;
@@ -97,7 +96,7 @@ error_t i2c_bus_write_bytes(i2c_bus_handle_t bus, int addr, uint8_t* reg,
 
 error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t* reg,
                            int reglen, uint8_t* outdata, int datalen) {
-  LOG_DBG("i2c_bus_read_bytes: addr=0x%X reglen=%d datalen=%d reg=0x%02X", addr,
+  AD_LOGD("i2c_bus_read_bytes: addr=0x%X reglen=%d datalen=%d reg=0x%02X", addr,
           reglen, datalen, reglen > 0 ? reg[0] : 0);
 
   struct device* dev = (struct device*)bus;
@@ -122,7 +121,7 @@ error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t* reg,
 
   int rc = i2c_transfer(dev, msgs, 2, (uint16_t)addr);
   if (rc != 0) {
-    LOG_ERR("i2c_transfer (read) failed: %d", rc);
+    AD_LOGE("i2c_transfer (read) failed: %d", rc);
     return RESULT_FAIL;
   }
   return RESULT_OK;

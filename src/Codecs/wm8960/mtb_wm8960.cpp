@@ -31,7 +31,7 @@ typedef struct
     uint16_t value;
 } _mtb_wm8960_operation_t;
 
-static void* i2c_ptr = nullptr;
+static i2c_bus_handle_t i2c_ptr = nullptr;
 static uint8_t enabled_features;
 static bool pll_enabled = false;
 static uint32_t write_retry_count = 1;
@@ -371,7 +371,7 @@ static bool _mtb_wm8960_adjust_volume(uint8_t volume, mtb_wm8960_reg_t left_vol_
 // mtb_wm8960_set_wire
 //--------------------------------------------------------------------------------------------------
 
-bool mtb_wm8960_set_wire(void* i2c_inst){
+bool mtb_wm8960_set_wire(i2c_bus_handle_t i2c_inst){
     AD_LOGD("mtb_wm8960_set_wire");
 
     /* Assign I2C hal object */

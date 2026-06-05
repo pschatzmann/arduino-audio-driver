@@ -15,7 +15,7 @@ if (DEFINED ESP_PLATFORM)
 else()
 
     # set the project name
-    project(audio_driver)
+    project(arduino_audio_driver)
 
     # lots of warnings and all warnings as errors
     ## add_compile_options(-Wall -Wextra )
@@ -25,12 +25,17 @@ else()
     file(GLOB_RECURSE SRC_LIST_CPP CONFIGURE_DEPENDS  "${PROJECT_SOURCE_DIR}/src/*.cpp" )
 
     # define libraries
-    add_library (audio_driver ${SRC_LIST_C} ${SRC_LIST_CPP})
+    add_library (arduino_audio_driver STATIC ${SRC_LIST_C} ${SRC_LIST_CPP} )
 
     # prevent compile errors
-    target_compile_options(audio_driver PRIVATE -DUSE_DEFAULT_STDLIB)
+    target_compile_options(arduino_audio_driver PRIVATE -DUSE_DEFAULT_STDLIB -Wno-unused-variable)
 
     # define location for header files
-    target_include_directories(audio_driver PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src )
+    target_include_directories(arduino_audio_driver PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src )
+
+    if (DEFINED ZEPHYR_PLATFORM)
+        target_compile_definitions(arduino_audio_driver PRIVATE __zephyr__ )
+        target_link_libraries(arduino_audio_driver PRIVATE zephyr_interface zephyr_generated_headers)
+    ENDIF()
 
 endif()

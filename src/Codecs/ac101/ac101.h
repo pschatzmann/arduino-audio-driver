@@ -14,6 +14,8 @@
 #define AC101_ADDR			0x1A		    /*!< Device address 0x1a/0x34 */
 
 #undef READ_BIT
+#undef WRITE_BIT
+
 #define WRITE_BIT  			I2C_MASTER_WRITE 	/*!< I2C master write */
 #define READ_BIT   			I2C_MASTER_READ  	/*!< I2C master read */
 #define ACK_CHECK_EN   		0x1     			/*!< I2C master will check ack from slave*/

@@ -4,6 +4,11 @@
 #include "ConfigAudioDriver.h"
 #include "Platforms/Logger.h"
 
+#ifdef __zephyr__
+#include <zephyr/device.h>
+#include <zephyr/kernel.h>
+#endif
+
 /*!
  * @file
  * @defgroup audio_driver Audio Driver
@@ -25,16 +30,18 @@ namespace audio_driver {
 #endif
 
 typedef int error_t;
-typedef void* i2c_bus_handle_t;
-typedef void* spi_bus_handle_t;
 
 #ifdef __zephyr__
 // In Zephyr, GPIO pins are defined as device tree specifications, so we use a
 // pointer to the gpio_dt_spec struct instead of an integer pin number.
 typedef struct gpio_dt_spec* GpioPin;
+typedef struct device* i2c_bus_handle_t;
+typedef struct device* spi_bus_handle_t;
 #else
 // For Arduino and other platforms, we can use a simple integer pin number.
 typedef int16_t GpioPin;
+typedef void* i2c_bus_handle_t;
+typedef void* spi_bus_handle_t;
 #endif
 
 /**

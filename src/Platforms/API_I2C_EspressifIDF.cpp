@@ -1,5 +1,5 @@
 // I2C Driver for Espressif IDF
-#if !defined(ARDUINO) || AUDIO_DRIVER_FORCE_IDF
+#if (!defined(ARDUINO) || AUDIO_DRIVER_FORCE_IDF) && !defined(__zephyr__)
 
 #include <assert.h>
 #include <string.h>  // memcpy

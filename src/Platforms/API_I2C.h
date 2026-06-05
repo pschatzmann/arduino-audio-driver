@@ -2,9 +2,6 @@
 #include <stdint.h>
 #include "DriverCommon.h"
 
-#if defined(__zephyr__)
-using i2c_bus_handle_t = struct device *;
-#endif
 
 struct I2CConfig {
   i2c_bus_handle_t p_wire;

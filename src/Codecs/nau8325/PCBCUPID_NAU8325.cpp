@@ -1,6 +1,5 @@
 #include "PCBCUPID_NAU8325.h"
 #include "Platforms/Logger.h"
-
 #define MASTER_CLK_MIN 2048000
 #define MASTER_CLK_MAX 49152000
 
@@ -54,7 +53,7 @@ bool clock_det_data = true;
 uint32_t dac_vref_microvolt = 2880000;
 uint32_t vref_impedance_ohms = 125000;
 
-PCBCUPID_NAU8325::PCBCUPID_NAU8325(TwoWire &wire)
+PCBCUPID_NAU8325::PCBCUPID_NAU8325(i2c_bus_handle_t wire)
     : i2c(wire), i2c_addr(NAU8325_I2C_ADDR) {}
 
 bool PCBCUPID_NAU8325::begin(uint32_t fs, uint8_t bits_per_sample, uint16_t ratio)
@@ -221,19 +220,19 @@ int PCBCUPID_NAU8325::getMclkRatioAndN2Index(const SRateAttr *srate, int mclk_hz
     int div = mclk_n2_div[i].param;
     int mclk_src = mclk_hz >> div;
 
-    if (srate->mclk_src[NAU8325_MCLK_FS_RATIO_256] == mclk_src)
+    if (srate->mclk_src[NAU8325_MCLK_FS_RATIO_256] == (uint32_t) mclk_src)
     {
       ratio = NAU8325_MCLK_FS_RATIO_256;
       n2_sel_out = i;
       break;
     }
-    if (srate->mclk_src[NAU8325_MCLK_FS_RATIO_400] == mclk_src)
+    if (srate->mclk_src[NAU8325_MCLK_FS_RATIO_400] == (uint32_t) mclk_src)
     {
       ratio = NAU8325_MCLK_FS_RATIO_400;
       n2_sel_out = i;
       break;
     }
-    if (srate->mclk_src[NAU8325_MCLK_FS_RATIO_500] == mclk_src)
+    if (srate->mclk_src[NAU8325_MCLK_FS_RATIO_500] == (uint32_t) mclk_src)
     {
       ratio = NAU8325_MCLK_FS_RATIO_500;
       n2_sel_out = i;
@@ -626,16 +625,6 @@ void PCBCUPID_NAU8325::powerOff()
   delay(30); // Let output fade out
 }
 
-bool PCBCUPID_NAU8325::writeRegister(uint16_t reg, uint16_t val)
-{
-  AD_LOGI("[WRITE] reg=0x%04X val=0x%04X\n", reg, val);
-  i2c.beginTransmission(i2c_addr);
-  i2c.write((reg >> 8) & 0xFF);
-  i2c.write(reg & 0xFF);
-  i2c.write((val >> 8) & 0xFF);
-  i2c.write(val & 0xFF);
-  return i2c.endTransmission() == 0;
-}
 
 bool PCBCUPID_NAU8325::writeRegisterBits(uint16_t reg, uint16_t mask, uint16_t value) // mask ---> is to set the the particular bit renaining bit untouched.
 {
@@ -647,23 +636,65 @@ bool PCBCUPID_NAU8325::writeRegisterBits(uint16_t reg, uint16_t mask, uint16_t v
   return writeRegister(reg, new_value);
 }
 
+// bool PCBCUPID_NAU8325::writeRegister(uint16_t reg, uint16_t val)
+// {
+//   AD_LOGI("[WRITE] reg=0x%04X val=0x%04X\n", reg, val);
+//     Wire &i2c = *this->i2c;
+//   i2c.beginTransmission(i2c_addr);
+//   i2c.write((reg >> 8) & 0xFF);
+//   i2c.write(reg & 0xFF);
+//   i2c.write((val >> 8) & 0xFF);
+//   i2c.write(val & 0xFF);
+//   return i2c.endTransmission() == 0;
+// }
+
+// bool PCBCUPID_NAU8325::readRegister(uint16_t reg, uint16_t &value)
+// {
+//   Wire &i2c = *this->i2c;
+//   i2c.beginTransmission(i2c_addr);
+//   i2c.write((reg >> 8) & 0xFF);
+//   i2c.write(reg & 0xFF);
+//   if (i2c.endTransmission(false) != 0)
+//   {
+//     return false;
+//   }
+
+//   if (i2c.requestFrom(i2c_addr, (uint8_t)2) != 2)
+//   {
+//     return false;
+//   }
+
+//   uint8_t high = i2c.read();
+//   uint8_t low = i2c.read();
+//   value = ((uint16_t)high << 8) | low;
+//   return true;
+// }
+
+
+bool PCBCUPID_NAU8325::writeRegister(uint16_t reg, uint16_t val)
+{
+    AD_LOGI("[WRITE] reg=0x%04X val=0x%04X\n", reg, val);
+
+    uint8_t regBuf[2] = { (uint8_t)((reg >> 8) & 0xFF), (uint8_t)(reg & 0xFF) };
+    uint8_t dataBuf[2] = { (uint8_t)((val >> 8) & 0xFF), (uint8_t)(val & 0xFF) };
+
+    return i2c_bus_write_bytes(this->i2c, i2c_addr, regBuf, sizeof(regBuf),
+                               dataBuf, sizeof(dataBuf)) == RESULT_OK;
+}
+
 bool PCBCUPID_NAU8325::readRegister(uint16_t reg, uint16_t &value)
 {
-  i2c.beginTransmission(i2c_addr);
-  i2c.write((reg >> 8) & 0xFF);
-  i2c.write(reg & 0xFF);
-  if (i2c.endTransmission(false) != 0)
-  {
-    return false;
-  }
+    uint8_t regBuf[2] = { (uint8_t)((reg >> 8) & 0xFF), (uint8_t)(reg & 0xFF) };
+    uint8_t dataBuf[2] = { 0, 0 };
 
-  if (i2c.requestFrom(i2c_addr, (uint8_t)2) != 2)
-  {
-    return false;
-  }
+    if (i2c_bus_read_bytes(this->i2c, i2c_addr, regBuf, sizeof(regBuf),
+                           dataBuf, sizeof(dataBuf)) != RESULT_OK)
+    {
+        return false;
+    }
 
-  uint8_t high = i2c.read();
-  uint8_t low = i2c.read();
-  value = ((uint16_t)high << 8) | low;
-  return true;
+    value = ((uint16_t)dataBuf[0] << 8) | dataBuf[1];
+    return true;
 }
+
+
