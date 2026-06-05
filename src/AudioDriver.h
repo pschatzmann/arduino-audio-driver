@@ -1540,7 +1540,7 @@ class AudioDriverNAU8325Class : public AudioDriver {
     InfoI2C val = i2c_opt.value();
 
     // Create instance with required params (only TwoWire&)
-    nau8325 = new PCBCUPID_NAU8325(*((TwoWire*)val.p_wire));
+    nau8325 = new PCBCUPID_NAU8325(val.p_wire);
 
     // Set MCLK if available
     int mclk = pins.getPinID(PinFunction::MCLK_SOURCE);
