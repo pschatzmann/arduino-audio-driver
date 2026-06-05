@@ -24,7 +24,7 @@
  *
  */
 #pragma once
-#include "Codecs/DriverConstants.h"
+#include "Codecs/CodecConstants.h"
 #include "DriverCommon.h"
 #include "Platforms/API_I2C.h"
 

@@ -1,6 +1,8 @@
 
 #pragma once
-#ifndef __zephyr__
+#ifdef __zephyr__
+#include "DriverDeviceInfoZephyr.h"
+#else
 #include "Platforms/GPIOAll.h"
 #include "Platforms/IDriverDeviceInfo.h"
 

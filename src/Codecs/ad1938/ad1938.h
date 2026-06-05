@@ -26,7 +26,7 @@
 #pragma once
 #include <SPI.h>
 #include "DriverCommon.h"
-#include "Codecs/DriverConstants.h"
+#include "Codecs/CodecConstants.h"
 #include "Platforms/API_GPIO.h"
 
 /**

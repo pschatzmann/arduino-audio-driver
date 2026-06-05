@@ -27,7 +27,7 @@
 #include "stdbool.h"
 #include "DriverCommon.h"
 #include "Platforms/API_I2C.h"
-#include "Codecs/DriverConstants.h"
+#include "Codecs/CodecConstants.h"
 
 #ifdef __cplusplus
 extern "C" {
