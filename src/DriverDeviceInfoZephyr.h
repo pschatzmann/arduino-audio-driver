@@ -313,7 +313,7 @@ class DriverDeviceInfoZephyr : public IDriverDeviceInfo {
   }
 };
 
-// Support for DriverDeviceInfo in Zephyr
+/// Support for DriverDeviceInfo in Zephyr
 using DriverDeviceInfo = DriverDeviceInfoZephyr;
 
 
