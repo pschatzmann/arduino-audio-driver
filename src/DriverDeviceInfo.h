@@ -461,7 +461,7 @@ class PinsLyratMiniClass : public DriverDeviceInfo {
     if (key > 5) return false;
     int value = analogRead(39);
     bool result = inRange(value, analog_values[key]);
-    delay(LYRAT_MINI_DELAY_MS);
+    delayMs(LYRAT_MINI_DELAY_MS);
     int value1 = analogRead(39);
     bool result1 = inRange(value, analog_values[key]);
     result = result && result1;

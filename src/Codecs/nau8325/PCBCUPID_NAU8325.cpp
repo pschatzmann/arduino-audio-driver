@@ -74,7 +74,7 @@ bool PCBCUPID_NAU8325::begin(uint32_t fs, uint8_t bits_per_sample, uint16_t rati
   set_ratio = ratio;
   uint32_t mclk = fs * ratio;
   resetChip();
-  delay(5);
+  delayMs(5);
 
   if (!setSysClock(mclk))
     return false;
@@ -89,7 +89,7 @@ bool PCBCUPID_NAU8325::begin(uint32_t fs, uint8_t bits_per_sample, uint16_t rati
   initRegisters();
 
   // Wait for analog to settle
-  delay(50);
+  delayMs(50);
 
   // Enable Analog/Output Blocks (DAPM Equivalent)
   enableDAPMBlocks();
@@ -139,9 +139,9 @@ void PCBCUPID_NAU8325::enableDAPMBlocks()
 void PCBCUPID_NAU8325::resetChip()
 {
   writeRegister(0x0000, 0x0001);
-  delay(2);
+  delayMs(2);
   writeRegister(0x0000, 0x0000);
-  delay(2);
+  delayMs(2);
 }
 
 uint16_t PCBCUPID_NAU8325::readDeviceId()
@@ -488,7 +488,7 @@ void PCBCUPID_NAU8325::softMute(bool enable)
 {
   writeRegisterBits(NAU8325_R12_MUTE_CTRL, NAU8325_SOFT_MUTE,
                     enable ? NAU8325_SOFT_MUTE : 0);
-  delay(30);
+  delayMs(30);
 }
 
 void PCBCUPID_NAU8325::initRegisters()
@@ -606,7 +606,7 @@ void PCBCUPID_NAU8325::powerOn()
   // If clock detection is disabled, enable PWRUP_DFT
   setPowerUpDefault(true);
 
-  delay(30); // Let analog circuitry stabilize
+  delayMs(30); // Let analog circuitry stabilize
 }
 
 void PCBCUPID_NAU8325::powerOff()
@@ -622,7 +622,7 @@ void PCBCUPID_NAU8325::powerOff()
   // If clock detection is disabled, clear PWRUP_DFT
   setPowerUpDefault(false);
 
-  delay(30); // Let output fade out
+  delayMs(30); // Let output fade out
 }
 
 

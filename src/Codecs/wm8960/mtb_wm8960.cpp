@@ -404,7 +404,7 @@ bool mtb_wm8960_init(uint8_t features)
     }
 
 
-    //delay(100);
+    //delayMs(100);
 
     /* Call default configuration */
     if (features != WM8960_FEATURE_NONE)

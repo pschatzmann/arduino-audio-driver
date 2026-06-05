@@ -175,7 +175,7 @@ i2c_handle = i2c;
   counter += CODEC_IO_Write16(DeviceAddr, 0x01, 0x0003);
   
   /* Add Delay */
-  AUDIO_IO_Delay(50);
+  delayMs(50);
 
   /* Path Configurations for output */
   if (output_device > 0)
@@ -416,7 +416,7 @@ i2c_handle = i2c;
     counter += CODEC_IO_Write16(DeviceAddr, 0x4C, 0x9F25);
 
     /* Add Delay */
-    AUDIO_IO_Delay(15);
+    delayMs(15);
 
     /* Select DAC1 (Left) to Left Headphone Output PGA (HPOUT1LVOL) path */
     counter += CODEC_IO_Write16(DeviceAddr, 0x2D, 0x0001);
@@ -432,7 +432,7 @@ i2c_handle = i2c;
     counter += CODEC_IO_Write16(DeviceAddr, 0x54, 0x0033);
 
     /* Add Delay */
-    AUDIO_IO_Delay(250);
+    delayMs(250);
 
     /* Enable HPOUT1 (Left) and HPOUT1 (Right) intermediate and output stages. Remove clamps */
     counter += CODEC_IO_Write16(DeviceAddr, 0x60, 0x00EE);
@@ -926,7 +926,6 @@ uint32_t wm8994_Reset(uint16_t DeviceAddr)
 void AUDIO_IO_Write16(uint8_t addr, uint16_t reg, uint16_t value) {
   i2c_bus_write_bytes(i2c_handle, addr, (uint8_t *)&reg, sizeof(uint16_t),(uint8_t*) &value, sizeof(value));
 }
-void AUDIO_IO_Delay(uint32_t Delay) {delay(Delay);}
 
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

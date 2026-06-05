@@ -482,9 +482,9 @@ bool AD1938::begin(API_GPIO& gpio, codec_config_t configVal, int clatchPin, int 
 
   // reset codec
   p_gpio->digitalWrite(ad1938_reset_pin, LOW);
-  delay(200);
+  delayMs(200);
   p_gpio->digitalWrite(ad1938_reset_pin, HIGH);
-  delay(400);  // wait for 300ms to load the code
+  delayMs(400);  // wait for 300ms to load the code
 
   // setup basic information from codec_config_t
   config();

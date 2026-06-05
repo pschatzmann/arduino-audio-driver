@@ -9,7 +9,7 @@ static i2c_bus_handle_t i2c_handle = NULL;
 static int i2c_addr_ac101 = AC101_ADDR;
 
 #ifndef ARDUINO 
-#  define delay(n)
+#  define delayMs(n)
 #endif
 
 #define AC_ASSERT(a, format, b, ...)          \
@@ -111,7 +111,7 @@ error_t ac101_init(codec_config_t *codec_cfg, i2c_bus_handle_t handle, int addr)
 	}
 
 	res = ac101_write_reg(CHIP_AUDIO_RS, 0x123);
-	delay(1000);
+	delayMs(1000);
 	if (res != RESULT_OK)
 	{
 		AD_LOGE("reset failed!");
@@ -256,12 +256,12 @@ error_t AC101_start(ac_module_t mode)
 		res |= ac101_write_reg(OMIXER_DACA_CTRL, 0xff80);
 		res |= ac101_write_reg(HPOUT_CTRL, 0xc3c1);
 		res |= ac101_write_reg(HPOUT_CTRL, 0xcb00);
-		delay(100);
+		delayMs(100);
 		res |= ac101_write_reg(HPOUT_CTRL, 0xfbc0);
 
 		//* Enable Speaker output
 		res |= ac101_write_reg(SPKOUT_CTRL, 0xeabd);
-		delay(10);
+		delayMs(10);
 		ac101_set_voice_volume(30);
 	}
 

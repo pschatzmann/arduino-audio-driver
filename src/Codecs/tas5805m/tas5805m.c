@@ -83,7 +83,7 @@ static error_t tas5805m_transmit_registers(const tas5805m_cfg_reg_t *conf_buf, i
                 // Used in legacy applications.  Ignored here.
                 break;
             case CFG_META_DELAY:
-                delay(conf_buf[i].value);
+                delayMs(conf_buf[i].value);
                 break;
             case CFG_META_BURST:
                 ret = i2c_bus_write_bytes(i2c_handler, TAS5805M_ADDR, (unsigned char *)(&conf_buf[i + 1].offset), 1, (unsigned char *)(&conf_buf[i + 1].value), conf_buf[i].value);
@@ -115,9 +115,9 @@ error_t tas5805m_init(codec_config_t *codec_cfg,  void* i2c)
     AD_LOGI( "Power ON CODEC with GPIO %d", power_pin);
     pinMode(power_pin, OUTPUT);
     digitalWrite(power_pin, 0);
-    delay(20);
+    delayMs(20);
     digitalWrite(power_pin, 1);
-    delay(20);
+    delayMs(20);
 
     ret |= tas5805m_transmit_registers(tas5805m_registers, sizeof(tas5805m_registers) / sizeof(tas5805m_registers[0]));
 

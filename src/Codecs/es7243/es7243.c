@@ -64,9 +64,9 @@ static error_t es7243_mclk_active(uint8_t mclk_gpio) {
   pinMode(mclk_gpio, OUTPUT);
   for (int i = 0; i < MCLK_PULSES_NUMBER; ++i) {
     digitalWrite(mclk_gpio, 0);
-    delay(1);
+    delayMs(1);
     digitalWrite(mclk_gpio, 1);
-    delay(1);
+    delayMs(1);
   }
   return RESULT_OK;
 }

@@ -428,7 +428,7 @@ class AudioDriverCS43l22Class : public AudioDriver {
     // manage reset pin -> acive high
     setPAPower(true);
     // Setup enable pin for codec
-    delay(100);
+    delayMs(100);
     uint32_t freq = getFrequency(codec_cfg.i2s.rate);
     uint16_t outputDevice = getOutput(codec_cfg.output_device);
     AD_LOGD("cs43l22_Init");
@@ -1265,7 +1265,7 @@ class AudioDriverWM8994Class : public AudioDriver {
     codec_cfg = codecCfg;
     // manage reset pin -> active high
     setPAPower(true);
-    delay(10);
+    delayMs(10);
     p_pins = &pins;
     int vol = mapVolume(volume, 0, 100, DEFAULT_VOLMIN, DEFAULT_VOLMAX);
     uint32_t freq = codecCfg.getRateNumeric();
@@ -1547,7 +1547,7 @@ class AudioDriverNAU8325Class : public AudioDriver {
     if (mclk > 0) {
       pinMode(mclk, OUTPUT);
       getGPIO().digitalWrite(mclk, HIGH);
-      delay(10);  // optional small delay to stabilize
+      delayMs(10);  // optional small delay to stabilize
     }
 
     // Begin your driver using known public methods
