@@ -74,14 +74,19 @@ $(function() {
 <h3><a id="index_a" name="index_a"></a>- a -</h3><ul>
 <li>active&#160;:&#160;<a class="el" href="structaudio__driver_1_1_pins_function.html#a03c996f9fcf0e10baeb3e700be0c409a">PinsFunction</a></li>
 <li>adc&#160;:&#160;<a class="el" href="classaudio__driver_1_1_audio_driver_lyrat_mini_class.html#a3b34dcbd1ff557bb23983bc362b24fdb">AudioDriverLyratMiniClass</a></li>
+<li>ADC_CHANNELS_MAX&#160;:&#160;<a class="el" href="class_p_c_m3168.html#a1842a8587009af3fd03046bfee40adcc">PCM3168</a></li>
+<li>adc_div&#160;:&#160;<a class="el" href="struct__coeff__div.html#a8d511450f652663c00e8b4395fbee28d">_coeff_div</a>, <a class="el" href="structcoeff__div.html#a8d511450f652663c00e8b4395fbee28d">coeff_div</a></li>
+<li>adc_osr&#160;:&#160;<a class="el" href="structcoeff__div.html#adcfcd7b19647247fe659990d9c7a635e">coeff_div</a></li>
 <li>address&#160;:&#160;<a class="el" href="struct_i2_c_config.html#a45c6bc6d1135dc398bf8deae861a2ebc">I2CConfig</a></li>
-<li>analog_values&#160;:&#160;<a class="el" href="classaudio__driver_1_1_pins_lyrat_mini_class.html#a81c5b5c06f88cec07ca29a335a59e5cb">PinsLyratMiniClass</a></li>
+<li>analog_values&#160;:&#160;<a class="el" href="classaudio__driver_1_1_pins_lyrat_mini_class.html#a5873d31c4e77a14a5711ee1aab05cf8b">PinsLyratMiniClass</a></li>
 </ul>
 
 
 <h3><a id="index_b" name="index_b"></a>- b -</h3><ul>
-<li>bck&#160;:&#160;<a class="el" href="structaudio__driver_1_1_pins_i2_s.html#a8c7a8c2803dd2899881ecc66ac0c8366">PinsI2S</a></li>
-<li>bits&#160;:&#160;<a class="el" href="struct_i2_s_definition.html#adeb4d7cae3090eef02034eec5efcb122">I2SDefinition</a></li>
+<li>bck&#160;:&#160;<a class="el" href="structaudio__driver_1_1_info_i2_s.html#a8c7a8c2803dd2899881ecc66ac0c8366">InfoI2S</a></li>
+<li>bclk_div&#160;:&#160;<a class="el" href="structac__i2s__clock__t.html#ade2e0d7278ef06dae993ae0e58a87521">ac_i2s_clock_t</a>, <a class="el" href="structcoeff__div.html#a9d5fcd3d576129aa8148946ac60f236d">coeff_div</a></li>
+<li>bits&#160;:&#160;<a class="el" href="structaudio__driver_1_1_i2_s_definition.html#adeb4d7cae3090eef02034eec5efcb122">I2SDefinition</a></li>
+<li>board_pa_gain&#160;:&#160;<a class="el" href="structcodec__dac__volume__config__t.html#a3fc150a2aa1131f356b5ccad1798ffaf">codec_dac_volume_config_t</a></li>
 <li>bufferLen&#160;:&#160;<a class="el" href="classaudio__driver__local_1_1_vector.html#a52a25bb51473f2562b9d2b921d68ac52">Vector&lt; T &gt;</a></li>
 <li>bus&#160;:&#160;<a class="el" href="classaudio__driver_1_1_t_c_a9555.html#ae05d1a0073d2dd175e82acc69ee66d30">TCA9555</a></li>
 </ul>
@@ -89,9 +94,11 @@ $(function() {
 
 <h3><a id="index_c" name="index_c"></a>- c -</h3><ul>
 <li>cfg&#160;:&#160;<a class="el" href="classaudio__driver_1_1_audio_driver_c_s42448_class.html#ad8d67cf9f0242d3b29e464ce9ae6d33f">AudioDriverCS42448Class</a></li>
-<li>channels&#160;:&#160;<a class="el" href="struct_i2_s_definition.html#ab5a0ee7843e4a3097806c3a4344944cd">I2SDefinition</a></li>
+<li>channels&#160;:&#160;<a class="el" href="structaudio__driver_1_1_i2_s_definition.html#ab5a0ee7843e4a3097806c3a4344944cd">I2SDefinition</a></li>
 <li>clk&#160;:&#160;<a class="el" href="struct_s_p_i_config.html#a880128a884b3a7f31cf7ff9a08e442bf">SPIConfig</a></li>
+<li>clk_src&#160;:&#160;<a class="el" href="struct_osr_attr.html#a5b402a2684f4c1e7e2b415f8486eef05">OsrAttr</a></li>
 <li>codec_cfg&#160;:&#160;<a class="el" href="classaudio__driver_1_1_audio_board.html#a4296f334f4441aae57fb5f43a0b77968">AudioBoard</a>, <a class="el" href="classaudio__driver_1_1_audio_driver.html#a4296f334f4441aae57fb5f43a0b77968">AudioDriver</a></li>
+<li>codec_config&#160;:&#160;<a class="el" href="class_c_s42448.html#ae52b58170ac19bf1409d40c23f12c0c4">CS42448</a></li>
 <li>cs&#160;:&#160;<a class="el" href="struct_s_p_i_config.html#a401cec32c23b8dfc8052bd73d7ae6b02">SPIConfig</a></li>
 <li>cs42448&#160;:&#160;<a class="el" href="classaudio__driver_1_1_audio_driver_c_s42448_class.html#a4a31e31df24961acffdaec543a25a79f">AudioDriverCS42448Class</a></li>
 </ul>
@@ -99,48 +106,73 @@ $(function() {
 
 <h3><a id="index_d" name="index_d"></a>- d -</h3><ul>
 <li>dac&#160;:&#160;<a class="el" href="classaudio__driver_1_1_audio_driver_lyrat_mini_class.html#a3c1eef9acc56cd24d5d29bc64e57944a">AudioDriverLyratMiniClass</a></li>
-<li>data_in&#160;:&#160;<a class="el" href="structaudio__driver_1_1_pins_i2_s.html#aea33a3f8aa9758519c4bc3ff146440b4">PinsI2S</a></li>
-<li>data_out&#160;:&#160;<a class="el" href="structaudio__driver_1_1_pins_i2_s.html#ab7f9508e45dcba4a7ea4d07626966dfa">PinsI2S</a></li>
+<li>DAC_CHANNELS_MAX&#160;:&#160;<a class="el" href="class_p_c_m3168.html#a9100e02a67137c1d481632d0d615377a">PCM3168</a></li>
+<li>dac_div&#160;:&#160;<a class="el" href="structcoeff__div.html#a4e4d34fc32ee6d0b38cdede410a08c8c">coeff_div</a></li>
+<li>dac_osr&#160;:&#160;<a class="el" href="structcoeff__div.html#a21c2544d9a5d2af0af10e808af8017f3">coeff_div</a></li>
+<li>dac_vol_symbol&#160;:&#160;<a class="el" href="structcodec__dac__volume__config__t.html#a0c1574944a8f58323655b36e662fb5c0">codec_dac_volume_config_t</a></li>
+<li>data_in&#160;:&#160;<a class="el" href="structaudio__driver_1_1_info_i2_s.html#aea33a3f8aa9758519c4bc3ff146440b4">InfoI2S</a></li>
+<li>data_out&#160;:&#160;<a class="el" href="structaudio__driver_1_1_info_i2_s.html#ab7f9508e45dcba4a7ea4d07626966dfa">InfoI2S</a></li>
 <li>deviceAddr&#160;:&#160;<a class="el" href="classaudio__driver_1_1_audio_driver_c_s43l22_class.html#a4de4414c756798e6d4b5008c88a499f4">AudioDriverCS43l22Class</a></li>
+<li>dll&#160;:&#160;<a class="el" href="struct__coeff__div.html#a4a0cc81686e4e630b08b6e14805d10a6">_coeff_div</a></li>
+<li>doubler&#160;:&#160;<a class="el" href="struct__coeff__div.html#aa6deaeaee0cf1585e79220c3b8448041">_coeff_div</a></li>
 <li>driver&#160;:&#160;<a class="el" href="classaudio__driver_1_1_audio_driver_p_c_m3168_class.html#a1333d53e85f62359aa028f513368ae21">AudioDriverPCM3168Class</a></li>
 </ul>
 
 
 <h3><a id="index_f" name="index_f"></a>- f -</h3><ul>
-<li>fmt&#160;:&#160;<a class="el" href="struct_i2_s_definition.html#a0a84595d973f46fb7cd70746e8d87cbb">I2SDefinition</a></li>
+<li>features&#160;:&#160;<a class="el" href="struct__mtb__wm8960__operation__t.html#aa6b1dd1bb9c0c2e9967e4a7f61644db1">_mtb_wm8960_operation_t</a></li>
+<li>fmt&#160;:&#160;<a class="el" href="structaudio__driver_1_1_i2_s_definition.html#a0a84595d973f46fb7cd70746e8d87cbb">I2SDefinition</a>, <a class="el" href="class_p_c_m3168.html#a63b7d3f7c982f7ea0c74487b527f62fd">PCM3168</a></li>
 <li>frequency&#160;:&#160;<a class="el" href="struct_i2_c_config.html#ab632fb0b4d5156ea4df0b1e15410e913">I2CConfig</a></li>
-<li>function&#160;:&#160;<a class="el" href="structaudio__driver_1_1_pins_function.html#ada2a63b4baedf5b15ec9eaf1c575d208">PinsFunction</a>, <a class="el" href="structaudio__driver_1_1_pins_i2_c.html#ada2a63b4baedf5b15ec9eaf1c575d208">PinsI2C</a>, <a class="el" href="structaudio__driver_1_1_pins_i2_s.html#ada2a63b4baedf5b15ec9eaf1c575d208">PinsI2S</a>, <a class="el" href="structaudio__driver_1_1_pins_s_p_i.html#ada2a63b4baedf5b15ec9eaf1c575d208">PinsSPI</a></li>
+<li>fs&#160;:&#160;<a class="el" href="struct_s_rate_attr.html#a93937b9d02e7154b3ab19a503b23703c">SRateAttr</a></li>
+<li>fs_mode&#160;:&#160;<a class="el" href="structcoeff__div.html#a08e850fcbc075af1362f2b49478f7f2c">coeff_div</a></li>
+<li>function&#160;:&#160;<a class="el" href="structaudio__driver_1_1_info_i2_c.html#ada2a63b4baedf5b15ec9eaf1c575d208">InfoI2C</a>, <a class="el" href="structaudio__driver_1_1_info_i2_s.html#ada2a63b4baedf5b15ec9eaf1c575d208">InfoI2S</a>, <a class="el" href="structaudio__driver_1_1_info_s_p_i.html#ada2a63b4baedf5b15ec9eaf1c575d208">InfoSPI</a>, <a class="el" href="structaudio__driver_1_1_pins_function.html#ada2a63b4baedf5b15ec9eaf1c575d208">PinsFunction</a></li>
 </ul>
 
 
 <h3><a id="index_g" name="index_g"></a>- g -</h3><ul>
-<li>gpio&#160;:&#160;<a class="el" href="classaudio__driver_1_1_driver_pins.html#a31815a505e9d6068fece114b0157b280">DriverPins</a>, <a class="el" href="classaudio__driver_1_1_g_p_i_o_ext.html#ae1ffa2e037e978d0ac9744fad8e3e9f7">GPIOExt</a></li>
+<li>gpio&#160;:&#160;<a class="el" href="classaudio__driver_1_1_driver_device_info.html#a31815a505e9d6068fece114b0157b280">DriverDeviceInfo</a>, <a class="el" href="classaudio__driver_1_1_g_p_i_o_ext.html#ae1ffa2e037e978d0ac9744fad8e3e9f7">GPIOExt</a></li>
 </ul>
 
 
 <h3><a id="index_i" name="index_i"></a>- i -</h3><ul>
-<li>i2c&#160;:&#160;<a class="el" href="classaudio__driver_1_1_driver_pins.html#a3fb5f991130c2a10a0cfecb026a70775">DriverPins</a></li>
+<li>i2c&#160;:&#160;<a class="el" href="classaudio__driver_1_1_driver_device_info.html#ae6b2232a3f4e3d55afcaa0d2db700406">DriverDeviceInfo</a>, <a class="el" href="class_c_s42448.html#a897673882e9fa1624dcabecb6fed31d6">CS42448</a></li>
+<li>i2c_addr&#160;:&#160;<a class="el" href="class_p_c_m3168.html#a3590df8c0f943a671fd63d696a55a50c">PCM3168</a></li>
+<li>i2c_address&#160;:&#160;<a class="el" href="class_c_s42448.html#a962c50e2ca85425174e1cc8bd43720bd">CS42448</a></li>
+<li>I2C_BASE&#160;:&#160;<a class="el" href="class_p_c_m3168.html#ae298439a2564e971327dbcded76d5516">PCM3168</a></li>
 <li>i2c_default_address&#160;:&#160;<a class="el" href="classaudio__driver_1_1_audio_driver.html#a0d4acc5e3fcbd7a3d4689c8b4d0c15f1">AudioDriver</a>, <a class="el" href="classaudio__driver_1_1_t_c_a9555.html#a64d89b327fba38eab81bcb0b96f499a2">TCA9555</a></li>
 <li>i2c_retry_count&#160;:&#160;<a class="el" href="classaudio__driver_1_1_audio_driver_w_m8960_class.html#a54efa0ea60ca2c083bc8ae8b528c60ce">AudioDriverWM8960Class</a></li>
-<li>i2s&#160;:&#160;<a class="el" href="classaudio__driver_1_1_driver_pins.html#a0a595946501467f993c4cc65dac0972b">DriverPins</a>, <a class="el" href="structcodec__config__t.html#aaf711847489250fbc86db83f79b01b2b">codec_config_t</a></li>
+<li>i2s&#160;:&#160;<a class="el" href="structaudio__driver_1_1codec__config__t.html#aaf711847489250fbc86db83f79b01b2b">codec_config_t</a>, <a class="el" href="classaudio__driver_1_1_driver_device_info.html#adba978dbd6a12a0ceb202c6dabd94f52">DriverDeviceInfo</a></li>
 <li>index&#160;:&#160;<a class="el" href="structaudio__driver_1_1_pins_function.html#a750b5d744c39a06bfb13e6eb010e35d0">PinsFunction</a></li>
-<li>input_device&#160;:&#160;<a class="el" href="structcodec__config__t.html#af1127704c2bde9a89bb0b092bfb13746">codec_config_t</a></li>
-<li>is_active&#160;:&#160;<a class="el" href="classaudio__driver_1_1_audio_board.html#a407c3efba665d276a38229f905bef352">AudioBoard</a></li>
+<li>input_device&#160;:&#160;<a class="el" href="structaudio__driver_1_1codec__config__t.html#af1127704c2bde9a89bb0b092bfb13746">codec_config_t</a></li>
+<li>is_active&#160;:&#160;<a class="el" href="classaudio__driver_1_1_audio_board.html#a407c3efba665d276a38229f905bef352">AudioBoard</a>, <a class="el" href="class_c_s42448.html#a407c3efba665d276a38229f905bef352">CS42448</a></li>
 <li>is_valid&#160;:&#160;<a class="el" href="classaudio__driver__local_1_1_optional.html#a7b1d0df736739f38994ed29f54cffdf3">Optional&lt; T &gt;</a></li>
 </ul>
 
 
 <h3><a id="index_l" name="index_l"></a>- l -</h3><ul>
+<li>lclk_div&#160;:&#160;<a class="el" href="structac__i2s__clock__t.html#a5074749ebcc21cdc10c3db80dd913793">ac_i2s_clock_t</a>, <a class="el" href="structes__i2s__clock__t.html#a1215fd89ab26c1bc17a9f4d3e99912d7">es_i2s_clock_t</a></li>
 <li>len&#160;:&#160;<a class="el" href="classaudio__driver__local_1_1_vector.html#afed088663f8704004425cdae2120b9b3">Vector&lt; T &gt;</a></li>
 <li>line_active&#160;:&#160;<a class="el" href="classaudio__driver_1_1_audio_driver_e_s8388_class.html#a7c6f401da703e11a283a1d6a1e607026">AudioDriverES8388Class</a></li>
+<li>lrck&#160;:&#160;<a class="el" href="struct__coeff__div.html#ac80349f390aa936a885dd3d0f9901a92">_coeff_div</a></li>
+<li>lrck_h&#160;:&#160;<a class="el" href="struct__coeff__div.html#a916f9f0f0b6294fc5f21ab668c5eb315">_coeff_div</a>, <a class="el" href="structcoeff__div.html#a1948637719cc935d3209dd8a8e76b582">coeff_div</a></li>
+<li>lrck_l&#160;:&#160;<a class="el" href="struct__coeff__div.html#a65d6118e9eb70048e8a9ce347a0a58b6">_coeff_div</a>, <a class="el" href="structcoeff__div.html#af35c20f06eefa4ae2bd02f72f7996e28">coeff_div</a></li>
 </ul>
 
 
 <h3><a id="index_m" name="index_m"></a>- m -</h3><ul>
-<li>mclk&#160;:&#160;<a class="el" href="structaudio__driver_1_1_pins_i2_s.html#ae4420d2deba4632c54badb549d9cfb37">PinsI2S</a></li>
+<li>max&#160;:&#160;<a class="el" href="struct_s_rate_attr.html#a56186494f6d04b94d5ca48f078fdccb3">SRateAttr</a></li>
+<li>max_dac_volume&#160;:&#160;<a class="el" href="structcodec__dac__volume__config__t.html#a717ec34f2c3621f034cf30b9798c5862">codec_dac_volume_config_t</a></li>
+<li>mclk&#160;:&#160;<a class="el" href="struct__coeff__div.html#a0b90c02f135cec766d3f144e549e7efd">_coeff_div</a>, <a class="el" href="structaudio__driver_1_1_info_i2_s.html#ae4420d2deba4632c54badb549d9cfb37">InfoI2S</a>, <a class="el" href="structcoeff__div.html#a0b90c02f135cec766d3f144e549e7efd">coeff_div</a></li>
+<li>mclk_n1_div&#160;:&#160;<a class="el" href="class_p_c_b_c_u_p_i_d___n_a_u8325.html#ad7d70db6d95b4f67113db36596b92f56">PCBCUPID_NAU8325</a></li>
+<li>mclk_n2_div&#160;:&#160;<a class="el" href="class_p_c_b_c_u_p_i_d___n_a_u8325.html#a2c0ad48dd09cfaa1d1fa25931cece596">PCBCUPID_NAU8325</a></li>
+<li>mclk_n3_mult&#160;:&#160;<a class="el" href="class_p_c_b_c_u_p_i_d___n_a_u8325.html#a97ccce89c84128addc05f43ccf284391">PCBCUPID_NAU8325</a></li>
+<li>mclk_src&#160;:&#160;<a class="el" href="struct__coeff__div.html#a44f09ea160c7c8ff68e53b20bca5f261">_coeff_div</a>, <a class="el" href="struct_s_rate_attr.html#a09782332ae200bd0ef7722e268a112fc">SRateAttr</a></li>
+<li>min_dac_volume&#160;:&#160;<a class="el" href="structcodec__dac__volume__config__t.html#aa44d613e635f4616fda8f02a51d4f576">codec_dac_volume_config_t</a></li>
 <li>miso&#160;:&#160;<a class="el" href="struct_s_p_i_config.html#a7918aeda38988c6d047b1abe185d6c20">SPIConfig</a></li>
-<li>mode&#160;:&#160;<a class="el" href="struct_i2_s_definition.html#a58b259b6331a0efa228683b513190b4d">I2SDefinition</a></li>
+<li>mode&#160;:&#160;<a class="el" href="structaudio__driver_1_1_i2_s_definition.html#a58b259b6331a0efa228683b513190b4d">I2SDefinition</a></li>
 <li>mosi&#160;:&#160;<a class="el" href="struct_s_p_i_config.html#ae506f2c92d47737308ce15423fbfc049">SPIConfig</a></li>
+<li>mute_adc&#160;:&#160;<a class="el" href="class_p_c_m3168.html#a91405931265cfc26cf73a2d8b704120e">PCM3168</a></li>
+<li>mute_dac&#160;:&#160;<a class="el" href="class_p_c_m3168.html#a40f16466489e3ec529d994c419f4955a">PCM3168</a></li>
 </ul>
 
 
@@ -150,8 +182,11 @@ $(function() {
 
 
 <h3><a id="index_o" name="index_o"></a>- o -</h3><ul>
-<li>offset&#160;:&#160;<a class="el" href="classaudio__driver_1_1_g_p_i_o_ext.html#aed7ea92f45bd273dde380a45ddced592">GPIOExt</a></li>
-<li>output_device&#160;:&#160;<a class="el" href="structcodec__config__t.html#a53991a860287c34f4e412af745d4bb66">codec_config_t</a></li>
+<li>offset&#160;:&#160;<a class="el" href="classaudio__driver_1_1_g_p_i_o_ext.html#aed7ea92f45bd273dde380a45ddced592">GPIOExt</a>, <a class="el" href="structtas5805m__cfg__reg__t.html#aa9fff43968831437a312428836cab362">tas5805m_cfg_reg_t</a></li>
+<li>offset_conv_volume&#160;:&#160;<a class="el" href="structcodec__dac__volume__config__t.html#a5cb9b4847280f20f5b86e7de577d1611">codec_dac_volume_config_t</a></li>
+<li>osr&#160;:&#160;<a class="el" href="struct__coeff__div.html#a75c8b0137bcbf4ac2a21ccf67c1f98de">_coeff_div</a>, <a class="el" href="struct_osr_attr.html#a8af860ec0323488aa164c7912f237db9">OsrAttr</a></li>
+<li>osr_dac_sel&#160;:&#160;<a class="el" href="class_p_c_b_c_u_p_i_d___n_a_u8325.html#ac20a1c69d04936ff9d27cd2dc96c0aa3">PCBCUPID_NAU8325</a></li>
+<li>output_device&#160;:&#160;<a class="el" href="structaudio__driver_1_1codec__config__t.html#a53991a860287c34f4e412af745d4bb66">codec_config_t</a></li>
 </ul>
 
 
@@ -161,46 +196,62 @@ $(function() {
 <li>p_data&#160;:&#160;<a class="el" href="classaudio__driver__local_1_1_vector.html#ab57398b6609a3c44c45d0f034120a01b">Vector&lt; T &gt;</a></li>
 <li>p_driver&#160;:&#160;<a class="el" href="classaudio__driver_1_1_audio_board.html#a7ba8209068c79f8f795971ce00249f89">AudioBoard</a></li>
 <li>p_ext&#160;:&#160;<a class="el" href="classaudio__driver_1_1_g_p_i_o_ext.html#af567ea652f6537f781bc4d3997abbe79">GPIOExt</a></li>
-<li>p_pins&#160;:&#160;<a class="el" href="classaudio__driver_1_1_audio_board.html#aed163ec96131f32e2b3316974a2bd9bc">AudioBoard</a>, <a class="el" href="classaudio__driver_1_1_audio_driver.html#aed163ec96131f32e2b3316974a2bd9bc">AudioDriver</a></li>
+<li>p_pins&#160;:&#160;<a class="el" href="classaudio__driver_1_1_audio_board.html#aed958edb66a19db1fea9ef5d28f500d2">AudioBoard</a>, <a class="el" href="classaudio__driver_1_1_audio_driver.html#aed958edb66a19db1fea9ef5d28f500d2">AudioDriver</a></li>
 <li>p_spi&#160;:&#160;<a class="el" href="struct_s_p_i_config.html#a281fbd634e4dfbe20146ea463f7c1d81">SPIConfig</a></li>
 <li>p_wire&#160;:&#160;<a class="el" href="struct_i2_c_config.html#a4ca04201a2fd9cda04273e948a2123f2">I2CConfig</a></li>
-<li>pin&#160;:&#160;<a class="el" href="structaudio__driver_1_1_pins_function.html#aeabac9491522ec7f68102bfeab33d5c1">PinsFunction</a></li>
+<li>param&#160;:&#160;<a class="el" href="struct_src_attr.html#a1a3bcdb98792a1ce2e9c403f4b10292a">SrcAttr</a></li>
+<li>pin&#160;:&#160;<a class="el" href="structaudio__driver_1_1_pins_function.html#a1b8c70290767cd1aa1648c1698fcde49">PinsFunction</a></li>
 <li>pin_logic&#160;:&#160;<a class="el" href="structaudio__driver_1_1_pins_function.html#abb771316816bb9f9b1ccb016bbdbad5e">PinsFunction</a></li>
-<li>pins&#160;:&#160;<a class="el" href="classaudio__driver_1_1_driver_pins.html#a1f1e09006b9f9f5c11b5cc30c3073977">DriverPins</a></li>
-<li>port&#160;:&#160;<a class="el" href="structaudio__driver_1_1_pins_i2_s.html#a63c89c04d1feae07ca35558055155ffb">PinsI2S</a>, <a class="el" href="struct_i2_c_config.html#a63c89c04d1feae07ca35558055155ffb">I2CConfig</a></li>
+<li>pins&#160;:&#160;<a class="el" href="classaudio__driver_1_1_driver_device_info.html#a1f1e09006b9f9f5c11b5cc30c3073977">DriverDeviceInfo</a></li>
+<li>port&#160;:&#160;<a class="el" href="structaudio__driver_1_1_info_i2_s.html#a63c89c04d1feae07ca35558055155ffb">InfoI2S</a>, <a class="el" href="struct_i2_c_config.html#a63c89c04d1feae07ca35558055155ffb">I2CConfig</a></li>
 <li>pos_&#160;:&#160;<a class="el" href="classaudio__driver__local_1_1_vector_1_1iterator.html#aaaa4a0c86e6c6c408de0933efd604522">Vector&lt; T &gt;::iterator</a></li>
 <li>power_amp_line&#160;:&#160;<a class="el" href="classaudio__driver_1_1_audio_board.html#a1cf5d0493a0b3a3e05ec9d557acd1c83">AudioBoard</a></li>
+<li>pre_div&#160;:&#160;<a class="el" href="structcoeff__div.html#ae8754ff34c9e7cde1db8b8d949a324e5">coeff_div</a></li>
+<li>pre_multi&#160;:&#160;<a class="el" href="structcoeff__div.html#a76955c985d564fe127cb03856503da9f">coeff_div</a></li>
 <li>ptr&#160;:&#160;<a class="el" href="classaudio__driver__local_1_1_vector_1_1iterator.html#a4e0fab5bba27ff507e909503f0770e58">Vector&lt; T &gt;::iterator</a></li>
 </ul>
 
 
 <h3><a id="index_r" name="index_r"></a>- r -</h3><ul>
-<li>range&#160;:&#160;<a class="el" href="classaudio__driver_1_1_pins_lyrat_mini_class.html#a037e8e370380046bec287bdc96942091">PinsLyratMiniClass</a></li>
-<li>rate&#160;:&#160;<a class="el" href="struct_i2_s_definition.html#a2ae50aca3292f8f72fa1afe1269bb8c4">I2SDefinition</a></li>
+<li>range&#160;:&#160;<a class="el" href="classaudio__driver_1_1_pins_lyrat_mini_class.html#a037e8e370380046bec287bdc96942091">PinsLyratMiniClass</a>, <a class="el" href="struct_s_rate_attr.html#a9edcde0584b2ab6c4a7b49eaec49d237">SRateAttr</a></li>
+<li>rate&#160;:&#160;<a class="el" href="structaudio__driver_1_1_i2_s_definition.html#a2ae50aca3292f8f72fa1afe1269bb8c4">I2SDefinition</a>, <a class="el" href="structcoeff__div.html#a82e0b1311e54c51fa587134c4f9bad50">coeff_div</a></li>
 <li>ref&#160;:&#160;<a class="el" href="struct_s_p_i_class.html#a1830ddb36c14bdd7057683e633f918c8">SPIClass</a></li>
+<li>reg&#160;:&#160;<a class="el" href="struct__mtb__wm8960__operation__t.html#afc95fda18661d5f601469e382c4b1fa8">_mtb_wm8960_operation_t</a>, <a class="el" href="struct_reg_default.html#a11760f5020019f4aa8cb02e694f7cc44">RegDefault</a></li>
+<li>reg_defaults&#160;:&#160;<a class="el" href="class_p_c_b_c_u_p_i_d___n_a_u8325.html#a4c3242bb70d42d3436cf247a667ec073">PCBCUPID_NAU8325</a></li>
+<li>reg_value&#160;:&#160;<a class="el" href="structcodec__dac__volume__config__t.html#a9b640b8fd5bff228abdcb3e46ba8e358">codec_dac_volume_config_t</a></li>
 </ul>
 
 
 <h3><a id="index_s" name="index_s"></a>- s -</h3><ul>
 <li>scl&#160;:&#160;<a class="el" href="struct_i2_c_config.html#a3e2bb798e2f223fbf471e1c2b634d803">I2CConfig</a></li>
-<li>sd_active&#160;:&#160;<a class="el" href="classaudio__driver_1_1_codec_config.html#ac585b3449d271276f8b679e8ab01b2ec">CodecConfig</a>, <a class="el" href="classaudio__driver_1_1_driver_pins.html#ac585b3449d271276f8b679e8ab01b2ec">DriverPins</a></li>
+<li>sclk_div&#160;:&#160;<a class="el" href="structes__i2s__clock__t.html#acb67b1ab90825fafe458255f62258813">es_i2s_clock_t</a></li>
+<li>sd_active&#160;:&#160;<a class="el" href="classaudio__driver_1_1_codec_config.html#ac585b3449d271276f8b679e8ab01b2ec">CodecConfig</a>, <a class="el" href="classaudio__driver_1_1_driver_device_info.html#ac585b3449d271276f8b679e8ab01b2ec">DriverDeviceInfo</a></li>
 <li>sda&#160;:&#160;<a class="el" href="struct_i2_c_config.html#ae3eace66d9648e8cb1d9c5c7a03f56a0">I2CConfig</a></li>
-<li>sdmmc_active&#160;:&#160;<a class="el" href="classaudio__driver_1_1_codec_config.html#a2dba6001a614a0c1e4fe393cc2eba419">CodecConfig</a>, <a class="el" href="classaudio__driver_1_1_driver_pins.html#a2dba6001a614a0c1e4fe393cc2eba419">DriverPins</a></li>
-<li>set_active&#160;:&#160;<a class="el" href="structaudio__driver_1_1_pins_i2_c.html#afcc542ba9c5c0e2fbba65a0feab74508">PinsI2C</a>, <a class="el" href="structaudio__driver_1_1_pins_s_p_i.html#afcc542ba9c5c0e2fbba65a0feab74508">PinsSPI</a></li>
-<li>signal_type&#160;:&#160;<a class="el" href="struct_i2_s_definition.html#ac2f440fcc71aa00944453267c87fda12">I2SDefinition</a></li>
-<li>spi&#160;:&#160;<a class="el" href="classaudio__driver_1_1_driver_pins.html#a99492c2ad28a9f4670873619573c7faf">DriverPins</a></li>
+<li>sdmmc_active&#160;:&#160;<a class="el" href="classaudio__driver_1_1_codec_config.html#a2dba6001a614a0c1e4fe393cc2eba419">CodecConfig</a>, <a class="el" href="classaudio__driver_1_1_driver_device_info.html#a2dba6001a614a0c1e4fe393cc2eba419">DriverDeviceInfo</a></li>
+<li>set_active&#160;:&#160;<a class="el" href="structaudio__driver_1_1_info_i2_c.html#afcc542ba9c5c0e2fbba65a0feab74508">InfoI2C</a>, <a class="el" href="structaudio__driver_1_1_info_s_p_i.html#afcc542ba9c5c0e2fbba65a0feab74508">InfoSPI</a></li>
+<li>signal_type&#160;:&#160;<a class="el" href="structaudio__driver_1_1_i2_s_definition.html#ac2f440fcc71aa00944453267c87fda12">I2SDefinition</a></li>
+<li>spi&#160;:&#160;<a class="el" href="classaudio__driver_1_1_driver_device_info.html#acf79077e47dbd9ea9124f451e723e062">DriverDeviceInfo</a></li>
+<li>ss_ds&#160;:&#160;<a class="el" href="struct__coeff__div.html#a71990c0cf6e99b4e0c63177d207726b6">_coeff_div</a></li>
 </ul>
 
 
 <h3><a id="index_t" name="index_t"></a>- t -</h3><ul>
+<li>target_srate_table&#160;:&#160;<a class="el" href="class_p_c_b_c_u_p_i_d___n_a_u8325.html#a32852766aeb4b3be41ddc0ae64f69611">PCBCUPID_NAU8325</a></li>
 <li>tca9555&#160;:&#160;<a class="el" href="classaudio__driver_1_1_pins_e_s_p32_s3_a_i_smart_speaker_class.html#a721b646979e6d7e61854d4a7e5696c53">PinsESP32S3AISmartSpeakerClass</a></li>
 <li>touch_limit&#160;:&#160;<a class="el" href="classaudio__driver_1_1_driver_touch_class.html#ac6d53e051a63ad88fa43bd6e68c28930">DriverTouchClass</a></li>
 </ul>
 
 
+<h3><a id="index_u" name="index_u"></a>- u -</h3><ul>
+<li>user_volume&#160;:&#160;<a class="el" href="structcodec__dac__volume__config__t.html#ac332b814917acb5dad3450136294d3ea">codec_dac_volume_config_t</a></li>
+</ul>
+
+
 <h3><a id="index_v" name="index_v"></a>- v -</h3><ul>
-<li>val&#160;:&#160;<a class="el" href="classaudio__driver__local_1_1_optional.html#a31844d8ef66fe7930f88cc30cf53d08c">Optional&lt; T &gt;</a></li>
+<li>val&#160;:&#160;<a class="el" href="classaudio__driver__local_1_1_optional.html#a31844d8ef66fe7930f88cc30cf53d08c">Optional&lt; T &gt;</a>, <a class="el" href="struct_reg_default.html#a757344f09097232d715d55cbf9d61a43">RegDefault</a>, <a class="el" href="struct_src_attr.html#ae1f13e96d928504e11ec4da744f67f9b">SrcAttr</a></li>
+<li>value&#160;:&#160;<a class="el" href="struct__mtb__wm8960__operation__t.html#a900b69af7d674b8db3bceae754b4955a">_mtb_wm8960_operation_t</a>, <a class="el" href="structtas5805m__cfg__reg__t.html#a638e4503e0ae6ce655b7ad2e17e8f0ad">tas5805m_cfg_reg_t</a></li>
 <li>volume&#160;:&#160;<a class="el" href="classaudio__driver_1_1_audio_board.html#aed48ca0bcd2162fd4fd495873e2631f5">AudioBoard</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_c_s42448_class.html#aed48ca0bcd2162fd4fd495873e2631f5">AudioDriverCS42448Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_c_s43l22_class.html#aed48ca0bcd2162fd4fd495873e2631f5">AudioDriverCS43l22Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7210_class.html#aed48ca0bcd2162fd4fd495873e2631f5">AudioDriverES7210Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_e_s7243e_class.html#aed48ca0bcd2162fd4fd495873e2631f5">AudioDriverES7243eClass</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_p_c_m3168_class.html#aed48ca0bcd2162fd4fd495873e2631f5">AudioDriverPCM3168Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8978_class.html#aed48ca0bcd2162fd4fd495873e2631f5">AudioDriverWM8978Class</a>, <a class="el" href="classaudio__driver_1_1_audio_driver_w_m8994_class.html#aed48ca0bcd2162fd4fd495873e2631f5">AudioDriverWM8994Class</a></li>
+<li>volume_accuracy&#160;:&#160;<a class="el" href="structcodec__dac__volume__config__t.html#a074786dc2d76cb249bd60755c891113c">codec_dac_volume_config_t</a></li>
 <li>volume_hack&#160;:&#160;<a class="el" href="classaudio__driver_1_1_audio_driver_e_s8388_class.html#a5227e0dda3a58c4630569b6c32d286b1">AudioDriverES8388Class</a></li>
 <li>volume_in&#160;:&#160;<a class="el" href="classaudio__driver_1_1_audio_driver_w_m8960_class.html#a069585b6eb441ee0fd1171342fd3b427">AudioDriverWM8960Class</a></li>
 <li>volume_out&#160;:&#160;<a class="el" href="classaudio__driver_1_1_audio_driver_w_m8960_class.html#ab3906c1f4f34d4c23bc441d9f4194807">AudioDriverWM8960Class</a></li>
@@ -210,8 +261,14 @@ $(function() {
 
 
 <h3><a id="index_w" name="index_w"></a>- w -</h3><ul>
+<li>wire&#160;:&#160;<a class="el" href="class_p_c_m3168.html#ad5c36690ca6606343033280ffd2ce71b">PCM3168</a></li>
 <li>wm8078&#160;:&#160;<a class="el" href="classaudio__driver_1_1_audio_driver_w_m8978_class.html#acacc5a1cde1e90163709690a7fca38a9">AudioDriverWM8978Class</a></li>
-<li>ws&#160;:&#160;<a class="el" href="structaudio__driver_1_1_pins_i2_s.html#a0e25036823a3287fa16f299cb6295873">PinsI2S</a></li>
+<li>ws&#160;:&#160;<a class="el" href="structaudio__driver_1_1_info_i2_s.html#a0e25036823a3287fa16f299cb6295873">InfoI2S</a></li>
+</ul>
+
+
+<h3><a id="index_z" name="index_z"></a>- z -</h3><ul>
+<li>zero_volume_reg&#160;:&#160;<a class="el" href="structcodec__dac__volume__config__t.html#a586de79398b63d44c8129a52bc47d2aa">codec_dac_volume_config_t</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

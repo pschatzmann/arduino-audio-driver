@@ -87,28 +87,28 @@ Inheritance diagram for API_GPIO:</div>
  <div class="center">
   <img src="classaudio__driver_1_1_a_p_i___g_p_i_o.png" usemap="#API_5FGPIO_map" alt=""/>
   <map id="API_5FGPIO_map" name="API_5FGPIO_map">
-<area href="classaudio__driver_1_1_g_p_i_o.html" title="Abstraction for digital GPIO pin operations." alt="GPIO" shape="rect" coords="0,56,69,80"/>
-<area href="classaudio__driver_1_1_g_p_i_o_ext.html" alt="GPIOExt" shape="rect" coords="79,56,148,80"/>
-<area href="classaudio__driver_1_1_t_c_a9555.html" title="Driver for the TCA9555 I2C I/O expander (header-only)." alt="TCA9555" shape="rect" coords="158,56,227,80"/>
+<area href="classaudio__driver_1_1_g_p_i_o_ext.html" alt="GPIOExt" shape="rect" coords="0,56,84,80"/>
+<area href="classaudio__driver_1_1_g_p_i_o_zephyr.html" alt="GPIOZephyr" shape="rect" coords="94,56,178,80"/>
+<area href="classaudio__driver_1_1_t_c_a9555.html" title="Driver for the TCA9555 I2C I/O expander (header-only)." alt="TCA9555" shape="rect" coords="188,56,272,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a08c2138db21c484eec53095e889ef7a0" id="r_a08c2138db21c484eec53095e889ef7a0"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_a_p_i___g_p_i_o.html#a08c2138db21c484eec53095e889ef7a0">begin</a> (<a class="el" href="classaudio__driver_1_1_i_driver_pins.html">IDriverPins</a> &amp;pins)=0</td></tr>
-<tr class="separator:a08c2138db21c484eec53095e889ef7a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d5b4538eb3c38bc972d71871b31e512" id="r_a2d5b4538eb3c38bc972d71871b31e512"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_a_p_i___g_p_i_o.html#a2d5b4538eb3c38bc972d71871b31e512">digitalRead</a> (int pin)=0</td></tr>
-<tr class="separator:a2d5b4538eb3c38bc972d71871b31e512"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8183fa2068ad4077785b2c2f691905d8" id="r_a8183fa2068ad4077785b2c2f691905d8"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_a_p_i___g_p_i_o.html#a8183fa2068ad4077785b2c2f691905d8">digitalWrite</a> (int pin, bool value)=0</td></tr>
-<tr class="separator:a8183fa2068ad4077785b2c2f691905d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab959d18b41792c7058e639c579e6fe36" id="r_ab959d18b41792c7058e639c579e6fe36"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_a_p_i___g_p_i_o.html#ab959d18b41792c7058e639c579e6fe36">begin</a> (<a class="el" href="classaudio__driver_1_1_i_driver_device_info.html">IDriverDeviceInfo</a> &amp;pins)=0</td></tr>
+<tr class="separator:ab959d18b41792c7058e639c579e6fe36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a071a6d89bca219134d82f11eaa75eb55" id="r_a071a6d89bca219134d82f11eaa75eb55"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_a_p_i___g_p_i_o.html#a071a6d89bca219134d82f11eaa75eb55">digitalRead</a> (<a class="el" href="namespaceaudio__driver.html#abdf74e3c0806040d87d21f1e1534c4a6">GpioPin</a> pin)=0</td></tr>
+<tr class="separator:a071a6d89bca219134d82f11eaa75eb55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a601c6a2b42c85e30b7adc231d3736047" id="r_a601c6a2b42c85e30b7adc231d3736047"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_a_p_i___g_p_i_o.html#a601c6a2b42c85e30b7adc231d3736047">digitalWrite</a> (<a class="el" href="namespaceaudio__driver.html#abdf74e3c0806040d87d21f1e1534c4a6">GpioPin</a> pin, bool value)=0</td></tr>
+<tr class="separator:a601c6a2b42c85e30b7adc231d3736047"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa540e86022c1f72380d1014d98f38f43" id="r_aa540e86022c1f72380d1014d98f38f43"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_a_p_i___g_p_i_o.html#aa540e86022c1f72380d1014d98f38f43">end</a> ()=0</td></tr>
 <tr class="separator:aa540e86022c1f72380d1014d98f38f43"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49a5e1fa23e307d2279d9ccc9fc1e430" id="r_a49a5e1fa23e307d2279d9ccc9fc1e430"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_a_p_i___g_p_i_o.html#a49a5e1fa23e307d2279d9ccc9fc1e430">pinMode</a> (int pin, int mode)=0</td></tr>
-<tr class="separator:a49a5e1fa23e307d2279d9ccc9fc1e430"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afede3ba583bde334d47e76d2dd806706" id="r_afede3ba583bde334d47e76d2dd806706"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_a_p_i___g_p_i_o.html#afede3ba583bde334d47e76d2dd806706">pinMode</a> (<a class="el" href="namespaceaudio__driver.html#abdf74e3c0806040d87d21f1e1534c4a6">GpioPin</a> pin, int mode)=0</td></tr>
+<tr class="separator:afede3ba583bde334d47e76d2dd806706"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a08c2138db21c484eec53095e889ef7a0" name="a08c2138db21c484eec53095e889ef7a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a08c2138db21c484eec53095e889ef7a0">&#9670;&#160;</a></span>begin()</h2>
+<a id="ab959d18b41792c7058e639c579e6fe36" name="ab959d18b41792c7058e639c579e6fe36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab959d18b41792c7058e639c579e6fe36">&#9670;&#160;</a></span>begin()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -119,7 +119,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual bool begin </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classaudio__driver_1_1_i_driver_pins.html">IDriverPins</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classaudio__driver_1_1_i_driver_device_info.html">IDriverDeviceInfo</a> &amp;&#160;</td>
           <td class="paramname"><em>pins</em></td><td>)</td>
           <td></td>
         </tr>
@@ -131,12 +131,12 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classaudio__driver_1_1_g_p_i_o.html#ab60dca6d4404ad74aec7880cb1dcd3c9">GPIO</a>, <a class="el" href="classaudio__driver_1_1_g_p_i_o_ext.html#a36b5475c8ba732b57f1a623854e96ccb">GPIOExt</a>, and <a class="el" href="classaudio__driver_1_1_t_c_a9555.html#a36b5475c8ba732b57f1a623854e96ccb">TCA9555</a>.</p>
+<p>Implemented in <a class="el" href="classaudio__driver_1_1_g_p_i_o_zephyr.html#a1d19122fda1adbc72b5d6ea8b8724378">GPIOZephyr</a>, <a class="el" href="classaudio__driver_1_1_g_p_i_o_ext.html#ada77c9addb037e4204f4f1426e9d5ee0">GPIOExt</a>, and <a class="el" href="classaudio__driver_1_1_t_c_a9555.html#ada77c9addb037e4204f4f1426e9d5ee0">TCA9555</a>.</p>
 
 </div>
 </div>
-<a id="a2d5b4538eb3c38bc972d71871b31e512" name="a2d5b4538eb3c38bc972d71871b31e512"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2d5b4538eb3c38bc972d71871b31e512">&#9670;&#160;</a></span>digitalRead()</h2>
+<a id="a071a6d89bca219134d82f11eaa75eb55" name="a071a6d89bca219134d82f11eaa75eb55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a071a6d89bca219134d82f11eaa75eb55">&#9670;&#160;</a></span>digitalRead()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -147,7 +147,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual bool digitalRead </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceaudio__driver.html#abdf74e3c0806040d87d21f1e1534c4a6">GpioPin</a>&#160;</td>
           <td class="paramname"><em>pin</em></td><td>)</td>
           <td></td>
         </tr>
@@ -159,12 +159,12 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classaudio__driver_1_1_g_p_i_o.html#abe8dad716657b7bee5933d0203512ba8">GPIO</a>, <a class="el" href="classaudio__driver_1_1_g_p_i_o_ext.html#a9b3b438db3e52ae7e61a3b046e748605">GPIOExt</a>, and <a class="el" href="classaudio__driver_1_1_t_c_a9555.html#a9b3b438db3e52ae7e61a3b046e748605">TCA9555</a>.</p>
+<p>Implemented in <a class="el" href="classaudio__driver_1_1_g_p_i_o_zephyr.html#ab9abd3cc5f997b2aa84d50f18810e506">GPIOZephyr</a>, <a class="el" href="classaudio__driver_1_1_g_p_i_o_ext.html#a7766d433133c8736dca833d0b6a9e45e">GPIOExt</a>, and <a class="el" href="classaudio__driver_1_1_t_c_a9555.html#a7766d433133c8736dca833d0b6a9e45e">TCA9555</a>.</p>
 
 </div>
 </div>
-<a id="a8183fa2068ad4077785b2c2f691905d8" name="a8183fa2068ad4077785b2c2f691905d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8183fa2068ad4077785b2c2f691905d8">&#9670;&#160;</a></span>digitalWrite()</h2>
+<a id="a601c6a2b42c85e30b7adc231d3736047" name="a601c6a2b42c85e30b7adc231d3736047"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a601c6a2b42c85e30b7adc231d3736047">&#9670;&#160;</a></span>digitalWrite()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -175,7 +175,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual bool digitalWrite </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceaudio__driver.html#abdf74e3c0806040d87d21f1e1534c4a6">GpioPin</a>&#160;</td>
           <td class="paramname"><em>pin</em>, </td>
         </tr>
         <tr>
@@ -197,7 +197,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classaudio__driver_1_1_g_p_i_o.html#a68045039fa551c996ce5c1ee51540b92">GPIO</a>, <a class="el" href="classaudio__driver_1_1_g_p_i_o_ext.html#a65cd7602086da5d7c5bf4f3a98473c0c">GPIOExt</a>, and <a class="el" href="classaudio__driver_1_1_t_c_a9555.html#a65cd7602086da5d7c5bf4f3a98473c0c">TCA9555</a>.</p>
+<p>Implemented in <a class="el" href="classaudio__driver_1_1_g_p_i_o_zephyr.html#a5d106c4b7cfa26c4041398e80199ffe2">GPIOZephyr</a>, <a class="el" href="classaudio__driver_1_1_g_p_i_o_ext.html#a5858ce67fdb29fbb675272299cc68ea1">GPIOExt</a>, and <a class="el" href="classaudio__driver_1_1_t_c_a9555.html#a5858ce67fdb29fbb675272299cc68ea1">TCA9555</a>.</p>
 
 </div>
 </div>
@@ -224,12 +224,12 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classaudio__driver_1_1_g_p_i_o.html#aaf81d3fdaf258088d7692fa70cece087">GPIO</a>, <a class="el" href="classaudio__driver_1_1_g_p_i_o_ext.html#a64e9fa75beda50a9e8400ee0d4e61984">GPIOExt</a>, and <a class="el" href="classaudio__driver_1_1_t_c_a9555.html#a64e9fa75beda50a9e8400ee0d4e61984">TCA9555</a>.</p>
+<p>Implemented in <a class="el" href="classaudio__driver_1_1_g_p_i_o_zephyr.html#aaf81d3fdaf258088d7692fa70cece087">GPIOZephyr</a>, <a class="el" href="classaudio__driver_1_1_g_p_i_o_ext.html#a64e9fa75beda50a9e8400ee0d4e61984">GPIOExt</a>, and <a class="el" href="classaudio__driver_1_1_t_c_a9555.html#a64e9fa75beda50a9e8400ee0d4e61984">TCA9555</a>.</p>
 
 </div>
 </div>
-<a id="a49a5e1fa23e307d2279d9ccc9fc1e430" name="a49a5e1fa23e307d2279d9ccc9fc1e430"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a49a5e1fa23e307d2279d9ccc9fc1e430">&#9670;&#160;</a></span>pinMode()</h2>
+<a id="afede3ba583bde334d47e76d2dd806706" name="afede3ba583bde334d47e76d2dd806706"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afede3ba583bde334d47e76d2dd806706">&#9670;&#160;</a></span>pinMode()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -240,7 +240,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual void pinMode </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceaudio__driver.html#abdf74e3c0806040d87d21f1e1534c4a6">GpioPin</a>&#160;</td>
           <td class="paramname"><em>pin</em>, </td>
         </tr>
         <tr>
@@ -262,7 +262,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classaudio__driver_1_1_g_p_i_o.html#ac7bdb53335528ad073ca13eb2b1bdc00">GPIO</a>, <a class="el" href="classaudio__driver_1_1_g_p_i_o_ext.html#a8e9b86d19e8dd7e1cb8b5dfbf9bbcf3b">GPIOExt</a>, and <a class="el" href="classaudio__driver_1_1_t_c_a9555.html#a8e9b86d19e8dd7e1cb8b5dfbf9bbcf3b">TCA9555</a>.</p>
+<p>Implemented in <a class="el" href="classaudio__driver_1_1_g_p_i_o_zephyr.html#aa85d183ef4b8b02e09d4f2793d7ecf03">GPIOZephyr</a>, <a class="el" href="classaudio__driver_1_1_g_p_i_o_ext.html#a8bea5399372670c57b43e444d5e80361">GPIOExt</a>, and <a class="el" href="classaudio__driver_1_1_t_c_a9555.html#a8bea5399372670c57b43e444d5e80361">TCA9555</a>.</p>
 
 </div>
 </div>

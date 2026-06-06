@@ -72,10 +72,11 @@ $(function() {
   <div class="headertitle"><div class="title">Arduino Audio Driver </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md__r_e_a_d_m_e"></a> I was never quite happy with my <a href="https://github.com/pschatzmann/arduino-audiokit">AudioKit project</a>, that was a quick and dirty adaptation of the Espressif IDF Drivers for Arduino.</p>
+<div class="textblock"><p><a class="anchor" id="md__r_e_a_d_m_e"></a> <a href="https://www.arduino.cc/reference/en/libraries/"><img src="https://img.shields.io/badge/Arduino-Library-blue.svg" alt="Arduino Library" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/pschatzmann/arduino-audio-driver"><img src="https://img.shields.io/badge/IDF-Component-blue.svg" alt="IDF Component" style="pointer-events: none;" class="inline"/></a> <a href="https://www.gnu.org/licenses/gpl-3.0"><img src="https://img.shields.io/badge/License-GPLv3-green.svg" alt="License: GPL v3" style="pointer-events: none;" class="inline"/></a></p>
+<p>This project replaces the obsolete <a href="https://github.com/pschatzmann/arduino-audiokit">AudioKit project</a>, that was a quick and dirty adaptation of the Espressif IDF Drivers for Arduino.</p>
 <p>In this project I finally implemented some clean and simple C++ classes. This <b>reduced the complexity</b> considerably and <b>increased the flexibility</b> tremendously!</p>
 <p>The goal of this project is to provide an <b>easy API to configure different audio codec chips</b>. After setting up the codec, you can use the I2S functionality provided by your microcontroller.</p>
-<p>While you can use this library stand alone, I recommend to use it together with my <a href="https://github.com/pschatzmann/arduino-audio-tools">AudioTools</a> project which provides a nice integration with it's <a href="https://pschatzmann.github.io/arduino-audio-tools/classaudio__tools_1_1_i2_s_codec_stream.html">I2SCodecStream</a> class. Further information can be found in the <a href="https://github.com/pschatzmann/arduino-audio-driver/wiki">Wiki</a>.</p>
+<p>While you can use this library stand alone, I recommend to use it together with my <a href="https://github.com/pschatzmann/arduino-audio-tools">AudioTools</a> project which provides a nice integration with it's <a href="https://pschatzmann.github.io/arduino-audio-tools/classaudio__tools_1_1_i2_s_codec_stream.html">I2SCodecStream</a> class. Further information can be found in the <a href="https://github.com/pschatzmann/arduino-audio-Codecs/wiki">Wiki</a>.</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
 Drivers and Boards</h1>
 <p>This library privides the following drivers:</p>
@@ -115,6 +116,7 @@ Drivers and Boards</h1>
 <li>LyratV42 </li>
 <li>LyratV43 </li>
 <li>ESP32S3AISmartSpeaker (ES8311 &amp; ES7210)</li>
+<li>M5stackAtomEchoS3R</li>
 <li>NoBoard </li>
 </ul>
 <h1><a class="anchor" id="autotoc_md2"></a>
@@ -128,9 +130,9 @@ Logging</h1>
 <h1><a class="anchor" id="autotoc_md3"></a>
 Documentation</h1>
 <ul>
-<li><a href="https://github.com/pschatzmann/arduino-audio-driver/wiki">Wiki</a></li>
-<li><a href="https://pschatzmann.github.io/arduino-audio-driver/html/group__audio__driver.html">Classes and Objects</a></li>
-<li><a href="https://github.com/pschatzmann/arduino-audio-driver/tree/main/examples">Examples</a></li>
+<li><a href="https://github.com/pschatzmann/arduino-audio-Codecs/wiki">Wiki</a></li>
+<li><a href="https://pschatzmann.github.io/arduino-audio-Codecs/html/group__audio__driver.html">Classes and Objects</a></li>
+<li><a href="https://github.com/pschatzmann/arduino-audio-Codecs/tree/main/examples">Examples</a></li>
 </ul>
 <h1><a class="anchor" id="autotoc_md4"></a>
 Support</h1>

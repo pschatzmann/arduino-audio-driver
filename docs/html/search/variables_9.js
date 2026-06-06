@@ -1,7 +1,19 @@
 var searchData=
 [
-  ['mclk_0',['mclk',['../structaudio__driver_1_1_pins_i2_s.html#ae4420d2deba4632c54badb549d9cfb37',1,'audio_driver::PinsI2S']]],
-  ['miso_1',['miso',['../struct_s_p_i_config.html#a7918aeda38988c6d047b1abe185d6c20',1,'SPIConfig']]],
-  ['mode_2',['mode',['../struct_i2_s_definition.html#a58b259b6331a0efa228683b513190b4d',1,'I2SDefinition']]],
-  ['mosi_3',['mosi',['../struct_s_p_i_config.html#ae506f2c92d47737308ce15423fbfc049',1,'SPIConfig']]]
+  ['m5stackatomechos3r_0',['m5stackatomechos3r',['../group__audio__driver.html#ga3172a9c74e5081ee579ef580b140092b',1,'audio_driver::M5stackAtomEchoS3R'],['../group__audio__driver.html#ga3172a9c74e5081ee579ef580b140092b',1,'audio_driver::M5stackAtomEchoS3R']]],
+  ['max_1',['max',['../struct_s_rate_attr.html#a56186494f6d04b94d5ca48f078fdccb3',1,'SRateAttr']]],
+  ['max_5fdac_5fvolume_2',['max_dac_volume',['../structcodec__dac__volume__config__t.html#a717ec34f2c3621f034cf30b9798c5862',1,'codec_dac_volume_config_t']]],
+  ['mclk_3',['mclk',['../struct__coeff__div.html#a0b90c02f135cec766d3f144e549e7efd',1,'_coeff_div::mclk'],['../structcoeff__div.html#a0b90c02f135cec766d3f144e549e7efd',1,'coeff_div::mclk'],['../structaudio__driver_1_1_info_i2_s.html#ae4420d2deba4632c54badb549d9cfb37',1,'audio_driver::InfoI2S::mclk']]],
+  ['mclk_5fgpio_4',['mclk_gpio',['../es7243_8cpp.html#a4a2e75771ec360f3bd53cfc067fc744b',1,'es7243.cpp']]],
+  ['mclk_5fn1_5fdiv_5',['mclk_n1_div',['../class_p_c_b_c_u_p_i_d___n_a_u8325.html#ad7d70db6d95b4f67113db36596b92f56',1,'PCBCUPID_NAU8325']]],
+  ['mclk_5fn2_5fdiv_6',['mclk_n2_div',['../class_p_c_b_c_u_p_i_d___n_a_u8325.html#a2c0ad48dd09cfaa1d1fa25931cece596',1,'PCBCUPID_NAU8325']]],
+  ['mclk_5fn3_5fmult_7',['mclk_n3_mult',['../class_p_c_b_c_u_p_i_d___n_a_u8325.html#a97ccce89c84128addc05f43ccf284391',1,'PCBCUPID_NAU8325']]],
+  ['mclk_5fsrc_8',['mclk_src',['../struct__coeff__div.html#a44f09ea160c7c8ff68e53b20bca5f261',1,'_coeff_div::mclk_src'],['../struct_s_rate_attr.html#a09782332ae200bd0ef7722e268a112fc',1,'SRateAttr::mclk_src']]],
+  ['mic_5fselect_9',['mic_select',['../es7210_8cpp.html#a15ec127c0f42d0f0a2c5ea590d5cbd2e',1,'es7210.cpp']]],
+  ['min_5fdac_5fvolume_10',['min_dac_volume',['../structcodec__dac__volume__config__t.html#aa44d613e635f4616fda8f02a51d4f576',1,'codec_dac_volume_config_t']]],
+  ['miso_11',['miso',['../struct_s_p_i_config.html#a7918aeda38988c6d047b1abe185d6c20',1,'SPIConfig']]],
+  ['mode_12',['mode',['../structaudio__driver_1_1_i2_s_definition.html#a58b259b6331a0efa228683b513190b4d',1,'audio_driver::I2SDefinition']]],
+  ['mosi_13',['mosi',['../struct_s_p_i_config.html#ae506f2c92d47737308ce15423fbfc049',1,'SPIConfig']]],
+  ['mute_5fadc_14',['mute_adc',['../class_p_c_m3168.html#a91405931265cfc26cf73a2d8b704120e',1,'PCM3168']]],
+  ['mute_5fdac_15',['mute_dac',['../class_p_c_m3168.html#a40f16466489e3ec529d994c419f4955a',1,'PCM3168']]]
 ];

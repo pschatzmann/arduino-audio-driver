@@ -1,17 +1,10 @@
 var searchData=
 [
-  ['mclk_5fsource_0',['MCLK_SOURCE',['../namespaceaudio__driver.html#a6b03ddbf1e0f5abd0e46e02555850aafa0301a754913dd38062217d6b511a1696',1,'audio_driver']]],
-  ['mic_5fgain_5f0db_1',['MIC_GAIN_0DB',['../_driver_common_8h.html#ac5dc971b3e58c17abd8b5b946b759fb1a44589f8247f04887c306432df8a86049',1,'DriverCommon.h']]],
-  ['mic_5fgain_5f12db_2',['MIC_GAIN_12DB',['../_driver_common_8h.html#ac5dc971b3e58c17abd8b5b946b759fb1aac5d753f722c1efce8e2d76002143c4d',1,'DriverCommon.h']]],
-  ['mic_5fgain_5f15db_3',['MIC_GAIN_15DB',['../_driver_common_8h.html#ac5dc971b3e58c17abd8b5b946b759fb1a08a9bf3d23d135d4e85f03e198e1c005',1,'DriverCommon.h']]],
-  ['mic_5fgain_5f18db_4',['MIC_GAIN_18DB',['../_driver_common_8h.html#ac5dc971b3e58c17abd8b5b946b759fb1ac039cad318ebaf20edec4ab8105a6ede',1,'DriverCommon.h']]],
-  ['mic_5fgain_5f21db_5',['MIC_GAIN_21DB',['../_driver_common_8h.html#ac5dc971b3e58c17abd8b5b946b759fb1ae69a8a09d15387b72842cc72d1590e78',1,'DriverCommon.h']]],
-  ['mic_5fgain_5f24db_6',['MIC_GAIN_24DB',['../_driver_common_8h.html#ac5dc971b3e58c17abd8b5b946b759fb1a403715f5d3e58d8a2bf28a6a5fc5cbfb',1,'DriverCommon.h']]],
-  ['mic_5fgain_5f3db_7',['MIC_GAIN_3DB',['../_driver_common_8h.html#ac5dc971b3e58c17abd8b5b946b759fb1afe511acf91423b954d1f6cad90682809',1,'DriverCommon.h']]],
-  ['mic_5fgain_5f6db_8',['MIC_GAIN_6DB',['../_driver_common_8h.html#ac5dc971b3e58c17abd8b5b946b759fb1a1fe1c54eb344f0f7a80272ce2f24cb44',1,'DriverCommon.h']]],
-  ['mic_5fgain_5f9db_9',['MIC_GAIN_9DB',['../_driver_common_8h.html#ac5dc971b3e58c17abd8b5b946b759fb1a3132f2959b8d99581690ecb1adf62bd2',1,'DriverCommon.h']]],
-  ['mic_5fgain_5fmax_10',['MIC_GAIN_MAX',['../_driver_common_8h.html#ac5dc971b3e58c17abd8b5b946b759fb1a408342d4f4c39fc3bfbda1b3b8255f03',1,'DriverCommon.h']]],
-  ['mic_5fgain_5fmin_11',['MIC_GAIN_MIN',['../_driver_common_8h.html#ac5dc971b3e58c17abd8b5b946b759fb1a0ef18eaa1ac7a84aa37b76d03541e1c9',1,'DriverCommon.h']]],
-  ['mode_5fmaster_12',['MODE_MASTER',['../_driver_common_8h.html#adebb589e2ab53e2443229481d9047b47a3a9543e231d74dbeceb3bcb1d71bc95c',1,'DriverCommon.h']]],
-  ['mode_5fslave_13',['MODE_SLAVE',['../_driver_common_8h.html#adebb589e2ab53e2443229481d9047b47a56670f46c5fa5bad99f7205d77a978e1',1,'DriverCommon.h']]]
+  ['key_0',['KEY',['../namespaceaudio__driver.html#a6b03ddbf1e0f5abd0e46e02555850aafa3b5949e0c26b87767a4752a276de9570',1,'audio_driver']]],
+  ['key_5fmode_1',['KEY_MODE',['../namespaceaudio__driver.html#a0e38a8cbaae36dea9c9053a4ee8f9e18a2a78fa2361e31850a3d66fc0de8e6fd1',1,'audio_driver']]],
+  ['key_5fplay_2',['KEY_PLAY',['../namespaceaudio__driver.html#a0e38a8cbaae36dea9c9053a4ee8f9e18a4225fd198cc84a8439796181091d8e65',1,'audio_driver']]],
+  ['key_5frec_3',['KEY_REC',['../namespaceaudio__driver.html#a0e38a8cbaae36dea9c9053a4ee8f9e18ab58c09da5f08399931fa61fa96fe51cb',1,'audio_driver']]],
+  ['key_5fset_4',['KEY_SET',['../namespaceaudio__driver.html#a0e38a8cbaae36dea9c9053a4ee8f9e18a720a1695fc856850e287a9cd6456bb0f',1,'audio_driver']]],
+  ['key_5fvolume_5fdown_5',['KEY_VOLUME_DOWN',['../namespaceaudio__driver.html#a0e38a8cbaae36dea9c9053a4ee8f9e18ab8455a0f8ce6cd747e9f6c1f8fe39237',1,'audio_driver']]],
+  ['key_5fvolume_5fup_6',['KEY_VOLUME_UP',['../namespaceaudio__driver.html#a0e38a8cbaae36dea9c9053a4ee8f9e18abddcbe1676f012d05d1ab4213ea9e293',1,'audio_driver']]]
 ];

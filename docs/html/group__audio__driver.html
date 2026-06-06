@@ -88,11 +88,11 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_codec_config.html">CodecConfig</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">I2S configuration and definition of input and output with default values.  <a href="classaudio__driver_1_1_codec_config.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_pins.html">DriverPins</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">All pins for i2s, spi, i2c and other pins.  <a href="classaudio__driver_1_1_driver_pins.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_driver_device_info.html">DriverDeviceInfo</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">All pins for i2s, spi, i2c and other pins.  <a href="classaudio__driver_1_1_driver_device_info.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_i2_s_definition.html">I2SDefinition</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">I2s interface configuration for audio codec chip.  <a href="struct_i2_s_definition.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaudio__driver_1_1_i2_s_definition.html">I2SDefinition</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">I2s interface configuration for audio codec chip.  <a href="structaudio__driver_1_1_i2_s_definition.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_no_driver_class.html">NoDriverClass</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dummy Driver which does nothing.  <a href="classaudio__driver_1_1_no_driver_class.html#details">More...</a><br /></td></tr>
@@ -149,45 +149,83 @@ Variables</h2></td></tr>
 <tr class="separator:ga0d7c21e6e7b5d9dd9e5937c57c60fb8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaebae1c0395623b4715a91f2f8c64ad6c" id="r_gaebae1c0395623b4715a91f2f8c64ad6c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gaebae1c0395623b4715a91f2f8c64ad6c">AudioKitAC101</a> {<a class="el" href="group__audio__driver.html#ga6e512f44cc6db0994d6b1617abcc93b0">AudioDriverAC101</a>, <a class="el" href="group__audio__driver.html#ga4de967e315821b064d50a78d01877d67">PinsAudioKitAC101</a>}</td></tr>
 <tr class="separator:gaebae1c0395623b4715a91f2f8c64ad6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaebae1c0395623b4715a91f2f8c64ad6c" id="r_gaebae1c0395623b4715a91f2f8c64ad6c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gaebae1c0395623b4715a91f2f8c64ad6c">AudioKitAC101</a> {<a class="el" href="group__audio__driver.html#ga6e512f44cc6db0994d6b1617abcc93b0">AudioDriverAC101</a>, <a class="el" href="group__audio__driver.html#ga4de967e315821b064d50a78d01877d67">PinsAudioKitAC101</a>}</td></tr>
+<tr class="separator:gaebae1c0395623b4715a91f2f8c64ad6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9282e4e123ca2db202b817e95b4c4d6b" id="r_ga9282e4e123ca2db202b817e95b4c4d6b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga9282e4e123ca2db202b817e95b4c4d6b">AudioKitEs8388V1</a> {<a class="el" href="group__audio__driver.html#gad404af509b8a5ae73c689d6faa3d54df">AudioDriverES8388</a>, <a class="el" href="group__audio__driver.html#gaac2b21f064b1a332b2ae9b35fa46484e">PinsAudioKitEs8388v1</a>}</td></tr>
+<tr class="separator:ga9282e4e123ca2db202b817e95b4c4d6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga9282e4e123ca2db202b817e95b4c4d6b" id="r_ga9282e4e123ca2db202b817e95b4c4d6b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga9282e4e123ca2db202b817e95b4c4d6b">AudioKitEs8388V1</a> {<a class="el" href="group__audio__driver.html#gad404af509b8a5ae73c689d6faa3d54df">AudioDriverES8388</a>, <a class="el" href="group__audio__driver.html#gaac2b21f064b1a332b2ae9b35fa46484e">PinsAudioKitEs8388v1</a>}</td></tr>
 <tr class="separator:ga9282e4e123ca2db202b817e95b4c4d6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3ecb4bf2db338ccd232cad96a2e2341e" id="r_ga3ecb4bf2db338ccd232cad96a2e2341e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga3ecb4bf2db338ccd232cad96a2e2341e">AudioKitEs8388V2</a> {<a class="el" href="group__audio__driver.html#gad404af509b8a5ae73c689d6faa3d54df">AudioDriverES8388</a>, <a class="el" href="group__audio__driver.html#gaec73d289b40131bb320b17356793430e">PinsAudioKitEs8388v2</a>}</td></tr>
 <tr class="separator:ga3ecb4bf2db338ccd232cad96a2e2341e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab72a5eed17c68aa339cbf542c7b2ed62" id="r_gab72a5eed17c68aa339cbf542c7b2ed62"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gab72a5eed17c68aa339cbf542c7b2ed62">ESP32S3AISmartSpeaker</a></td></tr>
 <tr class="separator:gab72a5eed17c68aa339cbf542c7b2ed62"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga469170589e8c1dde2c640c0aadfffd02" id="r_ga469170589e8c1dde2c640c0aadfffd02"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga469170589e8c1dde2c640c0aadfffd02">GenericCS43l22</a> {<a class="el" href="group__audio__driver.html#ga9752ab43ee1dc1a25230ddfbd0916c15">AudioDriverCS43l22</a>, <a class="el" href="group__audio__driver.html#gae6031df2ec66c645dd42ae315b79e156">NoPins</a>}</td></tr>
+<tr class="memitem:gab72a5eed17c68aa339cbf542c7b2ed62" id="r_gab72a5eed17c68aa339cbf542c7b2ed62"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gab72a5eed17c68aa339cbf542c7b2ed62">ESP32S3AISmartSpeaker</a></td></tr>
+<tr class="separator:gab72a5eed17c68aa339cbf542c7b2ed62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga469170589e8c1dde2c640c0aadfffd02" id="r_ga469170589e8c1dde2c640c0aadfffd02"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga469170589e8c1dde2c640c0aadfffd02">GenericCS43l22</a> {<a class="el" href="group__audio__driver.html#ga9752ab43ee1dc1a25230ddfbd0916c15">AudioDriverCS43l22</a>, <a class="el" href="group__audio__driver.html#ga95486bf61be2318b8a44f0b997c60bbc">NoPins</a>}</td></tr>
 <tr class="separator:ga469170589e8c1dde2c640c0aadfffd02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5ad99d7c81a4486004d837287a8cf54b" id="r_ga5ad99d7c81a4486004d837287a8cf54b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga5ad99d7c81a4486004d837287a8cf54b">GenericWM8960</a> {<a class="el" href="group__audio__driver.html#ga9edaa629f0334ef75e1666c847bcb3c3">AudioDriverWM8960</a>, <a class="el" href="group__audio__driver.html#gae6031df2ec66c645dd42ae315b79e156">NoPins</a>}</td></tr>
+<tr class="memitem:ga5ad99d7c81a4486004d837287a8cf54b" id="r_ga5ad99d7c81a4486004d837287a8cf54b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga5ad99d7c81a4486004d837287a8cf54b">GenericWM8960</a> {<a class="el" href="group__audio__driver.html#ga9edaa629f0334ef75e1666c847bcb3c3">AudioDriverWM8960</a>, <a class="el" href="group__audio__driver.html#ga95486bf61be2318b8a44f0b997c60bbc">NoPins</a>}</td></tr>
 <tr class="separator:ga5ad99d7c81a4486004d837287a8cf54b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad1d9b3159991732b6af524c6c8e592f2" id="r_gad1d9b3159991732b6af524c6c8e592f2"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gad1d9b3159991732b6af524c6c8e592f2">LyratMini</a> {<a class="el" href="group__audio__driver.html#ga3c281a9dabe9c42b609f386a515d7082">AudioDriverLyratMini</a>, <a class="el" href="group__audio__driver.html#ga0f4a0dbd3aeea6d499d87a62293e012e">PinsLyratMini</a>}</td></tr>
+<tr class="separator:gad1d9b3159991732b6af524c6c8e592f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad1d9b3159991732b6af524c6c8e592f2" id="r_gad1d9b3159991732b6af524c6c8e592f2"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gad1d9b3159991732b6af524c6c8e592f2">LyratMini</a> {<a class="el" href="group__audio__driver.html#ga3c281a9dabe9c42b609f386a515d7082">AudioDriverLyratMini</a>, <a class="el" href="group__audio__driver.html#ga0f4a0dbd3aeea6d499d87a62293e012e">PinsLyratMini</a>}</td></tr>
 <tr class="separator:gad1d9b3159991732b6af524c6c8e592f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga98fa8fe4385c4198150679fddade5eef" id="r_ga98fa8fe4385c4198150679fddade5eef"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga98fa8fe4385c4198150679fddade5eef">LyratV42</a> {<a class="el" href="group__audio__driver.html#gaec927d2b946719e63896c9949c9805f4">AudioDriverES8388H3</a>, <a class="el" href="group__audio__driver.html#ga4c69c022bab026eb5d85877b0800771d">PinsLyrat42</a>}</td></tr>
 <tr class="separator:ga98fa8fe4385c4198150679fddade5eef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga98fa8fe4385c4198150679fddade5eef" id="r_ga98fa8fe4385c4198150679fddade5eef"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga98fa8fe4385c4198150679fddade5eef">LyratV42</a> {<a class="el" href="group__audio__driver.html#gaec927d2b946719e63896c9949c9805f4">AudioDriverES8388H3</a>, <a class="el" href="group__audio__driver.html#ga4c69c022bab026eb5d85877b0800771d">PinsLyrat42</a>}</td></tr>
+<tr class="separator:ga98fa8fe4385c4198150679fddade5eef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0ffdf5c889c7a240e72df4ce7e323478" id="r_ga0ffdf5c889c7a240e72df4ce7e323478"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga0ffdf5c889c7a240e72df4ce7e323478">LyratV43</a> {<a class="el" href="group__audio__driver.html#gaec927d2b946719e63896c9949c9805f4">AudioDriverES8388H3</a>, <a class="el" href="group__audio__driver.html#ga61f7164942e4687d3136447ecc1fb78e">PinsLyrat43</a>}</td></tr>
 <tr class="separator:ga0ffdf5c889c7a240e72df4ce7e323478"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gafe3ab59f1104cea44d71beeb7fe5a48f" id="r_gafe3ab59f1104cea44d71beeb7fe5a48f"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gafe3ab59f1104cea44d71beeb7fe5a48f">NoBoard</a> {<a class="el" href="group__audio__driver.html#ga3fee80a3a7d33b4cd0af36720e919be4">NoDriver</a>, <a class="el" href="group__audio__driver.html#gae6031df2ec66c645dd42ae315b79e156">NoPins</a>}</td></tr>
+<tr class="memitem:ga0ffdf5c889c7a240e72df4ce7e323478" id="r_ga0ffdf5c889c7a240e72df4ce7e323478"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga0ffdf5c889c7a240e72df4ce7e323478">LyratV43</a> {<a class="el" href="group__audio__driver.html#gaec927d2b946719e63896c9949c9805f4">AudioDriverES8388H3</a>, <a class="el" href="group__audio__driver.html#ga61f7164942e4687d3136447ecc1fb78e">PinsLyrat43</a>}</td></tr>
+<tr class="separator:ga0ffdf5c889c7a240e72df4ce7e323478"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3172a9c74e5081ee579ef580b140092b" id="r_ga3172a9c74e5081ee579ef580b140092b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga3172a9c74e5081ee579ef580b140092b">M5stackAtomEchoS3R</a> {<a class="el" href="group__audio__driver.html#ga0cd510e086f73322b9a751a00eee2c1e">AudioDriverES8311</a>, <a class="el" href="group__audio__driver.html#ga98276f8751bb04c6332dab64dc50da16">PinsM5stackAtomEchoS3R</a>}</td></tr>
+<tr class="separator:ga3172a9c74e5081ee579ef580b140092b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3172a9c74e5081ee579ef580b140092b" id="r_ga3172a9c74e5081ee579ef580b140092b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga3172a9c74e5081ee579ef580b140092b">M5stackAtomEchoS3R</a> {<a class="el" href="group__audio__driver.html#ga0cd510e086f73322b9a751a00eee2c1e">AudioDriverES8311</a>, <a class="el" href="group__audio__driver.html#ga98276f8751bb04c6332dab64dc50da16">PinsM5stackAtomEchoS3R</a>}</td></tr>
+<tr class="separator:ga3172a9c74e5081ee579ef580b140092b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafe3ab59f1104cea44d71beeb7fe5a48f" id="r_gafe3ab59f1104cea44d71beeb7fe5a48f"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gafe3ab59f1104cea44d71beeb7fe5a48f">NoBoard</a> {<a class="el" href="group__audio__driver.html#ga3fee80a3a7d33b4cd0af36720e919be4">NoDriver</a>, <a class="el" href="group__audio__driver.html#ga95486bf61be2318b8a44f0b997c60bbc">NoPins</a>}</td></tr>
 <tr class="separator:gafe3ab59f1104cea44d71beeb7fe5a48f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3fee80a3a7d33b4cd0af36720e919be4" id="r_ga3fee80a3a7d33b4cd0af36720e919be4"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_no_driver_class.html">NoDriverClass</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga3fee80a3a7d33b4cd0af36720e919be4">NoDriver</a></td></tr>
 <tr class="separator:ga3fee80a3a7d33b4cd0af36720e919be4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae6031df2ec66c645dd42ae315b79e156" id="r_gae6031df2ec66c645dd42ae315b79e156"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_driver_pins.html">DriverPins</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gae6031df2ec66c645dd42ae315b79e156">NoPins</a></td></tr>
-<tr class="memdesc:gae6031df2ec66c645dd42ae315b79e156"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pins need to be set up in the sketch.  <br /></td></tr>
-<tr class="separator:gae6031df2ec66c645dd42ae315b79e156"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga95486bf61be2318b8a44f0b997c60bbc" id="r_ga95486bf61be2318b8a44f0b997c60bbc"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_driver_device_info.html">DriverDeviceInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga95486bf61be2318b8a44f0b997c60bbc">NoPins</a></td></tr>
+<tr class="memdesc:ga95486bf61be2318b8a44f0b997c60bbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pins need to be set up in the sketch.  <br /></td></tr>
+<tr class="separator:ga95486bf61be2318b8a44f0b997c60bbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4de967e315821b064d50a78d01877d67" id="r_ga4de967e315821b064d50a78d01877d67"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_audio_kit_a_c101_class.html">PinsAudioKitAC101Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga4de967e315821b064d50a78d01877d67">PinsAudioKitAC101</a></td></tr>
+<tr class="separator:ga4de967e315821b064d50a78d01877d67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4de967e315821b064d50a78d01877d67" id="r_ga4de967e315821b064d50a78d01877d67"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_audio_kit_a_c101_class.html">PinsAudioKitAC101Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga4de967e315821b064d50a78d01877d67">PinsAudioKitAC101</a></td></tr>
 <tr class="separator:ga4de967e315821b064d50a78d01877d67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaac2b21f064b1a332b2ae9b35fa46484e" id="r_gaac2b21f064b1a332b2ae9b35fa46484e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_audio_kit_es8388v1_class.html">PinsAudioKitEs8388v1Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gaac2b21f064b1a332b2ae9b35fa46484e">PinsAudioKitEs8388v1</a></td></tr>
 <tr class="separator:gaac2b21f064b1a332b2ae9b35fa46484e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaac2b21f064b1a332b2ae9b35fa46484e" id="r_gaac2b21f064b1a332b2ae9b35fa46484e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_audio_kit_es8388v1_class.html">PinsAudioKitEs8388v1Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gaac2b21f064b1a332b2ae9b35fa46484e">PinsAudioKitEs8388v1</a></td></tr>
+<tr class="separator:gaac2b21f064b1a332b2ae9b35fa46484e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaec73d289b40131bb320b17356793430e" id="r_gaec73d289b40131bb320b17356793430e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_audio_kit_es8388v2_class.html">PinsAudioKitEs8388v2Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gaec73d289b40131bb320b17356793430e">PinsAudioKitEs8388v2</a></td></tr>
+<tr class="separator:gaec73d289b40131bb320b17356793430e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaec73d289b40131bb320b17356793430e" id="r_gaec73d289b40131bb320b17356793430e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_audio_kit_es8388v2_class.html">PinsAudioKitEs8388v2Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#gaec73d289b40131bb320b17356793430e">PinsAudioKitEs8388v2</a></td></tr>
 <tr class="separator:gaec73d289b40131bb320b17356793430e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga590a5f8d5389220e2f8658a35b246ad5" id="r_ga590a5f8d5389220e2f8658a35b246ad5"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_e_s_p32_s3_a_i_smart_speaker_class.html">PinsESP32S3AISmartSpeakerClass</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga590a5f8d5389220e2f8658a35b246ad5">PinsESP32S3AISmartSpeaker</a></td></tr>
 <tr class="separator:ga590a5f8d5389220e2f8658a35b246ad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga590a5f8d5389220e2f8658a35b246ad5" id="r_ga590a5f8d5389220e2f8658a35b246ad5"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_e_s_p32_s3_a_i_smart_speaker_class.html">PinsESP32S3AISmartSpeakerClass</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga590a5f8d5389220e2f8658a35b246ad5">PinsESP32S3AISmartSpeaker</a></td></tr>
+<tr class="separator:ga590a5f8d5389220e2f8658a35b246ad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4c69c022bab026eb5d85877b0800771d" id="r_ga4c69c022bab026eb5d85877b0800771d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_lyrat42_class.html">PinsLyrat42Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga4c69c022bab026eb5d85877b0800771d">PinsLyrat42</a></td></tr>
+<tr class="separator:ga4c69c022bab026eb5d85877b0800771d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4c69c022bab026eb5d85877b0800771d" id="r_ga4c69c022bab026eb5d85877b0800771d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_lyrat42_class.html">PinsLyrat42Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga4c69c022bab026eb5d85877b0800771d">PinsLyrat42</a></td></tr>
 <tr class="separator:ga4c69c022bab026eb5d85877b0800771d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga61f7164942e4687d3136447ecc1fb78e" id="r_ga61f7164942e4687d3136447ecc1fb78e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_lyrat43_class.html">PinsLyrat43Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga61f7164942e4687d3136447ecc1fb78e">PinsLyrat43</a></td></tr>
 <tr class="separator:ga61f7164942e4687d3136447ecc1fb78e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga61f7164942e4687d3136447ecc1fb78e" id="r_ga61f7164942e4687d3136447ecc1fb78e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_lyrat43_class.html">PinsLyrat43Class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga61f7164942e4687d3136447ecc1fb78e">PinsLyrat43</a></td></tr>
+<tr class="separator:ga61f7164942e4687d3136447ecc1fb78e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0f4a0dbd3aeea6d499d87a62293e012e" id="r_ga0f4a0dbd3aeea6d499d87a62293e012e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_lyrat_mini_class.html">PinsLyratMiniClass</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga0f4a0dbd3aeea6d499d87a62293e012e">PinsLyratMini</a></td></tr>
 <tr class="separator:ga0f4a0dbd3aeea6d499d87a62293e012e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0f4a0dbd3aeea6d499d87a62293e012e" id="r_ga0f4a0dbd3aeea6d499d87a62293e012e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_lyrat_mini_class.html">PinsLyratMiniClass</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga0f4a0dbd3aeea6d499d87a62293e012e">PinsLyratMini</a></td></tr>
+<tr class="separator:ga0f4a0dbd3aeea6d499d87a62293e012e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga98276f8751bb04c6332dab64dc50da16" id="r_ga98276f8751bb04c6332dab64dc50da16"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_m5stack_atom_echo_s3_r_class.html">PinsM5stackAtomEchoS3RClass</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga98276f8751bb04c6332dab64dc50da16">PinsM5stackAtomEchoS3R</a></td></tr>
+<tr class="separator:ga98276f8751bb04c6332dab64dc50da16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga98276f8751bb04c6332dab64dc50da16" id="r_ga98276f8751bb04c6332dab64dc50da16"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_m5stack_atom_echo_s3_r_class.html">PinsM5stackAtomEchoS3RClass</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga98276f8751bb04c6332dab64dc50da16">PinsM5stackAtomEchoS3R</a></td></tr>
+<tr class="separator:ga98276f8751bb04c6332dab64dc50da16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga713029bb49209801b9a989ffb07707ee" id="r_ga713029bb49209801b9a989ffb07707ee"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_s_t_m32_f411_disco_class.html">PinsSTM32F411DiscoClass</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga713029bb49209801b9a989ffb07707ee">PinsSTM32F411Disco</a></td></tr>
 <tr class="separator:ga713029bb49209801b9a989ffb07707ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga713029bb49209801b9a989ffb07707ee" id="r_ga713029bb49209801b9a989ffb07707ee"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_pins_s_t_m32_f411_disco_class.html">PinsSTM32F411DiscoClass</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga713029bb49209801b9a989ffb07707ee">PinsSTM32F411Disco</a></td></tr>
+<tr class="separator:ga713029bb49209801b9a989ffb07707ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4050920521d0b7ac5d420e7460a6ae93" id="r_ga4050920521d0b7ac5d420e7460a6ae93"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga4050920521d0b7ac5d420e7460a6ae93">STM32F411Disco</a> {<a class="el" href="group__audio__driver.html#ga9752ab43ee1dc1a25230ddfbd0916c15">AudioDriverCS43l22</a>, <a class="el" href="group__audio__driver.html#ga713029bb49209801b9a989ffb07707ee">PinsSTM32F411Disco</a>}</td></tr>
+<tr class="separator:ga4050920521d0b7ac5d420e7460a6ae93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4050920521d0b7ac5d420e7460a6ae93" id="r_ga4050920521d0b7ac5d420e7460a6ae93"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__audio__driver.html#ga4050920521d0b7ac5d420e7460a6ae93">STM32F411Disco</a> {<a class="el" href="group__audio__driver.html#ga9752ab43ee1dc1a25230ddfbd0916c15">AudioDriverCS43l22</a>, <a class="el" href="group__audio__driver.html#ga713029bb49209801b9a989ffb07707ee">PinsSTM32F411Disco</a>}</td></tr>
 <tr class="separator:ga4050920521d0b7ac5d420e7460a6ae93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -707,7 +745,29 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a id="gaebae1c0395623b4715a91f2f8c64ad6c" name="gaebae1c0395623b4715a91f2f8c64ad6c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaebae1c0395623b4715a91f2f8c64ad6c">&#9670;&#160;</a></span>AudioKitAC101</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#gaebae1c0395623b4715a91f2f8c64ad6c">&#9670;&#160;</a></span>AudioKitAC101 <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a> AudioKitAC101 {<a class="el" href="group__audio__driver.html#ga6e512f44cc6db0994d6b1617abcc93b0">AudioDriverAC101</a>, <a class="el" href="group__audio__driver.html#ga4de967e315821b064d50a78d01877d67">PinsAudioKitAC101</a>}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gaebae1c0395623b4715a91f2f8c64ad6c" name="gaebae1c0395623b4715a91f2f8c64ad6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaebae1c0395623b4715a91f2f8c64ad6c">&#9670;&#160;</a></span>AudioKitAC101 <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -729,7 +789,29 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a id="ga9282e4e123ca2db202b817e95b4c4d6b" name="ga9282e4e123ca2db202b817e95b4c4d6b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga9282e4e123ca2db202b817e95b4c4d6b">&#9670;&#160;</a></span>AudioKitEs8388V1</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9282e4e123ca2db202b817e95b4c4d6b">&#9670;&#160;</a></span>AudioKitEs8388V1 <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a> AudioKitEs8388V1 {<a class="el" href="group__audio__driver.html#gad404af509b8a5ae73c689d6faa3d54df">AudioDriverES8388</a>, <a class="el" href="group__audio__driver.html#gaac2b21f064b1a332b2ae9b35fa46484e">PinsAudioKitEs8388v1</a>}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga9282e4e123ca2db202b817e95b4c4d6b" name="ga9282e4e123ca2db202b817e95b4c4d6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9282e4e123ca2db202b817e95b4c4d6b">&#9670;&#160;</a></span>AudioKitEs8388V1 <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -773,7 +855,7 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a id="gab72a5eed17c68aa339cbf542c7b2ed62" name="gab72a5eed17c68aa339cbf542c7b2ed62"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gab72a5eed17c68aa339cbf542c7b2ed62">&#9670;&#160;</a></span>ESP32S3AISmartSpeaker</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#gab72a5eed17c68aa339cbf542c7b2ed62">&#9670;&#160;</a></span>ESP32S3AISmartSpeaker <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -791,9 +873,34 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">{AudioDriverES8311_ES7210,</div>
+<b>Initial value:</b><div class="fragment"><div class="line">{<a class="code hl_function" href="group__audio__driver.html#gaafdfaa3fe3c169e75d9a4ceb7cbece97">AudioDriverES8311_ES7210</a>,</div>
 <div class="line">                                        <a class="code hl_variable" href="group__audio__driver.html#ga590a5f8d5389220e2f8658a35b246ad5">PinsESP32S3AISmartSpeaker</a>}</div>
 <div class="ttc" id="agroup__audio__driver_html_ga590a5f8d5389220e2f8658a35b246ad5"><div class="ttname"><a href="group__audio__driver.html#ga590a5f8d5389220e2f8658a35b246ad5">audio_driver::PinsESP32S3AISmartSpeaker</a></div><div class="ttdeci">static PinsESP32S3AISmartSpeakerClass PinsESP32S3AISmartSpeaker</div><div class="ttdef"><b>Definition</b> ESP32S3AISmartSpeaker.h:85</div></div>
+<div class="ttc" id="agroup__audio__driver_html_gaafdfaa3fe3c169e75d9a4ceb7cbece97"><div class="ttname"><a href="group__audio__driver.html#gaafdfaa3fe3c169e75d9a4ceb7cbece97">audio_driver::AudioDriverES8311_ES7210</a></div><div class="ttdeci">static AudioDriverCombined AudioDriverES8311_ES7210(AudioDriverES8311, AudioDriverES7210)</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="gab72a5eed17c68aa339cbf542c7b2ed62" name="gab72a5eed17c68aa339cbf542c7b2ed62"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab72a5eed17c68aa339cbf542c7b2ed62">&#9670;&#160;</a></span>ESP32S3AISmartSpeaker <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a> ESP32S3AISmartSpeaker</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{<a class="code hl_function" href="group__audio__driver.html#gaafdfaa3fe3c169e75d9a4ceb7cbece97">AudioDriverES8311_ES7210</a>,</div>
+<div class="line">                                        <a class="code hl_variable" href="group__audio__driver.html#ga590a5f8d5389220e2f8658a35b246ad5">PinsESP32S3AISmartSpeaker</a>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -807,7 +914,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a> GenericCS43l22 {<a class="el" href="group__audio__driver.html#ga9752ab43ee1dc1a25230ddfbd0916c15">AudioDriverCS43l22</a>, <a class="el" href="group__audio__driver.html#gae6031df2ec66c645dd42ae315b79e156">NoPins</a>}</td>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a> GenericCS43l22 {<a class="el" href="group__audio__driver.html#ga9752ab43ee1dc1a25230ddfbd0916c15">AudioDriverCS43l22</a>, <a class="el" href="group__audio__driver.html#ga95486bf61be2318b8a44f0b997c60bbc">NoPins</a>}</td>
         </tr>
       </table>
   </td>
@@ -829,7 +936,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a> GenericWM8960 {<a class="el" href="group__audio__driver.html#ga9edaa629f0334ef75e1666c847bcb3c3">AudioDriverWM8960</a>, <a class="el" href="group__audio__driver.html#gae6031df2ec66c645dd42ae315b79e156">NoPins</a>}</td>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a> GenericWM8960 {<a class="el" href="group__audio__driver.html#ga9edaa629f0334ef75e1666c847bcb3c3">AudioDriverWM8960</a>, <a class="el" href="group__audio__driver.html#ga95486bf61be2318b8a44f0b997c60bbc">NoPins</a>}</td>
         </tr>
       </table>
   </td>
@@ -842,7 +949,29 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a id="gad1d9b3159991732b6af524c6c8e592f2" name="gad1d9b3159991732b6af524c6c8e592f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gad1d9b3159991732b6af524c6c8e592f2">&#9670;&#160;</a></span>LyratMini</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#gad1d9b3159991732b6af524c6c8e592f2">&#9670;&#160;</a></span>LyratMini <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a> LyratMini {<a class="el" href="group__audio__driver.html#ga3c281a9dabe9c42b609f386a515d7082">AudioDriverLyratMini</a>, <a class="el" href="group__audio__driver.html#ga0f4a0dbd3aeea6d499d87a62293e012e">PinsLyratMini</a>}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gad1d9b3159991732b6af524c6c8e592f2" name="gad1d9b3159991732b6af524c6c8e592f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad1d9b3159991732b6af524c6c8e592f2">&#9670;&#160;</a></span>LyratMini <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -864,7 +993,29 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a id="ga98fa8fe4385c4198150679fddade5eef" name="ga98fa8fe4385c4198150679fddade5eef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga98fa8fe4385c4198150679fddade5eef">&#9670;&#160;</a></span>LyratV42</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ga98fa8fe4385c4198150679fddade5eef">&#9670;&#160;</a></span>LyratV42 <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a> LyratV42 {<a class="el" href="group__audio__driver.html#gaec927d2b946719e63896c9949c9805f4">AudioDriverES8388H3</a>, <a class="el" href="group__audio__driver.html#ga4c69c022bab026eb5d85877b0800771d">PinsLyrat42</a>}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga98fa8fe4385c4198150679fddade5eef" name="ga98fa8fe4385c4198150679fddade5eef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga98fa8fe4385c4198150679fddade5eef">&#9670;&#160;</a></span>LyratV42 <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -886,7 +1037,7 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a id="ga0ffdf5c889c7a240e72df4ce7e323478" name="ga0ffdf5c889c7a240e72df4ce7e323478"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga0ffdf5c889c7a240e72df4ce7e323478">&#9670;&#160;</a></span>LyratV43</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0ffdf5c889c7a240e72df4ce7e323478">&#9670;&#160;</a></span>LyratV43 <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -896,6 +1047,72 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a> LyratV43 {<a class="el" href="group__audio__driver.html#gaec927d2b946719e63896c9949c9805f4">AudioDriverES8388H3</a>, <a class="el" href="group__audio__driver.html#ga61f7164942e4687d3136447ecc1fb78e">PinsLyrat43</a>}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga0ffdf5c889c7a240e72df4ce7e323478" name="ga0ffdf5c889c7a240e72df4ce7e323478"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0ffdf5c889c7a240e72df4ce7e323478">&#9670;&#160;</a></span>LyratV43 <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a> LyratV43 {<a class="el" href="group__audio__driver.html#gaec927d2b946719e63896c9949c9805f4">AudioDriverES8388H3</a>, <a class="el" href="group__audio__driver.html#ga61f7164942e4687d3136447ecc1fb78e">PinsLyrat43</a>}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga3172a9c74e5081ee579ef580b140092b" name="ga3172a9c74e5081ee579ef580b140092b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3172a9c74e5081ee579ef580b140092b">&#9670;&#160;</a></span>M5stackAtomEchoS3R <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a> M5stackAtomEchoS3R {<a class="el" href="group__audio__driver.html#ga0cd510e086f73322b9a751a00eee2c1e">AudioDriverES8311</a>, <a class="el" href="group__audio__driver.html#ga98276f8751bb04c6332dab64dc50da16">PinsM5stackAtomEchoS3R</a>}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga3172a9c74e5081ee579ef580b140092b" name="ga3172a9c74e5081ee579ef580b140092b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3172a9c74e5081ee579ef580b140092b">&#9670;&#160;</a></span>M5stackAtomEchoS3R <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a> M5stackAtomEchoS3R {<a class="el" href="group__audio__driver.html#ga0cd510e086f73322b9a751a00eee2c1e">AudioDriverES8311</a>, <a class="el" href="group__audio__driver.html#ga98276f8751bb04c6332dab64dc50da16">PinsM5stackAtomEchoS3R</a>}</td>
         </tr>
       </table>
   </td>
@@ -917,7 +1134,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a> NoBoard {<a class="el" href="group__audio__driver.html#ga3fee80a3a7d33b4cd0af36720e919be4">NoDriver</a>, <a class="el" href="group__audio__driver.html#gae6031df2ec66c645dd42ae315b79e156">NoPins</a>}</td>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a> NoBoard {<a class="el" href="group__audio__driver.html#ga3fee80a3a7d33b4cd0af36720e919be4">NoDriver</a>, <a class="el" href="group__audio__driver.html#ga95486bf61be2318b8a44f0b997c60bbc">NoPins</a>}</td>
         </tr>
       </table>
   </td>
@@ -951,8 +1168,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="gae6031df2ec66c645dd42ae315b79e156" name="gae6031df2ec66c645dd42ae315b79e156"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gae6031df2ec66c645dd42ae315b79e156">&#9670;&#160;</a></span>NoPins</h2>
+<a id="ga95486bf61be2318b8a44f0b997c60bbc" name="ga95486bf61be2318b8a44f0b997c60bbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga95486bf61be2318b8a44f0b997c60bbc">&#9670;&#160;</a></span>NoPins</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -961,7 +1178,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classaudio__driver_1_1_driver_pins.html">DriverPins</a> NoPins</td>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_driver_device_info.html">DriverDeviceInfo</a> NoPins</td>
         </tr>
       </table>
   </td>
@@ -976,7 +1193,29 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a id="ga4de967e315821b064d50a78d01877d67" name="ga4de967e315821b064d50a78d01877d67"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga4de967e315821b064d50a78d01877d67">&#9670;&#160;</a></span>PinsAudioKitAC101</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4de967e315821b064d50a78d01877d67">&#9670;&#160;</a></span>PinsAudioKitAC101 <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_pins_audio_kit_a_c101_class.html">PinsAudioKitAC101Class</a> PinsAudioKitAC101</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga4de967e315821b064d50a78d01877d67" name="ga4de967e315821b064d50a78d01877d67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4de967e315821b064d50a78d01877d67">&#9670;&#160;</a></span>PinsAudioKitAC101 <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -998,7 +1237,29 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a id="gaac2b21f064b1a332b2ae9b35fa46484e" name="gaac2b21f064b1a332b2ae9b35fa46484e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaac2b21f064b1a332b2ae9b35fa46484e">&#9670;&#160;</a></span>PinsAudioKitEs8388v1</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#gaac2b21f064b1a332b2ae9b35fa46484e">&#9670;&#160;</a></span>PinsAudioKitEs8388v1 <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_pins_audio_kit_es8388v1_class.html">PinsAudioKitEs8388v1Class</a> PinsAudioKitEs8388v1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gaac2b21f064b1a332b2ae9b35fa46484e" name="gaac2b21f064b1a332b2ae9b35fa46484e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaac2b21f064b1a332b2ae9b35fa46484e">&#9670;&#160;</a></span>PinsAudioKitEs8388v1 <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1020,7 +1281,29 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a id="gaec73d289b40131bb320b17356793430e" name="gaec73d289b40131bb320b17356793430e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaec73d289b40131bb320b17356793430e">&#9670;&#160;</a></span>PinsAudioKitEs8388v2</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#gaec73d289b40131bb320b17356793430e">&#9670;&#160;</a></span>PinsAudioKitEs8388v2 <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_pins_audio_kit_es8388v2_class.html">PinsAudioKitEs8388v2Class</a> PinsAudioKitEs8388v2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gaec73d289b40131bb320b17356793430e" name="gaec73d289b40131bb320b17356793430e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaec73d289b40131bb320b17356793430e">&#9670;&#160;</a></span>PinsAudioKitEs8388v2 <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1042,7 +1325,29 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a id="ga590a5f8d5389220e2f8658a35b246ad5" name="ga590a5f8d5389220e2f8658a35b246ad5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga590a5f8d5389220e2f8658a35b246ad5">&#9670;&#160;</a></span>PinsESP32S3AISmartSpeaker</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ga590a5f8d5389220e2f8658a35b246ad5">&#9670;&#160;</a></span>PinsESP32S3AISmartSpeaker <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_pins_e_s_p32_s3_a_i_smart_speaker_class.html">PinsESP32S3AISmartSpeakerClass</a> PinsESP32S3AISmartSpeaker</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga590a5f8d5389220e2f8658a35b246ad5" name="ga590a5f8d5389220e2f8658a35b246ad5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga590a5f8d5389220e2f8658a35b246ad5">&#9670;&#160;</a></span>PinsESP32S3AISmartSpeaker <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1064,7 +1369,29 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a id="ga4c69c022bab026eb5d85877b0800771d" name="ga4c69c022bab026eb5d85877b0800771d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga4c69c022bab026eb5d85877b0800771d">&#9670;&#160;</a></span>PinsLyrat42</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4c69c022bab026eb5d85877b0800771d">&#9670;&#160;</a></span>PinsLyrat42 <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_pins_lyrat42_class.html">PinsLyrat42Class</a> PinsLyrat42</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga4c69c022bab026eb5d85877b0800771d" name="ga4c69c022bab026eb5d85877b0800771d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4c69c022bab026eb5d85877b0800771d">&#9670;&#160;</a></span>PinsLyrat42 <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1086,7 +1413,29 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a id="ga61f7164942e4687d3136447ecc1fb78e" name="ga61f7164942e4687d3136447ecc1fb78e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga61f7164942e4687d3136447ecc1fb78e">&#9670;&#160;</a></span>PinsLyrat43</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ga61f7164942e4687d3136447ecc1fb78e">&#9670;&#160;</a></span>PinsLyrat43 <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_pins_lyrat43_class.html">PinsLyrat43Class</a> PinsLyrat43</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga61f7164942e4687d3136447ecc1fb78e" name="ga61f7164942e4687d3136447ecc1fb78e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga61f7164942e4687d3136447ecc1fb78e">&#9670;&#160;</a></span>PinsLyrat43 <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1108,7 +1457,7 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a id="ga0f4a0dbd3aeea6d499d87a62293e012e" name="ga0f4a0dbd3aeea6d499d87a62293e012e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga0f4a0dbd3aeea6d499d87a62293e012e">&#9670;&#160;</a></span>PinsLyratMini</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0f4a0dbd3aeea6d499d87a62293e012e">&#9670;&#160;</a></span>PinsLyratMini <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1129,8 +1478,96 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="ga0f4a0dbd3aeea6d499d87a62293e012e" name="ga0f4a0dbd3aeea6d499d87a62293e012e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0f4a0dbd3aeea6d499d87a62293e012e">&#9670;&#160;</a></span>PinsLyratMini <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_pins_lyrat_mini_class.html">PinsLyratMiniClass</a> PinsLyratMini</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga98276f8751bb04c6332dab64dc50da16" name="ga98276f8751bb04c6332dab64dc50da16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga98276f8751bb04c6332dab64dc50da16">&#9670;&#160;</a></span>PinsM5stackAtomEchoS3R <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_pins_m5stack_atom_echo_s3_r_class.html">PinsM5stackAtomEchoS3RClass</a> PinsM5stackAtomEchoS3R</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga98276f8751bb04c6332dab64dc50da16" name="ga98276f8751bb04c6332dab64dc50da16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga98276f8751bb04c6332dab64dc50da16">&#9670;&#160;</a></span>PinsM5stackAtomEchoS3R <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_pins_m5stack_atom_echo_s3_r_class.html">PinsM5stackAtomEchoS3RClass</a> PinsM5stackAtomEchoS3R</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ga713029bb49209801b9a989ffb07707ee" name="ga713029bb49209801b9a989ffb07707ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga713029bb49209801b9a989ffb07707ee">&#9670;&#160;</a></span>PinsSTM32F411Disco</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ga713029bb49209801b9a989ffb07707ee">&#9670;&#160;</a></span>PinsSTM32F411Disco <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_pins_s_t_m32_f411_disco_class.html">PinsSTM32F411DiscoClass</a> PinsSTM32F411Disco</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga713029bb49209801b9a989ffb07707ee" name="ga713029bb49209801b9a989ffb07707ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga713029bb49209801b9a989ffb07707ee">&#9670;&#160;</a></span>PinsSTM32F411Disco <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1152,7 +1589,29 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a id="ga4050920521d0b7ac5d420e7460a6ae93" name="ga4050920521d0b7ac5d420e7460a6ae93"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga4050920521d0b7ac5d420e7460a6ae93">&#9670;&#160;</a></span>STM32F411Disco</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4050920521d0b7ac5d420e7460a6ae93">&#9670;&#160;</a></span>STM32F411Disco <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classaudio__driver_1_1_audio_board.html">AudioBoard</a> STM32F411Disco {<a class="el" href="group__audio__driver.html#ga9752ab43ee1dc1a25230ddfbd0916c15">AudioDriverCS43l22</a>, <a class="el" href="group__audio__driver.html#ga713029bb49209801b9a989ffb07707ee">PinsSTM32F411Disco</a>}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga4050920521d0b7ac5d420e7460a6ae93" name="ga4050920521d0b7ac5d420e7460a6ae93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4050920521d0b7ac5d420e7460a6ae93">&#9670;&#160;</a></span>STM32F411Disco <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
