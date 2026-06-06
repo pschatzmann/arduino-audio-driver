@@ -47,7 +47,7 @@
 #include "DriverCommon.h"
 #include "Codecs/CodecConstants.h"
 #include "Platforms/API_I2C.h"
-#include "Platforms/etc.h"
+#include "Platforms/API_Delay.h"
 
 
 /** @addtogroup Component

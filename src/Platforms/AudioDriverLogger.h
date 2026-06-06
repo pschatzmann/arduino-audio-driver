@@ -4,7 +4,7 @@
 #if AUDIO_DRIVER_LOGGIN_ACTVIE && !defined(AUDIO_DRIVER_LOGGING_IDF)
 
 #include "LoggerSTD.h"
-#include "etc.h"
+#include "Platforms/API_Delay.h"
 
 #ifdef ARDUINO
 #  include "Print.h"

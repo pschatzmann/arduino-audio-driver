@@ -1,7 +1,9 @@
 #pragma once
 #include <stdint.h>
-
 #include "API_GPIO.h"
+#include <zephyr/drivers/gpio.h>
+#include "IDriverDeviceInfo.h"
+
 
 /**
  * @file GPIO.h
@@ -14,7 +16,6 @@ namespace audio_driver {
  * @class GPIO
  * @brief Abstraction for digital GPIO pin operations.
  */
-#include <zephyr/drivers/gpio.h>
 
 class GPIOZephyr : public API_GPIO {
  public:
@@ -41,9 +42,9 @@ class GPIOZephyr : public API_GPIO {
       case INPUT_PULLUP:
         flags = GPIO_INPUT | GPIO_PULL_UP;
         break;
-      case INPUT_PULLDOWN:
-        flags = GPIO_INPUT | GPIO_PULL_DOWN;
-        break;
+      // case INPUT_PULLDOWN:
+      //   flags = GPIO_INPUT | GPIO_PULL_DOWN;
+      //   break;
       default:
         flags = GPIO_OUTPUT;
         break;

@@ -24,8 +24,6 @@
 extern "C" {
 #endif
 
-void pinMode(int, int);
-void digitalWrite(int, int);
 void delayMs(unsigned long);
 
 #ifdef __cplusplus

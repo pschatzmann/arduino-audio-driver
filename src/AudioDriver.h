@@ -1545,7 +1545,7 @@ class AudioDriverNAU8325Class : public AudioDriver {
     // Set MCLK if available
     int mclk = pins.getPinID(PinFunction::MCLK_SOURCE);
     if (mclk > 0) {
-      pinMode(mclk, OUTPUT);
+      getGPIO().pinMode(mclk, OUTPUT);
       getGPIO().digitalWrite(mclk, HIGH);
       delayMs(10);  // optional small delay to stabilize
     }

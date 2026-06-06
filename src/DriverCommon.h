@@ -1,13 +1,4 @@
 #pragma once
-#include <stdint.h>
-
-#include "ConfigAudioDriver.h"
-#include "Platforms/Logger.h"
-
-#ifdef __zephyr__
-#include <zephyr/device.h>
-#include <zephyr/kernel.h>
-#endif
 
 /*!
  * @file
@@ -15,13 +6,45 @@
  * @defgroup enumerations Public enumeration types
  */
 
+#include <stdint.h>
+#include "ConfigAudioDriver.h"
+#include "Platforms/Logger.h"
+
+#ifdef ARDUINO
+#include "Wire.h"
+#define DEFAULT_WIRE &Wire
+#else
+#define DEFAULT_WIRE nullptr
+#endif
+
+#ifndef TOUCH_LIMIT
+#define TOUCH_LIMIT 20
+#endif
+
+#ifndef LYRAT_MINI_RANGE
+#define LYRAT_MINI_RANGE 5
+#endif
+
+#ifndef LYRAT_MINI_DELAY_MS
+#define LYRAT_MINI_DELAY_MS 5
+#endif
+
 /// Fixed Definitions
 #define RESULT_OK 0    /*!< error_t value indicating success (no error) */
 #define RESULT_FAIL -1 /*!< Generic error_t code indicating failure */
 #define ERROR_INVALID_ARG 1
 
-#define I2C_END \
-  true  // wether to send a stop bit at the end of the transmission
+#define I2C_END  true  // wether to send a stop bit at the end of the transmission
+
+#ifdef __zephyr__
+#include <zephyr/device.h>
+#include <zephyr/kernel.h>
+// In Zephyr, GPIO pins are defined as device tree specifications, so we use a
+// pointer to the gpio_dt_spec struct instead of an integer pin number.
+typedef struct gpio_dt_spec* GpioPin;
+typedef struct device* i2c_bus_handle_t;
+typedef struct device* spi_bus_handle_t;
+#endif
 
 #ifdef __cplusplus
 #include "Platforms/AudioDriverLogger.h"
@@ -31,18 +54,13 @@ namespace audio_driver {
 
 typedef int error_t;
 
-#ifdef __zephyr__
-// In Zephyr, GPIO pins are defined as device tree specifications, so we use a
-// pointer to the gpio_dt_spec struct instead of an integer pin number.
-typedef struct gpio_dt_spec* GpioPin;
-typedef struct device* i2c_bus_handle_t;
-typedef struct device* spi_bus_handle_t;
-#else
+#ifndef __zephyr__
 // For Arduino and other platforms, we can use a simple integer pin number.
 typedef int16_t GpioPin;
 typedef void* i2c_bus_handle_t;
 typedef void* spi_bus_handle_t;
 #endif
+
 
 /**
  * @enum input_device_t
@@ -222,6 +240,60 @@ typedef struct {
   output_device_t output_device; /*!< set dac channel */
   I2SDefinition i2s;             /*!< set I2S interface configuration */
 } codec_config_t;
+
+/**
+ * @enum PinLogic
+ * @brief input or output
+ * @ingroup enumerations
+ */
+
+enum  PinLogic {
+  InputActiveHigh,
+  InputActiveLow,
+  InputActiveTouch,
+  Input,
+  Output,
+  Inactive,
+};
+
+/**
+ * @enum PinFunction
+ * @brief Pin Functions
+ * @ingroup enumerations
+ * @ingroup audio_driver
+ */
+enum  PinFunction {
+  UNDEFINED = 0,
+  HEADPHONE_DETECT,
+  AUXIN_DETECT,
+  PA,  // Power Amplifier
+  POWER,
+  LED,
+  KEY,
+  SD,
+  CODEC,
+  CODEC_ADC,
+  LATCH,
+  RESET,
+  MCLK_SOURCE,
+  EXPANDER,
+};
+
+/**
+ * @enum AudioDriverKey
+ * @brief Key names
+ * @ingroup enumerations
+ * @ingroup audio_driver
+ */
+enum AudioDriverKey {
+  KEY_REC = 0,
+  KEY_MODE,
+  KEY_PLAY,
+  KEY_SET,
+  KEY_VOLUME_DOWN,
+  KEY_VOLUME_UP
+};
+
 
 #ifdef __cplusplus
 }

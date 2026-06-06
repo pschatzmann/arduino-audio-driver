@@ -1,5 +1,6 @@
 
 #pragma once
+
 #include "DriverCommon.h"
 #include "Platforms/API_I2C.h"
 #include "Platforms/API_SPI.h"
@@ -7,82 +8,13 @@
 #include "Platforms/Logger.h"
 #include "Platforms/Optional.h"
 #include "Platforms/Vector.h"
-//#include "Platforms/TCA9555.h"
-#include "Platforms/IDriverDeviceInfo.h"
 
-#ifdef ARDUINO
-#include "Wire.h"
-#define DEFAULT_WIRE &Wire
+#if defined(__zephyr__)
+#include "IDriverDeviceInfoZephyr"
 #else
-#define DEFAULT_WIRE nullptr
-#endif
-
-#ifndef TOUCH_LIMIT
-#define TOUCH_LIMIT 20
-#endif
-
-#ifndef LYRAT_MINI_RANGE
-#define LYRAT_MINI_RANGE 5
-#endif
-
-#ifndef LYRAT_MINI_DELAY_MS
-#define LYRAT_MINI_DELAY_MS 5
-#endif
+#include "Platforms/TCA9555.h"
 
 namespace audio_driver {
-
-/**
- * @enum PinLogic
- * @brief input or output
- * @ingroup enumerations
- */
-
-enum class PinLogic {
-  InputActiveHigh,
-  InputActiveLow,
-  InputActiveTouch,
-  Input,
-  Output,
-  Inactive,
-};
-
-/**
- * @enum PinFunction
- * @brief Pin Functions
- * @ingroup enumerations
- * @ingroup audio_driver
- */
-enum class PinFunction {
-  UNDEFINED = 0,
-  HEADPHONE_DETECT,
-  AUXIN_DETECT,
-  PA,  // Power Amplifier
-  POWER,
-  LED,
-  KEY,
-  SD,
-  CODEC,
-  CODEC_ADC,
-  LATCH,
-  RESET,
-  MCLK_SOURCE,
-  EXPANDER,
-};
-
-/**
- * @enum AudioDriverKey
- * @brief Key names
- * @ingroup enumerations
- * @ingroup audio_driver
- */
-enum AudioDriverKey {
-  KEY_REC = 0,
-  KEY_MODE,
-  KEY_PLAY,
-  KEY_SET,
-  KEY_VOLUME_DOWN,
-  KEY_VOLUME_UP
-};
 
 /**
  * @brief Pins for LED, Buttons, AMP etc
@@ -99,14 +31,13 @@ struct PinsFunction {
     this->pin_logic = logic;
   }
   PinFunction function;
-  GpioPin pin = -1;
+  GpioPin pin{};
   int index = 0;
   PinLogic pin_logic;
   bool active = true;  // false if pin conflict
 };
 
 
-#if !defined(__zephyr__)
 
 /**
  * @brief I2S pins
@@ -242,8 +173,8 @@ class IDriverDeviceInfo {
    virtual audio_driver_local::Optional<InfoI2C> getI2CPins(PinFunction function) = 0;
 };
 
-using IDriverDeviceInfo = IDriverDeviceInfo;
+} // namespace audio_driver
 
 #endif
 
-}
+

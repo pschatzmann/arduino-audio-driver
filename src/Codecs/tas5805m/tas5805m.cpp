@@ -25,7 +25,9 @@
 #include <stdint.h>
 #include "tas5805m.h"
 #include "tas5805m_reg_cfg.h"
-#include "Platforms/etc.h"
+#include "Platforms/API_Delay.h"
+#include "Platforms/GPIOAll.h"
+
 // 0x5c>>1 = 0x2E
 
 #define TAS5805M_ADDR        0x2E    
@@ -41,10 +43,10 @@
 
 error_t tas5805m_ctrl(codec_mode_t mode, bool ctrl_state_active);
 error_t tas5805m_conig_iface(codec_mode_t mode, I2SDefinition *iface);
-static i2c_bus_handle_t     i2c_handler;
-static int power_pin = -1;
+static i2c_bus_handle_t i2c_handler;
+static GpioPin power_pin{};
 
-void tas5805m_set_power_pin(int pin) {
+void tas5805m_set_power_pin(GpioPin pin) {
    power_pin = pin;
 }
 
@@ -108,15 +110,16 @@ static error_t tas5805m_transmit_registers(const tas5805m_cfg_reg_t *conf_buf, i
     return ret;
 }
 
-error_t tas5805m_init(codec_config_t *codec_cfg,  void* i2c)
+error_t tas5805m_init(codec_config_t *codec_cfg,  i2c_bus_handle_t i2c)
 {
+    GPIO gpio;
     i2c_handler = i2c;
     error_t ret = RESULT_OK;
     AD_LOGI( "Power ON CODEC with GPIO %d", power_pin);
-    pinMode(power_pin, OUTPUT);
-    digitalWrite(power_pin, 0);
+    gpio.pinMode(power_pin, OUTPUT);
+    gpio.digitalWrite(power_pin, 0);
     delayMs(20);
-    digitalWrite(power_pin, 1);
+    gpio.digitalWrite(power_pin, 1);
     delayMs(20);
 
     ret |= tas5805m_transmit_registers(tas5805m_registers, sizeof(tas5805m_registers) / sizeof(tas5805m_registers[0]));

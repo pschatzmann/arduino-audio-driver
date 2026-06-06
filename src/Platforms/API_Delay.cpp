@@ -1,5 +1,5 @@
 
-#include "etc.h"
+#include "API_Delay.h"
 
 #ifdef ARDUINO
 void delayMs(unsigned long ms) { delay(ms); }

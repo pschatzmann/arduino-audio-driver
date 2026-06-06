@@ -29,15 +29,17 @@ struct InfoI2S {
  * @copyright GPLv3
  */
 struct InfoSPI : public SPIConfig {
-  InfoSPI() = default InfoSPI(PinFunction function, device dev_spi) {
+  InfoSPI() = default; 
+
+  InfoSPI(PinFunction function, device* dev_spi) {
     this->function = function;
     this->dev_spi = dev_spi;
   }
 
   PinFunction function;
-  device* dev_spi = nullptr;
+  device* dev_spi = nullptr; // zephyr device
 
-  bool pinsAvailable() { return dev_spi }
+  bool pinsAvailable() { return dev_spi; }
   operator bool() { return pinsAvailable(); }
   bool begin() { return true; }
   void end() { AD_LOGD("PinsSPI::end"); }
@@ -53,7 +55,7 @@ struct InfoI2C : public I2CConfig {
     port = 0;
     address = -1;
     set_active = true;
-    p_wire = DEFAULT_WIRE;
+    p_wire = nullptr;
   };
 
   InfoI2C(PinFunction function, device* dev_i2c, int address = -1,

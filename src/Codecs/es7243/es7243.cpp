@@ -25,10 +25,9 @@
  */
 
 #include "es7243.h"
-
 #include <string.h>
-
-#include "Platforms/etc.h"
+#include "Platforms/API_Delay.h"
+#include "Platforms/GPIOAll.h"
 
 #define MCLK_PULSES_NUMBER (20)
 #define ES_ASSERT(a, format, b, ...) \
@@ -39,11 +38,11 @@
 
 static i2c_bus_handle_t i2c_handle = NULL;
 static int es7243_addr = 0x13;  // 0x26>>1;
-static int mclk_gpio = 0;
+static GpioPin mclk_gpio = 0;
 static int actual_volume = 0;
 static uint8_t audio_format = 0x0C;
 
-void es7243_mclk_gpio(int gpio) { mclk_gpio = gpio; }
+void es7243_mclk_gpio(GpioPin gpio) { mclk_gpio = gpio; }
 
 static error_t es7243_write_reg(uint8_t reg_add, uint8_t data) {
   return i2c_bus_write_bytes(i2c_handle, es7243_addr, &reg_add, sizeof(reg_add),
@@ -55,17 +54,18 @@ error_t es7243_adc_set_addr(int addr) {
   return RESULT_OK;
 }
 
-static error_t es7243_mclk_active(uint8_t mclk_gpio) {
+static error_t es7243_mclk_active(GpioPin mclk_gpio) {
+  GPIO gpio;
   /*
       Before initializing es7243, it is necessary to output
       mclk to es7243 to activate the I2C configuration.
       So give some clocks to active es7243.
   */
-  pinMode(mclk_gpio, OUTPUT);
+  gpio.pinMode(mclk_gpio, OUTPUT);
   for (int i = 0; i < MCLK_PULSES_NUMBER; ++i) {
-    digitalWrite(mclk_gpio, 0);
+    gpio.digitalWrite(mclk_gpio, 0);
     delayMs(1);
-    digitalWrite(mclk_gpio, 1);
+    gpio.digitalWrite(mclk_gpio, 1);
     delayMs(1);
   }
   return RESULT_OK;
