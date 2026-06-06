@@ -342,7 +342,7 @@ class DriverDeviceInfo : public IDriverDeviceInfo {
   }
 };
 
-using DriverDeviceInfo = DriverDeviceInfo;
+using DriverPins = DriverDeviceInfo;
 
 /**
  * @brief Support for Touch

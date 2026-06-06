@@ -14,11 +14,11 @@ struct InfoI2S {
   InfoI2S() = default;
   InfoI2S(PinFunction function, device* dev_i2s, int port = 0) {
     this->function = function;
-    this->dev_i2s = dev_i2s;
+    this->device = dev_i2s;
     this->port = port;
   }
   PinFunction function;
-  device* dev_i2s = nullptr;
+  device* device = nullptr;
   int port = 0;  // port number
 };
 
@@ -29,15 +29,15 @@ struct InfoI2S {
  * @copyright GPLv3
  */
 struct InfoSPI : public SPIConfig {
-  InfoSPI() = default; 
+  InfoSPI() = default;
 
   InfoSPI(PinFunction function, device* dev_spi) {
     this->function = function;
-    this->dev_spi = dev_spi;
+    this->device = dev_spi;
   }
 
   PinFunction function;
-  device* dev_spi = nullptr; // zephyr device
+  device* device = nullptr; // zephyr device
 
   bool pinsAvailable() { return dev_spi; }
   operator bool() { return pinsAvailable(); }
@@ -62,29 +62,22 @@ struct InfoI2C : public I2CConfig {
 
           bool active = true) {
     this->function = function;
-    this->dev_i2c = dev_i2c;
+    this->device = dev_i2c;
     this->set_active = active;
     this->address = address;
   }
 
   PinFunction function;
   bool set_active = true;
-  device* dev_i2c = nullptr;
+  device* device = nullptr;
 
   bool pinsAvailable() { return dev_i2c != nullptr; }
   operator bool() { return pinsAvailable(); }
 
   bool begin() {
-    if (set_active) {
-      return true;
-    }
     return true;
   }
-  void end() {
-    if (set_active){
-
-    } 
-  }
+  void end() {}
 };
 
 class IDriverDeviceInfo {
@@ -93,4 +86,3 @@ class IDriverDeviceInfo {
 };
 
 } // namespace audio_driver
-
