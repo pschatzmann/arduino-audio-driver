@@ -1,4 +1,5 @@
 debug*
 .vscode/
 .zed/
+.continue/
 build/
