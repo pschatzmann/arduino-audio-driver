@@ -6,13 +6,13 @@
 namespace audio_driver {
 
 /**
- * @brief I2S pins
+ * @brief I2S device 
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
-struct InfoI2S {
-  InfoI2S() = default;
-  InfoI2S(PinFunction function, device* dev_i2s, int port = 0) {
+struct InfoI2SZephyr {
+  InfoI2SZephyr() = default;
+  InfoI2SZephyr(PinFunction function, device* dev_i2s, int port = 0) {
     this->function = function;
     this->dev = dev_i2s;
     this->port = port;
@@ -22,16 +22,20 @@ struct InfoI2S {
   int port = 0;  // port number
 };
 
+/// New name as used in Arduino
+using InfoI2S = InfoI2SZephyr;
+/// Legacy name for backward compatibility
+using PinsI2S = InfoI2SZephyr;
+
 /**
- * @brief SPI pins: In Arduino we initialize the SPI, on other platform
- * we just provide the pin information
+ * @brief SPI zephyr device
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
-struct InfoSPI : public SPIConfig {
-  InfoSPI() = default;
+struct InfoSPIZephyr : public SPIConfig {
+  InfoSPIZephyr() = default;
 
-  InfoSPI(PinFunction function, device* dev_spi) {
+  InfoSPIZephyr(PinFunction function, device* dev_spi) {
     this->function = function;
     this->dev = dev_spi;
   }
@@ -45,20 +49,24 @@ struct InfoSPI : public SPIConfig {
   void end() { AD_LOGD("PinsSPI::end"); }
 };
 
+/// New name as used in Arduino
+using InfoSPI = InfoSPIZephyr;
+/// Legacy name for backward compatibility
+using PinsSPI = InfoSPIZephyr;
+
 /**
- * @brief I2C pins
+ * @brief I2C zephyr device
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
-struct InfoI2C : public I2CConfig {
-  InfoI2C() {
+struct InfoI2CZephyr : public I2CConfig {
+  InfoI2CZephyr() {
     port = 0;
     address = -1;
     set_active = true;
-    p_wire = nullptr;
   };
 
-  InfoI2C(PinFunction function, device* dev_i2c, int address = -1,
+  InfoI2CZephyr(PinFunction function, device* dev_i2c, int address = -1,
 
           bool active = true) {
     this->function = function;
@@ -72,6 +80,7 @@ struct InfoI2C : public I2CConfig {
   device* dev = nullptr;
 
   bool pinsAvailable() { return dev != nullptr; }
+
   operator bool() { return pinsAvailable(); }
 
   bool begin() {
@@ -79,6 +88,11 @@ struct InfoI2C : public I2CConfig {
   }
   void end() {}
 };
+
+/// New name as used in Arduino
+using I2CInfo = InfoI2CZephyr;
+/// Legacy name for backward compatibility
+using PinsI2C = InfoI2CZephyr;
 
 class IDriverDeviceInfo {
  public:
