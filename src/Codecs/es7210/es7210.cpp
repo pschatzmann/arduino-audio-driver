@@ -274,7 +274,7 @@ error_t es7210_mic_select(es7210_input_mics_t mic)
     return ret;
 }
 
-error_t es7210_adc_init(codec_config_t *codec_cfg, void* i2c)
+error_t es7210_adc_init(codec_config_t *codec_cfg, i2c_bus_handle_t i2c)
 {
     // select microphones
     error_t ret = set_mics_for_channels(codec_cfg->i2s.channels);

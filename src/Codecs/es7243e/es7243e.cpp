@@ -41,7 +41,7 @@ error_t es7243e_adc_set_addr(int addr)
     return RESULT_OK;
 }
 
-error_t es7243e_adc_init(codec_config_t *codec_cfg, void *i2c)
+error_t es7243e_adc_init(codec_config_t *codec_cfg, i2c_bus_handle_t i2c)
 {
     i2c_handle = i2c;
     error_t ret = RESULT_OK;

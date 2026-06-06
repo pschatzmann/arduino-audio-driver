@@ -108,7 +108,7 @@
 
 static uint32_t outputEnabled = 0;
 static uint32_t inputEnabled = 0;
-static void* i2c_handle = NULL;
+static i2c_bus_handle_t i2c_handle = NULL;
 /**
   * @}
   */ 
@@ -153,7 +153,7 @@ static uint8_t CODEC_IO_Write16(uint8_t Addr, uint16_t Reg, uint16_t Value)
   * @param AudioFreq: Audio Frequency 
   * @retval 0 if correct communication, else wrong communication
   */
-uint32_t wm8994_Init(uint16_t DeviceAddr, uint16_t OutputInputDevice, uint8_t Volume, uint32_t AudioFreq, void* i2c)
+uint32_t wm8994_Init(uint16_t DeviceAddr, uint16_t OutputInputDevice, uint8_t Volume, uint32_t AudioFreq, i2c_bus_handle_t i2c)
 {
 i2c_handle = i2c;
   uint32_t counter = 0;

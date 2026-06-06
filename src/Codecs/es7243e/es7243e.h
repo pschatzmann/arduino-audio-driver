@@ -43,7 +43,7 @@ extern "C" {
  *     - RESULT_OK
  *     - RESULT_FAIL
  */
-error_t es7243e_adc_init(codec_config_t *codec_cfg, void* i2c);
+error_t es7243e_adc_init(codec_config_t *codec_cfg, i2c_bus_handle_t i2c);
 
 /**
  * @brief Deinitialize ES7243E adc chip

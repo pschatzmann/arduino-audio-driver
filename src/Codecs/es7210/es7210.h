@@ -107,7 +107,7 @@ typedef enum gain_value{
  *      - RESULT_OK
  *      - RESULT_FAIL
  */
-error_t es7210_adc_init(codec_config_t *codec_cfg, void* i2c);
+error_t es7210_adc_init(codec_config_t *codec_cfg, i2c_bus_handle_t i2c);
 
 /**
  * @brief Deinitialize ES7210 ADC chip

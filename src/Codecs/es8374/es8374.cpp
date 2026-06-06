@@ -679,7 +679,7 @@ static int es8374_init_reg(codec_mode_t ms_mode, i2s_format_t fmt, es_i2s_clock_
     return res;
 }
 
-error_t es8374_codec_init(codec_config_t *cfg, codec_mode_t codec_mode, void* i2c, int i2c_port)
+error_t es8374_codec_init(codec_config_t *cfg, codec_mode_t codec_mode, i2c_bus_handle_t i2c, int i2c_port)
 {
     i2c_handle = i2c;
     if (i2c_port>0){

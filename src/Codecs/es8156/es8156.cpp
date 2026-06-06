@@ -120,7 +120,7 @@ static error_t es8156_resume(void)
 //     }
 // }
 
-error_t es8156_codec_init(codec_config_t *cfg, void* i2c)
+error_t es8156_codec_init(codec_config_t *cfg, i2c_bus_handle_t i2c)
 {
     i2c_handle = i2c;
     if (es8156_codec_initialized()) {
