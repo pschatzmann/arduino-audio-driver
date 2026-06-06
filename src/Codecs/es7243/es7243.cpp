@@ -27,7 +27,7 @@
 #include "es7243.h"
 #include <string.h>
 #include "Platforms/API_Delay.h"
-#include "Platforms/GPIOAll.h"
+#include "Platforms/GPIO.h"
 
 #define MCLK_PULSES_NUMBER (20)
 #define ES_ASSERT(a, format, b, ...) \

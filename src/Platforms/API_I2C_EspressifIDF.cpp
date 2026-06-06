@@ -1,5 +1,5 @@
 // I2C Driver for Espressif IDF
-#if defined(ESP32) && !defined(ARDUINO)
+#if defined(ESP32_CMAKE)
 
 #include <assert.h>
 #include <string.h>  // memcpy

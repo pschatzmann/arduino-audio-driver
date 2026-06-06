@@ -1,43 +1,11 @@
 #pragma once
-#ifdef ARDUINO
-#include <stdint.h>
-#include "API_GPIO.h"
-#include "Arduino.h"
 
-/**
- * @file GPIO.h
- * @brief Simple GPIO abstraction for digital input/output.
- */
-
-namespace audio_driver {
-
-#if defined(ARDUINO_ARCH_RP2040)
-using PinModeType = PinMode;
-#else
-using PinModeType = uint8_t;
-#endif
-
-/**
- * @class GPIO
- * @brief Abstraction for digital GPIO pin operations.
- */
-class GPIO : public API_GPIO {
- public:
-  /**
-   * @brief Construct a new GPIO object.
-   * @param pin The pin number or handle.
-   */
-  GPIO() = default;
-  bool begin(IDriverDeviceInfo& pins) { return true; }
-  void end() {}
-  void pinMode(GpioPin pin, int mode) { ::pinMode(pin, (PinModeType)mode); }
-  bool digitalWrite(GpioPin pin, bool value) {
-    ::digitalWrite(pin, value ? HIGH : LOW);
-    return true;
-  }
-  bool digitalRead(GpioPin pin) { return ::digitalRead(pin); }
-};
-
-}  // namespace audio_driver
-
+#ifdef __zephyr__
+#  include "Platforms/GPIO_Zephyr.h"
+#elif defined(ESP32_CMAKE)
+#  include "Platforms/GPIO_EspressifIDF.h"
+#  include "Platforms/GPIOExt.h"
+#elif defined(ARDUINO)
+#  include "Platforms/GPIO_Arduino.h"
+#  include "Platforms/GPIOExt.h"
 #endif

@@ -4,7 +4,7 @@
 #include "DriverDeviceInfoZephyr.h"
 #else
 #include "Platforms/API_Delay.h"
-#include "Platforms/GPIOAll.h"
+#include "Platforms/GPIO.h"
 #include "Platforms/IDriverDeviceInfo.h"
 
 namespace audio_driver {
@@ -226,7 +226,7 @@ class DriverDeviceInfo : public IDriverDeviceInfo {
   }
 
   /// Defines if SPI for SD should be started (by default true)
-  void setSPIActiveForSD(bool active) { 
+  void setSPIActiveForSD(bool active) {
     AD_LOGD("DriverDeviceInfo::setSPIActiveForSD: %d", active);
     sd_active = active; }
 
