@@ -14,11 +14,11 @@ struct InfoI2S {
   InfoI2S() = default;
   InfoI2S(PinFunction function, device* dev_i2s, int port = 0) {
     this->function = function;
-    this->device = dev_i2s;
+    this->dev = dev_i2s;
     this->port = port;
   }
   PinFunction function;
-  device* device = nullptr;
+  device* dev = nullptr;
   int port = 0;  // port number
 };
 
@@ -33,13 +33,13 @@ struct InfoSPI : public SPIConfig {
 
   InfoSPI(PinFunction function, device* dev_spi) {
     this->function = function;
-    this->device = dev_spi;
+    this->dev = dev_spi;
   }
 
   PinFunction function;
-  device* device = nullptr; // zephyr device
+  device* dev = nullptr; // zephyr device
 
-  bool pinsAvailable() { return dev_spi; }
+  bool pinsAvailable() { return dev != nullptr; }
   operator bool() { return pinsAvailable(); }
   bool begin() { return true; }
   void end() { AD_LOGD("PinsSPI::end"); }
@@ -62,16 +62,16 @@ struct InfoI2C : public I2CConfig {
 
           bool active = true) {
     this->function = function;
-    this->device = dev_i2c;
+    this->dev = dev_i2c;
     this->set_active = active;
     this->address = address;
   }
 
   PinFunction function;
   bool set_active = true;
-  device* device = nullptr;
+  device* dev = nullptr;
 
-  bool pinsAvailable() { return dev_i2c != nullptr; }
+  bool pinsAvailable() { return dev != nullptr; }
   operator bool() { return pinsAvailable(); }
 
   bool begin() {
