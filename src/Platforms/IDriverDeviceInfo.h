@@ -12,7 +12,6 @@
 #if defined(__zephyr__)
 #include "IDriverDeviceInfoZephyr"
 #else
-#include "Platforms/TCA9555.h"
 
 namespace audio_driver {
 
