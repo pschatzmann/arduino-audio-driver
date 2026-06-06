@@ -6,7 +6,7 @@
 namespace audio_driver {
 
 /**
- * @brief I2S device 
+ * @brief I2S device
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
@@ -90,7 +90,7 @@ struct InfoI2CZephyr : public I2CConfig {
 };
 
 /// New name as used in Arduino
-using I2CInfo = InfoI2CZephyr;
+using InfoI2C = InfoI2CZephyr;
 /// Legacy name for backward compatibility
 using PinsI2C = InfoI2CZephyr;
 
