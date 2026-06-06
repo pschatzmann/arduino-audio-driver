@@ -33,6 +33,7 @@ else()
     # define location for header files
     target_include_directories(arduino_audio_driver PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src )
 
+    # Add Zephyr support
     if (DEFINED ZEPHYR_PLATFORM)
         target_compile_definitions(arduino_audio_driver PRIVATE __zephyr__ )
         target_link_libraries(arduino_audio_driver PRIVATE zephyr_interface zephyr_generated_headers)

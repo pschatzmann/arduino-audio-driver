@@ -111,7 +111,7 @@ var searchData=
   ['api_5fspi_2eh_108',['API_SPI.h',['../_a_p_i___s_p_i_8h.html',1,'']]],
   ['api_5fspi_5farduino_2ecpp_109',['API_SPI_Arduino.cpp',['../_a_p_i___s_p_i___arduino_8cpp.html',1,'']]],
   ['api_5fspi_5fothers_2ecpp_110',['API_SPI_Others.cpp',['../_a_p_i___s_p_i___others_8cpp.html',1,'']]],
-  ['arduino_111',['arduino',['..//home/pschatzmann/Development/Arduino/libraries/arduino-audio-driver/src/Codecs/wm8960/README.md#autotoc_md10',1,'Installation in Arduino'],['../index.html#autotoc_md5',1,'Installation in Arduino']]],
+  ['arduino_111',['arduino',['..//home/pschatzmann/zephyrproject/my-projects/example-audio-tools/arduino-audio-driver/src/Codecs/wm8960/README.md#autotoc_md10',1,'Installation in Arduino'],['../index.html#autotoc_md5',1,'Installation in Arduino']]],
   ['arduino_20audio_20driver_112',['Arduino Audio Driver',['../index.html',1,'']]],
   ['assign_113',['assign',['../classaudio__driver__local_1_1_vector.html#a3a28528a91fb041474f2f784aacfc89a',1,'audio_driver_local::Vector::assign(size_t number, T value)'],['../classaudio__driver__local_1_1_vector.html#ab96ed9df4d126c9b75b554303495543c',1,'audio_driver_local::Vector::assign(iterator v1, iterator v2)']]],
   ['audio_20codec_114',['WM8960 Audio Codec',['../group__wm8960.html',1,'']]],

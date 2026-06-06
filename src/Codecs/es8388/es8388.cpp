@@ -314,7 +314,7 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle, int addr, int 
     dac_power = ES8388_OUTPUT_LOUT1 | ES8388_OUTPUT_ROUT1;
   } else if (DAC_OUTPUT_LINE2 == cfg->output_device) {
     dac_power = ES8388_OUTPUT_LOUT2 | ES8388_OUTPUT_ROUT2;
-  } else if (DAC_OUTPUT_ALL){
+  } else if (DAC_OUTPUT_ALL == cfg->output_device){
     dac_power = ES8388_OUTPUT_LOUT1 | ES8388_OUTPUT_LOUT2 |
                 ES8388_OUTPUT_ROUT1 | ES8388_OUTPUT_ROUT2;
   }
