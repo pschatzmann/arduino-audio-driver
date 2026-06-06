@@ -1,7 +1,9 @@
 #pragma once
-#include "IDriverDeviceInfo.h"
+#include "DriverCommon.h"
 
 namespace audio_driver {
+
+class IDriverDeviceInfo;
 
 class API_GPIO {
  public:

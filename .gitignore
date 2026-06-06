@@ -1,3 +1,4 @@
 debug*
 .vscode/
+.zed/
 build/

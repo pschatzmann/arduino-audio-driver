@@ -5,6 +5,7 @@
 #include "Platforms/API_I2C.h"
 #include "Platforms/API_SPI.h"
 #include "Platforms/API_GPIO.h"
+#include "Platforms/API_Delay.h"
 #include "Platforms/Logger.h"
 #include "Platforms/Optional.h"
 #include "Platforms/Vector.h"

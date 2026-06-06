@@ -4,6 +4,7 @@
 #include "DriverCommon.h"
 #include "DriverDeviceInfo.h"
 #include "Platforms/API_GPIO.h"
+#include "Platforms/API_Delay.h"
 
 namespace audio_driver {
 

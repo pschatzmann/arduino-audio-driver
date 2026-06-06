@@ -7,6 +7,7 @@
 #include <stdarg.h>
 
 #if defined(ARDUINO)
+#include "Arduino.h"
 Print *p_audio_driver_log_output = &Serial;
 #endif
 
@@ -61,7 +62,7 @@ void AD_LOGE(const char* fmr, ...) {
   }
 }
 
-/// Arcuino c++ println function 
+/// Arcuino c++ println function
 void audioDriverLogStr(const char* msg){
 #if defined(ARDUINO)
   if (p_audio_driver_log_output) p_audio_driver_log_output->println(msg);

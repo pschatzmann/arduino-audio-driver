@@ -2,6 +2,7 @@
 #include "API_Delay.h"
 
 #ifdef ARDUINO
+#include "Arduino.h"
 void delayMs(unsigned long ms) { delay(ms); }
 #elif defined(__zephyr__)
 #include <zephyr/kernel.h>

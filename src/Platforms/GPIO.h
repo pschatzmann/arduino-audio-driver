@@ -1,6 +1,6 @@
 #pragma once
+#ifdef ARDUINO
 #include <stdint.h>
-
 #include "API_GPIO.h"
 #include "Arduino.h"
 
@@ -39,3 +39,5 @@ class GPIO : public API_GPIO {
 };
 
 }  // namespace audio_driver
+
+#endif

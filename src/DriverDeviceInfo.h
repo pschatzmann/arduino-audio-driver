@@ -3,6 +3,7 @@
 #ifdef __zephyr__
 #include "DriverDeviceInfoZephyr.h"
 #else
+#include "Platforms/API_Delay.h"
 #include "Platforms/GPIOAll.h"
 #include "Platforms/IDriverDeviceInfo.h"
 
