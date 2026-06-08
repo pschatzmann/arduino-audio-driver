@@ -18,10 +18,10 @@ class PinsLyratMiniClass : public DriverDeviceInfoZephyr {
     addI2S(PinFunction::CODEC, DEVICE_DT_GET(DT_ALIAS(i2s_1)));
     addI2S(PinFunction::CODEC_ADC, DEVICE_DT_GET(DT_ALIAS(i2s_2)));
 
-    addPin(PinFunction::HEADPHONE_DETECT, GPIO_DT_SPEC_GET(DT_ALIAS(pin_headphone_detect), gpios), PinLogic::InputActiveHigh);
-    addPin(PinFunction::PA, GPIO_DT_SPEC_GET(DT_ALIAS(pin_pa), gpios), PinLogic::Output);
-    addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(pin_led_1), gpios), PinLogic::Output, 1);
-    addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(pin_led_2), gpios), PinLogic::Output, 2);
+    addPin(PinFunction::HEADPHONE_DETECT, GPIO_DT_SPEC_GET(DT_ALIAS(headphone_detect), gpios), PinLogic::InputActiveHigh);
+    addPin(PinFunction::PA, GPIO_DT_SPEC_GET(DT_ALIAS(pa), gpios), PinLogic::Output);
+    addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios), PinLogic::Output, 1);
+    addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios), PinLogic::Output, 2);
     //addPin(PinFunction::MCLK_SOURCE, 0, PinLogic::Inactive);
     addPin(PinFunction::KEY, GPIO_DT_SPEC_GET(DT_ALIAS(key_1), gpios), PinLogic::Input, 0);
   }
