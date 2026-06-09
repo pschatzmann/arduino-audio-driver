@@ -6,6 +6,29 @@
 namespace audio_driver {
 
 /**
+ * @brief Pins for LED, Buttons, AMP etc
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+struct InfoGPIOZephyr {
+  InfoGPIOZephyr() = default;
+  InfoGPIOZephyr(PinFunction function, GpioPin pin, PinLogic logic,
+               int index = 0) {
+    this->function = function;
+    this->pin = pin;
+    this->index = index;
+    this->pin_logic = logic;
+  }
+  PinFunction function;
+  GpioPin pin{};
+  int index = 0;
+  PinLogic pin_logic;
+  bool active = true;  // false if pin conflict
+};
+
+using InfoGPIO = InfoGPIOZephyr;
+
+/**
  * @brief I2S device
  * @author Phil Schatzmann
  * @copyright GPLv3

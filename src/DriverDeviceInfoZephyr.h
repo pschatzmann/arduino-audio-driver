@@ -66,20 +66,20 @@ class DriverDeviceInfoZephyr : public IDriverDeviceInfo {
   /// Updates the I2C pin information using the function as key
   bool setI2C(InfoI2C info) { return set<InfoI2C>(pin, info); }
 
-  bool addPin(PinsFunction pin) {
+  bool addPin(InfoGPIO pin) {
     pins.push_back(pin);
     return true;
   }
 
   bool addPin(PinFunction function, GpioPin pinNo, PinLogic logic,
               int index = 0) {
-    PinsFunction pin(function, pinNo, logic, index);
+    InfoGPIO pin(function, pinNo, logic, index);
     return addPin(pin);
   }
 
   /// Updates an existing pin information using the function and index as key
-  bool setPin(PinsFunction updatedPin) {
-    for (PinsFunction& pin : pins) {
+  bool setPin(InfoGPIO updatedPin) {
+    for (InfoGPIO& pin : pins) {
       if (pin.function == updatedPin.function &&
           pin.index == updatedPin.index) {
         pin = updatedPin;
@@ -91,7 +91,7 @@ class DriverDeviceInfoZephyr : public IDriverDeviceInfo {
 
   /// Updates an existing pin active flag for the indicated gpio
   bool setPinActive(int gpioPin, bool active) {
-    for (PinsFunction& pin : pins) {
+    for (InfoGPIO& pin : pins) {
       if (pin.pin == gpioPin) {
         pin.active = active;
         return true;
@@ -113,17 +113,17 @@ class DriverDeviceInfoZephyr : public IDriverDeviceInfo {
   }
 
   /// Get pin information by function
-  audio_driver_local::Optional<PinsFunction> getPin(PinFunction function,
+  audio_driver_local::Optional<InfoGPIO> getPin(PinFunction function,
                                                     int pos = 0) {
-    for (PinsFunction& pin : pins) {
+    for (InfoGPIO& pin : pins) {
       if (pin.function == function && pin.index == pos) return pin;
     }
     return {};
   }
 
   /// Get pin information by pin ID
-  audio_driver_local::Optional<PinsFunction> getPin(GpioPin pinId) {
-    for (PinsFunction& pin : pins) {
+  audio_driver_local::Optional<InfoGPIO> getPin(GpioPin pinId) {
+    for (InfoGPIO& pin : pins) {
       if (pin.pin == pinId) return pin;
     }
     return {};
@@ -244,7 +244,7 @@ class DriverDeviceInfoZephyr : public IDriverDeviceInfo {
   audio_driver_local::Vector<InfoI2S> i2s{0};
   audio_driver_local::Vector<InfoSPI> spi{0};
   audio_driver_local::Vector<InfoI2C> i2c{0};
-  audio_driver_local::Vector<PinsFunction> pins{0};
+  audio_driver_local::Vector<InfoGPIO> pins{0};
   GPIOExt gpio;  // standard Arduino GPIO
   bool sd_active = false;
   bool sdmmc_active = false;

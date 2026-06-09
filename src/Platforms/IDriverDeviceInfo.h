@@ -21,9 +21,9 @@ namespace audio_driver {
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
-struct PinsFunction {
-  PinsFunction() = default;
-  PinsFunction(PinFunction function, GpioPin pin, PinLogic logic,
+struct InfoGPIO {
+  InfoGPIO() = default;
+  InfoGPIO(PinFunction function, GpioPin pin, PinLogic logic,
                int index = 0) {
     this->function = function;
     this->pin = pin;
