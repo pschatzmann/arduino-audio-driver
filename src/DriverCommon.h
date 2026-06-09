@@ -1,14 +1,25 @@
 #pragma once
 
 /*!
- * @file
- * @defgroup audio_driver Audio Driver
- * @defgroup enumerations Public enumeration types
+ * @file AudioDriverTypes.h
+ * @brief Public types, enumerations, and configuration structures for the Audio Driver.
+ *
+ * @defgroup audio_driver  Audio Driver
+ * @defgroup enumerations  Public Enumeration Types
  */
+
+// ============================================================================
+// Standard Includes
+// ============================================================================
 
 #include <stdint.h>
 #include "ConfigAudioDriver.h"
 #include "Platforms/Logger.h"
+#include "Platforms/AudioDriverLogger.h"
+
+// ============================================================================
+// Platform Abstractions
+// ============================================================================
 
 #if defined(ARDUINO)
 #  include "Arduino.h"
@@ -35,262 +46,269 @@
 #  endif
 #endif
 
+// ============================================================================
+// Tuning Parameters
+// ============================================================================
+
 #ifndef TOUCH_LIMIT
-# define TOUCH_LIMIT 20
+#  define TOUCH_LIMIT 20
 #endif
 
 #ifndef LYRAT_MINI_RANGE
-# define LYRAT_MINI_RANGE 5
+#  define LYRAT_MINI_RANGE 5
 #endif
 
 #ifndef LYRAT_MINI_DELAY_MS
-# define LYRAT_MINI_DELAY_MS 5
+#  define LYRAT_MINI_DELAY_MS 5
 #endif
 
-/// Fixed Definitions
-#define RESULT_OK 0    /*!< error_t value indicating success (no error) */
-#define RESULT_FAIL -1 /*!< Generic error_t code indicating failure */
-#define ERROR_INVALID_ARG 1
+// ============================================================================
+// Error Codes
+// ============================================================================
 
-#define I2C_END  true  // wether to send a stop bit at the end of the transmission
+#define RESULT_OK         0  /*!< Indicates success (no error) */
+#define RESULT_FAIL      -1  /*!< Generic failure code */
+#define ERROR_INVALID_ARG 1  /*!< Invalid argument supplied */
+
+// ============================================================================
+// Misc Definitions
+// ============================================================================
+
+/** Whether to send a stop bit at the end of an I2C transmission. */
+#define I2C_END true
+
+// ============================================================================
+// GPIO & Bus Handle Abstractions
+// ============================================================================
 
 #ifdef __zephyr__
+
 #include <zephyr/device.h>
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/gpio.h>
+
 namespace audio_driver {
-// In Zephyr, GPIO pins are defined as device tree specifications, so we use a
-// pointer to the gpio_dt_spec struct instead of an integer pin number.
-using GpioPin = ::gpio_dt_spec*;
-using i2c_bus_handle_t = ::device* ;
-using spi_bus_handle_t = ::device* ;
+
+// In Zephyr, GPIO pins are device-tree specifications.
+using GpioPin         = ::gpio_dt_spec*;
+using i2c_bus_handle_t = ::device*;
+using spi_bus_handle_t = ::device*;
+
 } // namespace audio_driver
 
 #ifndef GPIO_NONE
-# define GPIO_NONE nullptr
+#  define GPIO_NONE nullptr
 #endif
 
 #ifndef IS_GPIO
-# define IS_GPIO(pin) (pin !=nullptr)
+#  define IS_GPIO(pin)    ((pin) != nullptr)
 #endif
 
 #ifndef GPIO_TO_INT
-# define GPIO_TO_INT(pin) pin == nullptr ? -1 : pin->pin
+#  define GPIO_TO_INT(pin) ((pin) == nullptr ? -1 : (pin)->pin)
 #endif
 
-#else
-// non zephyr platforms can use simple integer pin numbers, so we define GPIO_NONE as -1 and IS_GPIO to check for valid pin numbers.
+#else // Non-Zephyr platforms
+
+// Non-Zephyr platforms use simple integer pin numbers.
 #ifndef GPIO_NONE
 #  define GPIO_NONE -1
 #endif
 
 #ifndef IS_GPIO
-#  define IS_GPIO(pin) (pin != GPIO_NONE)
+#  define IS_GPIO(pin)    ((pin) != GPIO_NONE)
 #endif
 
 #ifndef GPIO_TO_INT
-#  define GPIO_TO_INT(pin) pin
+#  define GPIO_TO_INT(pin) (pin)
 #endif
 
-#endif
+#endif // __zephyr__
 
-#include "Platforms/AudioDriverLogger.h"
+// ============================================================================
+// Namespace
+// ============================================================================
 
 namespace audio_driver {
 
 using error_t = int;
 
 #ifndef __zephyr__
-// For Arduino and other platforms, we can use a simple integer pin number.
-using GpioPin = int16_t;
+using GpioPin          = int16_t;
 using i2c_bus_handle_t = void*;
 using spi_bus_handle_t = void*;
 #endif
 
+// ----------------------------------------------------------------------------
+// ADC / DAC Selection
+// ----------------------------------------------------------------------------
+
 /**
  * @enum input_device_t
- * @brief Select adc for input mic signal. If the chip only has one ADC this
- * might provide the functionality on the channel level
+ * @brief Selects the ADC input source for the microphone signal.
+ *        On single-ADC chips, this may select at the channel level.
  * @ingroup enumerations
  * @ingroup audio_driver
  */
 enum input_device_t {
-  ADC_INPUT_NONE = 0x00, /*!< no input */
-  ADC_INPUT_LINE1,       /*!< mic input from adc 1 */
-  ADC_INPUT_LINE2,       /*!< mic input from adc 2 */
-  ADC_INPUT_LINE3,       /*!< mic input from adc 3 */
-  ADC_INPUT_ALL,         /*!< mic input from all adc */
-  ADC_INPUT_DIFFERENCE,  /*!< mic input to adc difference channel */
-} ;
+  ADC_INPUT_NONE       = 0x00, /*!< No input selected */
+  ADC_INPUT_LINE1,             /*!< Mic input from ADC 1 */
+  ADC_INPUT_LINE2,             /*!< Mic input from ADC 2 */
+  ADC_INPUT_LINE3,             /*!< Mic input from ADC 3 */
+  ADC_INPUT_ALL,               /*!< Mic input from all ADCs */
+  ADC_INPUT_DIFFERENCE,        /*!< Mic input via differential channel */
+};
 
 /**
  * @enum output_device_t
- * @brief Select individual dac for dac output. If the device has only one DAC
- * this might provide the functionality channel level
+ * @brief Selects the DAC output destination.
+ *        On single-DAC devices, this may select at the channel level.
  * @ingroup enumerations
  * @ingroup audio_driver
  */
- enum output_device_t {
-  DAC_OUTPUT_NONE = 0x00, /*!< no output */
-  DAC_OUTPUT_LINE1,       /*!< dac output signal to dac 1 */
-  DAC_OUTPUT_LINE2,       /*!< dac output signal to dac 2 */
-  DAC_OUTPUT_ALL,         /*!< dac output signal to both dacs */
-} ;
+enum output_device_t {
+  DAC_OUTPUT_NONE  = 0x00, /*!< No output selected */
+  DAC_OUTPUT_LINE1,        /*!< Output to DAC 1 */
+  DAC_OUTPUT_LINE2,        /*!< Output to DAC 2 */
+  DAC_OUTPUT_ALL,          /*!< Output to both DACs */
+};
+
+// ----------------------------------------------------------------------------
+// I2S Interface Configuration
+// ----------------------------------------------------------------------------
 
 /**
  * @enum i2s_master_slave_t
- * @brief Select I2S interface operating mode i.e. master or slave for audio
- * codec chip
+ * @brief I2S operating mode for the audio codec.
+ *        Note: if the microcontroller is master, the codec must be slave.
  * @ingroup enumerations
  */
 enum i2s_master_slave_t {
-  MODE_SLAVE = 0x00,  /*!< set slave mode */
-  MODE_MASTER = 0x01, /*!< set master mode */
-} ;
+  MODE_SLAVE  = 0x00, /*!< Codec operates as I2S slave */
+  MODE_MASTER = 0x01, /*!< Codec operates as I2S master */
+};
 
 /**
  * @enum samplerate_t
- * @brief Select I2S interface samples per second
+ * @brief I2S sample rate in samples per second.
  * @ingroup enumerations
  */
 enum samplerate_t {
-  RATE_8K = 0, /*!< set to  8k samples per second */
-  RATE_11K,    /*!< set to 11.025k samples per second */
-  RATE_16K,    /*!< set to 16k samples in per second */
-  RATE_22K,    /*!< set to 22.050k samples per second */
-  RATE_24K,    /*!< set to 24k samples in per second */
-  RATE_32K,    /*!< set to 32k samples in per second */
-  RATE_44K,    /*!< set to 44.1k samples per second */
-  RATE_48K,    /*!< set to 48k samples per second */
-  RATE_64K,    /*!< set to 64k samples per second */
-  RATE_88K,    /*!< set to 88.2k samples per second */
-  RATE_96K,    /*!< set to 96k samples per second */
-  RATE_128K,   /*!< set to 128K samples per second */
-  RATE_176K,   /*!< set to 176.4K samples per second */
-  RATE_192K,   /*!< set to 192k samples per second */
-} ;
+  RATE_8K   = 0, /*!<   8,000 samples/s */
+  RATE_11K,      /*!<  11,025 samples/s */
+  RATE_16K,      /*!<  16,000 samples/s */
+  RATE_22K,      /*!<  22,050 samples/s */
+  RATE_24K,      /*!<  24,000 samples/s */
+  RATE_32K,      /*!<  32,000 samples/s */
+  RATE_44K,      /*!<  44,100 samples/s */
+  RATE_48K,      /*!<  48,000 samples/s */
+  RATE_64K,      /*!<  64,000 samples/s */
+  RATE_88K,      /*!<  88,200 samples/s */
+  RATE_96K,      /*!<  96,000 samples/s */
+  RATE_128K,     /*!< 128,000 samples/s */
+  RATE_176K,     /*!< 176,400 samples/s */
+  RATE_192K,     /*!< 192,000 samples/s */
+};
 
 /**
  * @enum sample_bits_t
- * @brief Select I2S interface number of bits per sample
+ * @brief Number of bits per I2S sample.
  * @ingroup enumerations
  */
 enum sample_bits_t {
-  BIT_LENGTH_MIN = -1,
-  BIT_LENGTH_16BITS = 0x03,
-  BIT_LENGTH_18BITS = 0x02,
-  BIT_LENGTH_20BITS = 0x01,
-  BIT_LENGTH_24BITS = 0x00,
-  BIT_LENGTH_32BITS = 0x04,
+  BIT_LENGTH_MIN     = -1,
+  BIT_LENGTH_16BITS  = 0x03,
+  BIT_LENGTH_18BITS  = 0x02,
+  BIT_LENGTH_20BITS  = 0x01,
+  BIT_LENGTH_24BITS  = 0x00,
+  BIT_LENGTH_32BITS  = 0x04,
   BIT_LENGTH_MAX,
-} ;
+};
 
 /**
  * @enum i2s_format_t
- * @brief Select I2S interface format for audio codec chip
+ * @brief I2S data format for the audio codec.
  * @ingroup enumerations
  */
 enum i2s_format_t {
-  I2S_NORMAL = 0, /*!< set normal I2S format */
-  I2S_LEFT = 1,   /*!< set all left format */
-  I2S_RIGHT = 2,  /*!< set all right format */
-  I2S_DSP = 3,    /*!< set dsp/pcm format */
-} ;
+  I2S_NORMAL = 0, /*!< Standard I2S format */
+  I2S_LEFT   = 1, /*!< Left-justified format */
+  I2S_RIGHT  = 2, /*!< Right-justified format */
+  I2S_DSP    = 3, /*!< DSP / PCM format */
+};
 
 /**
  * @enum signal_t
- * @brief Usually the value is digital for i2s
+ * @brief Signal type carried over the audio interface.
  * @ingroup enumerations
  */
 enum signal_t {
-  SIGNAL_DIGITAL,
-  SIGNAL_AMALOG,
-  SIGNAL_PDM,
-  SIGNAL_TDM,
-} ;
+  SIGNAL_DIGITAL, /*!< Digital (standard I2S) */
+  SIGNAL_AMALOG,  /*!< Analogue */
+  SIGNAL_PDM,     /*!< Pulse-density modulation */
+  SIGNAL_TDM,     /*!< Time-division multiplexing */
+};
+
+/**
+ * @enum channels_t
+ * @brief Number of audio channels.
+ * @ingroup enumerations
+ */
+enum channels_t {
+  CHANNELS2  = 2,
+  CHANNELS4  = 4,
+  CHANNELS8  = 8,
+  CHANNELS16 = 16,
+};
+
+// ----------------------------------------------------------------------------
+// Codec Operating Mode & Gain
+// ----------------------------------------------------------------------------
+
+/**
+ * @enum codec_mode_t
+ * @brief Selects which codec path(s) are active.
+ * @ingroup enumerations
+ */
+enum codec_mode_t {
+  CODEC_MODE_MIN    = -1,
+  CODEC_MODE_NONE   = 0x00,
+  CODEC_MODE_ENCODE = 0x01, /*!< ADC path only */
+  CODEC_MODE_DECODE = 0x02, /*!< DAC path only */
+  CODEC_MODE_BOTH   = 0x03, /*!< ADC and DAC paths */
+  CODEC_MODE_LINE_IN= 0x04, /*!< Line-in via ADC channel */
+  CODEC_MODE_MAX,
+};
+
 /**
  * @enum es_mic_gain_t
- * @brief Microphone Gain
+ * @brief Microphone pre-amplifier gain.
  * @ingroup enumerations
  */
 enum es_mic_gain_t {
-  MIC_GAIN_MIN = -1,
-  MIC_GAIN_0DB = 0,
-  MIC_GAIN_3DB = 3,
-  MIC_GAIN_6DB = 6,
-  MIC_GAIN_9DB = 9,
+  MIC_GAIN_MIN  = -1,
+  MIC_GAIN_0DB  = 0,
+  MIC_GAIN_3DB  = 3,
+  MIC_GAIN_6DB  = 6,
+  MIC_GAIN_9DB  = 9,
   MIC_GAIN_12DB = 12,
   MIC_GAIN_15DB = 15,
   MIC_GAIN_18DB = 18,
   MIC_GAIN_21DB = 21,
   MIC_GAIN_24DB = 24,
   MIC_GAIN_MAX,
-} ;
-
-/**
- * @enum codec_mode_t
- * @brief Select media hal codec mode
- * @ingroup enumerations
- */
-enum codec_mode_t {
-  CODEC_MODE_MIN = -1,
-  CODEC_MODE_NONE = 0x00,
-  CODEC_MODE_ENCODE = 0x01,  /*!< select adc */
-  CODEC_MODE_DECODE = 0x02,  /*!< select dac */
-  CODEC_MODE_BOTH = 0x03,    /*!< select both adc and dac */
-  CODEC_MODE_LINE_IN = 0x04, /*!< set adc channel */
-  CODEC_MODE_MAX
-} ;
-
-/**
- * @enum channels_t
- * @brief Select the number of channels
- * @ingroup enumerations
- */
-enum channels_t {
-  CHANNELS2 = 2,
-  CHANNELS4 = 4,
-  CHANNELS8 = 8,
-  CHANNELS16 = 16,
 };
 
-/**
- * @brief I2s interface configuration for audio codec chip
- * @ingroup audio_driver
- */
- struct I2SDefinition {
-  /*!< Audio codec chip mode: if the microcontroller is master the codec must be
-   * slave! */
-  i2s_master_slave_t mode;
-  /*!< I2S interface format */
-  i2s_format_t fmt;
-  /*!< I2S sample rate in samples per second */
-  samplerate_t rate;
-  /*!< i2s number of bits per sample */
-  sample_bits_t bits;
-  /*!< i2s number of channels */
-  channels_t channels;
-  /*!< signal tpye */
-  signal_t signal_type;
-
-} ;
-
-/**
- * @brief Configure media hal for initialization of audio codec chip
- */
-struct  codec_config_t{
-  input_device_t input_device;   /*!< set adc channel */
-  output_device_t output_device; /*!< set dac channel */
-  I2SDefinition i2s;             /*!< set I2S interface configuration */
-} ;
+// ----------------------------------------------------------------------------
+// GPIO Pin Abstractions
+// ----------------------------------------------------------------------------
 
 /**
  * @enum PinLogic
- * @brief input or output
+ * @brief Describes the electrical role and active level of a GPIO pin.
  * @ingroup enumerations
  */
-
-enum class  PinLogic {
+enum class PinLogic {
   InputActiveHigh,
   InputActiveLow,
   InputActiveTouch,
@@ -301,15 +319,15 @@ enum class  PinLogic {
 
 /**
  * @enum PinFunction
- * @brief Pin Functions
+ * @brief Logical function assigned to a GPIO pin.
  * @ingroup enumerations
  * @ingroup audio_driver
  */
-enum class  PinFunction {
-  UNDEFINED = 0,
+enum class PinFunction {
+  UNDEFINED      = 0,
   HEADPHONE_DETECT,
   AUXIN_DETECT,
-  PA,  // Power Amplifier
+  PA,            /*!< Power Amplifier enable */
   POWER,
   LED,
   KEY,
@@ -324,7 +342,7 @@ enum class  PinFunction {
 
 /**
  * @enum AudioDriverKey
- * @brief Key names
+ * @brief Logical key identifiers for hardware buttons.
  * @ingroup enumerations
  * @ingroup audio_driver
  */
@@ -334,12 +352,43 @@ enum class AudioDriverKey {
   KEY_PLAY,
   KEY_SET,
   KEY_VOLUME_DOWN,
-  KEY_VOLUME_UP
+  KEY_VOLUME_UP,
+};
+
+// ----------------------------------------------------------------------------
+// Configuration Structures
+// ----------------------------------------------------------------------------
+
+/**
+ * @brief I2S interface parameters for the audio codec.
+ * @ingroup audio_driver
+ */
+struct I2SDefinition {
+  i2s_master_slave_t mode;        /*!< Master / slave operating mode */
+  i2s_format_t       fmt;         /*!< Data format */
+  samplerate_t       rate;        /*!< Sample rate */
+  sample_bits_t      bits;        /*!< Bits per sample */
+  channels_t         channels;    /*!< Number of channels */
+  signal_t           signal_type; /*!< Signal type */
+};
+
+/**
+ * @brief Top-level codec configuration passed to the audio driver at init.
+ * @ingroup audio_driver
+ */
+struct codec_config_t {
+  input_device_t  input_device;  /*!< ADC input source */
+  output_device_t output_device; /*!< DAC output destination */
+  I2SDefinition   i2s;           /*!< I2S interface configuration */
 };
 
 } // namespace audio_driver
 
-// automatically use namespace
-#if (defined(ARDUINO) && !defined(NO_USING_NAMESPACE_AUDIO_DRIVER)) || defined(USING_NAMESPACE_AUDIO_DRIVER)
+// ============================================================================
+// Optional Namespace Import
+// ============================================================================
+
+#if (defined(ARDUINO) && !defined(NO_USING_NAMESPACE_AUDIO_DRIVER)) \
+    || defined(USING_NAMESPACE_AUDIO_DRIVER)
 using namespace audio_driver;
 #endif
