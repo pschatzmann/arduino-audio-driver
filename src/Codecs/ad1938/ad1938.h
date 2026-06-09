@@ -25,9 +25,12 @@
 #ifdef ARDUINO
 #pragma once
 #include <SPI.h>
-#include "DriverCommon.h"
+
 #include "Codecs/CodecConstants.h"
+#include "DriverCommon.h"
 #include "Platforms/API_GPIO.h"
+
+namespace audio_driver {
 
 /**
  * @brief The AD1938 is a high performance, single-chip codec that pro-
@@ -39,9 +42,8 @@
  */
 class AD1938 {
  public:
-
   bool begin(API_GPIO& gpio, codec_config_t cfg, int clatchPin, int resetPin,
-              SPIClass &spi = SPI);
+             SPIClass& spi = SPI);
 
   bool end() {
     setMute(true);
@@ -49,7 +51,7 @@ class AD1938 {
   }
 
   bool enable(void);
-  
+
   bool disable(void);
 
   bool setVolume(float volume) {
@@ -67,16 +69,16 @@ class AD1938 {
   bool setVolumeDAC(int dac, int volume);
 
   bool setMuteADC(bool mute);
-  
+
   bool setMuteDAC(bool mute);
-  
+
   bool setMute(bool mute) { return setMuteADC(mute) && setMuteDAC(mute); }
 
  protected:
   codec_config_t cfg;
   int ad1938_clatch_pin;
   int ad1938_reset_pin;
-  SPIClass *p_spi = nullptr;
+  SPIClass* p_spi = nullptr;
   unsigned char dac_fs = 0;
   unsigned char adc_fs = 0;
   unsigned char dac_mode = 0;
@@ -85,7 +87,7 @@ class AD1938 {
   unsigned char adc_wl = 0;
   unsigned char dac_channels = 0;
   unsigned char adc_channels = 0;
-  API_GPIO *p_gpio = nullptr;
+  API_GPIO* p_gpio = nullptr;
 
   bool config();
   bool configMaster();
@@ -100,5 +102,7 @@ class AD1938 {
     return vol;
   }
 };
+
+}  // namespace audio_driver
 
 #endif

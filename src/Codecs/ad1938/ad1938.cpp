@@ -468,8 +468,10 @@ Bit Value Function Description
 #define ADC_LRCLK_FMT_50_50 (0x00)
 #define ADC_LRCLK_FMT_PULSE (0x01)
 
-bool AD1938::begin(API_GPIO& gpio, codec_config_t configVal, int clatchPin, int resetPin,
-                   SPIClass &spi) {
+namespace audio_driver {
+
+bool AD1938::begin(API_GPIO& gpio, codec_config_t configVal, int clatchPin,
+                   int resetPin, SPIClass& spi) {
   ad1938_clatch_pin = clatchPin;
   ad1938_reset_pin = resetPin;
   cfg = configVal;
@@ -775,5 +777,6 @@ bool AD1938::setMuteADC(bool mute) {
   return true;
 }
 
+}  // namespace audio_driver
 
 #endif

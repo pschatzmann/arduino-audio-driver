@@ -32,6 +32,8 @@
 #define EQ5_9000Hz 0X02
 #define EQ5_11700Hz 0X03
 
+namespace audio_driver {
+
 class WM8978 {
  public:
   WM8978() {}
@@ -68,4 +70,7 @@ class WM8978 {
   uint8_t Write_Reg(uint8_t reg, uint16_t val);
   uint16_t Read_Reg(uint8_t reg);
 };
+
+} // namespace audio_driver
+
 #endif

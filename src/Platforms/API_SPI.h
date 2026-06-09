@@ -3,6 +3,8 @@
 
 #include "DriverCommon.h"
 
+namespace audio_driver {
+
 #ifndef ARDUINO
 // prevent compile errors
 struct SPIClass {
@@ -22,4 +24,6 @@ struct SPIConfig {
 error_t spi_bus_create(struct SPIConfig *pin);
 
 void spi_bus_delete(spi_bus_handle_t bus);
+
+} // namespace audio_driver
 

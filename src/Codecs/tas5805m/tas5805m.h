@@ -29,10 +29,6 @@
 #include "Codecs/CodecConstants.h"
 #include "Platforms/API_I2C.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #define TAS5805M_REG_00      0x00
 #define TAS5805M_REG_02      0x02
 #define TAS5805M_REG_03      0x03
@@ -60,6 +56,7 @@ extern "C" {
 #define  TAS5805M_DAMP_MODE_BTL      0x0
 #define  TAS5805M_DAMP_MODE_PBTL     0x04
 
+namespace audio_driver {
 
 void tas5805m_set_power_pin(int pin);
 
@@ -148,7 +145,5 @@ error_t tas5805m_get_mute(int *value);
  */
 error_t tas5805m_set_damp_mode(int value);
 
-#ifdef __cplusplus
-}
-#endif
+} // namespace audio_driver
 

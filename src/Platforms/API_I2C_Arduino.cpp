@@ -7,6 +7,8 @@
 
 #include "Platforms/API_I2C.h"
 
+namespace audio_driver {
+
 error_t i2c_bus_create(struct I2CConfig *config) {
   AD_LOGI("i2c_bus_create");
   assert(config != nullptr);
@@ -93,6 +95,8 @@ error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
     result = RESULT_FAIL;
   }
   return result;
+}
+
 }
 
 #endif

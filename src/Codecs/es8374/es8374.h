@@ -3,38 +3,38 @@
  *
  * Copyright (c) 2018 <ESPRESSIF SYSTEMS (SHANGHAI) PTE LTD>
  *
- * Permission is hereby granted for use on all ESPRESSIF SYSTEMS products, in which case,
- * it is free of charge, to any person obtaining a copy of this software and associated
- * documentation files (the "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the Software is furnished
- * to do so, subject to the following conditions:
+ * Permission is hereby granted for use on all ESPRESSIF SYSTEMS products, in
+ * which case, it is free of charge, to any person obtaining a copy of this
+ * software and associated documentation files (the "Software"), to deal in the
+ * Software without restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all copies or
- * substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  */
 
 #pragma once
 
-#include "stdbool.h"
+#include "Codecs/CodecConstants.h"
 #include "DriverCommon.h"
 #include "Platforms/API_I2C.h"
-#include "Codecs/CodecConstants.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "stdbool.h"
 
 /* ES8374 address 0x22:CE=1;0x20:CE=0 / 0x20>>1 = 0x10 */
-#define ES8374_ADDR 0x10 
+#define ES8374_ADDR 0x10
+
+namespace audio_driver {
 
 /**
  * @brief Initialize ES8374 codec chip
@@ -45,7 +45,8 @@ extern "C" {
  *     - RESULT_OK
  *     - RESULT_FAIL
  */
-error_t es8374_codec_init(codec_config_t *cfg, codec_mode_t codec_mode, i2c_bus_handle_t i2c, int i2c_addr);
+error_t es8374_codec_init(codec_config_t* cfg, codec_mode_t codec_mode,
+                          i2c_bus_handle_t i2c, int i2c_addr);
 
 /**
  * @brief Deinitialize ES8374 codec chip
@@ -89,7 +90,8 @@ error_t es8374_i2s_config_clock(es_i2s_clock_t cfg);
  *     - RESULT_OK
  *     - RESULT_FAIL
  */
-error_t es8374_set_bits_per_sample(codec_mode_t mode, sample_bits_t bit_per_sample);
+error_t es8374_set_bits_per_sample(codec_mode_t mode,
+                                   sample_bits_t bit_per_sample);
 
 /**
  * @brief  Start ES8374 codec chip
@@ -133,10 +135,11 @@ error_t es8374_codec_set_voice_volume(int volume);
  *     - RESULT_OK
  *     - RESULT_FAIL
  */
-error_t es8374_codec_get_voice_volume(int *volume);
+error_t es8374_codec_get_voice_volume(int* volume);
 
 /**
- * @brief Mute or unmute ES8374 DAC. Basically you can use this function to mute or unmute the output
+ * @brief Mute or unmute ES8374 DAC. Basically you can use this function to mute
+ * or unmute the output
  *
  * @param enable mute(1) or unmute(0)
  *
@@ -218,7 +221,7 @@ void es8374_read_all();
  *     - RESULT_FAIL Parameter error
  *     - RESULT_OK   Success
  */
-error_t es8374_codec_config_i2s(codec_mode_t mode, I2SDefinition *iface);
+error_t es8374_codec_config_i2s(codec_mode_t mode, I2SDefinition* iface);
 
 /**
  * @brief Control ES8374 codec chip
@@ -230,18 +233,14 @@ error_t es8374_codec_config_i2s(codec_mode_t mode, I2SDefinition *iface);
  *     - RESULT_FAIL Parameter error
  *     - RESULT_OK   Success
  */
-error_t es8374_codec_ctrl_state_active(codec_mode_t mode, bool ctrl_state_active);
+error_t es8374_codec_ctrl_state_active(codec_mode_t mode,
+                                       bool ctrl_state_active);
 
 typedef enum {
-    ES8374_PGA_GAIN_MIN = -1,
-    ES8374_PGA_GAIN_DIS = 0,
-    ES8374_PGA_GAIN_EN = 1,
-    ES8374_PGA_GAIN_MAX = 2,
+  ES8374_PGA_GAIN_MIN = -1,
+  ES8374_PGA_GAIN_DIS = 0,
+  ES8374_PGA_GAIN_EN = 1,
+  ES8374_PGA_GAIN_MAX = 2,
 } es_d2se_pga_t;
 
-
-#ifdef __cplusplus
-}
-#endif
-
-
+}  // namespace audio_driver

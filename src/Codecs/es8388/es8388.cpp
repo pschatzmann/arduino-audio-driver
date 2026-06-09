@@ -25,20 +25,21 @@
  */
 #include "es8388.h"
 
+#include <string.h>
+// #include "audio_hal/board_pins_config.h"
+
+namespace audio_driver {
+
 typedef enum {
   ES8388_OUTPUT_MIN = -1,
   ES8388_OUTPUT_LOUT1 = 0x04,
   ES8388_OUTPUT_ROUT1 = 0x08,
-  ES8388_OUTPUT_SPK   = 0x09,
+  ES8388_OUTPUT_SPK = 0x09,
   ES8388_OUTPUT_LOUT2 = 0x10,
   ES8388_OUTPUT_ROUT2 = 0x20,
   ES8388_OUTPUT_ALL = 0x3c,
   ES8388_OUTPUT_MAX,
 } es_output_device_t;
-
-
-#include <string.h>
-// #include "audio_hal/board_pins_config.h"
 
 static i2c_bus_handle_t i2c_handle = NULL;
 static int dac_power = 0x3c;
@@ -56,7 +57,7 @@ static error_t es_write_reg(uint8_t slave_addr, uint8_t reg_add, uint8_t data) {
                              &data, sizeof(data));
 }
 
-static error_t es_read_reg(uint8_t reg_add, uint8_t *p_data) {
+static error_t es_read_reg(uint8_t reg_add, uint8_t* p_data) {
   return i2c_bus_read_bytes(i2c_handle, address, &reg_add, sizeof(reg_add),
                             p_data, 1);
 }
@@ -74,7 +75,7 @@ error_t es8388_write_reg(uint8_t reg_add, uint8_t data) {
   return es_write_reg(address, reg_add, data);
 }
 
-error_t es8388_read_reg(uint8_t reg_add, uint8_t *p_data) {
+error_t es8388_read_reg(uint8_t reg_add, uint8_t* p_data) {
   return i2c_bus_read_bytes(i2c_handle, address, &reg_add, sizeof(reg_add),
                             p_data, 1);
 }
@@ -213,7 +214,7 @@ error_t es8388_stop(codec_mode_t mode) {
   }
   if (mode == CODEC_MODE_BOTH) {
     res |= es_write_reg(address, ES8388_DACCONTROL21, 0x9C);  // disable
-                                                                  // mclk
+                                                              // mclk
     //        res |= es_write_reg(address, ES8388_CONTROL1, 0x00);
     //        res |= es_write_reg(address, ES8388_CONTROL2, 0x58);
     //        res |= es_write_reg(address, ES8388_CHIPPOWER, 0xF3);  //stop
@@ -261,12 +262,13 @@ error_t es8388_deinit(void) {
  *     - (-1)  Error
  *     - (0)   Success
  */
-error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle, int addr, int volumeHack) {
+error_t es8388_init(codec_config_t* cfg, i2c_bus_handle_t handle, int addr,
+                    int volumeHack) {
   AD_TRACED();
   i2c_handle = handle;
   esp8388_volume_hack = volumeHack;
   // set address
-  if (addr>0) address = addr;
+  if (addr > 0) address = addr;
 
   int res = 0;
 
@@ -306,15 +308,15 @@ error_t es8388_init(codec_config_t *cfg, i2c_bus_handle_t handle, int addr, int 
   res |= es_write_reg(address, ES8388_DACCONTROL21,
                       0x80);  // set internal ADC and DAC use the same LRCK
                               // clock, ADC LRCK as internal LRCK
-  res |= es_write_reg(address, ES8388_DACCONTROL23, 0x00);  // vroi=0
-  res |= es8388_set_adc_dac_volume(CODEC_MODE_DECODE, 0, 0);    // 0db
+  res |= es_write_reg(address, ES8388_DACCONTROL23, 0x00);    // vroi=0
+  res |= es8388_set_adc_dac_volume(CODEC_MODE_DECODE, 0, 0);  // 0db
   dac_power = 0;
   AD_LOGI("output_device: %d", cfg->output_device);
   if (DAC_OUTPUT_LINE1 == cfg->output_device) {
     dac_power = ES8388_OUTPUT_LOUT1 | ES8388_OUTPUT_ROUT1;
   } else if (DAC_OUTPUT_LINE2 == cfg->output_device) {
     dac_power = ES8388_OUTPUT_LOUT2 | ES8388_OUTPUT_ROUT2;
-  } else if (DAC_OUTPUT_ALL == cfg->output_device){
+  } else if (DAC_OUTPUT_ALL == cfg->output_device) {
     dac_power = ES8388_OUTPUT_LOUT1 | ES8388_OUTPUT_LOUT2 |
                 ES8388_OUTPUT_ROUT1 | ES8388_OUTPUT_ROUT2;
   }
@@ -408,7 +410,6 @@ error_t es8388_set_voice_volume_0(int volume) {
   return res;
 }
 
-
 error_t es8388_set_voice_volume_1(int volume) {
   AD_LOGD("es8388_set_voice_volume (HACK 1): %d", volume);
   error_t res = RESULT_OK;
@@ -428,7 +429,6 @@ error_t es8388_set_voice_volume_1(int volume) {
   res |= es_write_reg(address, ES8388_DACCONTROL27, volume);
   return res;
 }
-
 
 error_t es8388_set_voice_volume_2(int volume) {
   AD_LOGD("es8388_set_voice_volume (HACK 2): %d", volume);
@@ -459,8 +459,8 @@ error_t es8388_set_voice_volume_2(int volume) {
  *     - (0)   Success
  */
 
- error_t es8388_set_voice_volume(int volume) {
-  switch(esp8388_volume_hack) {
+error_t es8388_set_voice_volume(int volume) {
+  switch (esp8388_volume_hack) {
     case 0:
       return es8388_set_voice_volume_0(volume);
     case 1:
@@ -470,15 +470,14 @@ error_t es8388_set_voice_volume_2(int volume) {
     default:
       return es8388_set_voice_volume_0(volume);
   }
- }
-
+}
 
 /**
  * Provides the volume
  * @return
  *           volume
  */
-error_t es8388_get_voice_volume(int *volume) {
+error_t es8388_get_voice_volume(int* volume) {
   AD_TRACED();
   error_t res = RESULT_OK;
   uint8_t reg = 0;
@@ -538,8 +537,8 @@ error_t es8388_set_voice_mute(bool enable) {
   error_t res = RESULT_OK;
   uint8_t reg = 0;
   res = es_read_reg(ES8388_DACCONTROL3, &reg);
-  reg = reg & 0xC3; // keep 11000011
-  int value = enable ? 0x3C : 0; // enable is 00111100 / disable is 00000000
+  reg = reg & 0xC3;               // keep 11000011
+  int value = enable ? 0x3C : 0;  // enable is 00111100 / disable is 00000000
   res |= es_write_reg(address, ES8388_DACCONTROL3, value | reg);
   return res;
 }
@@ -568,7 +567,7 @@ error_t es8388_config_output_device(output_device_t output_device) {
 
   uint8_t reg = 0;
   error_t res = es_read_reg(ES8388_DACPOWER, &reg);
-  reg = reg & 0xC3; // keep 11000011
+  reg = reg & 0xC3;  // keep 11000011
 
   uint8_t value = 0;
   switch (output_device) {
@@ -578,16 +577,16 @@ error_t es8388_config_output_device(output_device_t output_device) {
       break;
     case DAC_OUTPUT_LINE2:
       value = ES8388_OUTPUT_LOUT2 | ES8388_OUTPUT_ROUT2;
-      AD_LOGI("DAC_OUTPUT_LINE1: 0x%x",reg | value);
+      AD_LOGI("DAC_OUTPUT_LINE1: 0x%x", reg | value);
       break;
     case DAC_OUTPUT_ALL:
-      value = ES8388_OUTPUT_LOUT1 | ES8388_OUTPUT_LOUT2 |
-                  ES8388_OUTPUT_ROUT1 | ES8388_OUTPUT_ROUT2;
-      AD_LOGI("DAC_OUTPUT_ALL: 0x%x",reg | value);
+      value = ES8388_OUTPUT_LOUT1 | ES8388_OUTPUT_LOUT2 | ES8388_OUTPUT_ROUT1 |
+              ES8388_OUTPUT_ROUT2;
+      AD_LOGI("DAC_OUTPUT_ALL: 0x%x", reg | value);
       break;
     case DAC_OUTPUT_NONE:
       value = 0;
-      AD_LOGI("DAC_OUTPUT_NONE: 0x%x",reg | value);
+      AD_LOGI("DAC_OUTPUT_NONE: 0x%x", reg | value);
       break;
   }
   res |= es_write_reg(address, ES8388_DACPOWER, reg | value);
@@ -658,7 +657,7 @@ int es8388_ctrl_state_active(codec_mode_t mode, bool ctrl_state_active) {
   return res;
 }
 
-error_t es8388_config_i2s(codec_mode_t mode, I2SDefinition *iface) {
+error_t es8388_config_i2s(codec_mode_t mode, I2SDefinition* iface) {
   AD_TRACED();
   error_t res = RESULT_OK;
   int tmp = 0;
@@ -670,6 +669,8 @@ error_t es8388_config_i2s(codec_mode_t mode, I2SDefinition *iface) {
   } else {
     tmp = BIT_LENGTH_32BITS;
   }
-  res |= es8388_set_bits_per_sample(CODEC_MODE_BOTH, (sample_bits_t) tmp);
+  res |= es8388_set_bits_per_sample(CODEC_MODE_BOTH, (sample_bits_t)tmp);
   return res;
 }
+
+}  // namespace audio_driver

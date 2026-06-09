@@ -1,9 +1,9 @@
 #ifndef PCBCUPID_NAU8325_H
 #define PCBCUPID_NAU8325_H
 
-#include "stdint.h"
 #include "DriverCommon.h"
 #include "Platforms/API_I2C.h"
+#include "stdint.h"
 
 #define NAU8325_I2C_ADDR 0x21
 
@@ -74,9 +74,9 @@
 #define NAU8325_DAC_RIGHT_CH_EN (0x1 << NAU8325_DAC_RIGHT_CH_EN_SFT)
 
 // R04: ENA_CTRL
-#define NAU8325_ENA_CTRL_DACR_EN 0x0008     // Bit 3
-#define NAU8325_ENA_CTRL_DACL_EN 0x0004     // Bit 2
-#define NAU8325_ENA_CTRL_DAC_EN_MASK 0x000C // Bits 3:2
+#define NAU8325_ENA_CTRL_DACR_EN 0x0008      // Bit 3
+#define NAU8325_ENA_CTRL_DACL_EN 0x0004      // Bit 2
+#define NAU8325_ENA_CTRL_DAC_EN_MASK 0x000C  // Bits 3:2
 
 /* INTERRUPT_CTRL (0x05) */
 #define NAU8325_ARP_DWN_INT_SFT 12
@@ -309,9 +309,9 @@
 #define NAU8325_VMIDEN_MASK 0x3
 
 // R61: ANALOG_CONTROL_1
-#define NAU8325_ANALOG_CTRL1_VMID_EN 0x0001   // Bit 0
-#define NAU8325_ANALOG_CTRL1_CLASSD_EN 0x0002 // Bit 1
-#define NAU8325_ANALOG_CTRL1_EN_MASK 0x0003   // Bits 1:0
+#define NAU8325_ANALOG_CTRL1_VMID_EN 0x0001    // Bit 0
+#define NAU8325_ANALOG_CTRL1_CLASSD_EN 0x0002  // Bit 1
+#define NAU8325_ANALOG_CTRL1_EN_MASK 0x0003    // Bits 1:0
 
 /* ANALOG_CONTROL_2 (0x62) */
 #define NAU8325_PWMMOD_SFT 14
@@ -352,9 +352,9 @@
 #define NAU8325_VDDSPK_LIM_MASK 0x7
 
 // R66: ANALOG_CONTROL_6
-#define NAU8325_ANALOG_CTRL6_SPKL_EN 0x0020 // Bit 5
-#define NAU8325_ANALOG_CTRL6_SPKR_EN 0x0010 // Bit 4
-#define NAU8325_ANALOG_CTRL6_EN_MASK 0x0030 // Bits 5:4
+#define NAU8325_ANALOG_CTRL6_SPKL_EN 0x0020  // Bit 5
+#define NAU8325_ANALOG_CTRL6_SPKR_EN 0x0010  // Bit 4
+#define NAU8325_ANALOG_CTRL6_EN_MASK 0x0030  // Bits 5:4
 
 /* CLIP_CTRL (0x69)*/
 #define NAU8325_ANTI_CLIP_SFT 4
@@ -366,66 +366,45 @@
 #define NAU8325_DACVREFSEL_SFT 2
 #define NAU8325_DACVREFSEL_MASK (0x3 << NAU8325_DACVREFSEL_SFT)
 
-#define CLK_DA_AD_MAX 6144000UL // or another max as per datasheet
+#define CLK_DA_AD_MAX 6144000UL  // or another max as per datasheet
 
-struct SrcAttr
-{
+namespace audio_driver {
+
+struct SrcAttr {
   int param;
   uint8_t val;
 };
 
-struct OsrAttr
-{
+struct OsrAttr {
   int osr;
   uint8_t clk_src;
 };
 
-struct SRateAttr
-{
+struct SRateAttr {
   int fs;
   uint8_t range;
   bool max;
   uint32_t mclk_src[3];
 };
 
-struct RegDefault
-{
+struct RegDefault {
   uint16_t reg;
   uint16_t val;
 };
 
-enum AudioI2SFormat
-{
-  I2S_STD,
-  LEFT_JUSTIFIED,
-  RIGHT_JUSTIFIED,
-  DSP_A,
-  DSP_B
-};
-enum ClockPolarity
-{
-  NORMAL_BCLK,
-  INVERTED_BCLK
-};
-enum OversamplingMode
-{
-  OSR_64 = 2,
-  OSR_128 = 1,
-  OSR_256 = 0,
-  OSR_32 = 4
-};
+enum AudioI2SFormat { I2S_STD, LEFT_JUSTIFIED, RIGHT_JUSTIFIED, DSP_A, DSP_B };
+enum ClockPolarity { NORMAL_BCLK, INVERTED_BCLK };
+enum OversamplingMode { OSR_64 = 2, OSR_128 = 1, OSR_256 = 0, OSR_32 = 4 };
 
-enum ClockRatio
-{
+enum ClockRatio {
   NAU8325_MCLK_FS_RATIO_256 = 0,
   NAU8325_MCLK_FS_RATIO_400 = 1,
   NAU8325_MCLK_FS_RATIO_500 = 2,
   NAU8325_MCLK_FS_RATIO_NUM = 3
 };
 
-class PCBCUPID_NAU8325
-{
-public:
+class PCBCUPID_NAU8325 {
+ public:
   PCBCUPID_NAU8325(i2c_bus_handle_t wire);
 
   static const RegDefault reg_defaults[];
@@ -449,20 +428,19 @@ public:
     frame rate, bits per sample, and MCLK to FS ratio. It configures the codec
     for audio playback and sets up the necessary registers. The function returns
     true if the initialization is successful, or false if there is an error.
-    The default values for bits_per_sample and ratio are 16 and 256, respectively.
-    If only fs is provided, it uses the default values for bits_per_sample and ratio.
-    If no parameters are provided, it uses default values for fs, bits_per_sample,
-    and ratio.
-    Example:
-    PCBCUPID_NAU8325 codec;
-    codec.begin(44100, 16, 256); // Initialize with 44.1kHz, 16 bits, and MCLK/FS ratio of 256
-    codec.begin(16000, 24); // Initialize with 16kHz, 24 bits, and default MCLK/FS ratio of 256
-    codec.begin(); // Initialize with default values (e.g., 8000Hz, 16 bits, 256 ratio)
+    The default values for bits_per_sample and ratio are 16 and 256,
+    respectively. If only fs is provided, it uses the default values for
+    bits_per_sample and ratio. If no parameters are provided, it uses default
+    values for fs, bits_per_sample, and ratio. Example: PCBCUPID_NAU8325 codec;
+    codec.begin(44100, 16, 256); // Initialize with 44.1kHz, 16 bits, and
+    MCLK/FS ratio of 256 codec.begin(16000, 24); // Initialize with 16kHz, 24
+    bits, and default MCLK/FS ratio of 256 codec.begin(); // Initialize with
+    default values (e.g., 8000Hz, 16 bits, 256 ratio)
     @note
-    The begin() function must be called before using the codec for audio playback.
-    It sets up the codec's internal registers and prepares it for audio processing.
-    If the initialization fails, the codec will not function correctly, and audio playback
-    may not work as expected.
+    The begin() function must be called before using the codec for audio
+    playback. It sets up the codec's internal registers and prepares it for
+    audio processing. If the initialization fails, the codec will not function
+    correctly, and audio playback may not work as expected.
   */
 
   bool begin(uint32_t fs, uint8_t bits_per_sample, uint16_t ratio);
@@ -478,9 +456,9 @@ public:
 
   void setPowerUpDefault(bool enable);
   void setOversampling(OversamplingMode mode);
-  void setVolume(uint8_t left, uint8_t right); // public
+  void setVolume(uint8_t left, uint8_t right);  // public
 
-private:
+ private:
   i2c_bus_handle_t i2c;
   uint8_t i2c_addr = NAU8325_I2C_ADDR;
   uint32_t fs;
@@ -488,24 +466,29 @@ private:
 
   bool clock_detection;
 
-  void initRegisters(); // Initialize codec
+  void initRegisters();  // Initialize codec
 
-  bool setSysClock(uint32_t freq); // setup MCLK for I2S
+  bool setSysClock(uint32_t freq);  // setup MCLK for I2S
   bool configureAudio(uint32_t fs, uint32_t mclk, uint8_t bits_per_sample);
-  bool chooseClockSource(int fs, int mclk, const SRateAttr *&srate, int &n1_sel, int &mult_sel, int &n2_sel);
+  bool chooseClockSource(int fs, int mclk, const SRateAttr*& srate, int& n1_sel,
+                         int& mult_sel, int& n2_sel);
   bool configureClocks(int fs, int mclk);
-  bool applySampleRateClocks(const SRateAttr *srate, int n1_sel, int mclk_mult_sel, int n2_sel);
-  int getMclkRatioAndN2Index(const SRateAttr *srate, int mclk_hz, int &n2_sel_out);
-  const SRateAttr *getSRateAttr(int fs);
-  const OsrAttr *getCurrentOSR();
+  bool applySampleRateClocks(const SRateAttr* srate, int n1_sel,
+                             int mclk_mult_sel, int n2_sel);
+  int getMclkRatioAndN2Index(const SRateAttr* srate, int mclk_hz,
+                             int& n2_sel_out);
+  const SRateAttr* getSRateAttr(int fs);
+  const OsrAttr* getCurrentOSR();
   bool setI2SFormat(AudioI2SFormat format, ClockPolarity polarity);
 
-  void enableDAPMBlocks(); // analog path power enable
+  void enableDAPMBlocks();  // analog path power enable
 
   // I2C register controls
-  bool readRegister(uint16_t reg, uint16_t &value);
+  bool readRegister(uint16_t reg, uint16_t& value);
   bool writeRegister(uint16_t reg, uint16_t value);
   bool writeRegisterBits(uint16_t reg, uint16_t mask, uint16_t value);
 };
 
-#endif // PCBCUPID_NAU8325_H
+}  // namespace audio_driver
+
+#endif  // PCBCUPID_NAU8325_H

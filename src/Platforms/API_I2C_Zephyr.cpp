@@ -8,6 +8,9 @@
 
 #include "Platforms/API_I2C.h"
 
+namespace audio_driver {
+
+
 // In Zephyr, the I2CConfig should hold a pointer to the i2c device:
 //   struct device *p_i2c_dev;  (instead of TwoWire *p_wire)
 // and the bus handle is also struct device *.
@@ -126,5 +129,7 @@ error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t* reg,
   }
   return RESULT_OK;
 }
+
+} // namespace audio_driver
 
 #endif  // CONFIG_ZEPHYR

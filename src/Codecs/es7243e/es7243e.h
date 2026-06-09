@@ -3,36 +3,36 @@
  *
  * Copyright (c) 2021 <ESPRESSIF SYSTEMS (SHANGHAI) CO., LTD>
  *
- * Permission is hereby granted for use on all ESPRESSIF SYSTEMS products, in which case,
- * it is free of charge, to any person obtaining a copy of this software and associated
- * documentation files (the "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the Software is furnished
- * to do so, subject to the following conditions:
+ * Permission is hereby granted for use on all ESPRESSIF SYSTEMS products, in
+ * which case, it is free of charge, to any person obtaining a copy of this
+ * software and associated documentation files (the "Software"), to deal in the
+ * Software without restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do
+ * so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all copies or
- * substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  */
 
 #ifndef _ES7243E_H_
 #define _ES7243E_H_
 
-#include "stdbool.h"
+#include "Codecs/CodecConstants.h"
 #include "DriverCommon.h"
 #include "Platforms/API_I2C.h"
-#include "Codecs/CodecConstants.h"
+#include "stdbool.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+namespace audio_driver {
 
 /**
  * @brief Initialize ES7243E adc chip
@@ -43,7 +43,7 @@ extern "C" {
  *     - RESULT_OK
  *     - RESULT_FAIL
  */
-error_t es7243e_adc_init(codec_config_t *codec_cfg, i2c_bus_handle_t i2c);
+error_t es7243e_adc_init(codec_config_t* codec_cfg, i2c_bus_handle_t i2c);
 
 /**
  * @brief Deinitialize ES7243E adc chip
@@ -64,7 +64,8 @@ error_t es7243e_adc_deinit(void);
  *     - RESULT_FAIL Parameter error
  *     - RESULT_OK   Success
  */
-error_t es7243e_adc_ctrl_state_active(codec_mode_t mode, bool ctrl_state_active);
+error_t es7243e_adc_ctrl_state_active(codec_mode_t mode,
+                                      bool ctrl_state_active);
 
 /**
  * @brief Configure ES7243E adc mode and I2S interface
@@ -76,7 +77,7 @@ error_t es7243e_adc_ctrl_state_active(codec_mode_t mode, bool ctrl_state_active)
  *     - RESULT_FAIL Parameter error
  *     - RESULT_OK   Success
  */
-error_t es7243e_adc_config_i2s(codec_mode_t mode, I2SDefinition *iface);
+error_t es7243e_adc_config_i2s(codec_mode_t mode, I2SDefinition* iface);
 
 /**
  * @brief  Set adc gain
@@ -98,7 +99,7 @@ error_t es7243e_adc_set_voice_volume(int volume);
  *     - RESULT_OK
  *     - RESULT_FAIL
  */
-error_t es7243e_adc_get_voice_volume(int *volume);
+error_t es7243e_adc_get_voice_volume(int* volume);
 
 /**
  * @brief Set adc I2C address
@@ -111,8 +112,6 @@ error_t es7243e_adc_get_voice_volume(int *volume);
  */
 error_t es7243e_adc_set_addr(int addr);
 
-#ifdef __cplusplus
-}
-#endif
+}  // namespace audio_driver
 
 #endif

@@ -163,13 +163,7 @@
   */
 #define CS43L22_CHIPID_ADDR    0x01
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-/**
-  * @}
-  */ 
+namespace audio_driver {
 
 /** @defgroup CS43L22_Exported_Functions
   * @{
@@ -202,6 +196,4 @@ uint8_t   AUDIO_IO_Read(uint8_t Addr, uint8_t Reg);
 /* Audio driver structure */
 //extern AUDIO_DrvTypeDef   cs43l22_drv;
 
-#ifdef __cplusplus
-}
-#endif
+} // namespace audio_driver

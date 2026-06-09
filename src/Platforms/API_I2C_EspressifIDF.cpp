@@ -7,6 +7,8 @@
 #include "Platforms/API_I2C.h"
 #include "driver/i2c_master.h"
 
+namespace audio_driver {
+
 // store a collection of configs by port number
 static I2CConfig *i2c_configs[5];
 
@@ -147,5 +149,7 @@ error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
 
   return ret;
 }
+
+} // namespace audio_driver
 
 #endif

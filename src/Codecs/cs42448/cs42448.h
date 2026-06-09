@@ -78,6 +78,9 @@
 #define CS42448_ADC_DIF_I2S (1 << 0)
 #define CS42448_DAC_DIF_TDM (3 << 4)
 #define CS42448_ADC_DIF_TDM (3 << 1)
+
+namespace audio_driver {
+
 /**
  * @brief The CS42448 CODEC from Cirrus Logic provides six multi-bit ana-
  * log-to-digital and eight multi-bit digital-to-analog
@@ -595,3 +598,5 @@ class CS42448 {
     return (number & ~((uint8_t)1 << n)) | ((uint8_t)x << n);
   }
 };
+
+}  // namespace audio_driver

@@ -3,6 +3,9 @@
 #include "SPI.h"
 #include "assert.h"
 
+namespace audio_driver {
+
+
 error_t spi_bus_create(struct SPIConfig *config) {
   SPIConfig &pins = *config;
   SPIClass *p_spi = (SPIClass *)pins.p_spi;
@@ -44,5 +47,7 @@ void spi_bus_delete(spi_bus_handle_t bus) {
   SPIClass *p_spi = (SPIClass *)bus;
   p_spi->end();
 }
+
+} // namespace audio_driver
 
 #endif

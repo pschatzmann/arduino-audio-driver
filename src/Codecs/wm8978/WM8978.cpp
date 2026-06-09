@@ -1,5 +1,7 @@
 #include "WM8978.h"
 
+namespace audio_driver {
+
 // WM8978 register value buffer zone (total 58 registers 0 to 57), occupies 116
 // bytes of memory Because the IIC WM8978 operation does not support read
 // operations, so save all the register values in the local Write WM8978
@@ -350,3 +352,5 @@ bool WM8978::begin(i2c_bus_handle_t p_wire, int address) {
   this->p_wire = p_wire;
   return begin();
 }
+
+}  // namespace audio_driver

@@ -2,6 +2,8 @@
 #include <stdint.h>
 #include "DriverCommon.h"
 
+namespace audio_driver {
+
 
 struct I2CConfig {
   i2c_bus_handle_t p_wire;
@@ -19,9 +21,6 @@ struct I2CConfig {
 struct TwoWire {};
 #endif
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 error_t i2c_bus_create(struct I2CConfig *pin);
 
@@ -61,6 +60,5 @@ error_t i2c_bus_write_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
 error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
                            int reglen, uint8_t *outdata, int datalen);
 
-#ifdef __cplusplus
-}
-#endif
+
+} // namespace audio_driver

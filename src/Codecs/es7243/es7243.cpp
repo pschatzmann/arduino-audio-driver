@@ -25,7 +25,9 @@
  */
 
 #include "es7243.h"
+
 #include <string.h>
+
 #include "Platforms/API_Delay.h"
 #include "Platforms/GPIO.h"
 
@@ -35,6 +37,8 @@
     AD_LOGE(format, ##__VA_ARGS__);  \
     return b;                        \
   }
+
+namespace audio_driver {
 
 static i2c_bus_handle_t i2c_handle = NULL;
 static int es7243_addr = 0x13;  // 0x26>>1;
@@ -71,7 +75,7 @@ static error_t es7243_mclk_active(GpioPin mclk_gpio) {
   return RESULT_OK;
 }
 
-error_t es7243_adc_init(codec_config_t *codec_cfg, i2c_bus_handle_t handle) {
+error_t es7243_adc_init(codec_config_t* codec_cfg, i2c_bus_handle_t handle) {
   error_t ret = RESULT_OK;
   i2c_handle = handle;
   es7243_mclk_active(mclk_gpio);
@@ -95,7 +99,7 @@ error_t es7243_adc_ctrl_state_active(codec_mode_t mode,
   return es7243_adc_set_voice_mute(!ctrl_state_active);
 }
 
-error_t es7243_adc_config_i2s(codec_mode_t mode, I2SDefinition *iface) {
+error_t es7243_adc_config_i2s(codec_mode_t mode, I2SDefinition* iface) {
   // master mode not supported
   if (iface->mode == MODE_MASTER) {
     AD_LOGE("es7243_adc_config_i2s: Mode must be slave");
@@ -190,7 +194,9 @@ error_t es7243_adc_set_voice_volume(int volume) {
   return ret;
 }
 
-error_t es7243_adc_get_voice_volume(int *volume) {
+error_t es7243_adc_get_voice_volume(int* volume) {
   *volume = actual_volume;
   return RESULT_OK;
 }
+
+}  // namespace audio_driver

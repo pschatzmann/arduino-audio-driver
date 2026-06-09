@@ -32,6 +32,8 @@
 
 #include "Platforms/API_I2C.h"
 
+namespace audio_driver {
+
 /***
  * Set up the PCM3168 in slave mode
  */
@@ -80,7 +82,7 @@ class PCM3168 {
   void setWire(i2c_bus_handle_t w) { wire = w; }
 
   bool begin(FMT fmt = I2SHighSpeedTDM24bit) {
-    //wire->begin();
+    // wire->begin();
     return write(DAC_CONTROL_1, fmt) && write(ADC_CONTROL_1, fmt) &&
            setMute(false) && setMuteADC(false);
   }
@@ -192,16 +194,20 @@ class PCM3168 {
     // wire->write(address);
     // wire->write(data);
     // return wire->endTransmission() == 0;
-    return i2c_bus_write_bytes(wire, address,(uint8_t*) &data, 4, nullptr, 0) == 0;
+    return i2c_bus_write_bytes(wire, address, (uint8_t*)&data, 4, nullptr, 0) ==
+           0;
   }
 
-  bool write(uint32_t address, const void *data, uint32_t len) {
+  bool write(uint32_t address, const void* data, uint32_t len) {
     assert(wire != nullptr);
     // wire->beginTransmission(i2c_addr);
     // wire->write(address);
     // const uint8_t *p = (const uint8_t *)data;
     // wire->write(p, len);
     // return wire->endTransmission() == 0;
-    return i2c_bus_write_bytes(wire, address, (uint8_t*) data, len, nullptr, 0) == 0;
+    return i2c_bus_write_bytes(wire, address, (uint8_t*)data, len, nullptr,
+                               0) == 0;
   }
 };
+
+}  // namespace audio_driver

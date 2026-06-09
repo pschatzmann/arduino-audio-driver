@@ -106,6 +106,9 @@
 //   wm8994_Reset
 // };
 
+namespace audio_driver {
+
+
 static uint32_t outputEnabled = 0;
 static uint32_t inputEnabled = 0;
 static i2c_bus_handle_t i2c_handle = NULL;
@@ -927,5 +930,6 @@ void AUDIO_IO_Write16(uint8_t addr, uint16_t reg, uint16_t value) {
   i2c_bus_write_bytes(i2c_handle, addr, (uint8_t *)&reg, sizeof(uint16_t),(uint8_t*) &value, sizeof(value));
 }
 
+} // namespace audioinfo
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

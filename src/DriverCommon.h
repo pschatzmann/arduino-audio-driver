@@ -18,21 +18,21 @@
 #else
 #  define DEFAULT_WIRE nullptr
 #  undef delay
-#ifndef HIGH
-#  define HIGH 0x1
-#endif
-#ifndef LOW
-#  define LOW  0x0
-#endif
-#ifndef INPUT
-#  define INPUT 0x0
-#endif
-#ifndef OUTPUT
-#  define OUTPUT 0x1
-#endif
-#ifndef INPUT_PULLUP
-#  define INPUT_PULLUP 0x2
-#endif
+#  ifndef HIGH
+#    define HIGH 0x1
+#  endif
+#  ifndef LOW
+#    define LOW  0x0
+#  endif
+#  ifndef INPUT
+#    define INPUT 0x0
+#  endif
+#  ifndef OUTPUT
+#    define OUTPUT 0x1
+#  endif
+#  ifndef INPUT_PULLUP
+#    define INPUT_PULLUP 0x2
+#  endif
 #endif
 
 #ifndef TOUCH_LIMIT
@@ -57,11 +57,13 @@
 #ifdef __zephyr__
 #include <zephyr/device.h>
 #include <zephyr/kernel.h>
+namespace audio_driver {
 // In Zephyr, GPIO pins are defined as device tree specifications, so we use a
 // pointer to the gpio_dt_spec struct instead of an integer pin number.
 typedef struct gpio_dt_spec* GpioPin;
 typedef struct device* i2c_bus_handle_t;
 typedef struct device* spi_bus_handle_t;
+} // namespace audio_driver
 
 #ifndef GPIO_NONE
 # define GPIO_NONE nullptr
@@ -337,4 +339,6 @@ enum class AudioDriverKey {
 } // namespace audio_driver
 
 // automatically use namespace
+#if (defined(ARDUINO) && !defined(NO_USING_NAMESPACE_AUDIO_DRIVER)) || defined(USING_NAMESPACE_AUDIO_DRIVER) 
 using namespace audio_driver;
+#endif
