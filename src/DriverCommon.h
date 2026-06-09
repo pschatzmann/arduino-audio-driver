@@ -57,12 +57,13 @@
 #ifdef __zephyr__
 #include <zephyr/device.h>
 #include <zephyr/kernel.h>
+#include <zephyr/drivers/gpio.h>
 namespace audio_driver {
 // In Zephyr, GPIO pins are defined as device tree specifications, so we use a
 // pointer to the gpio_dt_spec struct instead of an integer pin number.
-typedef struct gpio_dt_spec* GpioPin;
-typedef struct device* i2c_bus_handle_t;
-typedef struct device* spi_bus_handle_t;
+using GpioPin = ::gpio_dt_spec*;
+using i2c_bus_handle_t = ::device* ;
+using spi_bus_handle_t = ::device* ;
 } // namespace audio_driver
 
 #ifndef GPIO_NONE
@@ -97,13 +98,13 @@ typedef struct device* spi_bus_handle_t;
 
 namespace audio_driver {
 
-typedef int error_t;
+using error_t = int;
 
 #ifndef __zephyr__
 // For Arduino and other platforms, we can use a simple integer pin number.
-typedef int16_t GpioPin;
-typedef void* i2c_bus_handle_t;
-typedef void* spi_bus_handle_t;
+using GpioPin = int16_t;
+using i2c_bus_handle_t = void*;
+using spi_bus_handle_t = void*;
 #endif
 
 /**
@@ -339,6 +340,6 @@ enum class AudioDriverKey {
 } // namespace audio_driver
 
 // automatically use namespace
-#if (defined(ARDUINO) && !defined(NO_USING_NAMESPACE_AUDIO_DRIVER)) || defined(USING_NAMESPACE_AUDIO_DRIVER) 
+#if (defined(ARDUINO) && !defined(NO_USING_NAMESPACE_AUDIO_DRIVER)) || defined(USING_NAMESPACE_AUDIO_DRIVER)
 using namespace audio_driver;
 #endif

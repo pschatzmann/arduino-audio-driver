@@ -1,4 +1,6 @@
 #pragma once
+
+#include "stdint.h"
 #ifdef ARDUINO
 #  include "Arduino.h" // for delay
 #endif
@@ -92,6 +94,3 @@ typedef struct {
     int     user_volume;     /*!< Record the user set volume */
     audio_codec_dac_vol_offset offset_conv_volume; /*!<  Convert user volume to dac volume offset */
 } codec_dac_volume_config_t;
-
-
-
