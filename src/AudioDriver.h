@@ -263,7 +263,7 @@ class AudioDriver {
       return false;
     }
     GpioPin pin = pins().getPinID(PinFunction::PA);
-    if (pin == -1) {
+    if (pin == GPIO_NONE) {
       AD_LOGI("PinFunction::PA not defined");
       return false;
     }
@@ -333,7 +333,7 @@ class AudioDriver {
     if (!i2c) {
       return DEFAULT_WIRE;
     }
-    i2c_bus_handle_t* result = (i2c_bus_handle_t*)i2c.value().p_wire;
+    i2c_bus_handle_t result = (i2c_bus_handle_t)i2c.value().p_wire;
     return result;
   }
 
@@ -737,9 +737,14 @@ class AudioDriverES8311Class : public AudioDriver {
     return vol;
   }
 
+  ///
+  void setMasterClockSource(int source){ master_clock_source = source; }
+
  protected:
+  int master_clock_source = -1;
+
   bool init(codec_config_t codec_cfg) {
-    int mclk_src = pins().getPinID(PinFunction::MCLK_SOURCE);
+    int mclk_src = master_clock_source;
     if (mclk_src == -1) {
       mclk_src = 0;  // = FROM_MCLK_PIN;
     }
@@ -1471,14 +1476,14 @@ class AudioDriverCombined : public AudioDriver {
     codec_cfg = codecCfg;
 
     assert(p_dac != nullptr);
-    assert(p_adc != nullptr); 
+    assert(p_adc != nullptr);
 
     AD_LOGI("sd_active: %d", codecCfg.sd_active);
     p_pins->setSPIActiveForSD(codecCfg.sd_active);
     AD_LOGI("sdmmc_active: %d", codecCfg.sdmmc_active);
     p_pins->setSDMMCActive(codecCfg.sdmmc_active);
 
-    // Start 
+    // Start
     AD_LOGI("starting DAC");
     pins.begin();
     p_dac->setPins(this->pins());
@@ -1544,8 +1549,8 @@ class AudioDriverNAU8325Class : public AudioDriver {
     nau8325 = new PCBCUPID_NAU8325(val.p_wire);
 
     // Set MCLK if available
-    int mclk = pins.getPinID(PinFunction::MCLK_SOURCE);
-    if (mclk > 0) {
+    auto mclk = pins.getPinID(PinFunction::MCLK_SOURCE);
+    if (mclk != GPIO_NONE) {
       getGPIO().pinMode(mclk, OUTPUT);
       getGPIO().digitalWrite(mclk, HIGH);
       delayMs(10);  // optional small delay to stabilize

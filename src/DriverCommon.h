@@ -62,6 +62,33 @@
 typedef struct gpio_dt_spec* GpioPin;
 typedef struct device* i2c_bus_handle_t;
 typedef struct device* spi_bus_handle_t;
+
+#ifndef GPIO_NONE
+# define GPIO_NONE nullptr
+#endif
+
+#ifndef IS_GPIO
+# define IS_GPIO(pin) (pin !=nullptr)
+#endif
+
+#ifndef GPIO_TO_INT
+# define GPIO_TO_INT(pin) pin == nullptr ? -1 : pin->pin
+#endif
+
+#else
+// non zephyr platforms can use simple integer pin numbers, so we define GPIO_NONE as -1 and IS_GPIO to check for valid pin numbers.
+#ifndef GPIO_NONE
+#  define GPIO_NONE -1
+#endif
+
+#ifndef IS_GPIO
+#  define IS_GPIO(pin) (pin != GPIO_NONE)
+#endif
+
+#ifndef GPIO_TO_INT
+#  define GPIO_TO_INT(pin) pin
+#endif
+
 #endif
 
 #include "Platforms/AudioDriverLogger.h"

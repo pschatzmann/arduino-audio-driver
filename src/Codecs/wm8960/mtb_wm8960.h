@@ -550,13 +550,13 @@ typedef enum
 /**
  * @brief Provide an alternative initialized Wire object. If this is not called we
  * automatically use the Wire object and initialize it with begin().
- * 
+ *
  * @ingroup wm8960
- * @param i2c_inst 
- * @return true 
- * @return false 
+ * @param i2c_inst
+ * @return true
+ * @return false
  */
-bool mtb_wm8960_set_wire(void* i2c_inst);
+bool mtb_wm8960_set_wire(i2c_bus_handle_t i2c_inst);
 
 
 /**
@@ -564,8 +564,8 @@ bool mtb_wm8960_set_wire(void* i2c_inst);
  * This might help if you have an instable I2C connection. By default we set it to 1
  * which will cause the initialization to fail when the register update fails.
  * @ingroup wm8960
- * @param count; 0: retry endlessly until success; any number > 0 = number of retries 
- * 
+ * @param count; 0: retry endlessly until success; any number > 0 = number of retries
+ *
 */
 void mtb_wm8960_set_write_retry_count(uint32_t count);
 
