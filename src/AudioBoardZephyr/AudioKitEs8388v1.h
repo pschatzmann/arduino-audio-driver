@@ -11,9 +11,9 @@ namespace audio_driver {
 class PinsAudioKitEs8388v1Class : public DriverDeviceInfoZephyr {
  public:
   PinsAudioKitEs8388v1Class() {
-    // add i2c 
+    // add i2c
     addI2C(PinFunction::CODEC, DEVICE_DT_GET(DT_ALIAS(i2c_1)));
-    // add i2s 
+    // add i2s
     addI2S(PinFunction::CODEC, DEVICE_DT_GET(DT_ALIAS(i2s_1)));
 
     // add other pins
@@ -23,10 +23,10 @@ class PinsAudioKitEs8388v1Class : public DriverDeviceInfoZephyr {
     addPin(PinFunction::KEY, GPIO_DT_SPEC_GET(DT_ALIAS(key_4), gpios), PinLogic::InputActiveLow, 4);
     addPin(PinFunction::KEY, GPIO_DT_SPEC_GET(DT_ALIAS(key_5), gpios), PinLogic::InputActiveLow, 5);
     addPin(PinFunction::KEY, GPIO_DT_SPEC_GET(DT_ALIAS(key_6), gpios), PinLogic::InputActiveLow, 6);
-    addPin(PinFunction::AUXIN_DETECT, GPIO_DT_SPEC_GET(DT_ALIAS(pin_auxin_detect), gpios), PinLogic::InputActiveLow);
-    addPin(PinFunction::HEADPHONE_DETECT, GPIO_DT_SPEC_GET(DT_ALIAS(pin_headphone_detect), gpios), PinLogic::InputActiveLow);
-    addPin(PinFunction::PA, GPIO_DT_SPEC_GET(DT_ALIAS(pin_pa), gpios), PinLogic::Output);
-    addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(pin_led), gpios), PinLogic::Output);
+    addPin(PinFunction::AUXIN_DETECT, GPIO_DT_SPEC_GET(DT_ALIAS(auxin_detect), gpios), PinLogic::InputActiveLow);
+    addPin(PinFunction::HEADPHONE_DETECT, GPIO_DT_SPEC_GET(DT_ALIAS(headphone_detect), gpios), PinLogic::InputActiveLow);
+    addPin(PinFunction::PA, GPIO_DT_SPEC_GET(DT_ALIAS(pa), gpios), PinLogic::Output);
+    addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led), gpios), PinLogic::Output);
   }
 };
 

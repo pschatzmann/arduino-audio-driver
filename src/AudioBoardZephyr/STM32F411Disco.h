@@ -23,12 +23,12 @@ class PinsSTM32F411DiscoClass : public DriverDeviceInfo {
 
     // add other pins
     addPin(PinFunction::KEY, GPIO_DT_SPEC_GET(DT_ALIAS(key_1, gpios), PinLogic::Output);      // user button
-    addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led_green), gpios), PinLogic::Output, 0);  // green
-    addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led_red), gpios), PinLogic::Output, 1);   // red
-    addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led_orange), gpios), PinLogic::Output, 2);  // orange
-    addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led_red), gpios), PinLogic::Output, 3);  // red
-    addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led_blue), gpios), PinLogic::Output, 4);  // blue
-    addPin(PinFunction::PA, GPIO_DT_SPEC_GET(DT_ALIAS(gpio_pa), gpios), PinLogic::Output);  // reset pin (active high)
+    addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios), PinLogic::Output, 0);  // green
+    addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios), PinLogic::Output, 1);   // red
+    addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led3), gpios), PinLogic::Output, 2);  // orange
+    addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led4), gpios), PinLogic::Output, 3);  // red
+    addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led5), gpios), PinLogic::Output, 4);  // blue
+    addPin(PinFunction::PA, GPIO_DT_SPEC_GET(DT_ALIAS(pa), gpios), PinLogic::Output);  // reset pin (active high)
   }
 };
 
