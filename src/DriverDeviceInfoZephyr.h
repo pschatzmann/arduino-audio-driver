@@ -1,8 +1,8 @@
 
 #pragma once
 #ifdef __zephyr__
-#include "Platforms/GPIOZephyr.h"
-#include "Platforms/IDriverDeviceInfoZephyr.h"
+#include "Platforms/GPIO_Zephyr.h"
+#include "Platforms/IDriverDeviceInfo.h"
 
 namespace audio_driver {
 
@@ -24,8 +24,8 @@ class DriverDeviceInfoZephyr : public IDriverDeviceInfo {
     return true;
   }
 
-  bool addI2S(PinFunction function, device dev_i2s, int port = 0) {
-    InfoI2S info{function, dev_i2s, port};
+  bool addI2S(PinFunction function, device* dev_i2s, int port = 0) {
+    InfoI2S info(function, dev_i2s, port);
     return addI2S(info);
   }
 
@@ -52,22 +52,15 @@ class DriverDeviceInfoZephyr : public IDriverDeviceInfo {
   }
 
   bool addI2C(PinFunction function, device* dev_i2c, int address = -1,
-              int port = 0, bool active = true) {
-    InfoI2C info(function, dev_i2c, address, port, active);
+              bool active = true) {
+    InfoI2C info(function, dev_i2c, address, active);
     return addI2C(info);
   }
-    bool addI2C(PinFunction function, GpioPin scl, GpioPin sda, int port = -1,
-              uint32_t frequency = 100000, i2c_bus_handle_t wire = DEFAULT_WIRE,
-              bool active = true) {
-    InfoI2C pin(function, scl, sda, port, frequency, wire, active);
-    return addI2C(pin);
-  }
-
   /// Updates the I2C pin information using the function as key
-  bool setI2C(InfoI2C info) { return set<InfoI2C>(pin, info); }
+  bool setI2C(InfoI2C info) { return set<InfoI2C>(info, i2c); }
 
-  bool addPin(InfoGPIO pin) {
-    pins.push_back(pin);
+  bool addPin(InfoGPIO info) {
+    pins.push_back(info);
     return true;
   }
 
@@ -90,7 +83,7 @@ class DriverDeviceInfoZephyr : public IDriverDeviceInfo {
   }
 
   /// Updates an existing pin active flag for the indicated gpio
-  bool setPinActive(int gpioPin, bool active) {
+  bool setPinActive(GpioPin gpioPin, bool active) {
     for (InfoGPIO& pin : pins) {
       if (pin.pin == gpioPin) {
         pin.active = active;
@@ -132,7 +125,7 @@ class DriverDeviceInfoZephyr : public IDriverDeviceInfo {
   GpioPin getPinID(PinFunction function, int pos = 0) {
     auto pin = getPin(function, pos);
     if (pin) return pin.value().pin;
-    return -1;
+    return nullptr;
   }
 
   /// Finds the I2C pin info with the help of the function
@@ -209,7 +202,7 @@ class DriverDeviceInfoZephyr : public IDriverDeviceInfo {
   }
 
   /// Defines if SPI for SD should be started (by default true)
-  void setSPIActiveForSD(bool active) { 
+  void setSPIActiveForSD(bool active) {
     AD_LOGD("DriverDeviceInfo::setSPIActiveForSD: %d", active);
     sd_active = active; }
 
@@ -245,7 +238,7 @@ class DriverDeviceInfoZephyr : public IDriverDeviceInfo {
   audio_driver_local::Vector<InfoSPI> spi{0};
   audio_driver_local::Vector<InfoI2C> i2c{0};
   audio_driver_local::Vector<InfoGPIO> pins{0};
-  GPIOExt gpio;  // standard Arduino GPIO
+  GPIO gpio;  // standard Arduino GPIO
   bool sd_active = false;
   bool sdmmc_active = false;
 
@@ -270,8 +263,7 @@ class DriverDeviceInfoZephyr : public IDriverDeviceInfo {
     AD_LOGD("DriverDeviceInfo::setupPinMode");
     // setup pins
     for (auto& tmp : pins) {
-      if (tmp.pin != -1) {
-        if (!hasConflict(tmp.pin)) {
+      if (tmp.pin != nullptr) {
           AD_LOGD("pinMode for %d", tmp.pin);
           switch (tmp.pin_logic) {
             case PinLogic::InputActiveHigh:
@@ -290,10 +282,6 @@ class DriverDeviceInfoZephyr : public IDriverDeviceInfo {
               // do nothing
               break;
           }
-        } else {
-          AD_LOGW("Pin '%d' not set up because of conflict", tmp.pin);
-          tmp.active = false;
-        }
       } else {
         AD_LOGD("Pin is -1");
       }
