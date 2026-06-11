@@ -42,7 +42,7 @@ namespace audio_driver {
 
 static i2c_bus_handle_t i2c_handle = NULL;
 static int es7243_addr = 0x13;  // 0x26>>1;
-static GpioPin mclk_gpio = 0;
+static GpioPin mclk_gpio = GPIO_NONE;
 static int actual_volume = 0;
 static uint8_t audio_format = 0x0C;
 

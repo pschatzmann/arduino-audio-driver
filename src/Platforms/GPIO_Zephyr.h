@@ -26,7 +26,7 @@ class GPIOZephyr : public API_GPIO {
   void end() {}
 
   void pinMode(GpioPin pin, int mode) {
-    if (pin == nullptr || !gpio_is_ready_dt(pin)) {
+    if (pin == GPIO_NONE || !gpio_is_ready_dt(&pin)) {
       AD_LOGE("GPIO pin not ready");
       return;
     }
@@ -50,19 +50,19 @@ class GPIOZephyr : public API_GPIO {
         break;
     }
 
-    int rc = gpio_pin_configure_dt(pin, flags);
+    int rc = gpio_pin_configure_dt(&pin, flags);
     if (rc != 0) {
       AD_LOGE("Failed to configure GPIO pin: %d", rc);
     }
   }
 
   bool digitalWrite(GpioPin pin, bool value) {
-    if (pin == nullptr || !gpio_is_ready_dt(pin)) {
+    if (pin == GPIO_NONE || !gpio_is_ready_dt(&pin)) {
       AD_LOGE("GPIO pin not ready");
       return false;
     }
 
-    int rc = gpio_pin_set_dt(pin, value ? 1 : 0);
+    int rc = gpio_pin_set_dt(&pin, value ? 1 : 0);
     if (rc != 0) {
       AD_LOGE("Failed to write GPIO pin: %d", rc);
       return false;
@@ -71,12 +71,12 @@ class GPIOZephyr : public API_GPIO {
   }
 
   bool digitalRead(GpioPin pin) {
-    if (pin == nullptr || !gpio_is_ready_dt(pin)) {
+    if (pin == GPIO_NONE || !gpio_is_ready_dt(&pin)) {
       AD_LOGE("GPIO pin not ready");
       return false;
     }
 
-    int rc = gpio_pin_get_dt(pin);
+    int rc = gpio_pin_get_dt(&pin);
     if (rc < 0) {
       AD_LOGE("Failed to read GPIO pin: %d", rc);
       return false;
