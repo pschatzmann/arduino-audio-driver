@@ -89,30 +89,6 @@
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/kernel.h>
 
-namespace audio_driver {
-
-// In Zephyr, GPIO pins are device-tree specifications.
-using GpioPin = ::gpio_dt_spec;
-using i2c_bus_handle_t = ::device*;
-using spi_bus_handle_t = ::device*;
-static GpioPin GPIO_UNDEFINED{nullptr, 0, 0};
-
-#ifndef GPIO_COMPARE_DEFINED
-#define GPIO_COMPARE_DEFINED
-
-static inline bool operator==(GpioPin& a, GpioPin& b) {
-  return (a.port == b.port) && (a.pin == b.pin);
-}
-
-/// Support for pin compare
-
-static inline bool operator!=(GpioPin& a, GpioPin& b) {
-  return !(a == b);
-}
-
-#endif
-
-}  // namespace audio_driver
 
 #ifndef IS_GPIO
 #define IS_GPIO(pin) (pin.port != nullptr)
@@ -121,6 +97,27 @@ static inline bool operator!=(GpioPin& a, GpioPin& b) {
 #ifndef GPIO_TO_INT
 #define GPIO_TO_INT(pin) pin.pin
 #endif
+
+namespace audio_driver {
+
+// In Zephyr, GPIO pins are device-tree specifications.
+using GpioPin = ::gpio_dt_spec;
+using i2c_bus_handle_t = ::device*;
+using spi_bus_handle_t = ::device*;
+static GpioPin GPIO_UNDEFINED{nullptr, 0, 0};
+
+static inline bool operator==(audio_driver::GpioPin& a, audio_driver::GpioPin& b) {
+  return (a.port == b.port) && (a.pin == b.pin);
+}
+
+/// Support for pin compare
+
+static inline bool operator!=(audio_driver::GpioPin& a, audio_driver::GpioPin& b) {
+  return !(a == b);
+}
+
+}  // namespace audio_driver
+
 
 #else  // Non-Zephyr platforms
 
@@ -140,7 +137,7 @@ static inline bool operator!=(GpioPin& a, GpioPin& b) {
 #endif  // __zephyr__
 
 // ============================================================================
-// Namespace
+// Common Data in Namespace
 // ============================================================================
 
 namespace audio_driver {
