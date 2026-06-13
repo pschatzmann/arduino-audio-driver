@@ -2,19 +2,18 @@
 #include "AudioBoard.h"
 
 namespace audio_driver {
-
-  /**
- * @brief Pins for Lyrat 4.3 - use the PinsLyrat43 object!
+/**
+ * @brief Pins for alt Es8388 AudioDriver - use the PinsAudioKitEs8388v2 object!
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
-
-class PinsLyrat43Class : public DriverDeviceInfoZephyr {
+class PinsAudioKitEs8388v2Class : public DriverDeviceInfo {
  public:
-  PinsLyrat43Class() {
-    // add i2c codec pins: scl, sda, port, frequency
+  PinsAudioKitEs8388v2Class() {
+#if defined(IS_ZEPHYR)
+    // add i2c
     addI2C(PinFunction::CODEC, DEVICE_DT_GET(DT_ALIAS(i2c_1)));
-    // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
+    // add i2s
     addI2S(PinFunction::CODEC, DEVICE_DT_GET(DT_ALIAS(i2s_1)));
 
     // add other pins
@@ -28,12 +27,14 @@ class PinsLyrat43Class : public DriverDeviceInfoZephyr {
     addPin(PinFunction::HEADPHONE_DETECT, GPIO_DT_SPEC_GET(DT_ALIAS(headphone_detect), gpios), PinLogic::InputActiveLow);
     addPin(PinFunction::PA, GPIO_DT_SPEC_GET(DT_ALIAS(pa), gpios), PinLogic::Output);
     addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led), gpios), PinLogic::Output);
+#else
+#endif
   }
 };
 
 /// @ingroup audio_driver
-static PinsLyrat43Class PinsLyrat43;
+static PinsAudioKitEs8388v2Class PinsAudioKitEs8388v2;
 /// @ingroup audio_driver
-static AudioBoard LyratV43{AudioDriverES8388H3, PinsLyrat43};
+static AudioBoard AudioKitEs8388V2{AudioDriverES8388, PinsAudioKitEs8388v2};
 
-}  // namespace audio_driver
+}

@@ -1,5 +1,6 @@
 
 #pragma once
+#include "DriverCommon.h"
 #ifdef __zephyr__
 #include "Platforms/GPIO_Zephyr.h"
 #include "Platforms/IDriverDeviceInfo.h"
@@ -125,7 +126,7 @@ class DriverDeviceInfoZephyr : public IDriverDeviceInfo {
   GpioPin getPinID(PinFunction function, int pos = 0) {
     auto pin = getPin(function, pos);
     if (pin) return pin.value().pin;
-    return nullptr;
+    return GPIO_UNDEFINED;
   }
 
   /// Finds the I2C pin info with the help of the function
@@ -263,7 +264,7 @@ class DriverDeviceInfoZephyr : public IDriverDeviceInfo {
     AD_LOGD("DriverDeviceInfo::setupPinMode");
     // setup pins
     for (auto& tmp : pins) {
-      if (tmp.pin != nullptr) {
+      if (tmp.pin != GPIO_UNDEFINED) {
           AD_LOGD("pinMode for %d", tmp.pin);
           switch (tmp.pin_logic) {
             case PinLogic::InputActiveHigh:

@@ -263,7 +263,7 @@ class AudioDriver {
       return false;
     }
     GpioPin pin = pins().getPinID(PinFunction::PA);
-    if (pin == GPIO_NONE) {
+    if (pin == GPIO_UNDEFINED) {
       AD_LOGI("PinFunction::PA not defined");
       return false;
     }
@@ -1550,7 +1550,7 @@ class AudioDriverNAU8325Class : public AudioDriver {
 
     // Set MCLK if available
     auto mclk = pins.getPinID(PinFunction::MCLK_SOURCE);
-    if (mclk != GPIO_NONE) {
+    if (mclk != GPIO_UNDEFINED) {
       getGPIO().pinMode(mclk, OUTPUT);
       getGPIO().digitalWrite(mclk, HIGH);
       delayMs(10);  // optional small delay to stabilize

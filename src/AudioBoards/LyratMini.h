@@ -11,6 +11,7 @@ namespace audio_driver {
 class PinsLyratMiniClass : public DriverDeviceInfoZephyr {
  public:
   PinsLyratMiniClass() {
+#if defined(IS_ZEPHYR)
     // sd pins: CLK, MISO, MOSI, CS: the SD is not working, so this is commented
     // out addSPI(ESP32PinsSD); add i2c codec pins: scl, sda, port, frequency
     addI2C(PinFunction::CODEC, DEVICE_DT_GET(DT_ALIAS(i2c_1)));
@@ -24,6 +25,21 @@ class PinsLyratMiniClass : public DriverDeviceInfoZephyr {
     addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios), PinLogic::Output, 2);
     //addPin(PinFunction::MCLK_SOURCE, 0, PinLogic::Inactive);
     addPin(PinFunction::KEY, GPIO_DT_SPEC_GET(DT_ALIAS(key_1), gpios), PinLogic::Input, 0);
+#else
+    // sd pins: CLK, MISO, MOSI, CS: the SD is not working, so this is commented
+    // out addSPI(ESP32PinsSD); add i2c codec pins: scl, sda, port, frequency
+    addI2C(PinFunction::CODEC, 23, 18);
+    // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
+    addI2S(PinFunction::CODEC, 0, 5, 25, 26, 35, 0);
+    addI2S(PinFunction::CODEC_ADC, 0, 32, 33, -1, 36, 1);
+
+    addPin(PinFunction::HEADPHONE_DETECT, 19, PinLogic::InputActiveHigh);
+    addPin(PinFunction::PA, 21, PinLogic::Output);
+    addPin(PinFunction::LED, 22, PinLogic::Output, 1);
+    addPin(PinFunction::LED, 27, PinLogic::Output, 2);
+    addPin(PinFunction::MCLK_SOURCE, 0, PinLogic::Inactive);
+    addPin(PinFunction::KEY, 39, PinLogic::Input, 0);
+#endif
   }
 
 

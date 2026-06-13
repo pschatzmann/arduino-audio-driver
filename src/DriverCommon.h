@@ -95,17 +95,23 @@ namespace audio_driver {
 using GpioPin = ::gpio_dt_spec;
 using i2c_bus_handle_t = ::device*;
 using spi_bus_handle_t = ::device*;
-gpio_dt_spec GPIO_NONE{nullptr, 0, 0};
+static GpioPin GPIO_UNDEFINED{nullptr, 0, 0};
 
-static inline bool operator==(gpio_dt_spec& a, gpio_dt_spec& b) {
+#ifndef GPIO_COMPARE_DEFINED
+#define GPIO_COMPARE_DEFINED
+
+static inline bool operator==(GpioPin& a, GpioPin& b) {
   return (a.port == b.port) && (a.pin == b.pin);
 }
 
 /// Support for pin compare
 
-static inline bool operator!=(gpio_dt_spec& a, gpio_dt_spec& b) {
+static inline bool operator!=(GpioPin& a, GpioPin& b) {
   return !(a == b);
 }
+
+#endif
+
 }  // namespace audio_driver
 
 #ifndef IS_GPIO
@@ -119,12 +125,12 @@ static inline bool operator!=(gpio_dt_spec& a, gpio_dt_spec& b) {
 #else  // Non-Zephyr platforms
 
 // Non-Zephyr platforms use simple integer pin numbers.
-#ifndef GPIO_NONE
-#define GPIO_NONE -1
+#ifndef GPIO_UNDEFINED
+#define GPIO_UNDEFINED -1
 #endif
 
 #ifndef IS_GPIO
-#define IS_GPIO(pin) ((pin) != GPIO_NONE)
+#define IS_GPIO(pin) ((pin) != GPIO_UNDEFINED)
 #endif
 
 #ifndef GPIO_TO_INT

@@ -11,6 +11,7 @@ namespace audio_driver {
 class PinsAudioKitAC101Class : public DriverDeviceInfoZephyr {
  public:
   PinsAudioKitAC101Class() {
+#if defined(IS_ZEPHYR)
     // add i2c codec pins: device, frequency
     addI2C(PinFunction::CODEC, DEVICE_DT_GET(DT_ALIAS(i2c0)));
     // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
@@ -27,7 +28,26 @@ class PinsAudioKitAC101Class : public DriverDeviceInfoZephyr {
     addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios), PinLogic::Output, 1);
     addPin(PinFunction::HEADPHONE_DETECT, GPIO_DT_SPEC_GET(DT_ALIAS(headphone_detect), gpios), PinLogic::InputActiveLow);
     addPin(PinFunction::PA, GPIO_DT_SPEC_GET(DT_ALIAS(pa), gpios), PinLogic::Output);
-  }
+#else
+    // sd pins 14, 2, 15, 13
+    addSPI(ESP32PinsSD);
+    // add i2c codec pins: scl, sda, port, frequency
+    addI2C(PinFunction::CODEC, 32, 33);
+    // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
+    addI2S(PinFunction::CODEC, 0, 27, 26, 25, 35);
+
+    // add other pins
+    addPin(PinFunction::KEY, 36, PinLogic::InputActiveLow, 1);
+    addPin(PinFunction::KEY, 13, PinLogic::InputActiveLow, 2);
+    addPin(PinFunction::KEY, 19, PinLogic::InputActiveLow, 3);
+    addPin(PinFunction::KEY, 23, PinLogic::InputActiveLow, 4);
+    addPin(PinFunction::KEY, 18, PinLogic::InputActiveLow, 5);
+    addPin(PinFunction::KEY, 5, PinLogic::InputActiveLow, 6);
+    addPin(PinFunction::LED, 22, PinLogic::Output, 0);
+    addPin(PinFunction::LED, 19, PinLogic::Output, 1);
+    addPin(PinFunction::HEADPHONE_DETECT, 5, PinLogic::InputActiveLow);
+    addPin(PinFunction::PA, 21, PinLogic::Output);
+#endif
 };
 
 /// @ingroup audio_driver

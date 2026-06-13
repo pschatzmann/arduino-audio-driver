@@ -26,7 +26,7 @@ class GPIOZephyr : public API_GPIO {
   void end() {}
 
   void pinMode(GpioPin pin, int mode) {
-    if (pin == GPIO_NONE || !gpio_is_ready_dt(&pin)) {
+    if (pin == GPIO_UNDEFINED || !gpio_is_ready_dt(&pin)) {
       AD_LOGE("GPIO pin not ready");
       return;
     }
@@ -57,7 +57,7 @@ class GPIOZephyr : public API_GPIO {
   }
 
   bool digitalWrite(GpioPin pin, bool value) {
-    if (pin == GPIO_NONE || !gpio_is_ready_dt(&pin)) {
+    if (pin == GPIO_UNDEFINED || !gpio_is_ready_dt(&pin)) {
       AD_LOGE("GPIO pin not ready");
       return false;
     }
@@ -71,7 +71,7 @@ class GPIOZephyr : public API_GPIO {
   }
 
   bool digitalRead(GpioPin pin) {
-    if (pin == GPIO_NONE || !gpio_is_ready_dt(&pin)) {
+    if (pin == GPIO_UNDEFINED || !gpio_is_ready_dt(&pin)) {
       AD_LOGE("GPIO pin not ready");
       return false;
     }

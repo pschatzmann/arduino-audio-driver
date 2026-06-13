@@ -8,23 +8,6 @@
 #include "FS.h"
 #include "SD_MMC.h"
 
-#define EXIO1 1000
-#define EXIO2 1001
-#define EXIO3 1002
-#define EXIO4 1003
-#define EXIO5 1004
-#define EXIO6 1005
-#define EXIO7 1006
-#define EXIO8 1007
-#define EXIO9 1008
-#define EXIO10 1009
-#define EXIO11 1010
-#define EXIO12 1011
-#define EXIO13 1012
-#define EXIO14 1013
-#define EXIO15 1014
-#define EXIO16 1015
-
 namespace audio_driver {
 
 /**
@@ -32,9 +15,10 @@ namespace audio_driver {
  * object! We support the TCA9555 GPIO expander!
  * @author Phil Schatzmann
  */
-class PinsESP32S3AISmartSpeakerClass : public DriverPins {
+class PinsESP32S3AISmartSpeakerClass : public DriverDeviceInfo {
  public:
   PinsESP32S3AISmartSpeakerClass() {
+#if defined(IS_ZEPHYR)
     // setup TCA9555 GPIO expander
     gpio.setAltGPIO(tca9555, 1000);
     // CLK, MISO (DATA), MOSI (CMD), CS
@@ -54,11 +38,35 @@ class PinsESP32S3AISmartSpeakerClass : public DriverPins {
     addPin(PinFunction::PA, EXIO9, PinLogic::Output);
     addPin(PinFunction::SD, EXIO4, PinLogic::Output);  // SD CS
     addPin(PinFunction::LED, 38, PinLogic::Output);
+#else
+    // setup TCA9555 GPIO expander
+    gpio.setAltGPIO(tca9555, 1000);
+    // add i2c codec pins: scl, sda, port, frequency
+    addI2C(PinFunction::EXPANDER, DEVICE_DT_GET(DT_ALIAS(i2c_1)));
+    // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
+    addI2S(PinFunction::CODEC, DEVICE_DT_GET(DT_ALIAS(i2s_1)));
+
+    // add other pins
+    addPin(PinFunction::KEY, GPIO_DT_SPEC_GET(DT_ALIAS(key_1), gpios),
+           PinLogic::InputActiveLow, 1);
+    addPin(PinFunction::KEY, GPIO_DT_SPEC_GET(DT_ALIAS(key_2), gpios),
+           PinLogic::InputActiveLow, 2);
+    addPin(PinFunction::KEY, GPIO_DT_SPEC_GET(DT_ALIAS(key_3), gpios),
+           PinLogic::InputActiveLow, 3);
+    addPin(PinFunction::PA, GPIO_DT_SPEC_GET(DT_ALIAS(pa), gpios),
+           PinLogic::Output);
+    addPin(PinFunction::SD, GPIO_DT_SPEC_GET(DT_ALIAS(sd), gpios),
+           PinLogic::Output);  // SD CS
+    addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led), gpios),
+           PinLogic::Output);
+#endif
   }
+
+#if !defined(IS_ZEPHYR)
 
   bool begin() override {
     AD_LOGD("PinsESP32S3AISmartSpeakerClass::begin");
-    bool rc = DriverPins::begin();
+    bool rc = DriverDeviceInfo::begin();
     // activate SD CS
     if (sd_active) {
       AD_LOGD("Activate SD CS");
@@ -79,6 +87,8 @@ class PinsESP32S3AISmartSpeakerClass : public DriverPins {
 
  protected:
   TCA9555 tca9555;
+#endif
+
 };
 
 /// @ingroup audio_driver
