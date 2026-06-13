@@ -13,7 +13,7 @@ namespace audio_driver {
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
-class PinsSTM32F411DiscoClass : public DriverPins {
+class PinsSTM32F411DiscoClass : public DriverDeviceInfo {
  public:
   PinsSTM32F411DiscoClass() {
 

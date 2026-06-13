@@ -2,11 +2,6 @@
 #include "AudioDriver.h"
 #include "DriverDeviceInfo.h"
 
-// we automatically include all baords using gpios as ints
-#if !defined(__zephyr__)
-#include "AudioBoards/AudioBoards.h"
-#endif
-
 namespace audio_driver {
 
 /**
@@ -119,3 +114,8 @@ static AudioBoard GenericWM8960{AudioDriverWM8960, NoPins};
 static AudioBoard GenericCS43l22{AudioDriverCS43l22, NoPins};
 
 }  // namespace audio_driver
+
+// we automatically include all baords using gpios as ints
+#if !defined(__zephyr__)
+#include "AudioBoards/AudioBoards.h"
+#endif

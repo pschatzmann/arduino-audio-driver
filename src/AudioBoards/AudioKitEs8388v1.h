@@ -11,7 +11,7 @@ namespace audio_driver {
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
-class PinsAudioKitEs8388v1Class : public DriverDeviceInfoZephyr {
+class PinsAudioKitEs8388v1Class : public DriverDeviceInfo {
  public:
   PinsAudioKitEs8388v1Class() {
 #if defined(IS_ZEPHYR)

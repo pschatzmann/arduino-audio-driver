@@ -9,7 +9,7 @@ namespace audio_driver {
  * @copyright GPLv3
  */
 
-class PinsLyrat43Class : public DriverDeviceInfoZephyr {
+class PinsLyrat43Class : public DriverDeviceInfo {
  public:
   PinsLyrat43Class() {
 #if defined(IS_ZEPHYR)

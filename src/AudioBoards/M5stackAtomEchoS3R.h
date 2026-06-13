@@ -8,7 +8,7 @@ namespace audio_driver {
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
-class PinsM5stackAtomEchoS3RClass : public DriverDeviceInfoZephyr {
+class PinsM5stackAtomEchoS3RClass : public DriverDeviceInfo {
  public:
   PinsM5stackAtomEchoS3RClass() {
 #if defined(IS_ZEPHYR)

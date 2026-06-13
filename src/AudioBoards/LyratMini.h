@@ -8,7 +8,7 @@ namespace audio_driver {
  * @author Phil Schatzmann
  * @copyright GPLv3
  */
-class PinsLyratMiniClass : public DriverDeviceInfoZephyr {
+class PinsLyratMiniClass : public DriverDeviceInfo {
  public:
   PinsLyratMiniClass() {
 #if defined(IS_ZEPHYR)
