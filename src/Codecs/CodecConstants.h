@@ -5,8 +5,8 @@
 #  include "Arduino.h" // for delay
 #endif
 
-
-enum es_sclk_div_t {
+/// Clock divider values for es8388 and es8374
+es_sclk_div_t {
     MCLK_DIV_MIN = -1,
     MCLK_DIV_1 = 1,
     MCLK_DIV_2 = 2,
@@ -42,6 +42,7 @@ enum es_sclk_div_t {
     MCLK_DIV_MAX,
 };
 
+/// Clock divider values for es8388 and es8374
 enum es_lclk_div_t {
     LCLK_DIV_MIN = -1,
     LCLK_DIV_128 = 0,
@@ -72,6 +73,10 @@ enum es_lclk_div_t {
     LCLK_DIV_1500 = 27,
     LCLK_DIV_MAX,
 };
+
+/**
+ * @brief i2s clock configuration structure for es8388 and es8374
+ */
 
 struct es_i2s_clock_t {
     es_sclk_div_t sclk_div;    /*!< bits clock divide */
