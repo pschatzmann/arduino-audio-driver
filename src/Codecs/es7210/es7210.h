@@ -80,21 +80,21 @@
 
 namespace audio_driver {
 
-typedef enum {
+enum es7210_address_t {
   ES7210_AD1_AD0_00 = 0x80,
   ES7210_AD1_AD0_01 = 0x82,
   ES7210_AD1_AD0_10 = 0x84,
   ES7210_AD1_AD0_11 = 0x86
-} es7210_address_t;
+};
 
-typedef enum {
+enum es7210_input_mics_t {
   ES7210_INPUT_MIC1 = 0x01,
   ES7210_INPUT_MIC2 = 0x02,
   ES7210_INPUT_MIC3 = 0x04,
   ES7210_INPUT_MIC4 = 0x08
-} es7210_input_mics_t;
+};
 
-typedef enum gain_value {
+enum es7210_gain_value_t {
   ES7210_GAIN_0DB = 0,
   ES7210_GAIN_3DB,
   ES7210_GAIN_6DB,
@@ -110,7 +110,7 @@ typedef enum gain_value {
   ES7210_GAIN_34_5DB,
   ES7210_GAIN_36DB,
   ES7210_GAIN_37_5DB,
-} es7210_gain_value_t;
+};
 
 /*
  * Clock coefficient structer

@@ -89,7 +89,7 @@
 
 namespace audio_driver {
 
-typedef enum {
+enum ac_adda_fs_i2s1_t {
   SAMPLE_RATE_8000 = 0x0000,
   SAMPLE_RATE_11052 = 0x1000,
   SAMPLE_RATE_12000 = 0x2000,
@@ -101,9 +101,9 @@ typedef enum {
   SAMPLE_RATE_48000 = 0x8000,
   SAMPLE_RATE_96000 = 0x9000,
   SAMPLE_RATE_192000 = 0xa000,
-} ac_adda_fs_i2s1_t;
+};
 
-typedef enum {
+enum ac_i2s1_bclk_div_t {
   BCLK_DIV_1 = 0x0,
   BCLK_DIV_2 = 0x1,
   BCLK_DIV_4 = 0x2,
@@ -119,46 +119,46 @@ typedef enum {
   BCLK_DIV_128 = 0xc,
   BCLK_DIV_192 = 0xd,
 
-} ac_i2s1_bclk_div_t;
+};
 
-typedef enum {
+enum ac_i2s1_lrck_div_t {
   LRCK_DIV_16 = 0x0,
   LRCK_DIV_32 = 0x1,
   LRCK_DIV_64 = 0x2,
   LRCK_DIV_128 = 0x3,
   LRCK_DIV_256 = 0x4,
-} ac_i2s1_lrck_div_t;
+};
 
-typedef enum {
+enum ac_bits_length_t {
   BIT_LENGTH_8_BITS = 0x00,
   BIT_LENGTH_16_BITS = 0x01,
   BIT_LENGTH_20_BITS = 0x02,
   BIT_LENGTH_24_BITS = 0x03,
-} ac_bits_length_t;
+};
 
-typedef enum {
+enum ac_mode_sm_t {
   AC_MODE_MIN = -1,
   AC_MODE_SLAVE = 0x00,
   AC_MODE_MASTER = 0x01,
   AC_MODE_MAX,
-} ac_mode_sm_t;
+};
 
-typedef enum {
+enum ac_module_t {
   AC_MODULE_MIN = -1,
   AC_MODULE_ADC = 0x01,
   AC_MODULE_DAC = 0x02,
   AC_MODULE_ADC_DAC = 0x03,
   AC_MODULE_LINE = 0x04,
   AC_MODULE_MAX
-} ac_module_t;
+};
 
-typedef enum {
+enum ac_output_mixer_source_t {
   SRC_MIC1 = 1,
   SRC_MIC2 = 2,
   SRC_LINEIN = 3,
-} ac_output_mixer_source_t;
+};
 
-typedef enum {
+enum ac_output_mixer_gain_t {
   GAIN_N45DB = 0,
   GAIN_N30DB = 1,
   GAIN_N15DB = 2,
@@ -167,15 +167,15 @@ typedef enum {
   GAIN_30DB = 5,
   GAIN_45DB = 6,
   GAIN_60DB = 7,
-} ac_output_mixer_gain_t;
+};
 
 /**
  * @brief Configure AC101 clock
  */
-typedef struct {
+struct ac_i2s_clock_t {
   ac_i2s1_bclk_div_t bclk_div; /*!< bits clock divide */
   ac_i2s1_lrck_div_t lclk_div; /*!< WS clock divide */
-} ac_i2s_clock_t;
+};
 
 static i2c_bus_handle_t ac101_i2c_handle = NULL;
 static int i2c_addr_ac101 = AC101_ADDR;

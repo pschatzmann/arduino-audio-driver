@@ -35,10 +35,10 @@
 
 namespace audio_driver {
 
-typedef struct {
+struct tas5805m_cfg_reg_t {
   uint8_t offset;
   uint8_t value;
-} tas5805m_cfg_reg_t;
+};
 
 static const uint8_t tas5805m_volume[] = {
     0xff, 0x9f, 0x8f, 0x7f, 0x6f, 0x5f, 0x5c, 0x5a, 0x58, 0x54, 0x50,

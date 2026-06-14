@@ -526,7 +526,7 @@ namespace audio_driver {
  * - wm8960_set()
  * - wm8960_clear()
  */
-typedef enum {
+enum wm8960_reg_t {
   WM8960_REG_LEFT_IN_VOL,   /**< 0x00: Left Input volume */
   WM8960_REG_RIGHT_IN_VOL,  /**< 0x01: Right Input volume */
   WM8960_REG_LOUT1_VOL,     /**< 0x02: LOUT1 volume */
@@ -583,7 +583,7 @@ typedef enum {
   WM8960_REG_PLL_K1,        /**< 0x35: PLL K 1 */
   WM8960_REG_PLL_K2,        /**< 0x36: PLL K 2 */
   WM8960_REG_PLL_K3         /**< 0x37: PLL K 3 */
-} wm8960_reg_t;
+};
 
 /**
  * Enumeration of bit flags enabling/disabling features of the WM8960
@@ -592,14 +592,14 @@ typedef enum {
  * \note The values of the enumeration can be OR'ed to enable multiple
  * features
  */
-typedef enum {
+enum wm8960_features_t {
   WM8960_FEATURE_NONE = 0x00,        /**< No features enabled */
   WM8960_FEATURE_MICROPHONE1 = 0x01, /**< Enable the microphone */
   WM8960_FEATURE_MICROPHONE2 = 0x02, /**< Enable the microphone */
   WM8960_FEATURE_MICROPHONE3 = 0x04, /**< Enable the microphone */
   WM8960_FEATURE_HEADPHONE = 0x08,   /**< Enable the headphone */
   WM8960_FEATURE_SPEAKER = 0x10      /**< Enable the class D speaker */
-} wm8960_features_t;
+};
 
 #define WM8960_FEATURE_MICROPHONES                           \
   (WM8960_FEATURE_MICROPHONE1 | WM8960_FEATURE_MICROPHONE2 | \
@@ -609,7 +609,7 @@ typedef enum {
  * Enumeration for supported sample rates for ADC and DAC in the WM8960
  * audio codec.
  */
-typedef enum {
+enum wm8960_adc_dac_sample_rate_t {
   WM8960_ADC_DAC_SAMPLE_RATE_48_KHZ,     /**< 48 KHz sample rate */
   WM8960_ADC_DAC_SAMPLE_RATE_44_1_KHZ,   /**< 44.1 KHz sample rate */
   WM8960_ADC_DAC_SAMPLE_RATE_32_KHZ,     /**< 32 KHz sample rate */
@@ -620,42 +620,42 @@ typedef enum {
   WM8960_ADC_DAC_SAMPLE_RATE_11_025_KHZ, /**< 11.025 KHz sample rate */
   WM8960_ADC_DAC_SAMPLE_RATE_8_018_KHZ,  /**< 8.018 KHz sample rate */
   WM8960_ADC_DAC_SAMPLE_RATE_8_KHZ       /**< 8 KHz sample rate */
-} wm8960_adc_dac_sample_rate_t;
+};
 
 /**
  * Enumeration for supported word lengths in the WM8960
  * audio codec.
  */
-typedef enum {
+enum wm8960_word_length_t {
   WM8960_WL_16BITS = WM8960_AUDIO_INTF0_WL_16BITS, /**< 16-bit word length */
   WM8960_WL_20BITS = WM8960_AUDIO_INTF0_WL_20BITS, /**< 20-bit word length */
   WM8960_WL_24BITS = WM8960_AUDIO_INTF0_WL_24BITS, /**< 24-bit word length */
   WM8960_WL_32BITS = WM8960_AUDIO_INTF0_WL_32BITS  /**< 32-bit word length */
-} wm8960_word_length_t;
+};
 
 /**
  * Enumeration to select mode of operation of the WM8960 audio codec.
  */
-typedef enum {
+enum wm8960_mode_t {
   WM8960_MODE_MASTER = WM8960_AUDIO_INTF0_MS_MASTER, /**< Master mode */
   WM8960_MODE_SLAVE = WM8960_AUDIO_INTF0_MS_SLAVE    /**< Slave mode */
-} wm8960_mode_t;
+};
 
 /*------------------------------------------------------------------------------
                     Internal types (from implementation)
 ------------------------------------------------------------------------------*/
 typedef bool (*_wm8960_update_data_t)(wm8960_reg_t reg, uint16_t value);
 
-typedef enum {
+enum _wm8960_sysclk_freq_t {
   _WM8960_SYSCLK_FREQ_12288000_HZ = 12288000,
   _WM8960_SYSCLK_FREQ_11289600_HZ = 11289600
-} _wm8960_sysclk_freq_t;
+};
 
-typedef struct {
+struct _wm8960_operation_t {
   uint8_t features;
   wm8960_reg_t reg;
   uint16_t value;
-} _wm8960_operation_t;
+};
 
 /*------------------------------------------------------------------------------
                     Static state variables

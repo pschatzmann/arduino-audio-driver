@@ -48,12 +48,12 @@ static i2c_bus_handle_t es8374_i2c_handle = NULL;
 static int i2c_address_es8374 = ES8374_ADDR;
 
 /* Moved up from the bottom so static helpers that use it can see it */
-typedef enum {
+enum es_d2se_pga_t {
   ES8374_PGA_GAIN_MIN = -1,
   ES8374_PGA_GAIN_DIS = 0,
   ES8374_PGA_GAIN_EN = 1,
   ES8374_PGA_GAIN_MAX = 2,
-} es_d2se_pga_t;
+};
 
 static bool es8374_codec_initialized() { return es8374_codec_init_flag; }
 

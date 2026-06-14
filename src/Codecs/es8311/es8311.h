@@ -130,7 +130,7 @@
 
 namespace audio_driver {
 
-typedef enum {
+enum es8311_mic_gain_t {
   ES8311MIC_GAIN_MIN = -1,
   ES8311MIC_GAIN_0DB,
   ES8311MIC_GAIN_6DB,
@@ -141,7 +141,7 @@ typedef enum {
   ES8311MIC_GAIN_36DB,
   ES8311MIC_GAIN_42DB,
   ES8311MIC_GAIN_MAX
-} es8311_mic_gain_t;
+};
 
 static i2c_bus_handle_t es8311_i2c_handle = NULL;
 static int i2c_address_es8311 = ES8311_ADDR;

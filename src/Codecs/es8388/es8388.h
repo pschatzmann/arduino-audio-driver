@@ -98,7 +98,7 @@
 
 namespace audio_driver {
 
-typedef enum {
+enum es_output_device_t {
   ES8388_OUTPUT_MIN = -1,
   ES8388_OUTPUT_LOUT1 = 0x04,
   ES8388_OUTPUT_ROUT1 = 0x08,
@@ -107,9 +107,9 @@ typedef enum {
   ES8388_OUTPUT_ROUT2 = 0x20,
   ES8388_OUTPUT_ALL = 0x3c,
   ES8388_OUTPUT_MAX,
-} es_output_device_t;
+};
 
-typedef enum {
+enum es8388_input_device_t {
   ESP8388_INPUT_MIN = -1,
   ESP8388_INPUT_LINPUT1_RINPUT1 = 0x00,
   ESP8388_INPUT_MIC1 = 0x05,
@@ -117,7 +117,7 @@ typedef enum {
   ESP8388_INPUT_LINPUT2_RINPUT2 = 0x50,
   ESP8388_INPUT_DIFFERENCE = 0xf0,
   ESP8388_INPUT_MAX,
-} es8388_input_device_t;
+};
 
 static i2c_bus_handle_t es8388_i2c_handle = NULL;
 static int dac_power = 0x3c;

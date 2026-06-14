@@ -6,7 +6,7 @@
 #endif
 
 
-typedef enum {
+enum es_sclk_div_t {
     MCLK_DIV_MIN = -1,
     MCLK_DIV_1 = 1,
     MCLK_DIV_2 = 2,
@@ -40,9 +40,9 @@ typedef enum {
     MCLK_DIV_13 = 30,
     MCLK_DIV_14 = 31,
     MCLK_DIV_MAX,
-} es_sclk_div_t;
+};
 
-typedef enum {
+enum es_lclk_div_t {
     LCLK_DIV_MIN = -1,
     LCLK_DIV_128 = 0,
     LCLK_DIV_192 = 1,
@@ -71,19 +71,19 @@ typedef enum {
     LCLK_DIV_1496 = 26,
     LCLK_DIV_1500 = 27,
     LCLK_DIV_MAX,
-} es_lclk_div_t;
+};
 
-typedef struct {
+struct es_i2s_clock_t {
     es_sclk_div_t sclk_div;    /*!< bits clock divide */
     es_lclk_div_t lclk_div;    /*!< WS clock divide */
-} es_i2s_clock_t;
+};
 
 typedef void* audio_codec_dac_vol_offset;
 
 /**
  * @brief Codec dac volume configurations
  */
-typedef struct {
+struct codec_dac_volume_config_t {
     float   max_dac_volume;  /*!< Codec support max volume */
     float   min_dac_volume;  /*!< Codec support min volume */
     float   board_pa_gain;   /*!< Board power amplifier gain */
@@ -93,4 +93,4 @@ typedef struct {
     uint8_t reg_value;       /*!< Record current dac volume register value */
     int     user_volume;     /*!< Record the user set volume */
     audio_codec_dac_vol_offset offset_conv_volume; /*!<  Convert user volume to dac volume offset */
-} codec_dac_volume_config_t;
+};
