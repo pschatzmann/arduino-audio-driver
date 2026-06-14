@@ -83,6 +83,27 @@ class GPIOZephyr : public API_GPIO {
     }
     return rc != 0;
   }
+
+  /// Reads the raw ADC sample described by an adc_dt_spec device-tree node.
+  int analogRead(ADCPin pin) {
+    int rc = adc_channel_setup_dt(&pin);
+    if (rc != 0) {
+      AD_LOGE("ADC channel setup failed: %d", rc);
+      return -1;
+    }
+    int16_t sample = 0;
+    struct adc_sequence sequence = {
+      .buffer      = &sample,
+      .buffer_size = sizeof(sample),
+    };
+    adc_sequence_init_dt(&pin, &sequence);
+    rc = adc_read_dt(&pin, &sequence);
+    if (rc != 0) {
+      AD_LOGE("ADC read failed: %d", rc);
+      return -1;
+    }
+    return sample;
+  }
 };
 
 using GPIO = GPIOZephyr;

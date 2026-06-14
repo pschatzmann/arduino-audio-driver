@@ -65,6 +65,8 @@ public:
   }
 
   bool digitalRead(GpioPin pin) { return gpio_get_level((gpio_num_t)pin); }
+  /// ADC via ESP-IDF requires separate channel/unit setup; not implemented here.
+  int analogRead(ADCPin pin) { return -1; }
 };
 
 } // namespace audio_driver

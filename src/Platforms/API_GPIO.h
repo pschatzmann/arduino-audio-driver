@@ -12,6 +12,8 @@ class API_GPIO {
   virtual void pinMode(GpioPin pin, int mode) = 0;
   virtual bool digitalWrite(GpioPin pin, bool value) = 0;
   virtual bool digitalRead(GpioPin pin) = 0;
+  /// Returns the raw ADC value for the given pin, or -1 if not supported.
+  virtual int analogRead(ADCPin pin) = 0;
 };
 
 }

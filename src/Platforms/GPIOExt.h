@@ -55,6 +55,10 @@ class GPIOExt : public API_GPIO {
     }
   }
 
+  int analogRead(ADCPin pin) override {
+    return gpio.analogRead(pin);
+  }
+
   void setAltGPIO(API_GPIO& gpioExt, int offset = 1000) {
     AD_LOGD("setAltGPIO");
     p_ext = &gpioExt;

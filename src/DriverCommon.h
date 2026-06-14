@@ -86,6 +86,7 @@
 #ifdef __zephyr__
 
 #include <zephyr/device.h>
+#include <zephyr/drivers/adc.h>
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/kernel.h>
 
@@ -102,6 +103,7 @@ namespace audio_driver {
 
 // In Zephyr, GPIO pins are device-tree specifications.
 using GpioPin = ::gpio_dt_spec;
+using ADCPin  = ::adc_dt_spec;
 using i2c_bus_handle_t = ::device*;
 using spi_bus_handle_t = ::device*;
 static GpioPin GPIO_UNDEFINED{nullptr, 0, 0};
@@ -146,6 +148,7 @@ using error_t = int;
 
 #ifndef __zephyr__
 using GpioPin = int16_t;
+using ADCPin  = int16_t;
 using i2c_bus_handle_t = void*;
 using spi_bus_handle_t = void*;
 #endif

@@ -36,6 +36,7 @@ class GPIO : public API_GPIO {
     return true;
   }
   bool digitalRead(GpioPin pin) { return ::digitalRead(pin); }
+  int analogRead(ADCPin pin) { return ::analogRead(pin); }
 };
 
 }  // namespace audio_driver

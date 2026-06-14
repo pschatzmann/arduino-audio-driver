@@ -661,7 +661,7 @@ class AudioDriverES7243eClass : public AudioDriver {
            RESULT_OK;
   }
   int getVolume() {
-    int vol;
+    int vol = 0;
     es7243e_adc_get_voice_volume(&vol);
     return vol;
   }
