@@ -6,11 +6,11 @@
 [![IDF Component](https://img.shields.io/badge/IDF-Component-blue.svg)](https://github.com/pschatzmann/arduino-audio-driver)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-green.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-This project replaces the obsolete [AudioKit project](https://github.com/pschatzmann/arduino-audiokit), that was a quick and dirty adaptation of the Espressif IDF Drivers for Arduino. 
+This project replaces the obsolete [AudioKit project](https://github.com/pschatzmann/arduino-audiokit), which was a quick and dirty adaptation of the Espressif IDF Drivers for Arduino. 
 
-In this project I finally implemented some clean and simple C++ classes. This __reduced the complexity__ considerably and __increased the flexibility__ tremendously!
+I finally managed to implement some clean and simple C++ classes. This __reduced the complexity__ considerably and __increased the flexibility__ tremendously!
 
-The goal of this project is to provide an __easy header-only C++ API to configure different audio codec chips__. After setting up the codec, you can use the I2S functionality provided by your microcontroller.
+The goal of this project is to provide an __easy, header-only C++ API to configure different audio codec chips__. After setting up the codec, you can use the I2S functionality provided by your microcontroller.
 
 While you can use this library stand alone, I recommend to use it together with my [AudioTools](https://github.com/pschatzmann/arduino-audio-tools) project which provides a nice integration with it's [I2SCodecStream](https://pschatzmann.github.io/arduino-audio-tools/classaudio__tools_1_1_i2_s_codec_stream.html) class. Further information can be found in the [Wiki](https://github.com/pschatzmann/arduino-audio-Codecs/wiki).
 
