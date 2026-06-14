@@ -6,7 +6,7 @@
 #endif
 
 /// Clock divider values for es8388 and es8374
-es_sclk_div_t {
+enum es_sclk_div_t {
     MCLK_DIV_MIN = -1,
     MCLK_DIV_1 = 1,
     MCLK_DIV_2 = 2,
