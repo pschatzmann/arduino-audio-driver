@@ -10,49 +10,10 @@ This project replaces the obsolete [AudioKit project](https://github.com/pschatz
 
 In this project I finally implemented some clean and simple C++ classes. This __reduced the complexity__ considerably and __increased the flexibility__ tremendously!
 
-The goal of this project is to provide an __easy API to configure different audio codec chips__. After setting up the codec, you can use the I2S functionality provided by your microcontroller.
+The goal of this project is to provide an __easy header-only C++ API to configure different audio codec chips__. After setting up the codec, you can use the I2S functionality provided by your microcontroller.
 
 While you can use this library stand alone, I recommend to use it together with my [AudioTools](https://github.com/pschatzmann/arduino-audio-tools) project which provides a nice integration with it's [I2SCodecStream](https://pschatzmann.github.io/arduino-audio-tools/classaudio__tools_1_1_i2_s_codec_stream.html) class. Further information can be found in the [Wiki](https://github.com/pschatzmann/arduino-audio-Codecs/wiki).
 
-## Drivers and Boards
-
-This library privides the following drivers:
-
-- AudioDriverAC101
-- AudioDriverAD1938
-- AudioDriverCS42448
-- AudioDriverCS43l22
-- AudioDriverES7210
-- AudioDriverES7243
-- AudioDriverES7243e
-- AudioDriverES8156
-- AudioDriverES8311
-- AudioDriverES8374
-- AudioDriverES8388
-  - AudioDriverES8388H0 (Volume Hack 0)
-  - AudioDriverES8388H1 (Volume Hack 1)
-  - AudioDriverES8388H2 (Volume Hack 2)
-  - AudioDriverES8388H3 (Volume Hack 3)
-- AudioDriverLyratMini
-- AudioDriverPCM3168
-- AudioDriverWM8960
-- AudioDriverWM8978
-- AudioDriverWM8994
-- AudioDriverNAU8325
-
-And it supports the following boards:
-
-- AudioKitAC101 
-- AudioKitEs8388V1 
-- AudioKitEs8388V2 
-- GenericCS43l22 
-- GenericWM8960 
-- LyratMini
-- LyratV42 
-- LyratV43 
-- ESP32S3AISmartSpeaker (ES8311 & ES7210)
-- M5stackAtomEchoS3R
-- NoBoard 
 
 
 ## Logging
@@ -71,6 +32,7 @@ You can deactivate the logging completly and if you are using an ESP32, you can 
 ## Documentation
 
 - [Wiki](https://github.com/pschatzmann/arduino-audio-Codecs/wiki)
+- [Drivers and Boards](https://github.com/pschatzmann/arduino-audio-driver/wiki/Drivers-and-Boards)
 - [Classes and Objects](https://pschatzmann.github.io/arduino-audio-Codecs/html/group__audio__driver.html)
 - [Examples](https://github.com/pschatzmann/arduino-audio-Codecs/tree/main/examples)
 
@@ -102,6 +64,8 @@ git clone https://github.com/pschatzmann/arduino-audio-driver.git
 ```
 
 I recommend to use git because you can easily update to the latest version just by executing the git pull command in the project folder. 
+
+Please consult the Wiki on how to use this library in IDF, Zephyr or PlatformIO
 
 
 ## Sponsor Me
