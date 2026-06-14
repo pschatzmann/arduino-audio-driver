@@ -38,6 +38,7 @@ namespace audio_driver {
 
 static i2c_bus_handle_t es7243e_i2c_handle = NULL;
 static int es7243e_addr = 0x10;  // 0x20 >> 1;
+//static int es7243e_addr = 0x13;  // 0x26 >> 1;
 
 static inline error_t es7243e_write_reg(uint8_t reg_add, uint8_t data) {
   return i2c_bus_write_bytes(es7243e_i2c_handle, es7243e_addr, &reg_add,

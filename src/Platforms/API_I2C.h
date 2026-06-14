@@ -193,7 +193,7 @@ inline error_t i2c_bus_write_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
   dev_cfg.scl_speed_hz = cfg->frequency;
 
   i2c_master_dev_handle_t dev_handle;
-  if (!i2c_master_bus_add_device(bus_handle, &dev_cfg, &dev_handle) == ESP_OK) {
+  if (i2c_master_bus_add_device(bus_handle, &dev_cfg, &dev_handle) != ESP_OK) {
     AD_LOGE("i2c_new_master_bus");
     return ESP_FAIL;
   }
@@ -237,14 +237,14 @@ inline error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
   dev_cfg.scl_speed_hz = cfg->frequency;
 
   i2c_master_dev_handle_t dev_handle;
-  if (!i2c_master_bus_add_device(bus_handle, &dev_cfg, &dev_handle) == ESP_OK) {
+  if (i2c_master_bus_add_device(bus_handle, &dev_cfg, &dev_handle) != ESP_OK) {
     AD_LOGE("i2c_master_bus_add_device");
     return ESP_FAIL;
   }
 
   int write_size = reglen;
   uint8_t write_buffer[write_size];
-  memcpy(write_buffer + 1, reg, reglen);
+  memcpy(write_buffer, reg, reglen);
 
   esp_err_t ret = ESP_OK;
   ret = i2c_master_transmit_receive(dev_handle, write_buffer, write_size,

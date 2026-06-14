@@ -70,7 +70,7 @@ class TCA9555 : public API_GPIO {
    * @return true if successful, false otherwise.
    */
   bool digitalWrite(GpioPin pin, bool value) override {
-    if (pin > 1000) pin -= 1000;
+    if (pin >= 1000) pin -= 1000;
     AD_LOGI("TCA9555::digitalWrite %d: %d", pin, value);
     if (pin > 15 || bus == nullptr) {
       AD_LOGE("TCA9555 invalid pin: %d", pin);
@@ -101,7 +101,7 @@ class TCA9555 : public API_GPIO {
    * @return true if HIGH, false if LOW or on error.
    */
   bool digitalRead(GpioPin pin) override {
-    if (pin > 1000) pin -= 1000;
+    if (pin >= 1000) pin -= 1000;
     AD_LOGI("TCA9555::digitalRead %d", pin);
     if (pin > 15 || bus == nullptr) return false;
     uint8_t port = pin / 8;
@@ -119,7 +119,7 @@ class TCA9555 : public API_GPIO {
    * @return true if successful, false otherwise.
    */
   void pinMode(GpioPin pin, int mode) override {
-    if (pin > 1000) pin -= 1000;
+    if (pin >= 1000) pin -= 1000;
     AD_LOGI("TCA9555::pinMode: %d", pin);
     if (pin > 15 || bus == nullptr) {
       AD_LOGE("TCA9555 pinMode: invalid pin: %d", pin);
@@ -140,6 +140,13 @@ class TCA9555 : public API_GPIO {
       cfg &= ~(1 << bit);
     i2c_write(i2c_default_address, reg, &cfg, 1);
   }
+
+  /// Not supported
+  int analogRead(ADCPin pin) { 
+    AD_LOGE("TCA9555 analogRead() not supported");
+    return 0; 
+  }
+
 
   /**
    * @brief Set the I2C address for the TCA9555.

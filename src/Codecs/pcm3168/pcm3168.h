@@ -104,7 +104,7 @@ class PCM3168 {
 
   bool setMuteADC(bool mute) {
     mute_adc = mute ? 0xFF : 0x00;
-    return write(ADC_SOFT_MUTE_CONTROL, mute_dac);
+    return write(ADC_SOFT_MUTE_CONTROL, mute_adc);
   }
 
   bool setVolume(float level) { return volumeInteger(volumebyte(level)); }
@@ -190,23 +190,16 @@ class PCM3168 {
 
   bool write(uint32_t address, uint32_t data) {
     assert(wire != nullptr);
-    // wire->beginTransmission(i2c_addr);
-    // wire->write(address);
-    // wire->write(data);
-    // return wire->endTransmission() == 0;
-    return i2c_bus_write_bytes(wire, address, (uint8_t*)&data, 4, nullptr, 0) ==
-           0;
+    uint8_t reg = static_cast<uint8_t>(address);
+    uint8_t value = static_cast<uint8_t>(data);
+    return i2c_bus_write_bytes(wire, i2c_addr, &reg, 1, &value, 1) == 0;
   }
 
   bool write(uint32_t address, const void* data, uint32_t len) {
     assert(wire != nullptr);
-    // wire->beginTransmission(i2c_addr);
-    // wire->write(address);
-    // const uint8_t *p = (const uint8_t *)data;
-    // wire->write(p, len);
-    // return wire->endTransmission() == 0;
-    return i2c_bus_write_bytes(wire, address, (uint8_t*)data, len, nullptr,
-                               0) == 0;
+    uint8_t reg = static_cast<uint8_t>(address);
+    return i2c_bus_write_bytes(wire, i2c_addr, &reg, 1, (uint8_t*)data,
+                               len) == 0;
   }
 };
 

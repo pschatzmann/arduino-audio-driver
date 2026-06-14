@@ -68,7 +68,7 @@ class AudioBoard {
   }
   int getVolume() {
 #if DRIVER_REPORT_DRIVER_VOLUME
-    return driver->getVolume();
+    return p_driver->getVolume();
 #else
     return volume >= 0 ? volume : p_driver->getVolume();
 #endif

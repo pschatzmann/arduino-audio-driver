@@ -97,7 +97,7 @@ class CodecConfig : public codec_config_t {
 
   /// Defines the number of channels
   bool setChannelsNumeric(int channels) {
-    switch (2) {
+    switch (channels) {
       case CHANNELS2:
         i2s.channels = (channels_t)channels;
         return true;
@@ -127,7 +127,7 @@ class CodecConfig : public codec_config_t {
         i2s.rate = rate_code[j];
         return requestedRate;
       } else {
-        int new_diff = abs(rate_code[j] - requestedRate);
+        int new_diff = abs(rate_num[j] - requestedRate);
         if (new_diff < diff) {
           result = j;
           diff = new_diff;
@@ -892,7 +892,7 @@ class AudioDriverES8388Class : public AudioDriver {
   int getVolumeHack() { return volume_hack; }
 
  protected:
-  bool line_active[2] = {true};
+  bool line_active[2] = {true, true};
   int volume_hack = AI_THINKER_ES8388_VOLUME_HACK;
 
   bool init(codec_config_t codec_cfg) {
@@ -947,18 +947,18 @@ class AudioDriverWM8960Class : public AudioDriver {
     codec_cfg = codecCfg;
 
     // define wire object
-    mtb_wm8960_set_wire(getI2C());
-    mtb_wm8960_set_write_retry_count(i2c_retry_count);
+    wm8960_set_wire(getI2C());
+    wm8960_set_write_retry_count(i2c_retry_count);
 
     // setup wm8960
     int features = getFeatures(codecCfg);
-    if (!mtb_wm8960_init(features)) {
-      AD_LOGE("mtb_wm8960_init");
+    if (!wm8960_init(features)) {
+      AD_LOGE("wm8960_init");
       return false;
     }
     setVolume(DRIVER_DEFAULT_VOLUME);
-    if (!mtb_wm8960_activate()) {
-      AD_LOGE("mtb_wm8960_activate");
+    if (!wm8960_activate()) {
+      AD_LOGE("wm8960_activate");
       return false;
     }
     if (!configure_clocking()) {
@@ -968,8 +968,8 @@ class AudioDriverWM8960Class : public AudioDriver {
     return true;
   }
   bool end(void) {
-    mtb_wm8960_deactivate();
-    mtb_wm8960_free();
+    wm8960_deactivate();
+    wm8960_free();
     return true;
   }
   virtual bool setConfig(CodecConfig codecCfg) {
@@ -984,7 +984,7 @@ class AudioDriverWM8960Class : public AudioDriver {
     volume_out = limitValue(volume, 0, 100);
     int vol_int =
         volume_out == 0.0 ? 0 : mapVolume(volume_out, 0, 100, 30, 0x7F);
-    return mtb_wm8960_set_output_volume(vol_int);
+    return wm8960_set_output_volume(vol_int);
   }
 
   int getVolume() { return volume_out; }
@@ -992,7 +992,7 @@ class AudioDriverWM8960Class : public AudioDriver {
   bool setInputVolume(int volume) {
     volume_in = limitValue(volume, 0, 100);
     int vol_int = mapVolume(volume_in, 0, 100, 0, 30);
-    return mtb_wm8960_adjust_input_volume(vol_int);
+    return wm8960_adjust_input_volume(vol_int);
   }
   bool isVolumeSupported() { return true; }
 
@@ -1007,7 +1007,7 @@ class AudioDriverWM8960Class : public AudioDriver {
   /// Configuration: define master clock frequency (default: 0)
   void setMclkHz(uint32_t hz) { vs1053_mclk_hz = hz; }
 
-  void dumpRegisters() { mtb_wm8960_dump(); }
+  void dumpRegisters() { wm8960_dump(); }
 
  protected:
   int volume_in = 100;
@@ -1054,18 +1054,18 @@ class AudioDriverWM8960Class : public AudioDriver {
       // just pick a multiple of the sample rate
       vs1053_mclk_hz = 512 * codec_cfg.getRateNumeric();
     }
-    if (!mtb_wm8960_configure_clocking(
+    if (!wm8960_configure_clocking(
             vs1053_mclk_hz, vs1053_enable_pll,
             sampleRate(codec_cfg.getRateNumeric()),
             wordLength(codec_cfg.getBitsNumeric()),
             modeMasterSlave(codec_cfg.i2s.mode == MODE_MASTER))) {
-      AD_LOGE("mtb_wm8960_configure_clocking");
+      AD_LOGE("wm8960_configure_clocking");
       return false;
     }
     return true;
   }
 
-  mtb_wm8960_adc_dac_sample_rate_t sampleRate(int rate) {
+  wm8960_adc_dac_sample_rate_t sampleRate(int rate) {
     switch (rate) {
       case 48000:
         return WM8960_ADC_DAC_SAMPLE_RATE_48_KHZ;
@@ -1093,7 +1093,7 @@ class AudioDriverWM8960Class : public AudioDriver {
     }
   }
 
-  mtb_wm8960_word_length_t wordLength(int bits) {
+  wm8960_word_length_t wordLength(int bits) {
     switch (bits) {
       case 16:
         return WM8960_WL_16BITS;
@@ -1110,7 +1110,7 @@ class AudioDriverWM8960Class : public AudioDriver {
   }
 
   /// if microcontroller is master then module is slave
-  mtb_wm8960_mode_t modeMasterSlave(bool is_master) {
+  wm8960_mode_t modeMasterSlave(bool is_master) {
     return is_master ? WM8960_MODE_MASTER : WM8960_MODE_SLAVE;
   }
 };
@@ -1634,11 +1634,11 @@ class AudioDriverAD1938Class : public AudioDriver {
   }
   bool end(void) override { return ad1938.end(); }
   bool setMute(bool mute) override { return ad1938.setMute(mute); }
-  // mutes an individual DAC: valid range (0:3)
+  // mutes an individual DAC: valid range (0:7)
   bool setMute(bool mute, int line) {
-    if (line > 3) return false;
-    return ad1938.setVolumeDAC(
-        line, mute ? 0.0 : (static_cast<float>(volumes[line]) / 100.0f));
+    if (line < 0 || line > 7) return false;
+    return ad1938.setVolume(
+        line, mute ? 0.0f : (static_cast<float>(volumes[line]) / 100.0f));
   }
 
   /// Defines the Volume (in %) if volume is 0, mute is enabled,range is 0-100.
@@ -1652,9 +1652,9 @@ class AudioDriverAD1938Class : public AudioDriver {
   /// Defines the Volume per DAC (in %) if volume is 0, mute is enabled,range is
   /// 0-100.
   bool setVolume(int volume, int line) {
-    if (line > 7) return false;
+    if (line < 0 || line > 7) return false;
     volumes[line] = volume;
-    return ad1938.setVolumeDAC(static_cast<float>(volume) / 100.0f, line);
+    return ad1938.setVolume(line, static_cast<float>(volume) / 100.0f);
   }
 
   int getVolume() override { return volume; }
@@ -1668,7 +1668,7 @@ class AudioDriverAD1938Class : public AudioDriver {
  protected:
   AD1938 ad1938;
   int volume = 100;
-  int volumes[8] = {100};
+  int volumes[8] = {100, 100, 100, 100, 100, 100, 100, 100};
 };
 
 #endif

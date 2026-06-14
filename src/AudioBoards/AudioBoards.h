@@ -7,3 +7,4 @@
 #include "Lyrat43.h"
 #include "LyratMini.h"
 #include "M5stackAtomEchoS3R.h"
+#include "ESP32S3AISmartSpeaker.h"

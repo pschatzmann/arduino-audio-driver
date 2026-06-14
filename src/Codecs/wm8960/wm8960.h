@@ -1,26 +1,26 @@
 /***********************************************************************************************/ /**
-                                                                                                   * \file mtb_wm8960.h
-                                                                                                   *
-                                                                                                   * Description: This file contains the function prototypes and constants used
-                                                                                                   * in mtb_wm8960.c. This driver is intended for the WM8960 audio codec.
-                                                                                                   *
-                                                                                                   ***************************************************************************************************
-                                                                                                   * \copyright
-                                                                                                   * Copyright 2018-2021 Cypress Semiconductor Corporation
-                                                                                                   * SPDX-License-Identifier: Apache-2.0
-                                                                                                   *
-                                                                                                   * Licensed under the Apache License, Version 2.0 (the "License");
-                                                                                                   * you may not use this file except in compliance with the License.
-                                                                                                   * You may obtain a copy of the License at
-                                                                                                   *
-                                                                                                   *     http://www.apache.org/licenses/LICENSE-2.0
-                                                                                                   *
-                                                                                                   * Unless required by applicable law or agreed to in writing, software
-                                                                                                   * distributed under the License is distributed on an "AS IS" BASIS,
-                                                                                                   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-                                                                                                   * See the License for the specific language governing permissions and
-                                                                                                   * limitations under the License.
-                                                                                                   **************************************************************************************************/
+* \file wm8960.h
+*
+* Description: This file contains the function prototypes and constants used
+* in wm8960.c. This driver is intended for the WM8960 audio codec.
+*
+***************************************************************************************************
+* \copyright
+* Copyright 2018-2021 Cypress Semiconductor Corporation
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+**************************************************************************************************/
 
 #pragma once
 
@@ -57,11 +57,9 @@
  */
 #define WM8960_LEFT_RIGHT_IN_VOL_IPVU 0x100u   /**< Input PGA Volume Update */
 #define WM8960_LEFT_RIGHT_IN_VOL_INMUTE 0x080u /**< Input PGA Analogue Mute */
-#define WM8960_LEFT_RIGHT_IN_VOL_IZC_ZC \
-  0x040u /**< Input PGA Zero Cross Detector */
-#define WM8960_LEFT_RIGHT_IN_VOL_INVOL_0dB 0x017u  /**< Input PGA Volume 0dB */
-#define WM8960_LEFT_RIGHT_IN_VOL_INVOL_30dB 0x03Fu /**< Input PGA Volume 30dB \
-                                                    */
+#define WM8960_LEFT_RIGHT_IN_VOL_IZC_ZC  0x040u /**< Input PGA Zero Cross Detector */
+#define WM8960_LEFT_RIGHT_IN_VOL_INVOL_0dB 0x017u /**< Input PGA Volume 0dB */
+#define WM8960_LEFT_RIGHT_IN_VOL_INVOL_30dB 0x03Fu /**< Input PGA Volume 30dB */
 /** \} WM8960_REG_LEFT_IN_VOL and WM8960_REG_RIGHT_IN_VOL */
 
 /**
@@ -186,8 +184,9 @@
   0x100u /**< Left/Right ADC Channel Swap. Swap left \
               and right ADC data in audio interface */
 
-#define WM8960_AUDIO_INTF0_BCLKINV 0x080u /**< BCLK invert bit. BCLK inverted \
-                                           */
+#define WM8960_AUDIO_INTF0_BCLKINV           \
+  0x080u /**< BCLK invert bit. BCLK inverted \
+          */
 
 #define WM8960_AUDIO_INTF0_MS_MASTER 0x040u /**< Master Mode. */
 #define WM8960_AUDIO_INTF0_MS_SLAVE 0x000u  /**< Slave Mode. */
@@ -196,7 +195,7 @@
   0x020u /**< Left/Right DAC Channel Swap. Swap left \
               and right DAC data in audio interface */
 
-#define WM8960_AUDIO_INTF0_LRP_INV                        \
+#define WM8960_AUDIO_INTF0_LRP_INV                          \
   0x010u /**< Right, left and I2S modes – LRCLK polarity. \
               Invert LRCLK polarity*/
 
@@ -209,9 +208,11 @@
 #define WM8960_AUDIO_INTF0_WL_32BITS \
   0x00Cu /**< Audio Data Word Length. 32 bits */
 
-#define WM8960_AUDIO_INTF0_FORMAT_R_JUSTIF 0x000u /**< Right justified format \
-                                                   */
-#define WM8960_AUDIO_INTF0_FORMAT_L_JUSTIF 0x001u /**< Left justified format \
+#define WM8960_AUDIO_INTF0_FORMAT_R_JUSTIF \
+  0x000u /**< Right justified format       \
+          */
+#define WM8960_AUDIO_INTF0_FORMAT_L_JUSTIF                                   \
+  0x001u                                          /**< Left justified format \
                                                    */
 #define WM8960_AUDIO_INTF0_FORMAT_I2S_MODE 0x002u /**< I2S format */
 #define WM8960_AUDIO_INTF0_FORMAT_DSP_MODE 0x003u /**< DSP Mode */
@@ -282,12 +283,14 @@
  * Bit definitions for the WM8960_REG_LEFT_DAC_VOL and
  * WM8960_REG_RIGHT_DAC_VOL register.
  */
-#define WM8960_LEFT_RIGHT_DAC_VOL_DACVU_UP 0x100u /**< DAC Volume Update bit \
-                                                   */
+#define WM8960_LEFT_RIGHT_DAC_VOL_DACVU_UP \
+  0x100u /**< DAC Volume Update bit        \
+          */
 
-#define WM8960_LEFT_RIGHT_DAC_VOL_0dB 0x0FFu   /**< DAC Volume Control 0dB  */
-#define WM8960_LEFT_RIGHT_DAC_VOL_127dB 0x001u /**< DAC Volume Control -127dB \
-                                                */
+#define WM8960_LEFT_RIGHT_DAC_VOL_0dB 0x0FFu /**< DAC Volume Control 0dB  */
+#define WM8960_LEFT_RIGHT_DAC_VOL_127dB \
+  0x001u /**< DAC Volume Control -127dB \
+          */
 /** \} WM8960_REG_LEFT_DAC_VOL and WM8960_REG_RIGHT_DAC_VOL */
 
 /**
@@ -323,8 +326,9 @@
  * Bit definitions for the WM8960_REG_LEFT_ADC_VOL and
  * WM8960_REG_LEFT_ADC_VOL register
  */
-#define WM8960_LEFT_RIGHT_ADC_VOL_ADCVU_UP 0x100u /**< ADC Volume Update bit \
-                                                   */
+#define WM8960_LEFT_RIGHT_ADC_VOL_ADCVU_UP \
+  0x100u /**< ADC Volume Update bit        \
+          */
 
 #define WM8960_LEFT_RIGHT_ADC_VOL_ADCVOL_0dB \
   0x0C3u /**< ADC Volume Control 0dB  */
@@ -476,8 +480,9 @@
  * @name WM8960_REG_PLL_N (0x34)
  * Bit definitions for the WM8960_REG_PWR_MGMT3 register
  */
-#define WM8960_PLL_N_PLLPRESCALE_DI 0x000u /**< MCLK input directly into PLL \
-                                            */
+#define WM8960_PLL_N_PLLPRESCALE_DI        \
+  0x000u /**< MCLK input directly into PLL \
+          */
 #define WM8960_PLL_N_PLLPRESCALE_EN \
   0x010u /**< Divide MCLK by 2 before input to PLL */
 
@@ -516,10 +521,10 @@ namespace audio_driver {
  * Enumeration for the WM8960 I2C Interface Register Addresses
  *
  * The entries below are intended for use with these functions:
- * - mtb_wm8960_read()
- * - mtb_wm8960_write()
- * - mtb_wm8960_set()
- * - mtb_wm8960_clear()
+ * - wm8960_read()
+ * - wm8960_write()
+ * - wm8960_set()
+ * - wm8960_clear()
  */
 typedef enum {
   WM8960_REG_LEFT_IN_VOL,   /**< 0x00: Left Input volume */
@@ -578,7 +583,7 @@ typedef enum {
   WM8960_REG_PLL_K1,        /**< 0x35: PLL K 1 */
   WM8960_REG_PLL_K2,        /**< 0x36: PLL K 2 */
   WM8960_REG_PLL_K3         /**< 0x37: PLL K 3 */
-} mtb_wm8960_reg_t;
+} wm8960_reg_t;
 
 /**
  * Enumeration of bit flags enabling/disabling features of the WM8960
@@ -594,7 +599,7 @@ typedef enum {
   WM8960_FEATURE_MICROPHONE3 = 0x04, /**< Enable the microphone */
   WM8960_FEATURE_HEADPHONE = 0x08,   /**< Enable the headphone */
   WM8960_FEATURE_SPEAKER = 0x10      /**< Enable the class D speaker */
-} mtb_wm8960_features_t;
+} wm8960_features_t;
 
 #define WM8960_FEATURE_MICROPHONES                           \
   (WM8960_FEATURE_MICROPHONE1 | WM8960_FEATURE_MICROPHONE2 | \
@@ -615,7 +620,7 @@ typedef enum {
   WM8960_ADC_DAC_SAMPLE_RATE_11_025_KHZ, /**< 11.025 KHz sample rate */
   WM8960_ADC_DAC_SAMPLE_RATE_8_018_KHZ,  /**< 8.018 KHz sample rate */
   WM8960_ADC_DAC_SAMPLE_RATE_8_KHZ       /**< 8 KHz sample rate */
-} mtb_wm8960_adc_dac_sample_rate_t;
+} wm8960_adc_dac_sample_rate_t;
 
 /**
  * Enumeration for supported word lengths in the WM8960
@@ -626,7 +631,7 @@ typedef enum {
   WM8960_WL_20BITS = WM8960_AUDIO_INTF0_WL_20BITS, /**< 20-bit word length */
   WM8960_WL_24BITS = WM8960_AUDIO_INTF0_WL_24BITS, /**< 24-bit word length */
   WM8960_WL_32BITS = WM8960_AUDIO_INTF0_WL_32BITS  /**< 32-bit word length */
-} mtb_wm8960_word_length_t;
+} wm8960_word_length_t;
 
 /**
  * Enumeration to select mode of operation of the WM8960 audio codec.
@@ -634,23 +639,23 @@ typedef enum {
 typedef enum {
   WM8960_MODE_MASTER = WM8960_AUDIO_INTF0_MS_MASTER, /**< Master mode */
   WM8960_MODE_SLAVE = WM8960_AUDIO_INTF0_MS_SLAVE    /**< Slave mode */
-} mtb_wm8960_mode_t;
+} wm8960_mode_t;
 
 /*------------------------------------------------------------------------------
                     Internal types (from implementation)
 ------------------------------------------------------------------------------*/
-typedef bool (*_mtb_wm8960_update_data_t)(mtb_wm8960_reg_t reg, uint16_t value);
+typedef bool (*_wm8960_update_data_t)(wm8960_reg_t reg, uint16_t value);
 
 typedef enum {
   _WM8960_SYSCLK_FREQ_12288000_HZ = 12288000,
   _WM8960_SYSCLK_FREQ_11289600_HZ = 11289600
-} _mtb_wm8960_sysclk_freq_t;
+} _wm8960_sysclk_freq_t;
 
 typedef struct {
   uint8_t features;
-  mtb_wm8960_reg_t reg;
+  wm8960_reg_t reg;
   uint16_t value;
-} _mtb_wm8960_operation_t;
+} _wm8960_operation_t;
 
 /*------------------------------------------------------------------------------
                     Static state variables
@@ -680,7 +685,7 @@ inline bool i2c_write(uint8_t address, uint8_t data[2]) {
 }
 
 /* Internal write with register-map cache update. */
-inline bool mtb_wm8960_write_ex(mtb_wm8960_reg_t enum_reg, uint16_t value) {
+inline bool wm8960_write_ex(wm8960_reg_t enum_reg, uint16_t value) {
   uint8_t reg = enum_reg;
   uint8_t data[2];
   data[0] = (reg << 1) | ((uint8_t)((value >> 8) & 0x0001));  // RegAddr
@@ -723,7 +728,7 @@ inline bool mtb_wm8960_write_ex(mtb_wm8960_reg_t enum_reg, uint16_t value) {
  * @return true if properly initialized, else an error indicating what went
  * wrong.
  */
-inline bool mtb_wm8960_read(mtb_wm8960_reg_t reg, uint16_t* data) {
+inline bool wm8960_read(wm8960_reg_t reg, uint16_t* data) {
   if (reg >= REGISTER_MAP_SIZE) {
     return false;
   }
@@ -740,15 +745,16 @@ inline bool mtb_wm8960_read(mtb_wm8960_reg_t reg, uint16_t* data) {
  * @return true if properly initialized, else an error indicating what went
  * wrong.
  */
-inline bool mtb_wm8960_write(mtb_wm8960_reg_t enum_reg, uint16_t value) {
+inline bool wm8960_write(wm8960_reg_t enum_reg, uint16_t value) {
   char msg[80];
-  snprintf(msg, 80, "mtb_wm8960_write 0x%x = 0x%x", enum_reg, value);
+  snprintf(msg, 80, "wm8960_write 0x%x = 0x%x", enum_reg, value);
   AD_LOGD("%s", msg);
   bool result = false;
   uint32_t count = 0;
   while (!result) {
-    result = mtb_wm8960_write_ex(enum_reg, value);
-    if (count > 0 && count++ > write_retry_count) {
+    result = wm8960_write_ex(enum_reg, value);
+    if (result) break;
+    if (++count > write_retry_count) {
       break;
     }
   }
@@ -764,12 +770,12 @@ inline bool mtb_wm8960_write(mtb_wm8960_reg_t enum_reg, uint16_t value) {
  * @return true if properly initialized, else an error indicating what went
  * wrong.
  */
-inline bool mtb_wm8960_set(mtb_wm8960_reg_t reg, uint16_t mask) {
+inline bool wm8960_set(wm8960_reg_t reg, uint16_t mask) {
   bool result;
   uint16_t data;
-  result = mtb_wm8960_read(reg, &data);
+  result = wm8960_read(reg, &data);
   if (result) {
-    result = mtb_wm8960_write((mtb_wm8960_reg_t)reg, data | mask);
+    result = wm8960_write((wm8960_reg_t)reg, data | mask);
   }
   return result;
 }
@@ -783,12 +789,12 @@ inline bool mtb_wm8960_set(mtb_wm8960_reg_t reg, uint16_t mask) {
  * @return true if properly initialized, else an error indicating what went
  * wrong.
  */
-inline bool mtb_wm8960_clear(mtb_wm8960_reg_t reg, uint16_t mask) {
+inline bool wm8960_clear(wm8960_reg_t reg, uint16_t mask) {
   bool result;
   uint16_t data;
-  result = mtb_wm8960_read(reg, &data);
+  result = wm8960_read(reg, &data);
   if (result) {
-    result = mtb_wm8960_write(reg, data & ~mask);
+    result = wm8960_write(reg, data & ~mask);
   }
   return result;
 }
@@ -797,7 +803,7 @@ inline bool mtb_wm8960_clear(mtb_wm8960_reg_t reg, uint16_t mask) {
   Static helper functions (internal; use the inline public functions above)
 ------------------------------------------------------------------------------*/
 
-static bool _mtb_wm8960_config_default(uint8_t features) {
+static bool _wm8960_config_default(uint8_t features) {
   bool result;
   uint16_t value;
 
@@ -811,7 +817,7 @@ static bool _mtb_wm8960_config_default(uint8_t features) {
               WM8960_PWR_MGMT1_ADCL_UP | WM8960_PWR_MGMT1_ADCR_UP |
               WM8960_PWR_MGMT1_MICB_UP);
   }
-  result = mtb_wm8960_write(WM8960_REG_PWR_MGMT1, value);
+  result = wm8960_write(WM8960_REG_PWR_MGMT1, value);
   if (!result) {
     AD_LOGD("Enable VREF and set VMID=50K");
     return result;
@@ -829,7 +835,7 @@ static bool _mtb_wm8960_config_default(uint8_t features) {
       value |= WM8960_PWR_MGMT2_DACL_UP | WM8960_PWR_MGMT2_DACR_UP |
                WM8960_PWR_MGMT2_SPKL_UP | WM8960_PWR_MGMT2_SPKR_UP;
     }
-    result = mtb_wm8960_write(WM8960_REG_PWR_MGMT2, value);
+    result = wm8960_write(WM8960_REG_PWR_MGMT2, value);
     if (!result) {
       AD_LOGD("Enable DACL, DACR, LOUT1 and ROUT1");
       return result;
@@ -839,7 +845,7 @@ static bool _mtb_wm8960_config_default(uint8_t features) {
   /* Enable Class D Speaker Outputs */
   if (features & WM8960_FEATURE_SPEAKER) {
     // R49 Class D Control  011110111 - Enable Class D Speaker Outputs
-    result = mtb_wm8960_write(WM8960_REG_CLASS_D_CTL1, 0xF7);
+    result = wm8960_write(WM8960_REG_CLASS_D_CTL1, 0xF7);
     if (!result) {
       AD_LOGD("Enable Class D");
       return result;
@@ -868,13 +874,13 @@ static bool _mtb_wm8960_config_default(uint8_t features) {
       mic_sig_path |= WM8960_ADCL_ADCR_SIG_PTH_MP3_CON;
     }
   }
-  result = mtb_wm8960_write(WM8960_REG_PWR_MGMT3, pwr_mgmt3);
+  result = wm8960_write(WM8960_REG_PWR_MGMT3, pwr_mgmt3);
   if (!result) {
     AD_LOGD("WM8960_REG_PWR_MGMT3");
     return result;
   }
 
-  static const _mtb_wm8960_operation_t operations[] = {
+  static const _wm8960_operation_t operations[] = {
       /* LINPUT1 to PGA (LMN1), Connect left input PGA to left input boost
          (LMIC2B), Left PGA Boost = 0dB */
       {.features = WM8960_FEATURE_MICROPHONES,
@@ -955,11 +961,11 @@ static bool _mtb_wm8960_config_default(uint8_t features) {
        .value = WM8960_CTR1_DACMU_NO},
   };
 
-  for (uint32_t i = 0;
-       i < sizeof(operations) / sizeof(_mtb_wm8960_operation_t); i++) {
-    _mtb_wm8960_operation_t operation = operations[i];
+  for (uint32_t i = 0; i < sizeof(operations) / sizeof(_wm8960_operation_t);
+       i++) {
+    _wm8960_operation_t operation = operations[i];
     if ((features & operation.features) == operation.features) {
-      result = mtb_wm8960_write(operation.reg, operation.value);
+      result = wm8960_write(operation.reg, operation.value);
       if (!result) {
         AD_LOGD("operation");
         return result;
@@ -971,9 +977,9 @@ static bool _mtb_wm8960_config_default(uint8_t features) {
   return result;
 }
 
-static bool _mtb_wm8960_setup_pll(
-    uint32_t mclk_hz, mtb_wm8960_adc_dac_sample_rate_t sample_rate) {
-  AD_LOGD("_mtb_wm8960_setup_pll");
+static bool _wm8960_setup_pll(uint32_t mclk_hz,
+                              wm8960_adc_dac_sample_rate_t sample_rate) {
+  AD_LOGD("_wm8960_setup_pll");
   bool result;
   uint8_t PLLN;
   uint32_t PLLK;
@@ -1014,46 +1020,45 @@ static bool _mtb_wm8960_setup_pll(
   uint16_t prescale_mask = (use_prescale) ? WM8960_PLL_N_PLLPRESCALE_EN
                                           : WM8960_PLL_N_PLLPRESCALE_DI;
 
-  result = mtb_wm8960_write(WM8960_REG_PLL_N,
-                            PLLN | prescale_mask | WM8960_PLL_N_SDM_FRAC);
+  result = wm8960_write(WM8960_REG_PLL_N,
+                        PLLN | prescale_mask | WM8960_PLL_N_SDM_FRAC);
   if (!result) return result;
 
-  result = mtb_wm8960_write(WM8960_REG_PLL_K1, PLLK >> 16 & 0xFF);
+  result = wm8960_write(WM8960_REG_PLL_K1, PLLK >> 16 & 0xFF);
   if (!result) return result;
 
-  result = mtb_wm8960_write(WM8960_REG_PLL_K2, PLLK >> 8 & 0xFF);
+  result = wm8960_write(WM8960_REG_PLL_K2, PLLK >> 8 & 0xFF);
   if (!result) return result;
 
-  result = mtb_wm8960_write(WM8960_REG_PLL_K3, PLLK & 0xFF);
+  result = wm8960_write(WM8960_REG_PLL_K3, PLLK & 0xFF);
   if (!result) return result;
 
-  result = mtb_wm8960_set(WM8960_REG_PWR_MGMT2, WM8960_PWR_MGMT2_PLL_EN_UP);
+  result = wm8960_set(WM8960_REG_PWR_MGMT2, WM8960_PWR_MGMT2_PLL_EN_UP);
   return result;
 }
 
-static bool _mtb_wm8960_adjust_volume(uint8_t volume,
-                                      mtb_wm8960_reg_t left_vol_reg,
-                                      mtb_wm8960_reg_t right_vol_reg,
-                                      uint16_t update_bit,
-                                      uint16_t volume_bits_mask) {
-  AD_LOGD("_mtb_wm8960_adjust_volume");
+static bool _wm8960_adjust_volume(uint8_t volume, wm8960_reg_t left_vol_reg,
+                                  wm8960_reg_t right_vol_reg,
+                                  uint16_t update_bit,
+                                  uint16_t volume_bits_mask) {
+  AD_LOGD("_wm8960_adjust_volume");
   bool result;
   uint16_t data;
 
-  result = mtb_wm8960_read(left_vol_reg, &data);
+  result = wm8960_read(left_vol_reg, &data);
   if (!result) return result;
 
   data &= (~update_bit & ~volume_bits_mask);
   data |= volume;
-  result = mtb_wm8960_write(left_vol_reg, data);
+  result = wm8960_write(left_vol_reg, data);
   if (!result) return result;
 
-  result = mtb_wm8960_read(right_vol_reg, &data);
+  result = wm8960_read(right_vol_reg, &data);
   if (!result) return result;
 
   data &= ~volume_bits_mask;
   data |= (volume | update_bit);
-  result = mtb_wm8960_write(right_vol_reg, data);
+  result = wm8960_write(right_vol_reg, data);
   return result;
 }
 
@@ -1070,8 +1075,8 @@ static bool _mtb_wm8960_adjust_volume(uint8_t volume,
  * @return true
  * @return false
  */
-inline bool mtb_wm8960_set_wire(i2c_bus_handle_t i2c_inst) {
-  AD_LOGD("mtb_wm8960_set_wire");
+inline bool wm8960_set_wire(i2c_bus_handle_t i2c_inst) {
+  AD_LOGD("wm8960_set_wire");
   i2c_ptr = i2c_inst;
   return i2c_ptr != nullptr;
 }
@@ -1086,7 +1091,7 @@ inline bool mtb_wm8960_set_wire(i2c_bus_handle_t i2c_inst) {
  * retries
  *
  */
-inline void mtb_wm8960_set_write_retry_count(uint32_t count) {
+inline void wm8960_set_write_retry_count(uint32_t count) {
   write_retry_count = count;
 }
 
@@ -1123,21 +1128,21 @@ inline void mtb_wm8960_set_write_retry_count(uint32_t count) {
  * - Unmute DAC digital soft mute
  *
  * @param[in] features Features to enabled during initialization. See
- * mtb_wm8960_features_t
+ * wm8960_features_t
  * @ingroup wm8960
  * @return true if properly initialized, else an error indicating what went
  * wrong.
  */
-inline bool mtb_wm8960_init(uint8_t features) {
-  AD_LOGD("mtb_wm8960_init");
-  bool result = mtb_wm8960_write(WM8960_REG_RESET, 0);
+inline bool wm8960_init(uint8_t features) {
+  AD_LOGD("wm8960_init");
+  bool result = wm8960_write(WM8960_REG_RESET, 0);
   if (!result) {
     return false;
   }
   if (features != WM8960_FEATURE_NONE) {
-    result = _mtb_wm8960_config_default(features);
+    result = _wm8960_config_default(features);
     if (!result) {
-      AD_LOGD("_mtb_wm8960_config_default ERROR");
+      AD_LOGD("_wm8960_config_default ERROR");
       return result;
     }
   }
@@ -1146,11 +1151,11 @@ inline bool mtb_wm8960_init(uint8_t features) {
 
 /**
  * @brief Frees up any resources allocated by the driver as part of \ref
- * mtb_wm8960_init().
+ * wm8960_init().
  * @ingroup wm8960
  */
-inline void mtb_wm8960_free() {
-  AD_LOGD("mtb_wm8960_free");
+inline void wm8960_free() {
+  AD_LOGD("wm8960_free");
   i2c_ptr = NULL;
   pll_enabled = false;
   enabled_features = WM8960_FEATURE_NONE;
@@ -1167,12 +1172,12 @@ inline void mtb_wm8960_free() {
  * @return true if properly initialized, else an error indicating what went
  * wrong.
  */
-inline bool mtb_wm8960_adjust_input_volume(uint8_t volume) {
-  AD_LOGD("mtb_wm8960_adjust_input_volume");
+inline bool wm8960_adjust_input_volume(uint8_t volume) {
+  AD_LOGD("wm8960_adjust_input_volume");
   if (volume > WM8960_LEFT_RIGHT_IN_VOL_INVOL_30dB) {
     return false;
   }
-  return _mtb_wm8960_adjust_volume(
+  return _wm8960_adjust_volume(
       volume, WM8960_REG_LEFT_IN_VOL, WM8960_REG_RIGHT_IN_VOL,
       WM8960_LEFT_RIGHT_IN_VOL_IPVU, WM8960_LEFT_RIGHT_IN_VOL_INVOL_30dB);
 }
@@ -1189,12 +1194,12 @@ inline bool mtb_wm8960_adjust_input_volume(uint8_t volume) {
  * @return true if properly initialized, else an error indicating what went
  * wrong.
  */
-inline bool mtb_wm8960_adjust_heaphone_output_volume(uint8_t volume) {
-  AD_LOGD("mtb_wm8960_adjust_heaphone_output_volume");
+inline bool wm8960_adjust_heaphone_output_volume(uint8_t volume) {
+  AD_LOGD("wm8960_adjust_heaphone_output_volume");
   if (volume > WM8960_LOUT1_ROUT1_VOL_OUT1VOL_6dB) {
     return false;
   }
-  return _mtb_wm8960_adjust_volume(
+  return _wm8960_adjust_volume(
       volume, WM8960_REG_LOUT1_VOL, WM8960_REG_ROUT1_VOL,
       WM8960_LOUT1_ROUT1_VOL_OUT1VU, WM8960_LOUT1_ROUT1_VOL_OUT1VOL_6dB);
 }
@@ -1211,12 +1216,12 @@ inline bool mtb_wm8960_adjust_heaphone_output_volume(uint8_t volume) {
  * @return true if properly initialized, else an error indicating what went
  * wrong.
  */
-inline bool mtb_wm8960_adjust_speaker_output_volume(uint8_t volume) {
-  AD_LOGD("mtb_wm8960_adjust_heaphone_output_volume");
+inline bool wm8960_adjust_speaker_output_volume(uint8_t volume) {
+  AD_LOGD("wm8960_adjust_heaphone_output_volume");
   if (volume > WM8960_LOUT1_ROUT1_VOL_OUT1VOL_6dB) {
     return false;
   }
-  return _mtb_wm8960_adjust_volume(
+  return _wm8960_adjust_volume(
       volume, WM8960_REG_LOUT2_VOL, WM8960_REG_ROUT2_VOL,
       WM8960_LOUT1_ROUT1_VOL_OUT1VU, WM8960_LOUT1_ROUT1_VOL_OUT1VOL_6dB);
 }
@@ -1233,20 +1238,20 @@ inline bool mtb_wm8960_adjust_speaker_output_volume(uint8_t volume) {
  * @return true if properly initialized, else an error indicating what went
  * wrong.
  */
-inline bool mtb_wm8960_set_output_volume(uint8_t volume) {
+inline bool wm8960_set_output_volume(uint8_t volume) {
   bool result = true;
   if ((enabled_features & WM8960_FEATURE_SPEAKER) == WM8960_FEATURE_SPEAKER)
-    result = result && mtb_wm8960_adjust_speaker_output_volume(volume);
+    result = result && wm8960_adjust_speaker_output_volume(volume);
   if ((enabled_features & WM8960_FEATURE_HEADPHONE) == WM8960_FEATURE_HEADPHONE)
-    result = result && mtb_wm8960_adjust_heaphone_output_volume(volume);
+    result = result && wm8960_adjust_heaphone_output_volume(volume);
   return result;
 }
 
 /**
  * @brief This function powers up the modules the required for the features
  * enabled using
- * \ref mtb_wm8960_init. This function is called in conjunction with \ref
- * mtb_wm8960_deactivate.
+ * \ref wm8960_init. This function is called in conjunction with \ref
+ * wm8960_deactivate.
  *
  * \note This function only updates the power management registers
  * (R25[0x19], R26[0x1A], R47[0x2F]) to enable the modules required for the
@@ -1255,13 +1260,13 @@ inline bool mtb_wm8960_set_output_volume(uint8_t volume) {
  * @return true if properly initialized, else an error indicating what went
  * wrong.
  */
-inline bool mtb_wm8960_activate(void) {
-  AD_LOGD("mtb_wm8960_activate");
+inline bool wm8960_activate(void) {
+  AD_LOGD("wm8960_activate");
   bool result;
   uint16_t value;
 
   /******************** PWR_MGMT1 *******************/
-  result = mtb_wm8960_read(WM8960_REG_PWR_MGMT1, &value);
+  result = wm8960_read(WM8960_REG_PWR_MGMT1, &value);
   if (!result) return result;
   value &= ~WM8960_PWR_MGMT1_VMIDSEL_5K;
   value |= (WM8960_PWR_MGMT1_VMIDSEL_50K);
@@ -1272,7 +1277,7 @@ inline bool mtb_wm8960_activate(void) {
               WM8960_PWR_MGMT1_ADCL_UP | WM8960_PWR_MGMT1_ADCR_UP |
               WM8960_PWR_MGMT1_MICB_UP);
   }
-  result = mtb_wm8960_write(WM8960_REG_PWR_MGMT1, value);
+  result = wm8960_write(WM8960_REG_PWR_MGMT1, value);
   if (!result) return result;
 
   /******************** PWR_MGMT2 *******************/
@@ -1289,7 +1294,7 @@ inline bool mtb_wm8960_activate(void) {
     value |= (WM8960_PWR_MGMT2_DACL_UP | WM8960_PWR_MGMT2_DACR_UP |
               WM8960_PWR_MGMT2_SPKL_UP | WM8960_PWR_MGMT2_SPKR_UP);
   }
-  result = mtb_wm8960_set(WM8960_REG_PWR_MGMT2, value);
+  result = wm8960_set(WM8960_REG_PWR_MGMT2, value);
   if (!result) return result;
 
   /******************** PWR_MGMT3 *******************/
@@ -1303,14 +1308,14 @@ inline bool mtb_wm8960_activate(void) {
       enabled_features & WM8960_FEATURE_MICROPHONE3) {
     value |= (WM8960_PWR_MGMT3_RMIC_UP | WM8960_PWR_MGMT3_LMIC_UP);
   }
-  result = mtb_wm8960_set(WM8960_REG_PWR_MGMT3, value);
+  result = wm8960_set(WM8960_REG_PWR_MGMT3, value);
   return result;
 }
 
 /**
  * @brief This function powers down the modules the required for the features
  * enabled using
- * \ref mtb_wm8960_init.
+ * \ref wm8960_init.
  *
  * \note This function only updates the power management registers
  * (R25[0x19], R26[0x1A], R47[0x2F]) to disable the modules required for the
@@ -1319,8 +1324,8 @@ inline bool mtb_wm8960_activate(void) {
  * @return true if properly initialized, else an error indicating what went
  * wrong.
  */
-inline bool mtb_wm8960_deactivate(void) {
-  AD_LOGD("mtb_wm8960_deactivate");
+inline bool wm8960_deactivate(void) {
+  AD_LOGD("wm8960_deactivate");
   bool result;
   uint16_t value = 0;
 
@@ -1334,11 +1339,11 @@ inline bool mtb_wm8960_deactivate(void) {
       enabled_features & WM8960_FEATURE_MICROPHONE3) {
     value |= (WM8960_PWR_MGMT3_RMIC_UP | WM8960_PWR_MGMT3_LMIC_UP);
   }
-  result = mtb_wm8960_clear(WM8960_REG_PWR_MGMT3, value);
+  result = wm8960_clear(WM8960_REG_PWR_MGMT3, value);
   if (!result) return result;
 
   /******************** PWR_MGMT2 *******************/
-  result = mtb_wm8960_read(WM8960_REG_PWR_MGMT2, &value);
+  result = wm8960_read(WM8960_REG_PWR_MGMT2, &value);
   if (!result) return result;
   if (pll_enabled) {
     value &= ~(WM8960_PWR_MGMT2_PLL_EN_UP);
@@ -1352,11 +1357,11 @@ inline bool mtb_wm8960_deactivate(void) {
     value &= ~(WM8960_PWR_MGMT2_DACL_UP | WM8960_PWR_MGMT2_DACR_UP |
                WM8960_PWR_MGMT2_SPKL_UP | WM8960_PWR_MGMT2_SPKR_UP);
   }
-  result = mtb_wm8960_write(WM8960_REG_PWR_MGMT2, value);
+  result = wm8960_write(WM8960_REG_PWR_MGMT2, value);
   if (!result) return result;
 
   /******************** PWR_MGMT1 *******************/
-  result = mtb_wm8960_read(WM8960_REG_PWR_MGMT1, &value);
+  result = wm8960_read(WM8960_REG_PWR_MGMT1, &value);
   if (!result) return result;
   value &= ~WM8960_PWR_MGMT1_VMIDSEL_5K;
   value |= WM8960_PWR_MGMT1_VMIDSEL_250K;
@@ -1367,7 +1372,7 @@ inline bool mtb_wm8960_deactivate(void) {
                WM8960_PWR_MGMT1_ADCL_UP | WM8960_PWR_MGMT1_ADCR_UP |
                WM8960_PWR_MGMT1_MICB_UP);
   }
-  result = mtb_wm8960_write(WM8960_REG_PWR_MGMT1, value);
+  result = wm8960_write(WM8960_REG_PWR_MGMT1, value);
   return result;
 }
 
@@ -1385,11 +1390,11 @@ inline bool mtb_wm8960_deactivate(void) {
  * @return true if properly initialized, else an error indicating what went
  * wrong.
  */
-inline bool mtb_wm8960_configure_clocking(
-    uint32_t mclk_hz, bool enable_pll,
-    mtb_wm8960_adc_dac_sample_rate_t sample_rate,
-    mtb_wm8960_word_length_t word_length, mtb_wm8960_mode_t mode) {
-  AD_LOGD("mtb_wm8960_configure_clocking");
+inline bool wm8960_configure_clocking(uint32_t mclk_hz, bool enable_pll,
+                                      wm8960_adc_dac_sample_rate_t sample_rate,
+                                      wm8960_word_length_t word_length,
+                                      wm8960_mode_t mode) {
+  AD_LOGD("wm8960_configure_clocking");
   bool result;
   uint16_t dac_div_mask;
   uint16_t adc_div_mask;
@@ -1402,7 +1407,7 @@ inline bool mtb_wm8960_configure_clocking(
   }
 
   if (enable_pll) {
-    result = _mtb_wm8960_setup_pll(mclk_hz, sample_rate);
+    result = _wm8960_setup_pll(mclk_hz, sample_rate);
     if (!result) return result;
     clk_sel_mask = WM8960_CLK1_CLKSEL_PLL;
     sysclk_div_mask = WM8960_CLK1_SYSCLKDIV_BY_2;
@@ -1448,15 +1453,13 @@ inline bool mtb_wm8960_configure_clocking(
 
   pll_enabled = enable_pll;
 
-  result = mtb_wm8960_write(WM8960_REG_CLK1,
-                            adc_div_mask | dac_div_mask |
-                                sysclk_div_mask | clk_sel_mask);
+  result = wm8960_write(WM8960_REG_CLK1, adc_div_mask | dac_div_mask |
+                                             sysclk_div_mask | clk_sel_mask);
   if (!result) return result;
 
-  result = mtb_wm8960_write(
-      WM8960_REG_AUDIO_INTF0,
-      (uint16_t)mode | (uint16_t)word_length |
-          WM8960_AUDIO_INTF0_FORMAT_I2S_MODE);
+  result = wm8960_write(WM8960_REG_AUDIO_INTF0,
+                        (uint16_t)mode | (uint16_t)word_length |
+                            WM8960_AUDIO_INTF0_FORMAT_I2S_MODE);
   return result;
 }
 
@@ -1470,13 +1473,13 @@ inline bool mtb_wm8960_configure_clocking(
  * @return true if properly initialized, else an error indicating what went
  * wrong.
  */
-inline bool mtb_wm8960_dump() {
-  AD_LOGD("mtb_wm8960_dump");
+inline bool wm8960_dump() {
+  AD_LOGD("wm8960_dump");
   char msg[80];
   for (int j = 0x1; j <= 0x37; j++) {
     uint16_t data;
-    if (!mtb_wm8960_read((mtb_wm8960_reg_t)j, &data)) {
-      AD_LOGD("mtb_wm8960_dump ERROR");
+    if (!wm8960_read((wm8960_reg_t)j, &data)) {
+      AD_LOGD("wm8960_dump ERROR");
       return false;
     }
     snprintf(msg, 80, "%x: %x", j, data);

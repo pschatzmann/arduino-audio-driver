@@ -361,7 +361,12 @@ inline void WM8978::setALC(uint8_t enable, uint8_t maxgain, uint8_t mingain) {
   if (mingain > 7) mingain = 7;
 
   regval = WM8978::Read_Reg(32);
-  if (enable) regval |= (3 << 7);
+  if (enable) {
+    regval |= (3 << 7);
+  } else {
+    regval &= ~(3 << 7);
+  }
+  regval &= ~((7 << 3) | (7 << 0));
   regval |= (maxgain << 3) | (mingain << 0);
   Write_Reg(32, regval);
 }

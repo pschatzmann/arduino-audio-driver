@@ -301,7 +301,7 @@ inline error_t tas5805m_get_mute(int *value) {
   ret |= i2c_bus_read_bytes(i2c_handler, TAS5805M_ADDR, &cmd[0], 1, &cmd[1], 1);
 
   TAS5805M_ASSERT(ret, "Fail to get mute", RESULT_FAIL);
-  *value = (cmd[1] & 0x08) >> 4;
+  *value = (cmd[1] & 0x08) >> 3;
   AD_LOGI("Get mute value: 0x%x", *value);
   return ret;
 }

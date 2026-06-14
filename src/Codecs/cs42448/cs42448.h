@@ -228,7 +228,7 @@ class CS42448 {
     }
 
     uint8_t reg_value = 0;
-    reg_value = (uint16_t)mode << 6 | (uint16_t)mode << 4 ||
+    reg_value = (uint16_t)mode << 6 | (uint16_t)mode << 4 |
                 (uint16_t)master_freq << 1 | 0;
 
     if (!writeReg(CS42448_Functional_Mode, reg_value)) return false;
@@ -571,7 +571,7 @@ class CS42448 {
           Format fmt;
           if (codec_config.i2s.bits == BIT_LENGTH_16BITS) {
             fmt = Format::RightJustified16Bits;
-          } else if (codec_config.i2s.bits == BIT_LENGTH_16BITS) {
+          } else if (codec_config.i2s.bits == BIT_LENGTH_24BITS) {
             fmt = Format::RightJustified24Bits;
           } else
             return false;

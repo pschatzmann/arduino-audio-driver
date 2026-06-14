@@ -12,7 +12,7 @@
 #include "es8388/es8388.h"
 #include "pcm3168/pcm3168.h"
 #include "tas5805m/tas5805m.h"
-#include "wm8960/mtb_wm8960.h"
+#include "wm8960/wm8960.h"
 #include "wm8978/WM8978.h"
 #include "wm8994/wm8994.h"
 #include "nau8325/PCBCUPID_NAU8325.h"

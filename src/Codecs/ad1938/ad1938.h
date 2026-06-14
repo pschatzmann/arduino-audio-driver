@@ -503,14 +503,14 @@ class AD1938 {
 
   bool setVolume(float volume) {
     int vol = scaleVolume(volume);
-    for (int j = 0; j > 4; j++) setVolumeDAC(j, vol);
+    for (int j = 0; j < 4; j++) setVolumeDAC(j, vol);
     return true;
   }
   bool setVolume(int dac, float volume) {
     return setVolumeDAC(dac, scaleVolume(volume));
   }
   bool setVolume(int volume) {
-    for (int j = 0; j > 4; j++) setVolumeDAC(j, volume);
+    for (int j = 0; j < 4; j++) setVolumeDAC(j, volume);
     return true;
   }
   bool setVolumeDAC(int dac, int volume);
@@ -825,15 +825,15 @@ inline bool AD1938::disable(void) {
 
   reg_value = spi_read_reg(AD1938_ADC_CTRL0);
 
-  spi_write_reg(AD1938_DAC_CTRL0, ((reg_value & 0xfe) | ADC_PWR_DWN));
+  spi_write_reg(AD1938_ADC_CTRL0, ((reg_value & 0xfe) | ADC_PWR_DWN));
 
   return true;
 }
 
 inline bool AD1938::setVolumeDAC(int dac_num, int volume) {
-  if (dac_num > 3) return false;
-  spi_write_reg(AD1938_DAC_L1_VOL + dac_num, volume);
-  spi_write_reg(AD1938_DAC_R1_VOL + dac_num, volume);
+  if (dac_num < 0 || dac_num > 3) return false;
+  spi_write_reg(AD1938_DAC_L1_VOL + dac_num * 2, volume);
+  spi_write_reg(AD1938_DAC_R1_VOL + dac_num * 2, volume);
 
   return true;
 }

@@ -182,13 +182,13 @@ inline error_t es7243_adc_config_i2s(codec_mode_t mode, I2SDefinition* iface) {
   // set bits
   switch (iface->bits) {
     case BIT_LENGTH_16BITS:
-      audio_format |= 0b011 < 2;
+      audio_format |= 0b011 << 2;
       break;
     case BIT_LENGTH_24BITS:
-      audio_format |= 0b000 < 2;
+      audio_format |= 0b000 << 2;
       break;
     case BIT_LENGTH_32BITS:
-      audio_format |= 0b100 < 2;
+      audio_format |= 0b100 << 2;
       break;
     default:
       AD_LOGE("es7243_adc_config_i2s: bits not supported %d", iface->bits);

@@ -8,6 +8,26 @@
 #include "FS.h"
 #include "SD_MMC.h"
 
+#if !defined(IS_ZEPHYR)
+#define EXIO1 1000
+#define EXIO2 1001
+#define EXIO3 1002
+#define EXIO4 1003
+#define EXIO5 1004
+#define EXIO6 1005
+#define EXIO7 1006
+#define EXIO8 1007
+#define EXIO9 1008
+#define EXIO10 1009
+#define EXIO11 1010
+#define EXIO12 1011
+#define EXIO13 1012
+#define EXIO14 1013
+#define EXIO15 1014
+#define EXIO16 1015
+#endif
+
+
 namespace audio_driver {
 
 /**
@@ -19,26 +39,6 @@ class PinsESP32S3AISmartSpeakerClass : public DriverDeviceInfo {
  public:
   PinsESP32S3AISmartSpeakerClass() {
 #if defined(IS_ZEPHYR)
-    // setup TCA9555 GPIO expander
-    gpio.setAltGPIO(tca9555, 1000);
-    // CLK, MISO (DATA), MOSI (CMD), CS
-    PinsSPI sd{PinFunction::SD, 40, 41, 42, -1, SPI};
-
-    addSPI(sd);
-    // add i2c codec pins: scl, sda, port, frequency
-    addI2C(PinFunction::EXPANDER, 10, 11);
-    // addI2C(PinFunction::CODEC, 10, 11);
-    //  add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
-    addI2S(PinFunction::CODEC, 12, 13, 14, 16, 15);
-
-    // add other pins
-    addPin(PinFunction::KEY, EXIO10, PinLogic::InputActiveLow, 1);
-    addPin(PinFunction::KEY, EXIO11, PinLogic::InputActiveLow, 2);
-    addPin(PinFunction::KEY, EXIO12, PinLogic::InputActiveLow, 3);
-    addPin(PinFunction::PA, EXIO9, PinLogic::Output);
-    addPin(PinFunction::SD, EXIO4, PinLogic::Output);  // SD CS
-    addPin(PinFunction::LED, 38, PinLogic::Output);
-#else
     // setup TCA9555 GPIO expander
     gpio.setAltGPIO(tca9555, 1000);
     // add i2c codec pins: scl, sda, port, frequency
@@ -59,6 +59,26 @@ class PinsESP32S3AISmartSpeakerClass : public DriverDeviceInfo {
            PinLogic::Output);  // SD CS
     addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led), gpios),
            PinLogic::Output);
+#else
+    // setup TCA9555 GPIO expander
+    gpio.setAltGPIO(tca9555, 1000);
+    // CLK, MISO (DATA), MOSI (CMD), CS
+    PinsSPI sd{PinFunction::SD, 40, 41, 42, -1, SPI};
+
+    addSPI(sd);
+    // add i2c codec pins: scl, sda, port, frequency
+    addI2C(PinFunction::EXPANDER, 10, 11);
+    // addI2C(PinFunction::CODEC, 10, 11);
+    //  add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
+    addI2S(PinFunction::CODEC, 12, 13, 14, 16, 15);
+
+    // add other pins
+    addPin(PinFunction::KEY, EXIO10, PinLogic::InputActiveLow, 1);
+    addPin(PinFunction::KEY, EXIO11, PinLogic::InputActiveLow, 2);
+    addPin(PinFunction::KEY, EXIO12, PinLogic::InputActiveLow, 3);
+    addPin(PinFunction::PA, EXIO9, PinLogic::Output);
+    addPin(PinFunction::SD, EXIO4, PinLogic::Output);  // SD CS
+    addPin(PinFunction::LED, 38, PinLogic::Output);
 #endif
   }
 

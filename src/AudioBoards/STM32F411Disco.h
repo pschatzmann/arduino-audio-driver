@@ -24,7 +24,7 @@ class PinsSTM32F411DiscoClass : public DriverDeviceInfo {
     addI2S(PinFunction::CODEC, DEVICE_DT_GET(DT_ALIAS(i2s_1)));
 
         // add other pins
-    addPin(PinFunction::KEY, GPIO_DT_SPEC_GET(DT_ALIAS(key_1, gpios), PinLogic::Output);      // user button
+    addPin(PinFunction::KEY, GPIO_DT_SPEC_GET(DT_ALIAS(key1), gpios), PinLogic::Output);      // user button
     addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios), PinLogic::Output, 0);  // green
     addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios), PinLogic::Output, 1);   // red
     addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led3), gpios), PinLogic::Output, 2);  // orange
