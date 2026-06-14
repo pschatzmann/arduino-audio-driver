@@ -1,9 +1,6 @@
 #pragma once
 
 #include "stdint.h"
-#ifdef ARDUINO
-#  include "Arduino.h" // for delay
-#endif
 
 /// Clock divider values for es8388 and es8374
 enum es_sclk_div_t {
