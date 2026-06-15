@@ -3,6 +3,7 @@
 #include "ad1938/ad1938.h"
 #include "aw88298/AW88298.h"
 #include "cs42448/cs42448.h"
+#include "cs42l51/cs42l51.h"
 #include "cs43l22/cs43l22.h"
 #include "da7212/DA7212.h"
 #include "es7210/es7210.h"

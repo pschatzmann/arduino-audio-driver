@@ -1,7 +1,4 @@
 #pragma once
-#ifdef USE_INITIALIZER_LIST
-#  include "InitializerList.h" 
-#endif
 #include <assert.h>
 
 namespace audio_driver_local {
@@ -99,18 +96,6 @@ class Vector {
 
     };
 
-#ifdef USE_INITIALIZER_LIST
-
-    /// support for initializer_list
-    inline Vector(std::initializer_list<T> iniList) {
-      resize(iniList.size());
-      int pos = 0;
-      for (auto &obj : iniList){
-        p_data[pos++] = obj;
-      }
-    } 
-
-#endif
 
     /// default constructor
     inline Vector(size_t len = 20) {

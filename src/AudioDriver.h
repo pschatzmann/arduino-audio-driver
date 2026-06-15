@@ -520,6 +520,120 @@ class AudioDriverCS43l22Class : public AudioDriver {
 };
 
 /**
+ * @brief Driver API for CS42L51 codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class AudioDriverCS42L51Class : public AudioDriver {
+ public:
+  AudioDriverCS42L51Class(uint16_t deviceAddr = 0x4A) {
+    i2c_default_address = deviceAddr;
+  }
+
+  virtual bool begin(CodecConfig codecCfg, DriverDeviceInfo& pins) {
+    AD_LOGD("AudioDriverCS42L51Class::begin");
+    p_pins = &pins;
+    codec_cfg = codecCfg;
+    // manage reset pin -> acive high
+    setPAPower(true);
+    // Setup enable pin for codec
+    delayMs(100);
+    cs42l51.setWire(getI2C());
+    cs42l51.setAddress(getI2CAddress());
+    uint32_t freq = getFrequency(codec_cfg.i2s.rate);
+    uint32_t inputDevice = getInput(codec_cfg.input_device);
+    uint32_t outputDevice = getOutput(codec_cfg.output_device);
+    AD_LOGD("cs42l51.init");
+    bool result = cs42l51.init(inputDevice, outputDevice, volume, freq) == 0;
+    if (!result) {
+      AD_LOGE("error: cs42l51.init");
+    }
+    cs42l51.play();
+    return result;
+  }
+
+  virtual bool setConfig(CodecConfig codecCfg) {
+    codec_cfg = codecCfg;
+    uint32_t freq = getFrequency(codec_cfg.i2s.rate);
+    uint32_t inputDevice = getInput(codecCfg.input_device);
+    uint32_t outputDevice = getOutput(codecCfg.output_device);
+    return cs42l51.init(inputDevice, outputDevice, volume, freq) == 0;
+  }
+
+  bool setMute(bool mute) {
+    uint32_t rc = mute ? cs42l51.pause() : cs42l51.resume();
+    return rc == 0;
+  }
+
+  bool setVolume(int volume) {
+    this->volume = volume;
+    return cs42l51.setVolume(volume) == 0;
+  }
+  int getVolume() { return volume; }
+
+  /// Provides access to the wrapped CS42L51 driver instance
+  CS42L51& driver() { return cs42l51; }
+
+ protected:
+  CS42L51 cs42l51;
+  int volume = 100;
+
+  bool deinit() {
+    int cnt = cs42l51.stop(CS42L51_PDWN_SW);
+    cnt += cs42l51.reset();
+    setPAPower(false);
+    return cnt == 0;
+  }
+
+  uint32_t getFrequency(samplerate_t rateNum) {
+    switch (rateNum) {
+      case RATE_8K:
+        return CS42L51_FREQUENCY_8K; /*!< set to  8k samples per second */
+      case RATE_11K:
+        return CS42L51_FREQUENCY_11K; /*!< set to 11.025k samples per second */
+      case RATE_16K:
+        return CS42L51_FREQUENCY_16K; /*!< set to 16k samples in per second */
+      case RATE_22K:
+        return CS42L51_FREQUENCY_22K; /*!< set to 22.050k samples per second */
+      case RATE_32K:
+        return CS42L51_FREQUENCY_32K; /*!< set to 32k samples in per second */
+      case RATE_44K:
+        return CS42L51_FREQUENCY_44K; /*!< set to 44.1k samples per second */
+      case RATE_48K:
+        return CS42L51_FREQUENCY_48K; /*!< set to 48k samples per second */
+      default:
+        break;
+    }
+    return CS42L51_FREQUENCY_44K;
+  }
+
+  uint32_t getInput(input_device_t input_device) {
+    switch (input_device) {
+      case ADC_INPUT_NONE:
+        return CS42L51_IN_NONE;
+      case ADC_INPUT_LINE1:
+        return CS42L51_IN_LINE1;
+      case ADC_INPUT_LINE2:
+        return CS42L51_IN_LINE2;
+      case ADC_INPUT_LINE3:
+        return CS42L51_IN_LINE3;
+      case ADC_INPUT_ALL:
+        return CS42L51_IN_LINE1 | CS42L51_IN_LINE2 | CS42L51_IN_LINE3;
+      case ADC_INPUT_DIFFERENCE:
+        return CS42L51_IN_MIC1 | CS42L51_IN_MIC2;
+      default:
+        break;
+    }
+    return CS42L51_IN_NONE;
+  }
+
+  uint32_t getOutput(output_device_t output_device) {
+    if (output_device == DAC_OUTPUT_NONE) return CS42L51_OUT_NONE;
+    return CS42L51_OUT_HEADPHONE;
+  }
+};
+
+/**
  * @brief Driver API for CS42448 TDS DAC/ADC
  * @author Phil Schatzmann
  * @copyright GPLv3
@@ -1806,6 +1920,8 @@ class AudioDriverAD1938Class : public AudioDriver {
 static AudioDriverAC101Class AudioDriverAC101;
 /// @ingroup audio_driver
 static AudioDriverCS43l22Class AudioDriverCS43l22;
+/// @ingroup audio_driver
+static AudioDriverCS42L51Class AudioDriverCS42L51;
 /// @ingroup audio_driver
 static AudioDriverES7210Class AudioDriverES7210;
 /// @ingroup audio_driver
