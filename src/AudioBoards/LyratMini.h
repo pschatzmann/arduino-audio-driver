@@ -73,7 +73,6 @@ class PinsLyratMiniClass : public DriverDeviceInfo {
 #endif
  
  protected:
-  GPIO gpio;
   // analog values for rec, mute, play, set, vol-, vol+
   int analog_values[6]{2802, 2270, 1754, 1284, 827, 304};
   int range = LYRAT_MINI_RANGE;
