@@ -24,7 +24,8 @@ class PinsLyratMiniClass : public DriverDeviceInfo {
     addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios), PinLogic::Output, 1);
     addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios), PinLogic::Output, 2);
     //addPin(PinFunction::MCLK_SOURCE, 0, PinLogic::Inactive);
-    addPin(PinFunction::KEY, GPIO_DT_SPEC_GET(DT_ALIAS(key_1), gpios), PinLogic::Input, 0);
+    // adc pin must be defuubed for readubg key values
+
 #else
     // sd pins: CLK, MISO, MOSI, CS: the SD is not working, so this is commented
     // out addSPI(ESP32PinsSD); add i2c codec pins: scl, sda, port, frequency
@@ -38,6 +39,7 @@ class PinsLyratMiniClass : public DriverDeviceInfo {
     addPin(PinFunction::LED, 22, PinLogic::Output, 1);
     addPin(PinFunction::LED, 27, PinLogic::Output, 2);
     addPin(PinFunction::MCLK_SOURCE, 0, PinLogic::Inactive);
+    // adc pin
     addPin(PinFunction::KEY, 39, PinLogic::Input, 0);
 #endif
   }
@@ -45,7 +47,33 @@ class PinsLyratMiniClass : public DriverDeviceInfo {
 
   void setRange(int value) { range = value; }
 
+
+#if defined(IS_ZEPHYR)
+
+  /// In Zephyr we we must use the ADC to read the key values, so we implement the logic here
+  bool isKeyPressed(uint8_t key) override {
+    adc_dt_spec adc = DEVICE_DT_GET(DT_ALIAS(adc_pins));
+    int analog_value = gpio.analogRead(key_adc);
+    return inRange(analog_value, analog_values[key]);
+  }
+
+#else
+
+  // Key is key index 0-5 for rec, mute, play, set, vol-, vol+
+  bool isKeyPressed(uint8_t key) override {
+    int pin = getPinID(PinFunction::KEY);
+    if (pin == GPIO_UNDEFINED) {
+      AD_LOGE("PinFunction::KEY not defined");
+      return false;
+    }
+    int analog_value = gpio.analogRead(pin);
+    return inRange(analog_value, analog_values[key]);
+  }
+
+#endif
+ 
  protected:
+  GPIO gpio;
   // analog values for rec, mute, play, set, vol-, vol+
   int analog_values[6]{2802, 2270, 1754, 1284, 827, 304};
   int range = LYRAT_MINI_RANGE;
