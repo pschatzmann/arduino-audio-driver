@@ -73,265 +73,231 @@
 
 namespace audio_driver {
 
-static i2c_bus_handle_t i2c_handler;
-static GpioPin power_pin{};
+/**
+ * @brief Header-only driver class for the TAS5805M amplifier chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class TAS5805M {
+ public:
+  TAS5805M() = default;
 
-static error_t tas5805m_transmit_registers(const tas5805m_cfg_reg_t* conf_buf,
-                                           int size) {
-  int i = 0;
-  error_t ret = RESULT_OK;
-  while (i < size) {
-    switch (conf_buf[i].offset) {
-      case CFG_META_SWITCH:
-        // Used in legacy applications.  Ignored here.
-        break;
-      case CFG_META_DELAY:
-        delayMs(conf_buf[i].value);
-        break;
-      case CFG_META_BURST:
-        ret = i2c_bus_write_bytes(i2c_handler, TAS5805M_ADDR,
-                                  (unsigned char*)(&conf_buf[i + 1].offset), 1,
-                                  (unsigned char*)(&conf_buf[i + 1].value),
-                                  conf_buf[i].value);
-        i += (conf_buf[i].value / 2) + 1;
-        break;
-      case CFG_END_1:
-        if (CFG_END_2 == conf_buf[i + 1].offset &&
-            CFG_END_3 == conf_buf[i + 2].offset) {
-          AD_LOGI("End of tms5805m reg: %d", i);
-        }
-        break;
-      default:
-        ret = i2c_bus_write_bytes(i2c_handler, TAS5805M_ADDR,
-                                  (unsigned char*)(&conf_buf[i].offset), 1,
-                                  (unsigned char*)(&conf_buf[i].value), 1);
-        break;
+  /// Defines the I2C bus instance to be used
+  void setWire(i2c_bus_handle_t handle) { i2c_handle = handle; }
+
+  /// Defines the I2C device address
+  void setAddress(int addr) {
+    if (addr > 0) i2c_addr = addr;
+  }
+
+  /// Defines the GPIO pin used to power on the amplifier
+  void setPowerPin(GpioPin pin) { power_pin = pin; }
+
+  /// @brief Initialize TAS5805 codec chip
+  error_t init(codec_config_t* codec_cfg) {
+    GPIO gpio;
+    error_t ret = RESULT_OK;
+    AD_LOGI("Power ON CODEC with GPIO %d", power_pin);
+    gpio.pinMode(power_pin, OUTPUT);
+    gpio.digitalWrite(power_pin, 0);
+    delayMs(20);
+    gpio.digitalWrite(power_pin, 1);
+    delayMs(20);
+
+    ret |= transmitRegisters(
+        tas5805m_registers,
+        sizeof(tas5805m_registers) / sizeof(tas5805m_registers[0]));
+
+    TAS5805M_ASSERT(ret, "Fail to iniitialize tas5805m PA", RESULT_FAIL);
+    return ret;
+  }
+
+  /// @brief Deinitialize TAS5805 codec chip
+  error_t deinit(void) {
+    // TODO
+    return RESULT_OK;
+  }
+
+  /// @brief  Set voice volume (0~100)
+  error_t setVolume(int vol) {
+    int vol_idx = 0;
+
+    if (vol < TAS5805M_VOLUME_MIN) {
+      vol = TAS5805M_VOLUME_MIN;
     }
-    i++;
+    if (vol > TAS5805M_VOLUME_MAX) {
+      vol = TAS5805M_VOLUME_MAX;
+    }
+    vol_idx = vol / 5;
+
+    uint8_t cmd[2] = {0, 0};
+    error_t ret = RESULT_OK;
+
+    cmd[0] = MASTER_VOL_REG_ADDR;
+    cmd[1] = tas5805m_volume[vol_idx];
+    ret = i2c_bus_write_bytes(i2c_handle, i2c_addr, &cmd[0], 1, &cmd[1], 1);
+    AD_LOGW("volume = 0x%x", cmd[1]);
+    return ret;
   }
-  if (ret != RESULT_OK) {
-    AD_LOGE("Fail to load configuration to tas5805m");
-    return RESULT_FAIL;
+
+  /// @brief Get voice volume (0~100)
+  error_t getVolume(int* value) {
+    /// FIXME: Got the digit volume is not right.
+    uint8_t cmd[2] = {MASTER_VOL_REG_ADDR, 0x00};
+    error_t ret =
+        i2c_bus_read_bytes(i2c_handle, i2c_addr, &cmd[0], 1, &cmd[1], 1);
+    TAS5805M_ASSERT(ret, "Fail to get volume", RESULT_FAIL);
+    unsigned i;
+    for (i = 0; i < sizeof(tas5805m_volume); i++) {
+      if (cmd[1] >= tas5805m_volume[i]) break;
+    }
+    AD_LOGI("Volume is %d", i * 5);
+    *value = 5 * i;
+    return ret;
   }
-  AD_LOGI("%s:  write %d reg done", __FUNCTION__, i);
-  return ret;
-}
 
-inline void tas5805m_set_power_pin(GpioPin pin) { power_pin = pin; }
-
-/**
- * @brief Initialize TAS5805 codec chip
- *
- * @param cfg configuration of TAS5805
- *
- * @return
- *     - RESULT_OK
- *     - RESULT_FAIL
- */
-inline error_t tas5805m_init(codec_config_t *codec_cfg, i2c_bus_handle_t i2c) {
-  GPIO gpio;
-  i2c_handler = i2c;
-  error_t ret = RESULT_OK;
-  AD_LOGI("Power ON CODEC with GPIO %d", power_pin);
-  gpio.pinMode(power_pin, OUTPUT);
-  gpio.digitalWrite(power_pin, 0);
-  delayMs(20);
-  gpio.digitalWrite(power_pin, 1);
-  delayMs(20);
-
-  ret |= tas5805m_transmit_registers(
-      tas5805m_registers,
-      sizeof(tas5805m_registers) / sizeof(tas5805m_registers[0]));
-
-  TAS5805M_ASSERT(ret, "Fail to iniitialize tas5805m PA", RESULT_FAIL);
-  return ret;
-}
-
-/**
- * @brief Deinitialize TAS5805 codec chip
- *
- * @return
- *     - RESULT_OK
- *     - RESULT_FAIL
- */
-inline error_t tas5805m_deinit(void) {
-  // TODO
-  return RESULT_OK;
-}
-
-/**
- * @brief  Set voice volume
- *
- * @param volume:  voice volume (0~100)
- *
- * @return
- *     - RESULT_OK
- *     - RESULT_FAIL
- */
-inline error_t tas5805m_set_volume(int vol) {
-  int vol_idx = 0;
-
-  if (vol < TAS5805M_VOLUME_MIN) {
-    vol = TAS5805M_VOLUME_MIN;
-  }
-  if (vol > TAS5805M_VOLUME_MAX) {
-    vol = TAS5805M_VOLUME_MAX;
-  }
-  vol_idx = vol / 5;
-
-  uint8_t cmd[2] = {0, 0};
-  error_t ret = RESULT_OK;
-
-  cmd[0] = MASTER_VOL_REG_ADDR;
-  cmd[1] = tas5805m_volume[vol_idx];
-  ret = i2c_bus_write_bytes(i2c_handler, TAS5805M_ADDR, &cmd[0], 1, &cmd[1], 1);
-  AD_LOGW("volume = 0x%x", cmd[1]);
-  return ret;
-}
-
-/**
- * @brief Get voice volume
- *
- * @param[out] *volume:  voice volume (0~100)
- *
- * @return
- *     - RESULT_OK
- *     - RESULT_FAIL
- */
-inline error_t tas5805m_get_volume(int *value) {
-  /// FIXME: Got the digit volume is not right.
-  uint8_t cmd[2] = {MASTER_VOL_REG_ADDR, 0x00};
-  error_t ret =
-      i2c_bus_read_bytes(i2c_handler, TAS5805M_ADDR, &cmd[0], 1, &cmd[1], 1);
-  TAS5805M_ASSERT(ret, "Fail to get volume", RESULT_FAIL);
-  unsigned i;
-  for (i = 0; i < sizeof(tas5805m_volume); i++) {
-    if (cmd[1] >= tas5805m_volume[i]) break;
-  }
-  AD_LOGI("Volume is %d", i * 5);
-  *value = 5 * i;
-  return ret;
-}
-
-/**
- * @brief Set TAS5805 mute or not
- *        Continuously call should have an interval time determined by tas5805m_set_mute_fade()
- *
- * @param enable enable(1) or disable(0)
- *
- * @return
- *     - RESULT_FAIL Parameter error
- *     - RESULT_OK   Success
- */
-inline error_t tas5805m_set_mute(bool enable) {
-  error_t ret = RESULT_OK;
-  uint8_t cmd[2] = {TAS5805M_REG_03, 0x00};
-  ret |= i2c_bus_read_bytes(i2c_handler, TAS5805M_ADDR, &cmd[0], 1, &cmd[1], 1);
-
-  if (enable) {
-    cmd[1] |= 0x8;
-  } else {
-    cmd[1] &= (~0x08);
-  }
-  ret |=
-      i2c_bus_write_bytes(i2c_handler, TAS5805M_ADDR, &cmd[0], 1, &cmd[1], 1);
-
-  TAS5805M_ASSERT(ret, "Fail to set mute", RESULT_FAIL);
-  return ret;
-}
-
-/**
- * @brief Mute gradually by (value)ms
- *
- * @param value  Time for mute with millisecond.
- * @return
- *     - RESULT_FAIL Parameter error
- *     - RESULT_OK   Success
- *
- */
-inline error_t tas5805m_set_mute_fade(int value) {
-  error_t ret = 0;
-  unsigned char cmd[2] = {MUTE_TIME_REG_ADDR, 0x00};
-  /* Time for register value
-   *   000: 11.5 ms
-   *   001: 53 ms
-   *   010: 106.5 ms
-   *   011: 266.5 ms
-   *   100: 0.535 sec
-   *   101: 1.065 sec
-   *   110: 2.665 sec
-   *   111: 5.33 sec
+  /**
+   * @brief Set TAS5805 mute or not
+   *        Continuously call should have an interval time determined by
+   *        setMuteFade()
    */
-  if (value <= 12) {
-    cmd[1] = 0;
-  } else if (value <= 53) {
-    cmd[1] = 1;
-  } else if (value <= 107) {
-    cmd[1] = 2;
-  } else if (value <= 267) {
-    cmd[1] = 3;
-  } else if (value <= 535) {
-    cmd[1] = 4;
-  } else if (value <= 1065) {
-    cmd[1] = 5;
-  } else if (value <= 2665) {
-    cmd[1] = 6;
-  } else {
-    cmd[1] = 7;
+  error_t setMute(bool enable) {
+    error_t ret = RESULT_OK;
+    uint8_t cmd[2] = {TAS5805M_REG_03, 0x00};
+    ret |= i2c_bus_read_bytes(i2c_handle, i2c_addr, &cmd[0], 1, &cmd[1], 1);
+
+    if (enable) {
+      cmd[1] |= 0x8;
+    } else {
+      cmd[1] &= (~0x08);
+    }
+    ret |= i2c_bus_write_bytes(i2c_handle, i2c_addr, &cmd[0], 1, &cmd[1], 1);
+
+    TAS5805M_ASSERT(ret, "Fail to set mute", RESULT_FAIL);
+    return ret;
   }
-  cmd[1] |= (cmd[1] << 4);
 
-  ret |=
-      i2c_bus_write_bytes(i2c_handler, TAS5805M_ADDR, &cmd[0], 1, &cmd[1], 1);
-  TAS5805M_ASSERT(ret, "Fail to set mute fade", RESULT_FAIL);
-  AD_LOGI("Set mute fade, value:%d, 0x%x", value, cmd[1]);
-  return ret;
-}
+  /**
+   * @brief Mute gradually by (value)ms
+   * @param value  Time for mute with millisecond.
+   */
+  error_t setMuteFade(int value) {
+    error_t ret = 0;
+    unsigned char cmd[2] = {MUTE_TIME_REG_ADDR, 0x00};
+    /* Time for register value
+     *   000: 11.5 ms
+     *   001: 53 ms
+     *   010: 106.5 ms
+     *   011: 266.5 ms
+     *   100: 0.535 sec
+     *   101: 1.065 sec
+     *   110: 2.665 sec
+     *   111: 5.33 sec
+     */
+    if (value <= 12) {
+      cmd[1] = 0;
+    } else if (value <= 53) {
+      cmd[1] = 1;
+    } else if (value <= 107) {
+      cmd[1] = 2;
+    } else if (value <= 267) {
+      cmd[1] = 3;
+    } else if (value <= 535) {
+      cmd[1] = 4;
+    } else if (value <= 1065) {
+      cmd[1] = 5;
+    } else if (value <= 2665) {
+      cmd[1] = 6;
+    } else {
+      cmd[1] = 7;
+    }
+    cmd[1] |= (cmd[1] << 4);
 
-/**
- * @brief Get TAS5805 mute status
- *
- *  @return
- *     - RESULT_FAIL Parameter error
- *     - RESULT_OK   Success
- */
-inline error_t tas5805m_get_mute(int *value) {
-  error_t ret = RESULT_OK;
-  uint8_t cmd[2] = {TAS5805M_REG_03, 0x00};
-  ret |= i2c_bus_read_bytes(i2c_handler, TAS5805M_ADDR, &cmd[0], 1, &cmd[1], 1);
+    ret |= i2c_bus_write_bytes(i2c_handle, i2c_addr, &cmd[0], 1, &cmd[1], 1);
+    TAS5805M_ASSERT(ret, "Fail to set mute fade", RESULT_FAIL);
+    AD_LOGI("Set mute fade, value:%d, 0x%x", value, cmd[1]);
+    return ret;
+  }
 
-  TAS5805M_ASSERT(ret, "Fail to get mute", RESULT_FAIL);
-  *value = (cmd[1] & 0x08) >> 3;
-  AD_LOGI("Get mute value: 0x%x", *value);
-  return ret;
-}
+  /// @brief Get TAS5805 mute status
+  error_t getMute(int* value) {
+    error_t ret = RESULT_OK;
+    uint8_t cmd[2] = {TAS5805M_REG_03, 0x00};
+    ret |= i2c_bus_read_bytes(i2c_handle, i2c_addr, &cmd[0], 1, &cmd[1], 1);
 
-/**
- * @brief Set DAMP mode
- *
- * @param value  TAS5805M_DAMP_MODE_BTL or TAS5805M_DAMP_MODE_PBTL
- * @return
- *     - RESULT_FAIL Parameter error
- *     - RESULT_OK   Success
- *
- */
-inline error_t tas5805m_set_damp_mode(int value) {
-  unsigned char cmd[2] = {0};
-  cmd[0] = TAS5805M_REG_02;
-  cmd[1] = 0x10 | value;
-  return i2c_bus_write_bytes(i2c_handler, TAS5805M_ADDR, &cmd[0], 1, &cmd[1],
-                             1);
-}
+    TAS5805M_ASSERT(ret, "Fail to get mute", RESULT_FAIL);
+    *value = (cmd[1] & 0x08) >> 3;
+    AD_LOGI("Get mute value: 0x%x", *value);
+    return ret;
+  }
 
-inline
- error_t tas5805m_ctrl(codec_mode_t mode, bool ctrl_state_active) {
-  // TODO
-  return RESULT_OK;
-}
+  /**
+   * @brief Set DAMP mode
+   * @param value  TAS5805M_DAMP_MODE_BTL or TAS5805M_DAMP_MODE_PBTL
+   */
+  error_t setDampMode(int value) {
+    unsigned char cmd[2] = {0};
+    cmd[0] = TAS5805M_REG_02;
+    cmd[1] = 0x10 | value;
+    return i2c_bus_write_bytes(i2c_handle, i2c_addr, &cmd[0], 1, &cmd[1], 1);
+  }
 
-inline error_t tas5805m_conig_iface(codec_mode_t mode, I2SDefinition* iface) {
-  // TODO
-  return RESULT_OK;
-}
+  /// @brief Control TAS5805 codec chip
+  error_t ctrlStateActive(codec_mode_t mode, bool ctrl_state_active) {
+    // TODO
+    return RESULT_OK;
+  }
+
+  /// @brief Configure TAS5805 codec mode and I2S interface
+  error_t configI2S(codec_mode_t mode, I2SDefinition* iface) {
+    // TODO
+    return RESULT_OK;
+  }
+
+  error_t transmitRegisters(const tas5805m_cfg_reg_t* conf_buf, int size) {
+    int i = 0;
+    error_t ret = RESULT_OK;
+    while (i < size) {
+      switch (conf_buf[i].offset) {
+        case CFG_META_SWITCH:
+          // Used in legacy applications.  Ignored here.
+          break;
+        case CFG_META_DELAY:
+          delayMs(conf_buf[i].value);
+          break;
+        case CFG_META_BURST:
+          ret = i2c_bus_write_bytes(i2c_handle, i2c_addr,
+                                    (unsigned char*)(&conf_buf[i + 1].offset), 1,
+                                    (unsigned char*)(&conf_buf[i + 1].value),
+                                    conf_buf[i].value);
+          i += (conf_buf[i].value / 2) + 1;
+          break;
+        case CFG_END_1:
+          if (CFG_END_2 == conf_buf[i + 1].offset &&
+              CFG_END_3 == conf_buf[i + 2].offset) {
+            AD_LOGI("End of tms5805m reg: %d", i);
+          }
+          break;
+        default:
+          ret = i2c_bus_write_bytes(i2c_handle, i2c_addr,
+                                    (unsigned char*)(&conf_buf[i].offset), 1,
+                                    (unsigned char*)(&conf_buf[i].value), 1);
+          break;
+      }
+      i++;
+    }
+    if (ret != RESULT_OK) {
+      AD_LOGE("Fail to load configuration to tas5805m");
+      return RESULT_FAIL;
+    }
+    AD_LOGI("%s:  write %d reg done", __FUNCTION__, i);
+    return ret;
+  }
+
+ protected:
+  i2c_bus_handle_t i2c_handle = nullptr;
+  int i2c_addr = TAS5805M_ADDR;
+  GpioPin power_pin{};
+};
 
 } // namespace audio_driver

@@ -113,214 +113,172 @@
 
 namespace audio_driver {
 
-static bool es8156_codec_init_flag = 0;
-static i2c_bus_handle_t es8156_i2c_handle = NULL;
-static codec_dac_volume_config_t* dac_vol_handle;
-
-static bool es8156_codec_initialized() { return es8156_codec_init_flag; }
-
-static error_t es8156_write_reg(uint8_t reg_addr, uint8_t data) {
-  return i2c_bus_write_bytes(es8156_i2c_handle, ES8156_ADDR, &reg_addr,
-                             sizeof(reg_addr), &data, sizeof(data));
-}
-
-static int es8156_read_reg(uint8_t reg_addr) {
-  uint8_t data;
-  i2c_bus_read_bytes(es8156_i2c_handle, ES8156_ADDR, &reg_addr, sizeof(reg_addr),
-                     &data, sizeof(data));
-  return (int)data;
-}
-
-static error_t es8156_standby(void) {
-  error_t ret = 0;
-  ret = es8156_write_reg(0x14, 0x00);
-  ret |= es8156_write_reg(0x19, 0x02);
-  ret |= es8156_write_reg(0x21, 0x1F);
-  ret |= es8156_write_reg(0x22, 0x02);
-  ret |= es8156_write_reg(0x25, 0x21);
-  ret |= es8156_write_reg(0x25, 0xA1);
-  ret |= es8156_write_reg(0x18, 0x01);
-  ret |= es8156_write_reg(0x09, 0x02);
-  ret |= es8156_write_reg(0x09, 0x01);
-  ret |= es8156_write_reg(0x08, 0x00);
-  return ret;
-}
-
-static error_t es8156_resume(void) {
-  error_t ret = 0;
-  ret |= es8156_write_reg(0x08, 0x3F);
-  ret |= es8156_write_reg(0x09, 0x00);
-  ret |= es8156_write_reg(0x18, 0x00);
-
-  ret |= es8156_write_reg(0x25, 0x20);
-  ret |= es8156_write_reg(0x22, 0x00);
-  ret |= es8156_write_reg(0x21, 0x3C);
-  ret |= es8156_write_reg(0x19, 0x20);
-  ret |= es8156_write_reg(0x14, 179);
-  return ret;
-}
-
-/*
- * @brief Initialize ES8156 codec chip
- *
- * @param codec_cfg  configuration of ES8156
- *
- * @return
- *      - RESULT_OK
- *      - RESULT_FAIL
+/**
+ * @brief Header-only driver class for the ES8156 DAC chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
  */
-inline error_t es8156_codec_init(codec_config_t* cfg, i2c_bus_handle_t i2c) {
-  es8156_i2c_handle = i2c;
-  if (es8156_codec_initialized()) {
-    AD_LOGW("The es8156 DAC has been already initialized");
+class ES8156 {
+ public:
+  ES8156() = default;
+
+  /// Defines the I2C bus instance to be used
+  void setWire(i2c_bus_handle_t handle) { i2c_handle = handle; }
+
+  /// Defines the I2C device address
+  void setAddress(int addr) { i2c_addr = addr; }
+
+  /// @brief Initialize ES8156 codec chip
+  error_t init(codec_config_t* cfg) {
+    if (initialized) {
+      AD_LOGW("The es8156 DAC has been already initialized");
+      return RESULT_OK;
+    }
+    initialized = true;
+
+    writeReg(0x02, 0x04);
+    writeReg(0x20, 0x2A);
+    writeReg(0x21, 0x3C);
+    writeReg(0x22, 0x00);
+    writeReg(0x24, 0x07);
+    writeReg(0x23, 0x00);
+
+    writeReg(0x0A, 0x01);
+    writeReg(0x0B, 0x01);
+    writeReg(0x11, 0x00);
+    writeReg(0x14, 179);  // volume 70%
+
+    writeReg(0x0D, 0x14);
+    writeReg(0x18, 0x00);
+    writeReg(0x08, 0x3F);
+    writeReg(0x00, 0x02);
+    writeReg(0x00, 0x03);
+    writeReg(0x25, 0x20);
+
+    // codec_dac_volume_config_t vol_cfg = ES8156_DAC_VOL_CFG_DEFAULT();
+    // dac_vol_handle = audio_codec_volume_init(&vol_cfg);
     return RESULT_OK;
   }
-  es8156_codec_init_flag = true;
 
-  es8156_write_reg(0x02, 0x04);
-  es8156_write_reg(0x20, 0x2A);
-  es8156_write_reg(0x21, 0x3C);
-  es8156_write_reg(0x22, 0x00);
-  es8156_write_reg(0x24, 0x07);
-  es8156_write_reg(0x23, 0x00);
-
-  es8156_write_reg(0x0A, 0x01);
-  es8156_write_reg(0x0B, 0x01);
-  es8156_write_reg(0x11, 0x00);
-  es8156_write_reg(0x14, 179);  // volume 70%
-
-  es8156_write_reg(0x0D, 0x14);
-  es8156_write_reg(0x18, 0x00);
-  es8156_write_reg(0x08, 0x3F);
-  es8156_write_reg(0x00, 0x02);
-  es8156_write_reg(0x00, 0x03);
-  es8156_write_reg(0x25, 0x20);
-
-  // codec_dac_volume_config_t vol_cfg = ES8156_DAC_VOL_CFG_DEFAULT();
-  // dac_vol_handle = audio_codec_volume_init(&vol_cfg);
-  return RESULT_OK;
-}
-
-/**
- * @brief Deinitialize ES8156 codec chip
- *
- * @return
- *     - RESULT_OK
- *     - RESULT_FAIL
- */
-inline error_t es8156_codec_deinit(void) {
-  es8156_codec_init_flag = false;
-  // audio_codec_volume_deinit(dac_vol_handle);
-  return RESULT_OK;
-}
-
-/**
- * @brief Control ES8156 codec chip
- *
- * @param mode codec mode
- * @param ctrl_state_active start or stop decode or encode progress
- *
- * @return
- *     - RESULT_FAIL Parameter error
- *     - RESULT_OK   Success
- */
-inline error_t es8156_codec_ctrl_state_active(codec_mode_t mode,
-                                              bool ctrl_state_active) {
-  error_t ret = RESULT_OK;
-  if (ctrl_state_active) {
-    ret = es8156_resume();
-  } else {
-    AD_LOGW("The codec going to stop");
-    ret = es8156_standby();
+  /// @brief Deinitialize ES8156 codec chip
+  error_t deinit(void) {
+    initialized = false;
+    // audio_codec_volume_deinit(dac_vol_handle);
+    return RESULT_OK;
   }
-  return ret;
-}
 
-/**
- * @brief Configure ES8156 codec mode and I2S interface
- *
- * @param mode codec mode
- * @param iface I2S config
- *
- * @return
- *     - RESULT_FAIL Parameter error
- *     - RESULT_OK   Success
- */
-inline error_t es8156_codec_config_i2s(codec_mode_t mode, I2SDefinition* iface) {
-  return RESULT_OK;
-}
-
-/**
- * @brief Configure ES8156 DAC mute or not. Basically you can use this function
- * to mute the output or unmute
- *
- * @param enable enable(1) or disable(0)
- *
- * @return
- *     - RESULT_FAIL Parameter error
- *     - RESULT_OK   Success
- */
-inline error_t es8156_codec_set_voice_mute(bool enable) {
-  int regv = es8156_read_reg(ES8156_DAC_MUTE_REG13);
-  if (enable) {
-    regv = regv | BIT(1) | BIT(2);
-  } else {
-    regv = regv & (~(BIT(1) | BIT(2)));
-  }
-  es8156_write_reg(ES8156_DAC_MUTE_REG13, regv);
-  return RESULT_OK;
-}
-
-/**
- * @brief Set voice volume
- *
- * @note Register values. 0x00: -95.5 dB, 0x5B: -50 dB, 0xBF: 0 dB, 0xFF: 32 dB
- * @note Accuracy of gain is 0.5 dB
- *
- * @param volume: voice volume (0~100)
- *
- * @return
- *     - RESULT_OK
- *     - RESULT_FAIL
- */
-inline error_t es8156_codec_set_voice_volume(int volume) {
-  int ret = 0;
-  // TODO
-  // uint8_t reg = 0;
-  // reg = audio_codec_get_dac_reg_value(dac_vol_handle, volume);
-  // ret = es8156_write_reg(ES8156_VOLUME_CONTROL_REG14, reg);
-  // AD_LOGD( "Set volume:%.2d reg_value:0x%.2x dB:%.1f",
-  // dac_vol_handle->user_volume, reg,
-  //         audio_codec_cal_dac_volume(dac_vol_handle));
-  return ret;
-}
-
-/**
- * @brief Get voice volume
- *
- * @param[out] *volume:  voice volume (0~100)
- *
- * @return
- *     - RESULT_OK
- *     - RESULT_FAIL
- */
-inline error_t es8156_codec_get_voice_volume(int* volume) {
-  int ret = 0;
-  int regv = 0;
-  *volume = 0;
-  regv = es8156_read_reg(ES8156_VOLUME_CONTROL_REG14);
-  if (regv == RESULT_FAIL) {
-    ret = RESULT_FAIL;
-  } else {
-    if (regv == dac_vol_handle->reg_value) {
-      *volume = dac_vol_handle->user_volume;
+  /// @brief Control ES8156 codec chip
+  error_t ctrlStateActive(codec_mode_t mode, bool ctrl_state_active) {
+    error_t ret = RESULT_OK;
+    if (ctrl_state_active) {
+      ret = resume();
     } else {
-      *volume = 0;
-      ret = RESULT_FAIL;
+      AD_LOGW("The codec going to stop");
+      ret = standby();
     }
+    return ret;
   }
-  AD_LOGD("Get volume:%.2d reg_value:0x%.2x", *volume, regv);
-  return ret;
-}
+
+  /// @brief Configure ES8156 codec mode and I2S interface
+  error_t configI2S(codec_mode_t mode, I2SDefinition* iface) {
+    return RESULT_OK;
+  }
+
+  /// @brief Configure ES8156 DAC mute or not.
+  error_t setVoiceMute(bool enable) {
+    int regv = readReg(ES8156_DAC_MUTE_REG13);
+    if (enable) {
+      regv = regv | BIT(1) | BIT(2);
+    } else {
+      regv = regv & (~(BIT(1) | BIT(2)));
+    }
+    writeReg(ES8156_DAC_MUTE_REG13, regv);
+    return RESULT_OK;
+  }
+
+  /**
+   * @brief Set voice volume
+   * @note Register values. 0x00: -95.5 dB, 0x5B: -50 dB, 0xBF: 0 dB, 0xFF: 32 dB
+   * @note Accuracy of gain is 0.5 dB
+   * @param volume: voice volume (0~100)
+   */
+  error_t setVoiceVolume(int volume) {
+    int ret = 0;
+    // TODO
+    // uint8_t reg = 0;
+    // reg = audio_codec_get_dac_reg_value(dac_vol_handle, volume);
+    // ret = writeReg(ES8156_VOLUME_CONTROL_REG14, reg);
+    // AD_LOGD( "Set volume:%.2d reg_value:0x%.2x dB:%.1f",
+    // dac_vol_handle->user_volume, reg,
+    //         audio_codec_cal_dac_volume(dac_vol_handle));
+    return ret;
+  }
+
+  /// @brief Get voice volume (0~100)
+  error_t getVoiceVolume(int* volume) {
+    int ret = 0;
+    int regv = 0;
+    *volume = 0;
+    regv = readReg(ES8156_VOLUME_CONTROL_REG14);
+    if (regv == RESULT_FAIL) {
+      ret = RESULT_FAIL;
+    } else {
+      if (regv == dac_vol_handle->reg_value) {
+        *volume = dac_vol_handle->user_volume;
+      } else {
+        *volume = 0;
+        ret = RESULT_FAIL;
+      }
+    }
+    AD_LOGD("Get volume:%.2d reg_value:0x%.2x", *volume, regv);
+    return ret;
+  }
+  error_t writeReg(uint8_t reg_addr, uint8_t data) {
+    return i2c_bus_write_bytes(i2c_handle, i2c_addr, &reg_addr,
+                                sizeof(reg_addr), &data, sizeof(data));
+  }
+
+  int readReg(uint8_t reg_addr) {
+    uint8_t data;
+    i2c_bus_read_bytes(i2c_handle, i2c_addr, &reg_addr, sizeof(reg_addr),
+                        &data, sizeof(data));
+    return (int)data;
+  }
+
+  error_t standby(void) {
+    error_t ret = 0;
+    ret = writeReg(0x14, 0x00);
+    ret |= writeReg(0x19, 0x02);
+    ret |= writeReg(0x21, 0x1F);
+    ret |= writeReg(0x22, 0x02);
+    ret |= writeReg(0x25, 0x21);
+    ret |= writeReg(0x25, 0xA1);
+    ret |= writeReg(0x18, 0x01);
+    ret |= writeReg(0x09, 0x02);
+    ret |= writeReg(0x09, 0x01);
+    ret |= writeReg(0x08, 0x00);
+    return ret;
+  }
+
+  error_t resume(void) {
+    error_t ret = 0;
+    ret |= writeReg(0x08, 0x3F);
+    ret |= writeReg(0x09, 0x00);
+    ret |= writeReg(0x18, 0x00);
+
+    ret |= writeReg(0x25, 0x20);
+    ret |= writeReg(0x22, 0x00);
+    ret |= writeReg(0x21, 0x3C);
+    ret |= writeReg(0x19, 0x20);
+    ret |= writeReg(0x14, 179);
+    return ret;
+  }
+
+ protected:
+  i2c_bus_handle_t i2c_handle = nullptr;
+  int i2c_addr = ES8156_ADDR;
+  bool initialized = false;
+  codec_dac_volume_config_t* dac_vol_handle;
+};
 
 }  // namespace audio_driver

@@ -372,11 +372,7 @@ class NoDriverClass : public AudioDriver {
   virtual bool setVolume(int volume) { return false; }
   virtual int getVolume() { return 100; }
   virtual bool setInputVolume(int volume) { return false; }
-  virtual bool isVolumeSupported() {
-    {
-      return false;
-    }
-  }
+  virtual bool isVolumeSupported() { return false;}
   virtual bool isInputVolumeSupported() { return false; }
 };
 
@@ -388,26 +384,33 @@ class NoDriverClass : public AudioDriver {
 class AudioDriverAC101Class : public AudioDriver {
  public:
   AudioDriverAC101Class() { i2c_default_address = 0x1A; }
-  bool setMute(bool mute) { return ac101_set_voice_mute(mute); }
+  bool setMute(bool mute) { return ac101.setVoiceMute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
-    return ac101_set_voice_volume(limitValue(volume, 0, 100));
+    return ac101.setVoiceVolume(limitValue(volume, 0, 100)) == RESULT_OK;
   };
   int getVolume() {
     int vol;
-    ac101_get_voice_volume(&vol);
+    ac101.getVoiceVolume(&vol);
     return vol;
   };
 
+  /// Provides access to the wrapped AC101 driver instance
+  AC101& driver() { return ac101; }
+
  protected:
+  AC101 ac101;
+
   bool init(codec_config_t codec_cfg) {
-    return ac101_init(&codec_cfg, getI2C(), getI2CAddress()) == RESULT_OK;
+    ac101.setWire(getI2C());
+    ac101.setAddress(getI2CAddress());
+    return ac101.init(&codec_cfg) == RESULT_OK;
   }
-  bool deinit() { return ac101_deinit() == RESULT_OK; }
+  bool deinit() { return ac101.deinit() == RESULT_OK; }
   bool controlState(codec_mode_t mode) {
-    return ac101_ctrl_state_active(mode, true) == RESULT_OK;
+    return ac101.ctrlStateActive(mode, true) == RESULT_OK;
   }
   bool configInterface(codec_mode_t mode, I2SDefinition iface) {
-    return ac101_config_i2s(mode, &iface) == RESULT_OK;
+    return ac101.configI2S(mode, &iface) == RESULT_OK;
   }
 };
 
@@ -430,15 +433,16 @@ class AudioDriverCS43l22Class : public AudioDriver {
     setPAPower(true);
     // Setup enable pin for codec
     delayMs(100);
+    cs43l22.setWire(getI2C());
+    cs43l22.setAddress(getI2CAddress());
     uint32_t freq = getFrequency(codec_cfg.i2s.rate);
     uint16_t outputDevice = getOutput(codec_cfg.output_device);
-    AD_LOGD("cs43l22_Init");
-    bool result =
-        cs43l22_Init(deviceAddr, outputDevice, volume, freq, getI2C()) == 0;
+    AD_LOGD("cs43l22.init");
+    bool result = cs43l22.init(outputDevice, volume, freq) == 0;
     if (!result) {
-      AD_LOGE("error: cs43l22_Init");
+      AD_LOGE("error: cs43l22.init");
     }
-    cs43l22_Play(deviceAddr, nullptr, 0);
+    cs43l22.play(nullptr, 0);
     return result;
   }
 
@@ -446,28 +450,30 @@ class AudioDriverCS43l22Class : public AudioDriver {
     codec_cfg = codecCfg;
     uint32_t freq = getFrequency(codec_cfg.i2s.rate);
     uint16_t outputDevice = getOutput(codecCfg.output_device);
-    return cs43l22_Init(deviceAddr, outputDevice, this->volume, freq,
-                        getI2C()) == 0;
+    return cs43l22.init(outputDevice, this->volume, freq) == 0;
   }
 
   bool setMute(bool mute) {
-    uint32_t rc = mute ? cs43l22_Pause(deviceAddr) : cs43l22_Resume(deviceAddr);
+    uint32_t rc = mute ? cs43l22.pause() : cs43l22.resume();
     return rc == 0;
   }
 
   bool setVolume(int volume) {
     this->volume = volume;
-    return cs43l22_SetVolume(deviceAddr, volume) == 0;
+    return cs43l22.setVolume(volume) == 0;
   }
   int getVolume() { return volume; }
 
+  /// Provides access to the wrapped CS43L22 driver instance
+  CS43L22& driver() { return cs43l22; }
+
  protected:
-  uint16_t deviceAddr;
+  CS43L22 cs43l22;
   int volume = 100;
 
   bool deinit() {
-    int cnt = cs43l22_Stop(deviceAddr, AUDIO_MUTE_ON);
-    cnt += cs43l22_Reset(deviceAddr);
+    int cnt = cs43l22.stop(AUDIO_MUTE_ON);
+    cnt += cs43l22.reset();
     setPAPower(false);
     return cnt == 0;
   }
@@ -584,28 +590,32 @@ class AudioDriverCS42448Class : public AudioDriver {
 class AudioDriverES7210Class : public AudioDriver {
  public:
   AudioDriverES7210Class() { i2c_default_address = ES7210_AD1_AD0_00 >> 1; }
-  bool setMute(bool mute) { return es7210_set_mute(mute) == RESULT_OK; }
+  bool setMute(bool mute) { return es7210.setMute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     this->volume = volume;
-    return es7210_adc_set_volume(limitValue(volume, 0, 100)) == RESULT_OK;
+    return es7210.setVolume(limitValue(volume, 0, 100)) == RESULT_OK;
   }
   int getVolume() { return volume; }
   bool setInputVolume(int volume) { return setVolume(volume); }
   bool isInputVolumeSupported() { return true; }
+  ES7210& driver() { return es7210; }
 
  protected:
+  ES7210 es7210;
   int volume;
 
   bool init(codec_config_t codec_cfg) {
-    return es7210_adc_init(&codec_cfg, getI2C()) == RESULT_OK;
+    es7210.setWire(getI2C());
+    es7210.setAddress(getI2CAddress());
+    return es7210.init(&codec_cfg) == RESULT_OK;
   }
-  bool deinit() { return es7210_adc_deinit() == RESULT_OK; }
+  bool deinit() { return es7210.deinit() == RESULT_OK; }
 
   bool controlState(codec_mode_t mode) {
-    return es7210_adc_ctrl_state_active(mode, true) == RESULT_OK;
+    return es7210.ctrlStateActive(mode, true) == RESULT_OK;
   }
   bool configInterface(codec_mode_t mode, I2SDefinition iface) {
-    return es7210_adc_config_i2s(mode, &iface) == RESULT_OK;
+    return es7210.configI2S(mode, &iface) == RESULT_OK;
   }
 };
 
@@ -618,28 +628,33 @@ class AudioDriverES7243Class : public AudioDriver {
  public:
   AudioDriverES7243Class() { i2c_default_address = 0x13; }
   bool setMute(bool mute) {
-    return es7243_adc_set_voice_mute(mute) == RESULT_OK;
+    return es7243.setVoiceMute(mute) == RESULT_OK;
   }
   bool setVolume(int volume) {
-    return es7243_adc_set_voice_volume(limitValue(volume, 0, 100)) == RESULT_OK;
+    return es7243.setVoiceVolume(limitValue(volume, 0, 100)) == RESULT_OK;
   }
   int getVolume() {
     int vol;
-    es7243_adc_get_voice_volume(&vol);
+    es7243.getVoiceVolume(&vol);
     return vol;
   }
+  ES7243& driver() { return es7243; }
 
  protected:
+  ES7243 es7243;
+
   bool init(codec_config_t codec_cfg) {
-    return es7243_adc_init(&codec_cfg, getI2C()) == RESULT_OK;
+    es7243.setWire(getI2C());
+    es7243.setAddress(getI2CAddress());
+    return es7243.init(&codec_cfg) == RESULT_OK;
   }
-  bool deinit() { return es7243_adc_deinit() == RESULT_OK; }
+  bool deinit() { return es7243.deinit() == RESULT_OK; }
 
   bool controlState(codec_mode_t mode) {
-    return es7243_adc_ctrl_state_active(mode, true) == RESULT_OK;
+    return es7243.ctrlStateActive(mode, true) == RESULT_OK;
   }
   bool configInterface(codec_mode_t mode, I2SDefinition iface) {
-    return es7243_adc_config_i2s(mode, &iface) == RESULT_OK;
+    return es7243.configI2S(mode, &iface) == RESULT_OK;
   }
 };
 
@@ -651,34 +666,38 @@ class AudioDriverES7243Class : public AudioDriver {
 
 class AudioDriverES7243eClass : public AudioDriver {
  public:
-  AudioDriverES7243eClass() { i2c_default_address = 0x13; }
+  AudioDriverES7243eClass() { i2c_default_address = 0x10; }
   bool setMute(bool mute) {
     return mute ? setVolume(0) == RESULT_OK : setVolume(volume) == RESULT_OK;
   }
   bool setVolume(int volume) {
     this->volume = volume;
-    return es7243e_adc_set_voice_volume(limitValue(volume, 0, 100)) ==
+    return es7243e.setVoiceVolume(limitValue(volume, 0, 100)) ==
            RESULT_OK;
   }
   int getVolume() {
     int vol = 0;
-    es7243e_adc_get_voice_volume(&vol);
+    es7243e.getVoiceVolume(&vol);
     return vol;
   }
+  ES7243E& driver() { return es7243e; }
 
  protected:
+  ES7243E es7243e;
   int volume = 0;
 
   bool init(codec_config_t codec_cfg) {
-    return es7243e_adc_init(&codec_cfg, getI2C()) == RESULT_OK;
+    es7243e.setWire(getI2C());
+    es7243e.setAddress(getI2CAddress());
+    return es7243e.init(&codec_cfg) == RESULT_OK;
   }
-  bool deinit() { return es7243e_adc_deinit() == RESULT_OK; }
+  bool deinit() { return es7243e.deinit() == RESULT_OK; }
 
   bool controlState(codec_mode_t mode) {
-    return es7243e_adc_ctrl_state_active(mode, true) == RESULT_OK;
+    return es7243e.ctrlStateActive(mode, true) == RESULT_OK;
   }
   bool configInterface(codec_mode_t mode, I2SDefinition iface) {
-    return es7243e_adc_config_i2s(mode, &iface) == RESULT_OK;
+    return es7243e.configI2S(mode, &iface) == RESULT_OK;
   }
 };
 
@@ -689,32 +708,37 @@ class AudioDriverES7243eClass : public AudioDriver {
  */
 class AudioDriverES8156Class : public AudioDriver {
  public:
-  AudioDriverES8156Class() { i2c_default_address = 0x8; }
+  AudioDriverES8156Class() { i2c_default_address = ES8156_ADDR; }
   bool setMute(bool mute) {
-    return es8156_codec_set_voice_mute(mute) == RESULT_OK;
+    return es8156.setVoiceMute(mute) == RESULT_OK;
   }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
-    return es8156_codec_set_voice_volume(limitValue(volume, 0, 100)) ==
+    return es8156.setVoiceVolume(limitValue(volume, 0, 100)) ==
            RESULT_OK;
   }
   int getVolume() {
     int vol;
-    es8156_codec_get_voice_volume(&vol);
+    es8156.getVoiceVolume(&vol);
     return vol;
   }
+  ES8156& driver() { return es8156; }
 
  protected:
+  ES8156 es8156;
+
   bool init(codec_config_t codec_cfg) {
-    return es8156_codec_init(&codec_cfg, getI2C()) == RESULT_OK;
+    es8156.setWire(getI2C());
+    es8156.setAddress(getI2CAddress());
+    return es8156.init(&codec_cfg) == RESULT_OK;
   }
-  bool deinit() { return es8156_codec_deinit() == RESULT_OK; }
+  bool deinit() { return es8156.deinit() == RESULT_OK; }
 
   bool controlState(codec_mode_t mode) {
-    return es8156_codec_ctrl_state_active(mode, true) == RESULT_OK;
+    return es8156.ctrlStateActive(mode, true) == RESULT_OK;
   }
   bool configInterface(codec_mode_t mode, I2SDefinition iface) {
-    return es8156_codec_config_i2s(mode, &iface) == RESULT_OK;
+    return es8156.configI2S(mode, &iface) == RESULT_OK;
   }
 };
 
@@ -725,22 +749,25 @@ class AudioDriverES8156Class : public AudioDriver {
  */
 class AudioDriverES8311Class : public AudioDriver {
  public:
-  AudioDriverES8311Class() { i2c_default_address = 0x18; }
-  bool setMute(bool mute) { return es8311_set_voice_mute(mute) == RESULT_OK; }
+  AudioDriverES8311Class() { i2c_default_address = ES8311_ADDR; }
+  bool setMute(bool mute) { return es8311.setVoiceMute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
-    return es8311_codec_set_voice_volume(limitValue(volume, 0, 100)) ==
+    return es8311.setVoiceVolume(limitValue(volume, 0, 100)) ==
            RESULT_OK;
   }
   int getVolume() {
     int vol;
-    es8311_codec_get_voice_volume(&vol);
+    es8311.getVoiceVolume(&vol);
     return vol;
   }
 
   ///
   void setMasterClockSource(int source) { master_clock_source = source; }
 
+  ES8311& driver() { return es8311; }
+
  protected:
+  ES8311 es8311;
   int master_clock_source = -1;
 
   bool init(codec_config_t codec_cfg) {
@@ -751,16 +778,18 @@ class AudioDriverES8311Class : public AudioDriver {
     AD_LOGI("MCLK_SOURCE: %d", mclk_src);
 
     assert(getI2C() != nullptr);
-    return es8311_codec_init(&codec_cfg, getI2C(), mclk_src, getI2CAddress()) ==
-           RESULT_OK;
+    es8311.setWire(getI2C());
+    es8311.setAddress(getI2CAddress());
+    es8311.setMclkSrc(mclk_src);
+    return es8311.init(&codec_cfg) == RESULT_OK;
   }
-  bool deinit() { return es8311_codec_deinit() == RESULT_OK; }
+  bool deinit() { return es8311.deinit() == RESULT_OK; }
 
   bool controlState(codec_mode_t mode) {
-    return es8311_codec_ctrl_state_active(mode, true) == RESULT_OK;
+    return es8311.ctrlStateActive(mode, true) == RESULT_OK;
   }
   bool configInterface(codec_mode_t mode, I2SDefinition iface) {
-    return es8311_codec_config_i2s(mode, &iface) == RESULT_OK;
+    return es8311.configI2S(mode, &iface) == RESULT_OK;
   }
 };
 
@@ -771,32 +800,37 @@ class AudioDriverES8311Class : public AudioDriver {
  */
 class AudioDriverES8374Class : public AudioDriver {
  public:
-  AudioDriverES8374Class() { i2c_default_address = 0x10; }
-  bool setMute(bool mute) { return es8374_set_voice_mute(mute) == RESULT_OK; }
+  AudioDriverES8374Class() { i2c_default_address = ES8374_ADDR; }
+  bool setMute(bool mute) { return es8374.setVoiceMute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
-    return es8374_codec_set_voice_volume(limitValue(volume, 0, 100)) ==
-           RESULT_OK;
+    return es8374.setVoiceVolume(limitValue(volume, 0, 100)) == RESULT_OK;
   }
   int getVolume() {
     int vol;
-    es8374_codec_get_voice_volume(&vol);
+    es8374.getVoiceVolume(&vol);
     return vol;
   }
 
+  /// Provides access to the ES8374 driver
+  ES8374& driver() { return es8374; }
+
  protected:
+  ES8374 es8374;
+
   bool init(codec_config_t codec_cfg) {
     auto codec_mode = this->codec_cfg.get_mode();
-    return es8374_codec_init(&codec_cfg, codec_mode, getI2C(),
-                             getI2CAddress()) == RESULT_OK;
+    es8374.setWire(getI2C());
+    es8374.setAddress(getI2CAddress());
+    return es8374.init(&codec_cfg, codec_mode) == RESULT_OK;
   }
-  bool deinit() { return es8374_codec_deinit() == RESULT_OK; }
+  bool deinit() { return es8374.deinit() == RESULT_OK; }
 
   bool controlState(codec_mode_t mode) {
-    return es8374_codec_ctrl_state_active(mode, true) == RESULT_OK;
+    return es8374.ctrlStateActive(mode, true) == RESULT_OK;
   }
   bool configInterface(codec_mode_t mode, I2SDefinition iface) {
-    return es8374_codec_config_i2s(mode, &iface) == RESULT_OK;
+    return es8374.configI2S(mode, &iface) == RESULT_OK;
   }
 };
 
@@ -808,14 +842,14 @@ class AudioDriverES8374Class : public AudioDriver {
 class AudioDriverES8388Class : public AudioDriver {
  public:
   AudioDriverES8388Class(int volumeHack) {
-    i2c_default_address = 0x10;
+    i2c_default_address = ES8388_ADDR;
     volume_hack = volumeHack;
   }
-  AudioDriverES8388Class() { i2c_default_address = 0x10; }
+  AudioDriverES8388Class() { i2c_default_address = ES8388_ADDR; }
   bool setMute(bool mute) {
     line_active[0] = !mute;
     line_active[1] = !mute;
-    return es8388_set_voice_mute(mute) == RESULT_OK;
+    return es8388.setVoiceMute(mute) == RESULT_OK;
   }
   // mute individual line: lines start at 0 (valid range 0:1)
   bool setMute(bool mute, int line) {
@@ -826,25 +860,28 @@ class AudioDriverES8388Class : public AudioDriver {
     // mute is managed on line level, so deactivate global mute
     line_active[line] = !mute;
     if (line_active[0] && line_active[1]) {
-      return es8388_config_output_device(DAC_OUTPUT_ALL) == RESULT_OK;
+      return es8388.configOutputDevice(DAC_OUTPUT_ALL) == RESULT_OK;
     } else if (!line_active[0] && !line_active[1]) {
-      return es8388_config_output_device(DAC_OUTPUT_NONE) == RESULT_OK;
+      return es8388.configOutputDevice(DAC_OUTPUT_NONE) == RESULT_OK;
     } else if (line_active[0]) {
-      return es8388_config_output_device(DAC_OUTPUT_LINE1) == RESULT_OK;
+      return es8388.configOutputDevice(DAC_OUTPUT_LINE1) == RESULT_OK;
     } else if (line_active[1]) {
-      return es8388_config_output_device(DAC_OUTPUT_LINE2) == RESULT_OK;
+      return es8388.configOutputDevice(DAC_OUTPUT_LINE2) == RESULT_OK;
     }
     return false;
   }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
-    return es8388_set_voice_volume(limitValue(volume, 0, 100)) == RESULT_OK;
+    return es8388.setVoiceVolume(limitValue(volume, 0, 100)) == RESULT_OK;
   }
   int getVolume() {
     int vol;
-    es8388_get_voice_volume(&vol);
+    es8388.getVoiceVolume(&vol);
     return vol;
   }
+
+  /// Provides access to the ES8388 driver
+  ES8388& driver() { return es8388; }
 
   bool setInputVolume(int volume) {
     // mapVolume values from 0 - 100 to 0 to 8
@@ -883,29 +920,34 @@ class AudioDriverES8388Class : public AudioDriver {
   }
 
   bool setMicrophoneGain(es_mic_gain_t gain) {
-    return es8388_set_mic_gain(gain) == RESULT_OK;
+    return es8388.setMicGain(gain) == RESULT_OK;
   }
 
   bool isInputVolumeSupported() { return true; }
 
-  void setVolumeHack(int volume_hack) { this->volume_hack = volume_hack; }
+  void setVolumeHack(int volume_hack) {
+    this->volume_hack = volume_hack;
+    es8388.setVolumeHack(volume_hack);
+  }
   int getVolumeHack() { return volume_hack; }
 
  protected:
+  ES8388 es8388;
   bool line_active[2] = {true, true};
   int volume_hack = AI_THINKER_ES8388_VOLUME_HACK;
 
   bool init(codec_config_t codec_cfg) {
-    return es8388_init(&codec_cfg, getI2C(), getI2CAddress(), volume_hack) ==
-           RESULT_OK;
+    es8388.setWire(getI2C());
+    es8388.setAddress(getI2CAddress());
+    return es8388.init(&codec_cfg, volume_hack) == RESULT_OK;
   }
-  bool deinit() { return es8388_deinit() == RESULT_OK; }
+  bool deinit() { return es8388.deinit() == RESULT_OK; }
 
   bool controlState(codec_mode_t mode) {
-    return es8388_ctrl_state_active(mode, true) == RESULT_OK;
+    return es8388.ctrlStateActive(mode, true) == RESULT_OK;
   }
   bool configInterface(codec_mode_t mode, I2SDefinition iface) {
-    return es8388_config_i2s(mode, &iface) == RESULT_OK;
+    return es8388.configI2S(mode, &iface) == RESULT_OK;
   }
 };
 
@@ -916,23 +958,30 @@ class AudioDriverES8388Class : public AudioDriver {
  */
 class AudioDriverTAS5805MClass : public AudioDriver {
  public:
-  AudioDriverTAS5805MClass() { i2c_default_address = 0x2E; }
-  bool setMute(bool mute) { return tas5805m_set_mute(mute) == RESULT_OK; }
+  AudioDriverTAS5805MClass() { i2c_default_address = TAS5805M_ADDR; }
+  bool setMute(bool mute) { return tas5805m.setMute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
-    return tas5805m_set_volume(limitValue(volume, 0, 100)) == RESULT_OK;
+    return tas5805m.setVolume(limitValue(volume, 0, 100)) == RESULT_OK;
   }
   int getVolume() {
     int vol;
-    tas5805m_get_volume(&vol);
+    tas5805m.getVolume(&vol);
     return vol;
   }
 
+  /// Provides access to the TAS5805M driver
+  TAS5805M& driver() { return tas5805m; }
+
  protected:
+  TAS5805M tas5805m;
+
   bool init(codec_config_t codec_cfg) {
-    return tas5805m_init(&codec_cfg, getI2C()) == RESULT_OK;
+    tas5805m.setWire(getI2C());
+    tas5805m.setAddress(getI2CAddress());
+    return tas5805m.init(&codec_cfg) == RESULT_OK;
   }
-  bool deinit() { return tas5805m_deinit() == RESULT_OK; }
+  bool deinit() { return tas5805m.deinit() == RESULT_OK; }
 };
 
 /**
@@ -942,23 +991,28 @@ class AudioDriverTAS5805MClass : public AudioDriver {
  */
 class AudioDriverWM8960Class : public AudioDriver {
  public:
-  AudioDriverWM8960Class() { i2c_default_address = 0x1A; }
+  AudioDriverWM8960Class() { i2c_default_address = WM8960_I2C_ADDRESS; }
+
+  /// Provides access to the WM8960 driver
+  WM8960& driver() { return wm8960; }
+
   bool begin(CodecConfig codecCfg, DriverDeviceInfo& pins) {
     codec_cfg = codecCfg;
 
     // define wire object
-    wm8960_set_wire(getI2C());
-    wm8960_set_write_retry_count(i2c_retry_count);
+    wm8960.setWire(getI2C());
+    wm8960.setAddress(getI2CAddress());
+    wm8960.setWriteRetryCount(i2c_retry_count);
 
     // setup wm8960
     int features = getFeatures(codecCfg);
-    if (!wm8960_init(features)) {
-      AD_LOGE("wm8960_init");
+    if (!wm8960.init(features)) {
+      AD_LOGE("wm8960.init");
       return false;
     }
     setVolume(DRIVER_DEFAULT_VOLUME);
-    if (!wm8960_activate()) {
-      AD_LOGE("wm8960_activate");
+    if (!wm8960.activate()) {
+      AD_LOGE("wm8960.activate");
       return false;
     }
     if (!configure_clocking()) {
@@ -968,8 +1022,8 @@ class AudioDriverWM8960Class : public AudioDriver {
     return true;
   }
   bool end(void) {
-    wm8960_deactivate();
-    wm8960_free();
+    wm8960.deactivate();
+    wm8960.deinit();
     return true;
   }
   virtual bool setConfig(CodecConfig codecCfg) {
@@ -984,7 +1038,7 @@ class AudioDriverWM8960Class : public AudioDriver {
     volume_out = limitValue(volume, 0, 100);
     int vol_int =
         volume_out == 0.0 ? 0 : mapVolume(volume_out, 0, 100, 30, 0x7F);
-    return wm8960_set_output_volume(vol_int);
+    return wm8960.setOutputVolume(vol_int);
   }
 
   int getVolume() { return volume_out; }
@@ -992,7 +1046,7 @@ class AudioDriverWM8960Class : public AudioDriver {
   bool setInputVolume(int volume) {
     volume_in = limitValue(volume, 0, 100);
     int vol_int = mapVolume(volume_in, 0, 100, 0, 30);
-    return wm8960_adjust_input_volume(vol_int);
+    return wm8960.adjustInputVolume(vol_int);
   }
   bool isVolumeSupported() { return true; }
 
@@ -1007,9 +1061,10 @@ class AudioDriverWM8960Class : public AudioDriver {
   /// Configuration: define master clock frequency (default: 0)
   void setMclkHz(uint32_t hz) { vs1053_mclk_hz = hz; }
 
-  void dumpRegisters() { wm8960_dump(); }
+  void dumpRegisters() { wm8960.dump(); }
 
  protected:
+  WM8960 wm8960;
   int volume_in = 100;
   int volume_out = 100;
   int i2c_retry_count = 0;
@@ -1054,12 +1109,12 @@ class AudioDriverWM8960Class : public AudioDriver {
       // just pick a multiple of the sample rate
       vs1053_mclk_hz = 512 * codec_cfg.getRateNumeric();
     }
-    if (!wm8960_configure_clocking(
+    if (!wm8960.configureClocking(
             vs1053_mclk_hz, vs1053_enable_pll,
             sampleRate(codec_cfg.getRateNumeric()),
             wordLength(codec_cfg.getBitsNumeric()),
             modeMasterSlave(codec_cfg.i2s.mode == MODE_MASTER))) {
-      AD_LOGE("wm8960_configure_clocking");
+      AD_LOGE("wm8960.configureClocking");
       return false;
     }
     return true;
@@ -1263,9 +1318,12 @@ class AudioDriverWM8978Class : public AudioDriver {
  */
 class AudioDriverWM8994Class : public AudioDriver {
  public:
-  AudioDriverWM8994Class(uint16_t deviceAddr = 0x1A) {
+  AudioDriverWM8994Class(uint16_t deviceAddr = WM8994_ADDR) {
     this->i2c_default_address = deviceAddr;
   }
+
+  /// Provides access to the WM8994 driver
+  WM8994& driver() { return wm8994; }
 
   virtual bool begin(CodecConfig codecCfg, DriverDeviceInfo& pins) {
     codec_cfg = codecCfg;
@@ -1277,28 +1335,30 @@ class AudioDriverWM8994Class : public AudioDriver {
     uint32_t freq = codecCfg.getRateNumeric();
     uint16_t outputDevice = getOutput(codec_cfg.output_device);
 
-    return wm8994_Init(getI2CAddress(), outputDevice, vol, freq, getI2C()) == 0;
+    wm8994.setWire(getI2C());
+    wm8994.setAddress(getI2CAddress());
+    return wm8994.init(outputDevice, vol, freq) == 0;
   }
 
   bool setMute(bool mute) {
-    uint32_t rc =
-        mute ? wm8994_Pause(getI2CAddress()) : wm8994_Resume(getI2CAddress());
+    uint32_t rc = mute ? wm8994.pause() : wm8994.resume();
     return rc == 0;
   }
 
   bool setVolume(int volume) {
     this->volume = volume;
     int vol = mapVolume(volume, 0, 100, DEFAULT_VOLMIN, DEFAULT_VOLMAX);
-    return wm8994_SetVolume(getI2CAddress(), vol) == 0;
+    return wm8994.setVolume(vol) == 0;
   }
   int getVolume() { return volume; }
 
  protected:
   int volume = 100;
+  WM8994 wm8994;
 
   bool deinit() {
-    int cnt = wm8994_Stop(getI2CAddress(), AUDIO_MUTE_ON);
-    cnt += wm8994_Reset(getI2CAddress());
+    int cnt = wm8994.stop(AUDIO_MUTE_ON);
+    cnt += wm8994.reset();
     setPAPower(false);
     return cnt == 0;
   }
