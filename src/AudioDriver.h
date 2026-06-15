@@ -857,6 +857,82 @@ class AudioDriverES8156Class : public AudioDriver {
 };
 
 /**
+ * @brief Driver API for WM8731 codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class AudioDriverWM8731Class : public AudioDriver {
+ public:
+  AudioDriverWM8731Class() { i2c_default_address = WM8731_ADDR; }
+  bool setMute(bool mute) { return wm8731.setVoiceMute(mute) == RESULT_OK; }
+  bool setVolume(int volume) {
+    AD_LOGD("volume %d", volume);
+    return wm8731.setVoiceVolume(limitValue(volume, 0, 100)) == RESULT_OK;
+  }
+  int getVolume() {
+    int vol;
+    wm8731.getVoiceVolume(&vol);
+    return vol;
+  }
+  WM8731& driver() { return wm8731; }
+
+ protected:
+  WM8731 wm8731;
+
+  bool init(codec_config_t codec_cfg) {
+    wm8731.setWire(getI2C());
+    wm8731.setAddress(getI2CAddress());
+    return wm8731.init(&codec_cfg) == RESULT_OK;
+  }
+  bool deinit() { return wm8731.deinit() == RESULT_OK; }
+
+  bool controlState(codec_mode_t mode) {
+    return wm8731.ctrlStateActive(mode, true) == RESULT_OK;
+  }
+  bool configInterface(codec_mode_t mode, I2SDefinition iface) {
+    return wm8731.configI2S(mode, &iface) == RESULT_OK;
+  }
+};
+
+/**
+ * @brief Driver API for SGTL5000 codec chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+class AudioDriverSGTL5000Class : public AudioDriver {
+ public:
+  AudioDriverSGTL5000Class() { i2c_default_address = SGTL5000_ADDR; }
+  bool setMute(bool mute) { return sgtl5000.setVoiceMute(mute) == RESULT_OK; }
+  bool setVolume(int volume) {
+    AD_LOGD("volume %d", volume);
+    return sgtl5000.setVoiceVolume(limitValue(volume, 0, 100)) == RESULT_OK;
+  }
+  int getVolume() {
+    int vol;
+    sgtl5000.getVoiceVolume(&vol);
+    return vol;
+  }
+  SGTL5000& driver() { return sgtl5000; }
+
+ protected:
+  SGTL5000 sgtl5000;
+
+  bool init(codec_config_t codec_cfg) {
+    sgtl5000.setWire(getI2C());
+    sgtl5000.setAddress(getI2CAddress());
+    return sgtl5000.init(&codec_cfg) == RESULT_OK;
+  }
+  bool deinit() { return sgtl5000.deinit() == RESULT_OK; }
+
+  bool controlState(codec_mode_t mode) {
+    return sgtl5000.ctrlStateActive(mode, true) == RESULT_OK;
+  }
+  bool configInterface(codec_mode_t mode, I2SDefinition iface) {
+    return sgtl5000.configI2S(mode, &iface) == RESULT_OK;
+  }
+};
+
+/**
  * @brief Driver API for Lyrat  ES8311 codec chip
  * @author Phil Schatzmann
  * @copyright GPLv3
