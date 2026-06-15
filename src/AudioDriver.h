@@ -2061,6 +2061,9 @@ static AudioDriverZephyrT<TAS6422DAC, 0x6C> AudioDriverTAS6422DAC;
 /// @ingroup audio_driver
 static AudioDriverZephyrT<TLV320DAC310x, 0x18> AudioDriverTLV320DAC310x;
 /// @ingroup audio_driver
+/// Alias for the TLV320DAC3100 (supported by the TLV320DAC310x driver)
+static AudioDriverZephyrT<TLV320DAC3100, 0x18> AudioDriverTLV320DAC3100;
+/// @ingroup audio_driver
 static AudioDriverZephyrT<DA7212, 0x1A> AudioDriverDA7212;
 /// @ingroup audio_driver
 static AudioDriverZephyrT<TLV320AIC3110, 0x18> AudioDriverTLV320AIC3110;

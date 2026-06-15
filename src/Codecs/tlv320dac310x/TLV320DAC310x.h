@@ -493,4 +493,6 @@ class TLV320DAC310x : public ZephyrDriverCommon {
   }
 };
 
+using TLV320DAC3100 = TLV320DAC310x;
+
 }  // namespace audio_driver
