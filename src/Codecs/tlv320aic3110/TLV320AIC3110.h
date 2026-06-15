@@ -439,14 +439,18 @@ class TLV320AIC3110 : public ZephyrDriverCommon {
   }
 
   /**
-   * @brief Configure the headphone and speaker output paths: set common
-   * mode voltage, enable click/pop removal, route the DAC to the output
-   * mixer, set the default analog volume, unmute and power up the
-   * headphone and speaker drivers.
+   * @brief Configure the headphone and/or speaker output paths (depending
+   * on the output device selected via setDevices()): set common mode
+   * voltage, enable click/pop removal, route the DAC to the output mixer,
+   * set the default analog volume, unmute and power up the corresponding
+   * drivers.
    */
   bool configureOutput() {
     bool rc = true;
     uint8_t val = 0;
+
+    bool hp = output_device == DAC_OUTPUT_LINE1 || output_device == DAC_OUTPUT_ALL;
+    bool spk = output_device == DAC_OUTPUT_LINE2 || output_device == DAC_OUTPUT_ALL;
 
     /* set common mode voltage to 1.65V (half of AVDD), AVDD is typically 3.3V */
     rc &= readPagedReg(HEADPHONE_DRV_ADDR, val);
@@ -467,20 +471,28 @@ class TLV320AIC3110 : public ZephyrDriverCommon {
     rc &= writePagedReg(SPL_ANA_VOL_CTRL_ADDR, SPX_ANA_VOL(SPX_ANA_VOL_DEFAULT));
     rc &= writePagedReg(SPR_ANA_VOL_CTRL_ADDR, SPX_ANA_VOL(SPX_ANA_VOL_DEFAULT));
 
-    /* unmute headphone and speaker drivers */
-    rc &= writePagedReg(HPL_DRV_GAIN_CTRL_ADDR, (uint8_t)(HPX_DRV_UNMUTE | HPX_DRV_RESERVED));
-    rc &= writePagedReg(HPR_DRV_GAIN_CTRL_ADDR, (uint8_t)(HPX_DRV_UNMUTE | HPX_DRV_RESERVED));
-    rc &= writePagedReg(SPL_DRV_GAIN_CTRL_ADDR, SPX_DRV_UNMUTE);
-    rc &= writePagedReg(SPR_DRV_GAIN_CTRL_ADDR, SPX_DRV_UNMUTE);
+    /* unmute/mute headphone and speaker drivers depending on output_device */
+    rc &= setOutputMute(!hp, AIC3110Channel::HeadphoneLeft);
+    rc &= setOutputMute(!hp, AIC3110Channel::HeadphoneRight);
+    rc &= setOutputMute(!spk, AIC3110Channel::FrontLeft);
+    rc &= setOutputMute(!spk, AIC3110Channel::FrontRight);
 
     /* power up headphone drivers */
     rc &= readPagedReg(HEADPHONE_DRV_ADDR, val);
-    val |= HEADPHONE_DRV_POWERUP | HEADPHONE_DRV_RESERVED;
+    if (hp) {
+      val |= HEADPHONE_DRV_POWERUP | HEADPHONE_DRV_RESERVED;
+    } else {
+      val = (uint8_t)((val & (uint8_t)~HEADPHONE_DRV_POWERUP) | HEADPHONE_DRV_RESERVED);
+    }
     rc &= writePagedReg(HEADPHONE_DRV_ADDR, val);
 
     /* power up speaker drivers */
     rc &= readPagedReg(SPEAKER_DRV_ADDR, val);
-    val |= SPEAKER_DRV_POWERUP | SPEAKER_DRV_RESERVED;
+    if (spk) {
+      val |= SPEAKER_DRV_POWERUP | SPEAKER_DRV_RESERVED;
+    } else {
+      val = (uint8_t)((val & (uint8_t)~SPEAKER_DRV_POWERUP) | SPEAKER_DRV_RESERVED);
+    }
     rc &= writePagedReg(SPEAKER_DRV_ADDR, val);
 
     return rc;
@@ -591,8 +603,17 @@ class TLV320AIC3110 : public ZephyrDriverCommon {
   /// Mutes/unmutes all outputs
   bool setMute(bool mute) override { return setOutputMute(mute, AIC3110Channel::All); }
 
+  /// Stores the output device selection for use by configureOutput()
+  bool setDevices(input_device_t input_device, output_device_t output_device) override {
+    (void)input_device;
+    this->output_device = output_device;
+    return true;
+  }
+
  protected:
   uint8_t current_page = 0xFF;  ///< cached page, invalid initially
+  /// Output device selection set via setDevices(), used by configureOutput()
+  output_device_t output_device = DAC_OUTPUT_ALL;
 
   /// Selects the active register page (writes register 0 of page 0)
   bool selectPage(uint8_t page) {

@@ -1827,7 +1827,7 @@ class AudioDriverZephyrT : public AudioDriver {
   bool init(codec_config_t codecCfg) override {
     zephyr_driver.setWire(getI2C());
     zephyr_driver.setAddress((uint8_t)getI2CAddress());
-    return true;
+    return zephyr_driver.setDevices(codecCfg.input_device, codecCfg.output_device);
   }
   /// Stops the input and output and (if supported) shuts down the codec
   bool deinit() override { return zephyr_driver.setMute(true); }

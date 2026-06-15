@@ -182,8 +182,8 @@ enum input_device_t {
  */
 enum output_device_t {
   DAC_OUTPUT_NONE = 0x00, /*!< No output selected */
-  DAC_OUTPUT_LINE1,       /*!< Output to DAC 1 */
-  DAC_OUTPUT_LINE2,       /*!< Output to DAC 2 */
+  DAC_OUTPUT_LINE1,       /*!< Output to DAC 1 (e.g. Headphone) */
+  DAC_OUTPUT_LINE2,       /*!< Output to DAC 2 (e.g. Speaker) */
   DAC_OUTPUT_ALL,         /*!< Output to both DACs */
 };
 

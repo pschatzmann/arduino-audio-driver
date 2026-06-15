@@ -450,6 +450,13 @@ class DA7212 : public ZephyrDriverCommon {
   /// Mutes/unmutes all outputs
   bool setMute(bool mute) override { return setOutputMute(mute, DA7212Channel::All); }
 
+  /// Stores the output device selection for use by configureOutput()
+  bool setDevices(input_device_t input_device, output_device_t output_device) override {
+    (void)input_device;
+    this->output_device = output_device;
+    return true;
+  }
+
   /// Activates/deactivates the playback and/or capture path depending on
   /// codec_mode_t by muting/unmuting the output and input independently
   bool setActive(codec_mode_t mode) override {
@@ -528,6 +535,12 @@ class DA7212 : public ZephyrDriverCommon {
    */
   bool configureOutput() {
     bool rc = true;
+
+    if (output_device == DAC_OUTPUT_NONE) {
+      /* keep DACs/headphone amps disabled and muted */
+      rc &= setOutputMute(true, DA7212Channel::All);
+      return rc;
+    }
 
     /* Power charge pump: 0xFD */
     rc &= writeReg(REG_CP_CTRL, CP_CTRL_EN_MASK |
@@ -624,6 +637,9 @@ class DA7212 : public ZephyrDriverCommon {
   }
 
  protected:
+  /// Output device selection set via setDevices(), used by configureOutput()
+  output_device_t output_device = DAC_OUTPUT_ALL;
+
   bool updateOutGain(DA7212Channel channel, uint8_t volume) {
     switch (channel) {
       case DA7212Channel::FrontLeft:

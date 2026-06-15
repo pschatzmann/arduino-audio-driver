@@ -429,13 +429,24 @@ class MAX98091 : public ZephyrDriverCommon {
   /// Mutes/unmutes all outputs
   bool setMute(bool mute) override { return setOutputMute(mute, MAX98091Channel::All); }
 
+  /// Stores the output device selection for use by configureOutput()
+  bool setDevices(input_device_t input_device, output_device_t output_device) override {
+    (void)input_device;
+    this->output_device = output_device;
+    return true;
+  }
+
   /**
    * @brief Configure the default playback path: route the DAC to the
    * speaker mixers, select DAC-only source for the headphone mixer,
-   * enable headphone/speaker/DAC outputs and set the default volume.
+   * enable the headphone and/or speaker outputs (depending on the output
+   * device selected via setDevices()) and set the default volume.
    */
   bool configureOutput() {
     bool rc = true;
+
+    bool hp = output_device == DAC_OUTPUT_LINE1 || output_device == DAC_OUTPUT_ALL;
+    bool spk = output_device == DAC_OUTPUT_LINE2 || output_device == DAC_OUTPUT_ALL;
 
     rc &= updateReg(REG_IO_CONFIGURATION, SDIEN_MASK, SDIEN_MASK);
 
@@ -445,11 +456,17 @@ class MAX98091 : public ZephyrDriverCommon {
     /* select DAC only source */
     rc &= writeReg(REG_HP_CONTROL, 0x00);
 
-    /* HPREN, HPLEN, SPREN, SPLEN, DAREN, DALEN */
-    rc &= writeReg(REG_OUTPUT_ENABLE, 0xf3);
+    /* DAREN, DALEN always on; HPREN/HPLEN and SPREN/SPLEN depend on output_device */
+    uint8_t output_enable = DAREN_MASK | DALEN_MASK;
+    if (hp) output_enable |= HPREN_MASK | HPLEN_MASK;
+    if (spk) output_enable |= SPREN_MASK | SPLEN_MASK;
+    rc &= writeReg(REG_OUTPUT_ENABLE, output_enable);
 
     rc &= setOutputVolume(DEFAULT_VOLUME, MAX98091Channel::All);
-    rc &= setOutputMute(false, MAX98091Channel::All);
+    rc &= setOutputMute(!hp, MAX98091Channel::HeadphoneLeft);
+    rc &= setOutputMute(!hp, MAX98091Channel::HeadphoneRight);
+    rc &= setOutputMute(!spk, MAX98091Channel::FrontLeft);
+    rc &= setOutputMute(!spk, MAX98091Channel::FrontRight);
 
     return rc;
   }
@@ -459,6 +476,9 @@ class MAX98091 : public ZephyrDriverCommon {
   bool readRevisionId(uint8_t& id) { return readReg(REG_REVISION_ID, id); }
 
  protected:
+  /// Output device selection set via setDevices(), used by configureOutput()
+  output_device_t output_device = DAC_OUTPUT_ALL;
+
   bool setVolumeOrMute(MAX98091Channel channel, uint8_t value, bool is_volume) {
     uint8_t hp_mask = is_volume ? HPVOLL_MASK : HPLM_MASK;
     uint8_t spk_mask = is_volume ? SPVOLL_MASK : SPLM_MASK;

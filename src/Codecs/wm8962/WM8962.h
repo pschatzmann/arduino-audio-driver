@@ -436,6 +436,13 @@ class WM8962 : public ZephyrDriverCommon {
   /// Mutes/unmutes all outputs
   bool setMute(bool mute) override { return setOutputMute(mute, WM8962Channel::All); }
 
+  /// Stores the output device selection for use by configureOutput()
+  bool setDevices(input_device_t input_device, output_device_t output_device) override {
+    (void)input_device;
+    this->output_device = output_device;
+    return true;
+  }
+
   /// Activates/deactivates the playback and/or capture path depending on
   /// codec_mode_t by muting/unmuting the output and input independently
   bool setActive(codec_mode_t mode) override {
@@ -523,12 +530,20 @@ class WM8962 : public ZephyrDriverCommon {
     return rc;
   }
 
-  /// Configure the default output path: default volume, unmuted
+  /// Configure the default output path: default volume, headphone (LINE1)
+  /// and/or speaker (LINE2) output unmuted depending on the output device
+  /// selected via setDevices()
   bool configureOutput() {
     bool rc = true;
+    bool hp = output_device == DAC_OUTPUT_LINE1 || output_device == DAC_OUTPUT_ALL;
+    bool spk = output_device == DAC_OUTPUT_LINE2 || output_device == DAC_OUTPUT_ALL;
+
     rc &= setOutputVolume((uint8_t)HEADPHONE_DEFAULT_VOLUME_VALUE,
                            WM8962Channel::All);
-    rc &= setOutputMute(false, WM8962Channel::All);
+    rc &= setOutputMute(!hp, WM8962Channel::HeadphoneLeft);
+    rc &= setOutputMute(!hp, WM8962Channel::HeadphoneRight);
+    rc &= setOutputMute(!spk, WM8962Channel::FrontLeft);
+    rc &= setOutputMute(!spk, WM8962Channel::FrontRight);
     rc &= applyProperties();
     return rc;
   }
@@ -588,6 +603,9 @@ class WM8962 : public ZephyrDriverCommon {
   }
 
  protected:
+  /// Output device selection set via setDevices(), used by configureOutput()
+  output_device_t output_device = DAC_OUTPUT_ALL;
+
   /// Writes a 16 bit big endian register address followed by a 16 bit big
   /// endian register value (4 bytes total)
   bool writeRegWide(uint16_t reg, uint16_t value) {

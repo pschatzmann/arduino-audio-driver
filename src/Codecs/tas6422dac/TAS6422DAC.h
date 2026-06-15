@@ -198,10 +198,19 @@ class TAS6422DAC : public ZephyrDriverCommon {
    * @brief Apply default output settings: overcurrent level = 1, PWM
    * frequency = 10 fs (reduced from default to avoid component
    * overtemperature).
+   *
+   * This chip only drives speaker outputs (no headphone path), so it is
+   * only configured for DAC_OUTPUT_LINE2 (speaker) and DAC_OUTPUT_ALL. For
+   * DAC_OUTPUT_NONE / DAC_OUTPUT_LINE1 (headphone, not supported) all
+   * channels are kept muted.
    */
   bool configureOutput() {
     bool rc = true;
     uint8_t val = 0;
+
+    if (output_device == DAC_OUTPUT_NONE || output_device == DAC_OUTPUT_LINE1) {
+      return setChannelState(TAS6422Channel::All, TAS6422ChannelState::Mute);
+    }
 
     rc &= readReg(MISC_CTRL_1_ADDR, val);
     val &= (uint8_t)~MISC_CTRL_1_OC_CONTROL_MASK;
@@ -255,6 +264,13 @@ class TAS6422DAC : public ZephyrDriverCommon {
   bool setMute(bool mute, TAS6422Channel channel = TAS6422Channel::All) {
     return setChannelState(channel, mute ? TAS6422ChannelState::Mute
                                           : TAS6422ChannelState::Play);
+  }
+
+  /// Stores the output device selection for use by configureOutput()
+  bool setDevices(input_device_t input_device, output_device_t output_device) override {
+    (void)input_device;
+    this->output_device = output_device;
+    return true;
   }
 
   /**
@@ -314,6 +330,10 @@ class TAS6422DAC : public ZephyrDriverCommon {
 
   /// Read the warnings register (POR / over-temperature warnings)
   bool getWarnings(uint8_t& value) { return readReg(WARNINGS_ADDR, value); }
+
+ protected:
+  /// Output device selection set via setDevices(), used by configureOutput()
+  output_device_t output_device = DAC_OUTPUT_ALL;
 };
 
 }  // namespace audio_driver

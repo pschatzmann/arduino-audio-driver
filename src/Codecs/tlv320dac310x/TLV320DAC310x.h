@@ -90,12 +90,15 @@ class TLV320DAC310x : public ZephyrDriverCommon {
 
   // ---- Page 1 register addresses ----
   static constexpr uint8_t HEADPHONE_DRV_ADDR = 31;
+  static constexpr uint8_t SPEAKER_AMP_ADDR = 32;
   static constexpr uint8_t HP_OUT_POP_RM_ADDR = 33;
   static constexpr uint8_t OUTPUT_ROUTING_ADDR = 35;
   static constexpr uint8_t HPL_ANA_VOL_CTRL_ADDR = 36;
   static constexpr uint8_t HPR_ANA_VOL_CTRL_ADDR = 37;
+  static constexpr uint8_t SPL_ANA_VOL_CTRL_ADDR = 38;
   static constexpr uint8_t HPL_DRV_GAIN_CTRL_ADDR = 40;
   static constexpr uint8_t HPR_DRV_GAIN_CTRL_ADDR = 41;
+  static constexpr uint8_t SPK_DRV_GAIN_CTRL_ADDR = 42;
   static constexpr uint8_t HEADPHONE_DRV_CTRL_ADDR = 44;
 
   // ---- Page 3 register addresses ----
@@ -145,6 +148,11 @@ class TLV320DAC310x : public ZephyrDriverCommon {
   static constexpr uint8_t HEADPHONE_DRV_CM_MASK = (0x03 << 3);
   static constexpr uint8_t HEADPHONE_DRV_RESERVED = 0x04;  // BIT(2)
 
+  static constexpr uint8_t SPEAKER_AMP_POWERUP = 0x80;  // BIT(7)
+  static constexpr uint8_t SPEAKER_AMP_RESERVED = (0x04 | 0x02);  // BIT(2)|BIT(1)
+
+  static constexpr uint8_t SPK_DRV_UNMUTE = 0x04;  // BIT(2)
+
   static constexpr uint8_t HP_OUT_POP_RM_ENABLE = 0x80;  // BIT(7)
 
   static constexpr uint8_t OUTPUT_ROUTING_HPL = (2 << 6);
@@ -173,41 +181,37 @@ class TLV320DAC310x : public ZephyrDriverCommon {
 
   TLV320DAC310x() { i2c_addr = 0x18; }
 
+  /// Required by ZephyrDriverCommon: maps the generic parameters to the
+  /// TLV320DAC310x specific begin() below (using the default MCLK frequency
+  /// of 12 MHz).
+  bool begin(uint32_t sample_rate, uint8_t bits, codec_mode_t mode,
+             i2s_format_t fmt, bool is_master, uint8_t channels) override {
+    (void)mode;
+    (void)channels;
+    return begin(sample_rate, bits, 12000000, toFormat(fmt), is_master, is_master);
+  }
+
   /**
    * @brief Initialize the codec.
    *
    * Note: the RESET pin must be driven inactive (high) by the caller before
    * calling begin().
    *
-   * @param mclk_freq MCLK frequency in Hz as fed to the codec
    * @param sample_rate I2S sample rate in Hz (e.g. 44100, 48000)
    * @param word_size I2S word length in bits (16, 20, 24, 32)
+   * @param mclk_freq MCLK frequency in Hz as fed to the codec
    * @param fmt digital audio interface format
    * @param bclk_controller true if this device drives BCLK (master)
    * @param wclk_controller true if this device drives WCLK/LRCLK (master)
    */
-  /// Initializes the codec for I2S with the given sample rate and bits per sample
-  bool begin(uint32_t sample_rate, uint8_t bits) {
-    return begin(12000000, sample_rate, bits);
-  }
-
-  bool begin(uint32_t sample_rate, uint8_t bits, codec_mode_t mode,
-             i2s_format_t fmt, bool is_master, uint8_t channels) override {
-    (void)mode;
-    (void)fmt;
-    (void)is_master;
-    (void)channels;
-    return begin(sample_rate, bits);
-  }
-
-  bool begin(uint32_t mclk_freq = 12000000, uint32_t sample_rate = 44100,
-             uint8_t word_size = 16,
+  bool begin(uint32_t sample_rate = 44100, uint8_t word_size = 16,
+             uint32_t mclk_freq = 12000000,
              TLV320DAC310xFormat fmt = TLV320DAC310xFormat::I2S,
              bool bclk_controller = false, bool wclk_controller = false) {
     bool rc = true;
 
     rc &= softReset();
-    rc &= configureClocks(mclk_freq, sample_rate, bclk_controller);
+    rc &= configureClocks(mclk_freq, sample_rate, bclk_controller, word_size);
     rc &= configureDai(word_size, fmt, bclk_controller, wclk_controller);
     rc &= configureFilters(sample_rate);
     rc &= configureOutput();
@@ -340,15 +344,38 @@ class TLV320DAC310x : public ZephyrDriverCommon {
   }
 
   /**
-   * @brief Configure the headphone output path: common mode voltage, pop
-   * removal, route DAC -> mixer -> headphone, default analog volume, line
-   * out mode, unmute and power up the headphone drivers.
+   * @brief Configure the output path(s) selected via setDevices(): common
+   * mode voltage, pop removal, route DAC -> mixer -> headphone and/or
+   * Class-D speaker, default analog volume, unmute and power up the
+   * corresponding drivers.
+   *
+   * DAC_OUTPUT_LINE1 enables the headphone/line drivers (HPL/HPR), and
+   * DAC_OUTPUT_LINE2 enables the mono Class-D speaker driver (SPK), fed from
+   * DAC_L. DAC_OUTPUT_ALL enables both, DAC_OUTPUT_NONE powers both down.
    */
   bool configureOutput(TLV320DAC310xCmVoltage cm = TLV320DAC310xCmVoltage::V1P65) {
     bool rc = true;
     uint8_t val = 0;
 
-    /* set common mode voltage (e.g. 1.65V = half of typical 3.3V AVDD) */
+    bool hp = output_device == DAC_OUTPUT_LINE1 || output_device == DAC_OUTPUT_ALL;
+    bool spk = output_device == DAC_OUTPUT_LINE2 || output_device == DAC_OUTPUT_ALL;
+
+    if (!hp && !spk) {
+      /* unroute the DACs and power down both the headphone and speaker drivers */
+      rc &= writePagedReg(1, OUTPUT_ROUTING_ADDR, 0);
+      rc &= readPagedReg(1, HEADPHONE_DRV_ADDR, val);
+      rc &= writePagedReg(1, HEADPHONE_DRV_ADDR,
+                           (uint8_t)((val & (uint8_t)~HEADPHONE_DRV_POWERUP) |
+                                     HEADPHONE_DRV_RESERVED));
+      rc &= readPagedReg(1, SPEAKER_AMP_ADDR, val);
+      rc &= writePagedReg(1, SPEAKER_AMP_ADDR,
+                           (uint8_t)((val & (uint8_t)~SPEAKER_AMP_POWERUP) |
+                                     SPEAKER_AMP_RESERVED));
+      return rc;
+    }
+
+    /* set common mode voltage of the headphone driver (e.g. 1.65V = half of
+     * typical 3.3V AVDD) */
     rc &= readPagedReg(1, HEADPHONE_DRV_ADDR, val);
     val &= (uint8_t)~HEADPHONE_DRV_CM_MASK;
     val |= (uint8_t)((((uint8_t)cm) << 3) & HEADPHONE_DRV_CM_MASK) | HEADPHONE_DRV_RESERVED;
@@ -358,25 +385,56 @@ class TLV320DAC310x : public ZephyrDriverCommon {
     rc &= readPagedReg(1, HP_OUT_POP_RM_ADDR, val);
     rc &= writePagedReg(1, HP_OUT_POP_RM_ADDR, (uint8_t)(val | HP_OUT_POP_RM_ENABLE));
 
-    /* route DAC output to Mixer Amplifier -> so that volume control has effect */
-    rc &= writePagedReg(1, OUTPUT_ROUTING_ADDR,
-                         (uint8_t)(OUTPUT_ROUTING_MIXERL | OUTPUT_ROUTING_MIXERR));
+    /* route DAC_L/DAC_R to the mixer amplifiers so that the analog volume
+     * controls have effect; DAC_L feeds both HPL and SPK (SPK is mono),
+     * DAC_R only feeds HPR */
+    val = 0;
+    if (hp || spk) val |= OUTPUT_ROUTING_MIXERL;
+    if (hp) val |= OUTPUT_ROUTING_MIXERR;
+    rc &= writePagedReg(1, OUTPUT_ROUTING_ADDR, val);
 
-    /* enable volume control on headphone out */
-    rc &= writePagedReg(1, HPL_ANA_VOL_CTRL_ADDR, analogVolReg(HPX_ANA_VOL_DEFAULT));
-    rc &= writePagedReg(1, HPR_ANA_VOL_CTRL_ADDR, analogVolReg(HPX_ANA_VOL_DEFAULT));
+    if (hp) {
+      /* enable volume control on headphone out */
+      rc &= writePagedReg(1, HPL_ANA_VOL_CTRL_ADDR, analogVolReg(HPX_ANA_VOL_DEFAULT));
+      rc &= writePagedReg(1, HPR_ANA_VOL_CTRL_ADDR, analogVolReg(HPX_ANA_VOL_DEFAULT));
 
-    /* set headphone outputs as line-out */
-    rc &= writePagedReg(1, HEADPHONE_DRV_CTRL_ADDR, HEADPHONE_DRV_LINEOUT);
+      /* set headphone outputs as line-out */
+      rc &= writePagedReg(1, HEADPHONE_DRV_CTRL_ADDR, HEADPHONE_DRV_LINEOUT);
 
-    /* unmute headphone drivers */
-    rc &= writePagedReg(1, HPL_DRV_GAIN_CTRL_ADDR, HPX_DRV_UNMUTE);
-    rc &= writePagedReg(1, HPR_DRV_GAIN_CTRL_ADDR, HPX_DRV_UNMUTE);
+      /* unmute headphone drivers */
+      rc &= writePagedReg(1, HPL_DRV_GAIN_CTRL_ADDR, HPX_DRV_UNMUTE);
+      rc &= writePagedReg(1, HPR_DRV_GAIN_CTRL_ADDR, HPX_DRV_UNMUTE);
 
-    /* power up headphone drivers */
-    rc &= readPagedReg(1, HEADPHONE_DRV_ADDR, val);
-    rc &= writePagedReg(1, HEADPHONE_DRV_ADDR,
-                         (uint8_t)(val | HEADPHONE_DRV_POWERUP | HEADPHONE_DRV_RESERVED));
+      /* power up headphone drivers */
+      rc &= readPagedReg(1, HEADPHONE_DRV_ADDR, val);
+      rc &= writePagedReg(1, HEADPHONE_DRV_ADDR,
+                           (uint8_t)(val | HEADPHONE_DRV_POWERUP | HEADPHONE_DRV_RESERVED));
+    } else {
+      /* power down headphone drivers */
+      rc &= readPagedReg(1, HEADPHONE_DRV_ADDR, val);
+      rc &= writePagedReg(1, HEADPHONE_DRV_ADDR,
+                           (uint8_t)((val & (uint8_t)~HEADPHONE_DRV_POWERUP) |
+                                     HEADPHONE_DRV_RESERVED));
+    }
+
+    if (spk) {
+      /* route the left analog volume control to the Class-D speaker driver */
+      rc &= writePagedReg(1, SPL_ANA_VOL_CTRL_ADDR, analogVolReg(HPX_ANA_VOL_DEFAULT));
+
+      /* unmute the Class-D speaker driver (default gain = 6dB) */
+      rc &= writePagedReg(1, SPK_DRV_GAIN_CTRL_ADDR, SPK_DRV_UNMUTE);
+
+      /* power up the Class-D speaker driver */
+      rc &= readPagedReg(1, SPEAKER_AMP_ADDR, val);
+      rc &= writePagedReg(1, SPEAKER_AMP_ADDR,
+                           (uint8_t)(val | SPEAKER_AMP_POWERUP | SPEAKER_AMP_RESERVED));
+    } else {
+      /* power down the Class-D speaker driver */
+      rc &= readPagedReg(1, SPEAKER_AMP_ADDR, val);
+      rc &= writePagedReg(1, SPEAKER_AMP_ADDR,
+                           (uint8_t)((val & (uint8_t)~SPEAKER_AMP_POWERUP) |
+                                     SPEAKER_AMP_RESERVED));
+    }
 
     return rc;
   }
@@ -440,6 +498,13 @@ class TLV320DAC310x : public ZephyrDriverCommon {
   /// no-op, nothing is cached that needs re-applying
   bool applyProperties() { return true; }
 
+  /// Stores the output device selection for use by configureOutput()
+  bool setDevices(input_device_t input_device, output_device_t output_device) override {
+    (void)input_device;
+    this->output_device = output_device;
+    return true;
+  }
+
   /// Mutes/unmutes the output
   bool setMute(bool mute) override { return setOutputMute(mute); }
 
@@ -454,10 +519,26 @@ class TLV320DAC310x : public ZephyrDriverCommon {
 
  protected:
   uint8_t active_page = 0xFF;  ///< 0xFF forces a page select on first access
+  /// Output device selection set via setDevices(), used by configureOutput()
+  output_device_t output_device = DAC_OUTPUT_ALL;
 
   /// Build the register value for the HPx analog volume control registers
   static uint8_t analogVolReg(uint8_t vol) {
     return (uint8_t)((vol & HPX_ANA_VOL_MASK) | HPX_ANA_VOL_ENABLE);
+  }
+
+  /// Map the generic I2S format to the TLV320DAC310x specific format
+  static TLV320DAC310xFormat toFormat(i2s_format_t fmt) {
+    switch (fmt) {
+      case I2S_LEFT:
+        return TLV320DAC310xFormat::LJF;
+      case I2S_RIGHT:
+        return TLV320DAC310xFormat::RJF;
+      case I2S_DSP:
+        return TLV320DAC310xFormat::DSP;
+      default:
+        return TLV320DAC310xFormat::I2S;
+    }
   }
 
   static TLV320DAC310xOsrMultiple getOsrMultiple(uint32_t sample_rate) {

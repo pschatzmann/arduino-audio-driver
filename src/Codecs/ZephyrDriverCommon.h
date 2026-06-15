@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <stdint.h>
 
+#include "DriverCommon.h"
 #include "Platforms/API_Delay.h"
 #include "Platforms/API_I2C.h"
 
@@ -78,6 +79,11 @@ class ZephyrDriverCommon {
 
   /// Returns true if the driver supports setting the input volume, false otherwise. By default we return false, but some drivers (e.g. WM8962) override this to return true.
   virtual bool isInputVolumeSupported() { return false;}
+
+  /// Selects the ADC input source / DAC output destination. By default this
+  /// is a no-op; chip specific subclasses that support input/output routing
+  /// override this to configure the corresponding registers.
+  virtual bool setDevices(input_device_t input_device, output_device_t output_device){ return true;}
 
  protected:
   i2c_bus_handle_t wire = nullptr;

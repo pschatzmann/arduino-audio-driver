@@ -354,6 +354,13 @@ class WM8904 : public ZephyrDriverCommon {
   /// Mutes/unmutes all outputs
   bool setMute(bool mute) override { return setOutputMute(mute, WM8904Channel::All); }
 
+  /// Stores the output device selection for use by configureOutput()
+  bool setDevices(input_device_t input_device, output_device_t output_device) override {
+    (void)input_device;
+    this->output_device = output_device;
+    return true;
+  }
+
   /// Activates/deactivates the playback and/or capture path depending on
   /// codec_mode_t by muting/unmuting the output and input independently
   bool setActive(codec_mode_t mode) override {
@@ -420,11 +427,19 @@ class WM8904 : public ZephyrDriverCommon {
     return rc;
   }
 
-  /// Configure the default output (line out) path: default volume, unmuted
+  /// Configure the default output path: default volume, headphone (LINE1)
+  /// and/or line/speaker (LINE2) output unmuted depending on the output
+  /// device selected via setDevices()
   bool configureOutput() {
     bool rc = true;
+    bool hp = output_device == DAC_OUTPUT_LINE1 || output_device == DAC_OUTPUT_ALL;
+    bool spk = output_device == DAC_OUTPUT_LINE2 || output_device == DAC_OUTPUT_ALL;
+
     rc &= setOutputVolume((uint8_t)OUTPUT_VOLUME_DEFAULT, WM8904Channel::All);
-    rc &= setOutputMute(false, WM8904Channel::All);
+    rc &= setOutputMute(!hp, WM8904Channel::HeadphoneLeft);
+    rc &= setOutputMute(!hp, WM8904Channel::HeadphoneRight);
+    rc &= setOutputMute(!spk, WM8904Channel::FrontLeft);
+    rc &= setOutputMute(!spk, WM8904Channel::FrontRight);
     rc &= applyProperties();
     return rc;
   }
@@ -440,6 +455,9 @@ class WM8904 : public ZephyrDriverCommon {
   }
 
  protected:
+  /// Output device selection set via setDevices(), used by configureOutput()
+  output_device_t output_device = DAC_OUTPUT_ALL;
+
   bool updateOutput(WM8904Channel channel, uint16_t val, uint16_t mask) {
     bool rc = true;
     switch (channel) {
