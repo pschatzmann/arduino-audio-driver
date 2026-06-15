@@ -1,5 +1,6 @@
 .vscode/
 .zed/
 .continue/
+.claude/
 debug*
 build/

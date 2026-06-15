@@ -1,10 +1,10 @@
 #pragma once
-#include "ConfigAudioDriver.h"
 #include "Codecs/AllCodecs.h"
+#include "ConfigAudioDriver.h"
 #include "DriverCommon.h"
 #include "DriverDeviceInfo.h"
-#include "Platforms/API_GPIO.h"
 #include "Platforms/API_Delay.h"
+#include "Platforms/API_GPIO.h"
 
 namespace audio_driver {
 
@@ -738,7 +738,7 @@ class AudioDriverES8311Class : public AudioDriver {
   }
 
   ///
-  void setMasterClockSource(int source){ master_clock_source = source; }
+  void setMasterClockSource(int source) { master_clock_source = source; }
 
  protected:
   int master_clock_source = -1;
@@ -1523,6 +1523,74 @@ class AudioDriverCombined : public AudioDriver {
   AudioDriver* p_adc = nullptr;
 };
 
+/**
+ * @brief Generic Driver API that wraps a codec driver class which has been
+ * ported from the Zephyr RTOS (see Codecs/<chip>/*.h, e.g. WM8904, DA7212,
+ * TAS2563, ...). It provides the I2C wire/address from the pin configuration
+ * to the driver and calls its begin()/setVolume()/setMute() (or
+ * setOutputVolume()/setOutputMute()) methods, so that the chip can be used
+ * via the regular AudioDriver API.
+ *
+ * Some chips require additional parameters (e.g. the master clock
+ * frequency) for their begin() method: in this case begin() is not called
+ * automatically and driver() must be used to set up the chip manually before
+ * AudioDriver::begin() is called.
+ *
+ * @tparam T the Zephyr ported codec driver class (e.g. WM8904)
+ * @tparam DefaultI2CAddress the default I2C address of the chip
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+template <class T, uint8_t DefaultI2CAddress = 0>
+class AudioDriverZephyrT : public AudioDriver {
+ public:
+  AudioDriverZephyrT(uint8_t i2cAddress = DefaultI2CAddress) {
+    if (i2cAddress != 0) i2c_default_address = i2cAddress;
+  }
+
+  /// Provides access to the wrapped Zephyr driver instance
+  T& driver() { return zephyr_driver; }
+
+  bool setMute(bool enable) override { return zephyr_driver.setMute(enable); }
+
+  bool setVolume(int volume) override {
+    volume_value = limitValue(volume, 0, 100);
+    return zephyr_driver.setVolume(volume_value);
+  }
+
+  int getVolume() override { return volume_value; }
+
+  bool setInputVolume(int volume) override {
+    return zephyr_driver.setInputVolume(limitValue(volume, 0, 100));
+  }
+
+  int getInputVolume() { return zephyr_driver.getInputVolume(); }
+
+  bool isInputVolumeSupported() override {
+    return zephyr_driver.isInputVolumeSupported();
+  }
+
+ protected:
+  T zephyr_driver;
+  int volume_value = 100;
+
+  bool init(codec_config_t codecCfg) override {
+    zephyr_driver.setWire(getI2C());
+    zephyr_driver.setAddress((uint8_t)getI2CAddress());
+    return true;
+  }
+  /// Stops the input and output and (if supported) shuts down the codec
+  bool deinit() override { return zephyr_driver.setMute(true); }
+  bool controlState(codec_mode_t mode) override { return true; }
+  /// Configures the codec (sample rate, bits per sample) for the given I2S setup
+  bool configInterface(codec_mode_t mode, I2SDefinition iface) override {
+    CodecConfig cfg;
+    cfg.i2s = iface;
+    return zephyr_driver.begin((uint32_t)cfg.getRateNumeric(),
+                                (uint8_t)cfg.getBitsNumeric());
+  }
+};
+
 /*  -- NAU8325 Driver Class---  */
 class AudioDriverNAU8325Class : public AudioDriver {
  public:
@@ -1717,9 +1785,33 @@ static AudioDriverPCM3168Class AudioDriverPCM3168;
 /// @ingroup audio_driver
 static AudioDriverNAU8325Class AudioDriverNAU8325;
 /// @ingroup audio_driver
-static AudioDriverCombined AudioDriverES8311_ES7210(AudioDriverES8311, AudioDriverES7210);
+static AudioDriverCombined AudioDriverES8311_ES7210(AudioDriverES8311,
+                                                    AudioDriverES7210);
 /// @ingroup audio_driver
-static AudioDriverCombined AudioDriverES8311_ES7243(AudioDriverES8311, AudioDriverES7243);
+static AudioDriverCombined AudioDriverES8311_ES7243(AudioDriverES8311,
+                                                    AudioDriverES7243);
+
+// -- Zephyr ported Drivers
+/// @ingroup audio_driver
+static AudioDriverZephyrT<WM8904, 0x1A> AudioDriverWM8904;
+/// @ingroup audio_driver
+static AudioDriverZephyrT<WM8962, 0x1A> AudioDriverWM8962;
+/// @ingroup audio_driver
+static AudioDriverZephyrT<MAX98091, 0x10> AudioDriverMAX98091;
+/// @ingroup audio_driver
+static AudioDriverZephyrT<AW88298, 0x36> AudioDriverAW88298;
+/// @ingroup audio_driver
+static AudioDriverZephyrT<PCM1681, 0x4C> AudioDriverPCM1681;
+/// @ingroup audio_driver
+static AudioDriverZephyrT<TAS2563, 0x4C> AudioDriverTAS2563;
+/// @ingroup audio_driver
+static AudioDriverZephyrT<TAS6422DAC, 0x6C> AudioDriverTAS6422DAC;
+/// @ingroup audio_driver
+static AudioDriverZephyrT<TLV320DAC310x, 0x18> AudioDriverTLV320DAC310x;
+/// @ingroup audio_driver
+static AudioDriverZephyrT<DA7212, 0x1A> AudioDriverDA7212;
+/// @ingroup audio_driver
+static AudioDriverZephyrT<TLV320AIC3110, 0x18> AudioDriverTLV320AIC3110;
 
 #ifdef ARDUINO
 /// @ingroup audio_driver

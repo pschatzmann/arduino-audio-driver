@@ -9,10 +9,6 @@
 #include "stdbool.h"
 #include <string.h>
 
-#ifndef ARDUINO
-#define delayMs(n)
-#endif
-
 #define AC_ASSERT(a, format, b, ...)         \
   if ((a) != 0) {                            \
     AD_LOGE("AC101", format, ##__VA_ARGS__); \
