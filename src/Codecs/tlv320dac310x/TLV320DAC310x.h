@@ -10,6 +10,7 @@
 #pragma once
 
 #include <cstddef>
+#include <math.h>
 
 #include "Codecs/ZephyrDriverCommon.h"
 
@@ -29,6 +30,13 @@ enum class TLV320DAC310xWordLength {
   Bits20 = 1,
   Bits24 = 2,
   Bits32 = 3,
+};
+
+/// HP output driver impedance / bias mode (Page 1 / Register 44 D2-D1)
+enum class TLV320DAC310xOutputMode {
+  Headphone,  ///< Low-impedance headphone driver mode, optimised for 16–32 Ω loads
+  LineOut,    ///< High-impedance line-out driver mode, optimised for ≥10 kΩ loads
+  Auto,       ///< Derive from output_device: LINE1 → Headphone, otherwise LineOut
 };
 
 /// Processing block / decimation filter selection (see codec_configure_filters)
@@ -86,6 +94,10 @@ class TLV320DAC310x : public ZephyrDriverCommon {
   static constexpr uint8_t BEEP_LEN_MSB_ADDR = 73;
   static constexpr uint8_t BEEP_LEN_MID_ADDR = 74;
   static constexpr uint8_t BEEP_LEN_LSB_ADDR = 75;
+  static constexpr uint8_t BEEP_SIN_MSB_ADDR = 76;
+  static constexpr uint8_t BEEP_SIN_LSB_ADDR = 77;
+  static constexpr uint8_t BEEP_COS_MSB_ADDR = 78;
+  static constexpr uint8_t BEEP_COS_LSB_ADDR = 79;
   static constexpr uint8_t VOL_MICDET_ADC_CTRL_ADDR = 116;
 
   // ---- Page 1 register addresses ----
@@ -141,6 +153,7 @@ class TLV320DAC310x : public ZephyrDriverCommon {
   static constexpr uint8_t VOL_CTRL_MUTE_DEFAULT = (0x08 | 0x04);  // BIT(3)|BIT(2)
 
   static constexpr uint8_t BEEP_GEN_EN_BEEP = 0x80;  // BIT(7)
+  static constexpr uint8_t BEEP_VOL_MASK = 0x3F;     // D5-D0: volume code (0=2dB .. 63=-61dB)
 
   static constexpr uint8_t VOL_MICDET_VOL_CTRL_PIN = 0x80;  // BIT(7)
 
@@ -209,6 +222,7 @@ class TLV320DAC310x : public ZephyrDriverCommon {
              TLV320DAC310xFormat fmt = TLV320DAC310xFormat::I2S,
              bool bclk_controller = false, bool wclk_controller = false) {
     bool rc = true;
+    current_sample_rate = sample_rate;
 
     rc &= softReset();
     rc &= configureClocks(mclk_freq, sample_rate, bclk_controller, word_size);
@@ -398,8 +412,12 @@ class TLV320DAC310x : public ZephyrDriverCommon {
       rc &= writePagedReg(1, HPL_ANA_VOL_CTRL_ADDR, analogVolReg(HPX_ANA_VOL_DEFAULT));
       rc &= writePagedReg(1, HPR_ANA_VOL_CTRL_ADDR, analogVolReg(HPX_ANA_VOL_DEFAULT));
 
-      /* set headphone outputs as line-out */
-      rc &= writePagedReg(1, HEADPHONE_DRV_CTRL_ADDR, HEADPHONE_DRV_LINEOUT);
+      /* set headphone driver impedance mode */
+      TLV320DAC310xOutputMode mode = resolveOutputMode();
+      uint8_t drv_ctrl = (mode == TLV320DAC310xOutputMode::Headphone)
+                             ? 0x00
+                             : HEADPHONE_DRV_LINEOUT;
+      rc &= writePagedReg(1, HEADPHONE_DRV_CTRL_ADDR, drv_ctrl);
 
       /* unmute headphone drivers */
       rc &= writePagedReg(1, HPL_DRV_GAIN_CTRL_ADDR, HPX_DRV_UNMUTE);
@@ -498,11 +516,90 @@ class TLV320DAC310x : public ZephyrDriverCommon {
   /// no-op, nothing is cached that needs re-applying
   bool applyProperties() { return true; }
 
+  /**
+   * @brief Start the hardware sine-wave beep generator.
+   *
+   * Programs the frequency, duration and per-channel volume, then sets the
+   * enable bit in register 71 (self-clears once all programmed samples have
+   * been played).
+   *
+   * Note: the beep generator requires DAC processing block PRB_P25, which is
+   * selected automatically by configureFilters() for sample rates < 96 kHz.
+   * It will not function at 96 kHz or above.
+   *
+   * @param freq_hz     Sine-wave frequency in Hz
+   * @param duration_ms Duration in milliseconds; 0 uses the maximum (≈380 s
+   *                    at 44.1 kHz)
+   * @param left_db     Left channel gain in dB, range [−61, 2] (default 0 dB)
+   * @param right_db    Right channel gain in dB, range [−61, 2] (default 0 dB)
+   */
+  bool enableBeep(uint32_t freq_hz, uint32_t duration_ms = 500,
+                  int8_t left_db = 0, int8_t right_db = 0) {
+    bool rc = true;
+    static constexpr float kTwoPi = 6.28318530717959f;
+
+    float angle = kTwoPi * (float)freq_hz / (float)current_sample_rate;
+    int16_t sin_q15 = (int16_t)(sinf(angle) * 32767.0f);
+    int16_t cos_q15 = (int16_t)(cosf(angle) * 32767.0f);
+
+    uint32_t num_samples = (duration_ms == 0)
+                               ? 0xFFFFFFu
+                               : (uint32_t)((uint64_t)current_sample_rate * duration_ms / 1000);
+    if (num_samples > 0xFFFFFFu) num_samples = 0xFFFFFFu;
+
+    rc &= writePagedReg(0, BEEP_SIN_MSB_ADDR, (uint8_t)(sin_q15 >> 8));
+    rc &= writePagedReg(0, BEEP_SIN_LSB_ADDR, (uint8_t)(sin_q15 & 0xFF));
+    rc &= writePagedReg(0, BEEP_COS_MSB_ADDR, (uint8_t)(cos_q15 >> 8));
+    rc &= writePagedReg(0, BEEP_COS_LSB_ADDR, (uint8_t)(cos_q15 & 0xFF));
+
+    rc &= writePagedReg(0, BEEP_LEN_MSB_ADDR, (uint8_t)((num_samples >> 16) & 0xFF));
+    rc &= writePagedReg(0, BEEP_LEN_MID_ADDR, (uint8_t)((num_samples >> 8) & 0xFF));
+    rc &= writePagedReg(0, BEEP_LEN_LSB_ADDR, (uint8_t)(num_samples & 0xFF));
+
+    rc &= writePagedReg(0, R_BEEP_GEN_ADDR, beepVolReg(right_db));
+    /* write L register last — the enable bit starts the tone */
+    rc &= writePagedReg(0, L_BEEP_GEN_ADDR,
+                         (uint8_t)(BEEP_GEN_EN_BEEP | beepVolReg(left_db)));
+    return rc;
+  }
+
+  /// Stop the beep generator immediately by clearing the enable bit
+  bool disableBeep() {
+    return writePagedReg(0, L_BEEP_GEN_ADDR, 0x00);
+  }
+
+  /// Returns true while the beep generator is still running
+  /// (D7 of register 71 is self-clearing once the programmed samples complete)
+  bool isBeepActive() {
+    uint8_t val = 0;
+    if (!readPagedReg(0, L_BEEP_GEN_ADDR, val)) return false;
+    return (val & BEEP_GEN_EN_BEEP) != 0;
+  }
+
   /// Stores the output device selection for use by configureOutput()
   bool setDevices(input_device_t input_device, output_device_t output_device) override {
     (void)input_device;
     this->output_device = output_device;
     return true;
+  }
+
+  /**
+   * @brief Set the HP output driver impedance mode and apply it immediately
+   * to register 44.
+   *
+   * Overrides the automatic selection that configureOutput() derives from
+   * output_device (LINE1 → Headphone, others → LineOut). Pass Auto to
+   * restore the automatic behaviour on the next configureOutput() call.
+   *
+   * @param mode Headphone (16–32 Ω), LineOut (≥10 kΩ) or Auto
+   */
+  bool setOutputImpedance(TLV320DAC310xOutputMode mode) {
+    output_mode = mode;
+    TLV320DAC310xOutputMode resolved = resolveOutputMode();
+    uint8_t drv_ctrl = (resolved == TLV320DAC310xOutputMode::Headphone)
+                           ? 0x00
+                           : HEADPHONE_DRV_LINEOUT;
+    return writePagedReg(1, HEADPHONE_DRV_CTRL_ADDR, drv_ctrl);
   }
 
   /// Mutes/unmutes the output
@@ -518,9 +615,26 @@ class TLV320DAC310x : public ZephyrDriverCommon {
   }
 
  protected:
-  uint8_t active_page = 0xFF;  ///< 0xFF forces a page select on first access
+  uint8_t active_page = 0xFF;       ///< 0xFF forces a page select on first access
+  uint32_t current_sample_rate = 44100;
   /// Output device selection set via setDevices(), used by configureOutput()
   output_device_t output_device = DAC_OUTPUT_ALL;
+  /// HP driver impedance mode, applied by configureOutput() and setOutputImpedance()
+  TLV320DAC310xOutputMode output_mode = TLV320DAC310xOutputMode::Auto;
+
+  /// Convert a dB gain value to the 6-bit beep volume register code.
+  /// Register encoding: code 0 = 2 dB, code 2 = 0 dB, code 63 = −61 dB.
+  static uint8_t beepVolReg(int8_t vol_db) {
+    int8_t clamped = vol_db > 2 ? (int8_t)2 : (vol_db < -61 ? (int8_t)-61 : vol_db);
+    return (uint8_t)(2 - clamped) & BEEP_VOL_MASK;
+  }
+
+  /// Resolve Auto → Headphone when LINE1 is selected, LineOut otherwise
+  TLV320DAC310xOutputMode resolveOutputMode() const {
+    if (output_mode != TLV320DAC310xOutputMode::Auto) return output_mode;
+    return (output_device == DAC_OUTPUT_LINE1) ? TLV320DAC310xOutputMode::Headphone
+                                               : TLV320DAC310xOutputMode::LineOut;
+  }
 
   /// Build the register value for the HPx analog volume control registers
   static uint8_t analogVolReg(uint8_t vol) {
