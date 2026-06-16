@@ -68,10 +68,7 @@ class ZephyrDriverCommon {
 
   /// Defines the input volume in % (0...100). Chip specific subclasses map
   /// this to their native input volume range.
-  virtual bool setInputVolume(int volume) {
-    (void)volume;
-    return false;
-  }
+  virtual bool setInputVolume(int volume) { return false;}
 
   /// Provides the input volume in % (0...100) that was set with
   /// setInputVolume()
