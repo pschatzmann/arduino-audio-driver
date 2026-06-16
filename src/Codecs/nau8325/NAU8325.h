@@ -41,7 +41,7 @@ enum ClockRatio {
   NAU8325_MCLK_FS_RATIO_NUM = 3
 };
 
-class PCBCUPID_NAU8325 {
+class NAU8325 {
  public:
   static constexpr uint16_t NAU8325_I2C_ADDR = 0x21;
   static constexpr uint16_t NAU8325_R00_HARDWARE_RST = 0x00;
@@ -326,7 +326,7 @@ class PCBCUPID_NAU8325 {
   static constexpr uint32_t CLK_DA_AD_MAX = 6144000;
   static constexpr uint32_t MASTER_CLK_MIN = 2048000;
   static constexpr uint32_t MASTER_CLK_MAX = 49152000;
-  PCBCUPID_NAU8325(i2c_bus_handle_t wire);
+  NAU8325(i2c_bus_handle_t wire);
 
   static const RegDefault reg_defaults[];
 
@@ -374,7 +374,7 @@ class PCBCUPID_NAU8325 {
     The default values for bits_per_sample and ratio are 16 and 256,
     respectively. If only fs is provided, it uses the default values for
     bits_per_sample and ratio. If no parameters are provided, it uses default
-    values for fs, bits_per_sample, and ratio. Example: PCBCUPID_NAU8325 codec;
+    values for fs, bits_per_sample, and ratio. Example: NAU8325 codec;
     codec.begin(44100, 16, 256); // Initialize with 44.1kHz, 16 bits, and
     MCLK/FS ratio of 256 codec.begin(16000, 24); // Initialize with 16kHz, 24
     bits, and default MCLK/FS ratio of 256 codec.begin(); // Initialize with
@@ -444,10 +444,10 @@ static uint32_t vref_impedance_ohms = 125000;
 // Method implementations
 // ---------------------------------------------------------------------------
 
-inline PCBCUPID_NAU8325::PCBCUPID_NAU8325(i2c_bus_handle_t wire)
+inline NAU8325::NAU8325(i2c_bus_handle_t wire)
     : i2c(wire), i2c_addr(NAU8325_I2C_ADDR) {}
 
-inline bool PCBCUPID_NAU8325::begin(uint32_t fs, uint8_t bits_per_sample,
+inline bool NAU8325::begin(uint32_t fs, uint8_t bits_per_sample,
                                     uint16_t ratio) {
   AD_LOGI("[NAU8325] beginDynamic() starting...");
   AD_LOGI("  fs = %lu Hz", fs);
@@ -493,17 +493,17 @@ inline bool PCBCUPID_NAU8325::begin(uint32_t fs, uint8_t bits_per_sample,
 
 /*If the user didn't provide the ratio it will call this function with default
  * ratio*/
-inline bool PCBCUPID_NAU8325::begin(uint32_t fs, uint8_t bits) {
+inline bool NAU8325::begin(uint32_t fs, uint8_t bits) {
   return begin(fs, bits,
                256);  // Passing 256 as the default ratio for clock division
 }
 
 /*if the user didn't pass any of the parameter like fs,bits,ratio*/
-inline bool PCBCUPID_NAU8325::begin() {
+inline bool NAU8325::begin() {
   return begin(44100, 16, 256);  // FS - 44100, BitRate - 16, Ratio 256
 }
 
-inline void PCBCUPID_NAU8325::enableDAPMBlocks() {
+inline void NAU8325::enableDAPMBlocks() {
   // Enable DAC L/R in ENA_CTRL (R04)
   writeRegisterBits(NAU8325_R04_ENA_CTRL, NAU8325_ENA_CTRL_DAC_EN_MASK,
                     NAU8325_ENA_CTRL_DAC_EN_MASK);
@@ -518,14 +518,14 @@ inline void PCBCUPID_NAU8325::enableDAPMBlocks() {
                     NAU8325_ANALOG_CTRL6_EN_MASK);
 }
 
-inline void PCBCUPID_NAU8325::resetChip() {
+inline void NAU8325::resetChip() {
   writeRegister(0x0000, 0x0001);
   delayMs(2);
   writeRegister(0x0000, 0x0000);
   delayMs(2);
 }
 
-inline uint16_t PCBCUPID_NAU8325::readDeviceId() {
+inline uint16_t NAU8325::readDeviceId() {
   uint16_t id;
   if (readRegister(NAU8325_R02_DEVICE_ID, id)) {
     return id;
@@ -534,7 +534,7 @@ inline uint16_t PCBCUPID_NAU8325::readDeviceId() {
   }
 }
 
-inline bool PCBCUPID_NAU8325::applySampleRateClocks(const SRateAttr* srate,
+inline bool NAU8325::applySampleRateClocks(const SRateAttr* srate,
                                                     int n1_sel,
                                                     int mclk_mult_sel,
                                                     int n2_sel) {
@@ -588,7 +588,7 @@ inline bool PCBCUPID_NAU8325::applySampleRateClocks(const SRateAttr* srate,
   return true;
 }
 
-inline int PCBCUPID_NAU8325::getMclkRatioAndN2Index(const SRateAttr* srate,
+inline int NAU8325::getMclkRatioAndN2Index(const SRateAttr* srate,
                                                     int mclk_hz,
                                                     int& n2_sel_out) {
   int ratio = NAU8325_MCLK_FS_RATIO_NUM;  // Default: not found
@@ -617,7 +617,7 @@ inline int PCBCUPID_NAU8325::getMclkRatioAndN2Index(const SRateAttr* srate,
   return ratio;
 }
 
-inline const SRateAttr* PCBCUPID_NAU8325::getSRateAttr(int fs) {
+inline const SRateAttr* NAU8325::getSRateAttr(int fs) {
   for (size_t i = 0;
        i < sizeof(target_srate_table) / sizeof(target_srate_table[0]); ++i) {
     if (target_srate_table[i].fs == fs) {
@@ -627,7 +627,7 @@ inline const SRateAttr* PCBCUPID_NAU8325::getSRateAttr(int fs) {
   return nullptr;
 }
 
-inline bool PCBCUPID_NAU8325::chooseClockSource(int fs, int mclk,
+inline bool NAU8325::chooseClockSource(int fs, int mclk,
                                                 const SRateAttr*& srate,
                                                 int& n1_sel, int& mult_sel,
                                                 int& n2_sel) {
@@ -690,7 +690,7 @@ inline bool PCBCUPID_NAU8325::chooseClockSource(int fs, int mclk,
   return false;
 }
 
-inline bool PCBCUPID_NAU8325::configureClocks(int fs, int mclk) {
+inline bool NAU8325::configureClocks(int fs, int mclk) {
   const SRateAttr* srate = nullptr;
   int n1_sel = 0, mult_sel = -1, n2_sel = 0;
 
@@ -709,7 +709,7 @@ inline bool PCBCUPID_NAU8325::configureClocks(int fs, int mclk) {
   return true;
 }
 
-inline const OsrAttr* PCBCUPID_NAU8325::getCurrentOSR() {
+inline const OsrAttr* NAU8325::getCurrentOSR() {
   uint16_t value;
   if (!readRegister(NAU8325_R29_DAC_CTRL1, value)) {
     return nullptr;
@@ -724,7 +724,7 @@ inline const OsrAttr* PCBCUPID_NAU8325::getCurrentOSR() {
   return &osr_dac_sel[osr_index];
 }
 
-inline bool PCBCUPID_NAU8325::configureAudio(uint32_t fs, uint32_t mclk,
+inline bool NAU8325::configureAudio(uint32_t fs, uint32_t mclk,
                                              uint8_t bits_per_sample) {
   this->fs = fs;
   this->mclk = mclk;
@@ -776,7 +776,7 @@ inline bool PCBCUPID_NAU8325::configureAudio(uint32_t fs, uint32_t mclk,
   return true;
 }
 
-inline bool PCBCUPID_NAU8325::setI2SFormat(AudioI2SFormat format,
+inline bool NAU8325::setI2SFormat(AudioI2SFormat format,
                                            ClockPolarity polarity) {
   uint16_t ctrl1_val = 0;
 
@@ -813,7 +813,7 @@ inline bool PCBCUPID_NAU8325::setI2SFormat(AudioI2SFormat format,
       ctrl1_val);
 }
 
-inline bool PCBCUPID_NAU8325::setSysClock(uint32_t freq) {
+inline bool NAU8325::setSysClock(uint32_t freq) {
   if (freq < MASTER_CLK_MIN || freq > MASTER_CLK_MAX) {
     AD_LOGI("[NAU8325] Invalid MCLK: %u Hz (allowed: %u - %u)\n", freq,
             MASTER_CLK_MIN, MASTER_CLK_MAX);
@@ -825,27 +825,27 @@ inline bool PCBCUPID_NAU8325::setSysClock(uint32_t freq) {
   return true;
 }
 
-inline void PCBCUPID_NAU8325::setPowerUpDefault(bool enable) {
+inline void NAU8325::setPowerUpDefault(bool enable) {
   writeRegisterBits(NAU8325_R40_CLK_DET_CTRL, NAU8325_PWRUP_DFT,
                     enable ? NAU8325_PWRUP_DFT : 0);
 }
 
-inline void PCBCUPID_NAU8325::setOversampling(OversamplingMode mode) {
+inline void NAU8325::setOversampling(OversamplingMode mode) {
   writeRegisterBits(NAU8325_R29_DAC_CTRL1, NAU8325_DAC_OVERSAMPLE_MASK, mode);
 }
 
-inline void PCBCUPID_NAU8325::setVolume(uint8_t left, uint8_t right) {
+inline void NAU8325::setVolume(uint8_t left, uint8_t right) {
   uint16_t value = ((left & 0xFF) << 8) | (right & 0xFF);
   writeRegister(NAU8325_R13_DAC_VOLUME, value);
 }
 
-inline void PCBCUPID_NAU8325::softMute(bool enable) {
+inline void NAU8325::softMute(bool enable) {
   writeRegisterBits(NAU8325_R12_MUTE_CTRL, NAU8325_SOFT_MUTE,
                     enable ? NAU8325_SOFT_MUTE : 0);
   delayMs(30);
 }
 
-inline void PCBCUPID_NAU8325::initRegisters() {
+inline void NAU8325::initRegisters() {
   // Set ALC parameters default timing and max gain
   writeRegisterBits(NAU8325_R2C_ALC_CTRL1, NAU8325_ALC_MAXGAIN_MASK,
                     0x7 << NAU8325_ALC_MAXGAIN_SFT);
@@ -954,7 +954,7 @@ inline void PCBCUPID_NAU8325::initRegisters() {
                     NAU8325_DAC_OVERSAMPLE_128);
 }
 
-inline void PCBCUPID_NAU8325::powerOn() {
+inline void NAU8325::powerOn() {
   // Clear soft mute to allow audio output
   softMute(false);
 
@@ -975,7 +975,7 @@ inline void PCBCUPID_NAU8325::powerOn() {
   delayMs(30);  // Let analog circuitry stabilize
 }
 
-inline void PCBCUPID_NAU8325::powerOff() {
+inline void NAU8325::powerOff() {
   // Soft mute first to prevent pop
   softMute(true);
 
@@ -993,7 +993,7 @@ inline void PCBCUPID_NAU8325::powerOff() {
   delayMs(30);  // Let output fade out
 }
 
-inline bool PCBCUPID_NAU8325::writeRegisterBits(
+inline bool NAU8325::writeRegisterBits(
     uint16_t reg, uint16_t mask,
     uint16_t value)  // mask ---> is to set the the particular bit renaining bit
                      // untouched.
@@ -1005,7 +1005,7 @@ inline bool PCBCUPID_NAU8325::writeRegisterBits(
   return writeRegister(reg, new_value);
 }
 
-inline bool PCBCUPID_NAU8325::writeRegister(uint16_t reg, uint16_t val) {
+inline bool NAU8325::writeRegister(uint16_t reg, uint16_t val) {
   AD_LOGI("[WRITE] reg=0x%04X val=0x%04X\n", reg, val);
 
   uint8_t regBuf[2] = {(uint8_t)((reg >> 8) & 0xFF), (uint8_t)(reg & 0xFF)};
@@ -1015,7 +1015,7 @@ inline bool PCBCUPID_NAU8325::writeRegister(uint16_t reg, uint16_t val) {
                              dataBuf, sizeof(dataBuf)) == RESULT_OK;
 }
 
-inline bool PCBCUPID_NAU8325::readRegister(uint16_t reg, uint16_t& value) {
+inline bool NAU8325::readRegister(uint16_t reg, uint16_t& value) {
   uint8_t regBuf[2] = {(uint8_t)((reg >> 8) & 0xFF), (uint8_t)(reg & 0xFF)};
   uint8_t dataBuf[2] = {0, 0};
 

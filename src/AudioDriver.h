@@ -1844,7 +1844,7 @@ class AudioDriverZephyrT : public AudioDriver {
 /*  -- NAU8325 Driver Class---  */
 class AudioDriverNAU8325Class : public AudioDriver {
  public:
-  PCBCUPID_NAU8325* nau8325 = nullptr;  // pointer to construct later
+  NAU8325* nau8325 = nullptr;  // pointer to construct later
 
   ~AudioDriverNAU8325Class() {
     if (nau8325) delete nau8325;
@@ -1864,7 +1864,7 @@ class AudioDriverNAU8325Class : public AudioDriver {
     InfoI2C val = i2c_opt.value();
 
     // Create instance with required params (only TwoWire&)
-    nau8325 = new PCBCUPID_NAU8325(val.p_wire);
+    nau8325 = new NAU8325(val.p_wire);
 
     // Set MCLK if available
     auto mclk = pins.getPinID(PinFunction::MCLK_SOURCE);

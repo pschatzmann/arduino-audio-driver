@@ -29,4 +29,4 @@
 #include "wm8962/WM8962.h"
 #include "wm8978/WM8978.h"
 #include "wm8994/WM8994.h"
-#include "nau8325/PCBCUPID_NAU8325.h"
+#include "nau8325/NAU8325.h"
