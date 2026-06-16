@@ -1,375 +1,10 @@
-#ifndef PCBCUPID_NAU8325_H
-#define PCBCUPID_NAU8325_H
+#pragma once
 
 #include "DriverCommon.h"
 #include "Platforms/API_I2C.h"
 #include "Platforms/Logger.h"
 #include "stdint.h"
 
-#define NAU8325_I2C_ADDR 0x21
-
-#define NAU8325_R00_HARDWARE_RST 0x00
-#define NAU8325_R01_SOFTWARE_RST 0x01
-#define NAU8325_R02_DEVICE_ID 0x02
-#define NAU8325_R03_CLK_CTRL 0x03
-#define NAU8325_R04_ENA_CTRL 0x04
-#define NAU8325_R05_INTERRUPT_CTRL 0x05
-#define NAU8325_R06_INT_CLR_STATUS 0x06
-#define NAU8325_R09_IRQOUT 0x09
-#define NAU8325_R0A_IO_CTRL 0x0a
-#define NAU8325_R0B_PDM_CTRL 0x0b
-#define NAU8325_R0C_TDM_CTRL 0x0c
-#define NAU8325_R0D_I2S_PCM_CTRL1 0x0d
-#define NAU8325_R0E_I2S_PCM_CTRL2 0x0e
-#define NAU8325_R0F_L_TIME_SLOT 0x0f
-#define NAU8325_R10_R_TIME_SLOT 0x10
-#define NAU8325_R11_HPF_CTRL 0x11
-#define NAU8325_R12_MUTE_CTRL 0x12
-#define NAU8325_R13_DAC_VOLUME 0x13
-#define NAU8325_R1D_DEBUG_READ1 0x1d
-#define NAU8325_R1F_DEBUG_READ2 0x1f
-#define NAU8325_R22_DEBUG_READ3 0x22
-#define NAU8325_R29_DAC_CTRL1 0x29
-#define NAU8325_R2A_DAC_CTRL2 0x2a
-#define NAU8325_R2C_ALC_CTRL1 0x2c
-#define NAU8325_R2D_ALC_CTRL2 0x2d
-#define NAU8325_R2E_ALC_CTRL3 0x2e
-#define NAU8325_R2F_ALC_CTRL4 0x2f
-#define NAU8325_R40_CLK_DET_CTRL 0x40
-#define NAU8325_R49_TEST_STATUS 0x49
-#define NAU8325_R4A_ANALOG_READ 0x4a
-#define NAU8325_R50_MIXER_CTRL 0x50
-#define NAU8325_R55_MISC_CTRL 0x55
-#define NAU8325_R60_BIAS_ADJ 0x60
-#define NAU8325_R61_ANALOG_CONTROL_1 0x61
-#define NAU8325_R62_ANALOG_CONTROL_2 0x62
-#define NAU8325_R63_ANALOG_CONTROL_3 0x63
-#define NAU8325_R64_ANALOG_CONTROL_4 0x64
-#define NAU8325_R65_ANALOG_CONTROL_5 0x65
-#define NAU8325_R66_ANALOG_CONTROL_6 0x66
-#define NAU8325_R69_CLIP_CTRL 0x69
-#define NAU8325_R73_RDAC 0x73
-#define NAU8325_REG_MAX NAU8325_R73_RDAC
-
-#define NAU8325_VMIDEN_SFT 0x03
-
-/* 16-bit control register address, and 16-bits control register data */
-#define NAU8325_REG_ADDR_LEN 16
-#define NAU8325_REG_DATA_LEN 16
-
-/*Below are bit masking of individual register*/
-
-/* CLK_CTRL (0x03) */
-#define NAU8325_CLK_DAC_SRC_SFT 12
-#define NAU8325_CLK_DAC_SRC_MASK (0x3 << NAU8325_CLK_DAC_SRC_SFT)
-#define NAU8325_CLK_MUL_SRC_SFT 6
-#define NAU8325_CLK_MUL_SRC_MASK (0x3 << NAU8325_CLK_MUL_SRC_SFT)
-#define NAU8325_MCLK_SEL_SFT 3
-#define NAU8325_MCLK_SEL_MASK (0x7 << NAU8325_MCLK_SEL_SFT)
-#define NAU8325_MCLK_SRC_MASK 0x7
-
-/* ENA_CTRL (0x04) */
-#define NAU8325_DAC_LEFT_CH_EN_SFT 3
-#define NAU8325_DAC_LEFT_CH_EN (0x1 << NAU8325_DAC_LEFT_CH_EN_SFT)
-#define NAU8325_DAC_RIGHT_CH_EN_SFT 2
-#define NAU8325_DAC_RIGHT_CH_EN (0x1 << NAU8325_DAC_RIGHT_CH_EN_SFT)
-
-// R04: ENA_CTRL
-#define NAU8325_ENA_CTRL_DACR_EN 0x0008      // Bit 3
-#define NAU8325_ENA_CTRL_DACL_EN 0x0004      // Bit 2
-#define NAU8325_ENA_CTRL_DAC_EN_MASK 0x000C  // Bits 3:2
-
-/* INTERRUPT_CTRL (0x05) */
-#define NAU8325_ARP_DWN_INT_SFT 12
-#define NAU8325_ARP_DWN_INT_MASK (0x1 << NAU8325_ARP_DWN_INT_SFT)
-#define NAU8325_CLIP_INT_SFT 11
-#define NAU8325_CLIP_INT_MASK (0x1 << NAU8325_CLIP_INT_SFT)
-#define NAU8325_LVD_INT_SFT 10
-#define NAU8325_LVD_INT_MASK (0x1 << NAU8325_LVD_INT_SFT)
-#define NAU8325_PWR_INT_DIS_SFT 8
-#define NAU8325_PWR_INT_DIS (0x1 << NAU8325_PWR_INT_DIS_SFT)
-#define NAU8325_OCP_OTP_SHTDWN_INT_SFT 4
-#define NAU8325_OCP_OTP_SHTDWN_INT_MASK (0x1 << NAU8325_OCP_OTP_SHTDWN_INT_SFT)
-#define NAU8325_CLIP_INT_DIS_SFT 3
-#define NAU8325_CLIP_INT_DIS (0x1 << NAU8325_CLIP_INT_DIS_SFT)
-#define NAU8325_LVD_INT_DIS_SFT 2
-#define NAU8325_LVD_INT_DIS (0x1 << NAU8325_LVD_INT_DIS_SFT)
-#define NAU8325_PWR_INT_MASK 0x1
-
-/* INT_CLR_STATUS (0x06) */
-#define NAU8325_INT_STATUS_MASK 0x7f
-
-/* IRQOUT (0x09) */
-#define NAU8325_IRQOUT_SEL_SEF 14
-#define NAU8325_IRQOUT_SEL_MASK (0x3 << NAU8325_IRQOUT_SEL_SEF)
-#define NAU8325_DEM_DITH_SFT 13
-#define NAU8325_DEM_DITH_EN (0x1 << NAU8325_DEM_DITH_SFT)
-#define NAU8325_GAINZI3_SFT 4
-#define NAU8325_GAINZI3_MASK (0x1 << NAU8325_GAINZI3_SFT)
-#define NAU8325_GAINZI2_MASK 0x7
-
-/* IO_CTRL (0x0a) */
-#define NAU8325_IRQ_PL_SFT 7
-#define NAU8325_IRQ_PL_ACT_HIGH (0x1 << NAU8325_IRQ_PL_SFT)
-#define NAU8325_IRQ_PS_SFT 6
-#define NAU8325_IRQ_PS_UP (0x1 << NAU8325_IRQ_PS_SFT)
-#define NAU8325_IRQ_PE_SFT 5
-#define NAU8325_IRQ_PE_EN (0x1 << NAU8325_IRQ_PE_SFT)
-#define NAU8325_IRQ_DS_SFT 4
-#define NAU8325_IRQ_DS_HIGH (0x1 << NAU8325_IRQ_DS_SFT)
-#define NAU8325_IRQ_OUTPUT_SFT 3
-#define NAU8325_IRQ_OUTPUT_EN (0x1 << NAU8325_IRQ_OUTPUT_SFT)
-#define NAU8325_IRQ_PIN_DEBUG_SFT 2
-#define NAU8325_IRQ_PIN_DEBUG_EN (0x1 << NAU8325_IRQ_PIN_DEBUG_SFT)
-
-/* PDM_CTRL (0x0b) */
-#define NAU8325_PDM_LCH_EDGE_SFT 1
-#define NAU8325_PDM_LCH_EDGE__MASK (0x1 << NAU8325_PDM_LCH_EDGE_SFT)
-#define NAU8325_PDM_MODE_EN 0x1
-
-/* TDM_CTRL (0x0c) */
-#define NAU8325_TDM_SFT 15
-#define NAU8325_TDM_EN (0x1 << NAU8325_TDM_SFT)
-#define NAU8325_PCM_OFFSET_CTRL_SFT 14
-#define NAU8325_PCM_OFFSET_CTRL_EN (0x1 << NAU8325_PCM_OFFSET_CTRL_SFT)
-#define NAU8325_DAC_LEFT_SFT 6
-#define NAU8325_NAU8325_DAC_LEFT_MASK (0x7 << NAU8325_DAC_LEFT_SFT)
-#define NAU8325_DAC_RIGHT_SFT 3
-#define NAU8325_DAC_RIGHT_MASK (0x7 << NAU8325_DAC_RIGHT_SFT)
-
-/* I2S_PCM_CTRL1 (0x0d) */
-#define NAU8325_DACCM_CTL_SFT 14
-#define NAU8325_DACCM_CTL_MASK (0x3 << NAU8325_DACCM_CTL_SFT)
-#define NAU8325_CMB8_0_SFT 13
-#define NAU8325_CMB8_0_MASK (0x1 << NAU8325_CMB8_0_SFT)
-#define NAU8325_UA_OFFSET_SFT 12
-#define NAU8325_UA_OFFSET_MASK (0x1 << NAU8325_UA_OFFSET_SFT)
-#define NAU8325_I2S_BP_SFT 7
-#define NAU8325_I2S_BP_MASK (0x1 << NAU8325_I2S_BP_SFT)
-#define NAU8325_I2S_BP_INV (0x1 << NAU8325_I2S_BP_SFT)
-#define NAU8325_I2S_PCMB_SFT 6
-#define NAU8325_I2S_PCMB_EN (0x1 << NAU8325_I2S_PCMB_SFT)
-#define NAU8325_I2S_DACPSHS0_SFT 4
-#define NAU8325_I2S_DACPSHS0_MASK (0x3 << NAU8325_I2S_DACPSHS0_SFT)
-#define NAU8325_I2S_DL_SFT 2
-#define NAU8325_I2S_DL_MASK (0x3 << NAU8325_I2S_DL_SFT)
-#define NAU8325_I2S_DL_32 (0x3 << NAU8325_I2S_DL_SFT)
-#define NAU8325_I2S_DL_24 (0x2 << NAU8325_I2S_DL_SFT)
-#define NAU8325_I2S_DL_20 (0x1 << NAU8325_I2S_DL_SFT)
-#define NAU8325_I2S_DL_16 (0x0 << NAU8325_I2S_DL_SFT)
-#define NAU8325_I2S_DF_MASK 0x3
-#define NAU8325_I2S_DF_RIGTH 0x0
-#define NAU8325_I2S_DF_LEFT 0x1
-#define NAU8325_I2S_DF_I2S 0x2
-#define NAU8325_I2S_DF_PCM_AB 0x3
-
-/* I2S_PCM_CTRL2 (0x0e) */
-#define NAU8325_PCM_TS_SFT 10
-#define NAU8325_PCM_TS_EN (0x1 << NAU8325_PCM_TS_SFT)
-#define NAU8325_PCM8BIT0_SFT 8
-#define NAU8325_PCM8BIT0_MASK (0x3 << NAU8325_PCM8BIT0_SFT)
-
-/* L_TIME_SLOT (0x0f) */
-#define NAU8325_SHORT_FS_DET_SFT 9
-#define NAU8325_SHORT_FS_DET_DIS (0x1 << NAU8325_SHORT_FS_DET_SFT)
-#define NAU8325_TSLOT_L0_MASK 0x1ff
-
-/* R_TIME_SLOT (0x10) */
-#define NAU8325_TSLOT_R0_MASK 0x1ff
-
-/* HPF_CTRL (0x11) */
-#define NAU8325_DAC_HPF_SFT 15
-#define NAU8325_DAC_HPF_EN (0x1 << NAU8325_DAC_HPF_SFT)
-#define NAU8325_DAC_HPF_APP_SFT 4
-#define NAU8325_DAC_HPF_APP_MASK (0x1 << NAU8325_DAC_HPF_APP_SFT)
-#define NAU8325_DAC_HPF_FCUT_SFT 0
-#define NAU8325_DAC_HPF_FCUT_MASK (0xf << NAU8325_DAC_HPF_FCUT_SFT)
-
-/* MUTE_CTRL (0x12) */
-#define NAU8325_SOFT_MUTE_SFT 9
-#define NAU8325_SOFT_MUTE (0x1 << NAU8325_SOFT_MUTE_SFT)
-#define NAU8325_DAC_ZC_SFT 8
-#define NAU8325_DAC_ZC_EN (0x1 << NAU8325_DAC_ZC_SFT)
-#define NAU8325_UNMUTE_CTL_SFT 6
-#define NAU8325_UNMUTE_CTL_MASK (0x3 << NAU8325_UNMUTE_CTL_SFT)
-#define NAU8325_ANA_MUTE_SFT 4
-#define NAU8325_ANA_MUTE_MASK (0x3 << NAU8325_ANA_MUTE_SFT)
-#define NAU8325_AUTO_MUTE_SFT 2
-#define NAU8325_AUTO_MUTE_DIS (0x1 << NAU8325_AUTO_MUTE_SFT)
-
-/* DAC_VOLUME (0x13) */
-#define NAU8325_DAC_VOLUME_L_SFT 8
-#define NAU8325_DAC_VOLUME_L_EN (0xff << NAU8325_DAC_VOLUME_L_SFT)
-#define NAU8325_DAC_VOLUME_R_SFT 0
-#define NAU8325_DAC_VOLUME_R_EN (0xff << NAU8325_DAC_VOLUME_R_SFT)
-#define NAU8325_DAC_VOL_MAX 0xfe
-
-/* DEBUG_READ1 (0x1d) */
-#define NAU8325_OSR100_MASK (0x1 << 7)
-#define NAU8325_MIPS500_MASK (0x1 << 6)
-#define NAU8325_SHUTDWNDRVR_R_MASK (0x1 << 5)
-#define NAU8325_SHUTDWNDRVR_L_MASK (0x1 << 4)
-#define NAU8325_MUTEB_MASK (0x1 << 3)
-#define NAU8325_PDOSCB_MASK (0x1 << 2)
-#define NAU8325_POWERDOWN1B_D_MASK (0x1 << 1)
-
-/* ANALOG_READ (0x4a) */
-#define NAU8325_R_CHANNEL_Vol_SFT 8
-#define NAU8325_R_CHANNEL_Vol_MASK (0x1f << NAU8325_R_CHANNEL_Vol_SFT)
-#define NAU8325_L_CHANNEL_Vol_MASK 0x1f
-
-/* MIXER_CTRL (0x50) */
-#define NAU8325_PGAL_GAIN_MASK (0x1f << 8)
-#define NAU8325_CLIP_MASK (0x1 << 7)
-#define NAU8325_SCAN_MODE_MASK (0x1 << 6)
-#define NAU8325_SDB_MASK (0x1 << 5)
-#define NAU8325_TALARM_MASK (0x1 << 4)
-#define NAU8325_SHORTR_MASK (0x1 << 3)
-#define NAU8325_SHORTL_MASK (0x1 << 2)
-#define NAU8325_TMDET_MASK 0x3
-
-/* DAC_CTRL1 (0x29) */
-#define NAU8325_DAC_OVERSAMPLE_SFT 0
-#define NAU8325_DAC_OVERSAMPLE_MASK (0x7 << NAU8325_DAC_OVERSAMPLE_SFT)
-#define NAU8325_DAC_OVERSAMPLE_256 (0x0 << NAU8325_DAC_OVERSAMPLE_SFT)
-#define NAU8325_DAC_OVERSAMPLE_128 (0x1 << NAU8325_DAC_OVERSAMPLE_SFT)
-#define NAU8325_DAC_OVERSAMPLE_64 (0x2 << NAU8325_DAC_OVERSAMPLE_SFT)
-#define NAU8325_DAC_OVERSAMPLE_32 (0x4 << NAU8325_DAC_OVERSAMPLE_SFT)
-
-/* ALC_CTRL1 (0x2c) */
-#define NAU8325_ALC_MAXGAIN_SFT 8
-#define NAU8325_ALC_MAXGAIN_MAX 7
-#define NAU8325_ALC_MAXGAIN_MASK (0x7 << NAU8325_ALC_MAXGAIN_SFT)
-#define NAU8325_ALC_MINGAIN_MAX 7
-#define NAU8325_ALC_MINGAIN_SFT 4
-#define NAU8325_ALC_MINGAIN_MASK (0x7 << NAU8325_ALC_MINGAIN_SFT)
-
-/* ALC_CTRL2 (0x2d) */
-#define NAU8325_ALC_DCY_SFT 12
-#define NAU8325_ALC_DCY_MAX 0xf
-#define NAU8325_ALC_DCY_MASK (0xf << NAU8325_ALC_DCY_SFT)
-#define NAU8325_ALC_ATK_SFT 8
-#define NAU8325_ALC_ATK_MAX 0xf
-#define NAU8325_ALC_ATK_MASK (0xf << NAU8325_ALC_ATK_SFT)
-#define NAU8325_ALC_HLD_SFT 4
-#define NAU8325_ALC_HLD_MAX 0xf
-#define NAU8325_ALC_HLD_MASK (0xf << NAU8325_ALC_HLD_SFT)
-#define NAU8325_ALC_LVL_SFT 0
-#define NAU8325_ALC_LVL_MAX 0xf
-#define NAU8325_ALC_LVL_MASK (0xf << NAU8325_ALC_LVL_SFT)
-
-/* ALC_CTRL3 (0x2e) */
-#define NAU8325_ALC_EN_SFT 15
-#define NAU8325_ALC_EN (0x1 << NAU8325_ALC_EN_SFT)
-
-/* MISC_CTRL (0x55) */
-#define NAU8325_TEMP_COMP_ACT2_MASK (0x1 << 5)
-
-/* BIAS_ADJ (0x60) */
-#define NAU8325_LPF_IN1_EN_SFT 15
-#define NAU8325_LPF_IN1_EN (0x1 << NAU8325_LPF_IN1_EN_SFT)
-#define NAU8325_LPF_IN1_TC_SFT 12
-#define NAU8325_LPF_IN1_TC_MASK (0x7 << NAU8325_LPF_IN1_TC_SFT)
-#define NAU8325_LPF_IN2_EN_SFT 11
-#define NAU8325_LPF_IN2_EN (0x1 << NAU8325_LPF_IN2_EN_SFT)
-#define NAU8325_LPF_IN2_TC_SFT 8
-#define NAU8325_LPF_IN2_TC_MASK (0x7 << NAU8325_LPF_IN2_TC_SFT)
-
-/* CLK_DET_CTRL (0x40) */
-#define NAU8325_APWRUP_SFT 15
-#define NAU8325_APWRUP_EN (0x1 << NAU8325_APWRUP_SFT)
-#define NAU8325_CLKPWRUP_SFT 14
-#define NAU8325_CLKPWRUP_DIS (0x1 << NAU8325_CLKPWRUP_SFT)
-#define NAU8325_PWRUP_DFT_SFT 13
-#define NAU8325_PWRUP_DFT (0x1 << NAU8325_PWRUP_DFT_SFT)
-#define NAU8325_REG_SRATE_SFT 10
-#define NAU8325_REG_SRATE_MASK (0x7 << NAU8325_REG_SRATE_SFT)
-#define NAU8325_REG_ALT_SRATE_SFT 9
-#define NAU8325_REG_ALT_SRATE_EN (0x1 << NAU8325_REG_ALT_SRATE_SFT)
-#define NAU8325_REG_DIV_MAX (0x1 << 8)
-
-/* BIAS_ADJ (0x60) */
-#define NAU8325_BIAS_VMID_SEL_SFT 4
-#define NAU8325_BIAS_VMID_SEL_MASK (0x3 << NAU8325_BIAS_VMID_SEL_SFT)
-
-/* ANALOG_CONTROL_1 (0x61) */
-#define NAU8325_VMDFSTENB_SFT 14
-#define NAU8325_VMDFSTENB_MASK (0x3 << NAU8325_VMDFSTENB_SFT)
-#define NAU8325_CLASSDEN_SFT 12
-#define NAU8325_CLASSDEN_MASK (0x3 << NAU8325_CLASSDEN_SFT)
-#define NAU8325_DACCLKEN_R_SFT 10
-#define NAU8325_DACCLKEN_R_MASK (0x3 << NAU8325_DACCLKEN_R_SFT)
-#define NAU8325_DACEN_R_SFT 8
-#define NAU8325_DACEN_R_MASK (0x3 << NAU8325_DACEN_R_SFT)
-#define NAU8325_DACCLKEN_SFT 6
-#define NAU8325_DACCLKEN_MASK (0x3 << NAU8325_DACCLKEN_SFT)
-#define NAU8325_DACEN_SFT 4
-#define NAU8325_DACEN_MASK (0x3 << NAU8325_DACEN_SFT)
-#define NAU8325_BIASEN_SFT 2
-#define NAU8325_BIASEN_MASK (0x3 << NAU8325_BIASEN_SFT)
-#define NAU8325_VMIDEN_MASK 0x3
-
-#define NAU8325_ANALOG_CTRL1_VMID_EN (0x3 << 0)
-#define NAU8325_ANALOG_CTRL1_CLASSD_EN (0x3 << 12)
-#define NAU8325_ANALOG_CTRL1_EN_MASK \
-  (NAU8325_ANALOG_CTRL1_VMID_EN | NAU8325_ANALOG_CTRL1_CLASSD_EN)
-
-/* ANALOG_CONTROL_2 (0x62) */
-#define NAU8325_PWMMOD_SFT 14
-#define NAU8325_PWMMOD_MASK (0x3 << NAU8325_PWMMOD_SFT)
-#define NAU8325_DACTEST_SFT 8
-#define NAU8325_DACTEST_MASK (0x7 << NAU8325_DACTEST_SFT)
-#define NAU8325_DACREFCAP_SFT 6
-#define NAU8325_DACREFCAP_MASK (0x3 << NAU8325_DACREFCAP_SFT)
-
-/* ANALOG_CONTROL_3 (0x63) */
-#define NAU8325_POWER_DOWN_L_SFT 8
-#define NAU8325_POWER_DOWN_L_MASK (0x3 << NAU8325_POWER_DOWN_L_SFT)
-#define NAU8325_POWER_DOWN_R_SFT 6
-#define NAU8325_POWER_DOWN_R_MASK (0x3 << NAU8325_POWER_DOWN_R_SFT)
-#define NAU8325_CLASSD_FINE_SFT 3
-#define NAU8325_CLASSD_FINE_MASK (0x7 << NAU8325_CLASSD_FINE_SFT)
-#define NAU8325_CLASSD_COARSE_GAIN_MASK 0x7
-
-/* ANALOG_CONTROL_4 (0x64) */
-#define NAU8325_CLASSD_OCPN_SFT 8
-#define NAU8325_CLASSD_OCPN_MASK (0xf << NAU8325_CLASSD_OCPN_SFT)
-#define NAU8325_CLASSD_OCPP_SFT 4
-#define NAU8325_CLASSD_OCPP_MASK (0xf << NAU8325_CLASSD_OCPP_SFT)
-#define NAU8325_CLASSD_SLEWN_MASK 0xf
-
-/* ANALOG_CONTROL_5 (0x65) */
-#define NAU8325_MCLK_RANGE_SFT 15
-#define NAU8325_MCLK_RANGE_EN (0x1 << NAU8325_MCLK_RANGE_SFT)
-#define NAU8325_MCLK8XEN_SFT 4
-#define NAU8325_MCLK8XEN_EN (0x1 << NAU8325_MCLK8XEN_SFT)
-#define NAU8325_MCLK4XEN_EN (0x1 << 3)
-
-/* ANALOG_CONTROL_6 (0x66) */
-#define NAU8325_VBATLOW_SFT 14
-#define NAU8325_VBATLOW_MASK (0x3 << NAU8325_VBATLOW_SFT)
-#define NAU8325_VDDSPK_LIM_SFT 8
-#define NAU8325_VDDSPK_LIM_EN (0x1 << NAU8325_VDDSPK_LIM_SFT)
-#define NAU8325_VDDSPK_LIM_MASK (0x7 << 9)
-
-#define NAU8325_ANALOG_CTRL6_SPKL_EN (0x1 << 2)
-#define NAU8325_ANALOG_CTRL6_SPKR_EN (0x1 << 1)
-#define NAU8325_ANALOG_CTRL6_EN_MASK \
-  (NAU8325_ANALOG_CTRL6_SPKL_EN | NAU8325_ANALOG_CTRL6_SPKR_EN)
-
-/* CLIP_CTRL (0x69) */
-#define NAU8325_ANTI_CLIP_SFT 15
-#define NAU8325_ANTI_CLIP_EN (0x1 << NAU8325_ANTI_CLIP_SFT)
-
-/* RDAC (0x73) */
-#define NAU8325_CLK_DAC_DELAY_SFT 4
-#define NAU8325_CLK_DAC_DELAY_EN (0xf << NAU8325_CLK_DAC_DELAY_SFT)
-#define NAU8325_DACVREFSEL_SFT 2
-#define NAU8325_DACVREFSEL_MASK (0x3 << NAU8325_DACVREFSEL_SFT)
-#define CLK_DA_AD_MAX 6144000
-
-#define MASTER_CLK_MIN 2048000
-#define MASTER_CLK_MAX 49152000
 
 namespace audio_driver {
 
@@ -408,6 +43,289 @@ enum ClockRatio {
 
 class PCBCUPID_NAU8325 {
  public:
+  static constexpr uint16_t NAU8325_I2C_ADDR = 0x21;
+  static constexpr uint16_t NAU8325_R00_HARDWARE_RST = 0x00;
+  static constexpr uint16_t NAU8325_R01_SOFTWARE_RST = 0x01;
+  static constexpr uint16_t NAU8325_R02_DEVICE_ID = 0x02;
+  static constexpr uint32_t NAU8325_R03_CLK_CTRL = 0x03;
+  static constexpr uint16_t NAU8325_R04_ENA_CTRL = 0x04;
+  static constexpr uint16_t NAU8325_R05_INTERRUPT_CTRL = 0x05;
+  static constexpr uint16_t NAU8325_R06_INT_CLR_STATUS = 0x06;
+  static constexpr uint16_t NAU8325_R09_IRQOUT = 0x09;
+  static constexpr uint16_t NAU8325_R0A_IO_CTRL = 0x0a;
+  static constexpr uint16_t NAU8325_R0B_PDM_CTRL = 0x0b;
+  static constexpr uint16_t NAU8325_R0C_TDM_CTRL = 0x0c;
+  static constexpr uint16_t NAU8325_R0D_I2S_PCM_CTRL1 = 0x0d;
+  static constexpr uint16_t NAU8325_R0E_I2S_PCM_CTRL2 = 0x0e;
+  static constexpr uint16_t NAU8325_R0F_L_TIME_SLOT = 0x0f;
+  static constexpr uint16_t NAU8325_R10_R_TIME_SLOT = 0x10;
+  static constexpr uint16_t NAU8325_R11_HPF_CTRL = 0x11;
+  static constexpr uint16_t NAU8325_R12_MUTE_CTRL = 0x12;
+  static constexpr uint16_t NAU8325_R13_DAC_VOLUME = 0x13;
+  static constexpr uint16_t NAU8325_R1D_DEBUG_READ1 = 0x1d;
+  static constexpr uint16_t NAU8325_R1F_DEBUG_READ2 = 0x1f;
+  static constexpr uint16_t NAU8325_R22_DEBUG_READ3 = 0x22;
+  static constexpr uint16_t NAU8325_R29_DAC_CTRL1 = 0x29;
+  static constexpr uint16_t NAU8325_R2A_DAC_CTRL2 = 0x2a;
+  static constexpr uint16_t NAU8325_R2C_ALC_CTRL1 = 0x2c;
+  static constexpr uint16_t NAU8325_R2D_ALC_CTRL2 = 0x2d;
+  static constexpr uint16_t NAU8325_R2E_ALC_CTRL3 = 0x2e;
+  static constexpr uint16_t NAU8325_R2F_ALC_CTRL4 = 0x2f;
+  static constexpr uint32_t NAU8325_R40_CLK_DET_CTRL = 0x40;
+  static constexpr uint16_t NAU8325_R49_TEST_STATUS = 0x49;
+  static constexpr uint16_t NAU8325_R4A_ANALOG_READ = 0x4a;
+  static constexpr uint16_t NAU8325_R50_MIXER_CTRL = 0x50;
+  static constexpr uint16_t NAU8325_R55_MISC_CTRL = 0x55;
+  static constexpr uint16_t NAU8325_R60_BIAS_ADJ = 0x60;
+  static constexpr uint16_t NAU8325_R61_ANALOG_CONTROL_1 = 0x61;
+  static constexpr uint16_t NAU8325_R62_ANALOG_CONTROL_2 = 0x62;
+  static constexpr uint16_t NAU8325_R63_ANALOG_CONTROL_3 = 0x63;
+  static constexpr uint16_t NAU8325_R64_ANALOG_CONTROL_4 = 0x64;
+  static constexpr uint16_t NAU8325_R65_ANALOG_CONTROL_5 = 0x65;
+  static constexpr uint16_t NAU8325_R66_ANALOG_CONTROL_6 = 0x66;
+  static constexpr uint16_t NAU8325_R69_CLIP_CTRL = 0x69;
+  static constexpr uint16_t NAU8325_R73_RDAC = 0x73;
+  static constexpr uint32_t NAU8325_REG_MAX = NAU8325_R73_RDAC;
+  static constexpr uint16_t NAU8325_VMIDEN_SFT = 0x03;
+  static constexpr uint32_t NAU8325_REG_ADDR_LEN = 16;
+  static constexpr uint32_t NAU8325_REG_DATA_LEN = 16;
+  static constexpr uint32_t NAU8325_CLK_DAC_SRC_SFT = 12;
+  static constexpr uint32_t NAU8325_CLK_DAC_SRC_MASK = (0x3 << NAU8325_CLK_DAC_SRC_SFT);
+  static constexpr uint32_t NAU8325_CLK_MUL_SRC_SFT = 6;
+  static constexpr uint32_t NAU8325_CLK_MUL_SRC_MASK = (0x3 << NAU8325_CLK_MUL_SRC_SFT);
+  static constexpr uint32_t NAU8325_MCLK_SEL_SFT = 3;
+  static constexpr uint32_t NAU8325_MCLK_SEL_MASK = (0x7 << NAU8325_MCLK_SEL_SFT);
+  static constexpr uint32_t NAU8325_MCLK_SRC_MASK = 0x7;
+  static constexpr uint16_t NAU8325_DAC_LEFT_CH_EN_SFT = 3;
+  static constexpr uint16_t NAU8325_DAC_LEFT_CH_EN = (0x1 << NAU8325_DAC_LEFT_CH_EN_SFT);
+  static constexpr uint16_t NAU8325_DAC_RIGHT_CH_EN_SFT = 2;
+  static constexpr uint16_t NAU8325_DAC_RIGHT_CH_EN = (0x1 << NAU8325_DAC_RIGHT_CH_EN_SFT);
+  static constexpr uint16_t NAU8325_ENA_CTRL_DACR_EN = 0x0008;
+  static constexpr uint16_t NAU8325_ENA_CTRL_DACL_EN = 0x0004;
+  static constexpr uint16_t NAU8325_ENA_CTRL_DAC_EN_MASK = 0x000C;
+  static constexpr uint16_t NAU8325_ARP_DWN_INT_SFT = 12;
+  static constexpr uint16_t NAU8325_ARP_DWN_INT_MASK = (0x1 << NAU8325_ARP_DWN_INT_SFT);
+  static constexpr uint16_t NAU8325_CLIP_INT_SFT = 11;
+  static constexpr uint16_t NAU8325_CLIP_INT_MASK = (0x1 << NAU8325_CLIP_INT_SFT);
+  static constexpr uint16_t NAU8325_LVD_INT_SFT = 10;
+  static constexpr uint16_t NAU8325_LVD_INT_MASK = (0x1 << NAU8325_LVD_INT_SFT);
+  static constexpr uint16_t NAU8325_PWR_INT_DIS_SFT = 8;
+  static constexpr uint16_t NAU8325_PWR_INT_DIS = (0x1 << NAU8325_PWR_INT_DIS_SFT);
+  static constexpr uint16_t NAU8325_OCP_OTP_SHTDWN_INT_SFT = 4;
+  static constexpr uint16_t NAU8325_OCP_OTP_SHTDWN_INT_MASK = (0x1 << NAU8325_OCP_OTP_SHTDWN_INT_SFT);
+  static constexpr uint16_t NAU8325_CLIP_INT_DIS_SFT = 3;
+  static constexpr uint16_t NAU8325_CLIP_INT_DIS = (0x1 << NAU8325_CLIP_INT_DIS_SFT);
+  static constexpr uint16_t NAU8325_LVD_INT_DIS_SFT = 2;
+  static constexpr uint16_t NAU8325_LVD_INT_DIS = (0x1 << NAU8325_LVD_INT_DIS_SFT);
+  static constexpr uint16_t NAU8325_PWR_INT_MASK = 0x1;
+  static constexpr uint16_t NAU8325_INT_STATUS_MASK = 0x7f;
+  static constexpr uint16_t NAU8325_IRQOUT_SEL_SEF = 14;
+  static constexpr uint16_t NAU8325_IRQOUT_SEL_MASK = (0x3 << NAU8325_IRQOUT_SEL_SEF);
+  static constexpr uint16_t NAU8325_DEM_DITH_SFT = 13;
+  static constexpr uint16_t NAU8325_DEM_DITH_EN = (0x1 << NAU8325_DEM_DITH_SFT);
+  static constexpr uint16_t NAU8325_GAINZI3_SFT = 4;
+  static constexpr uint16_t NAU8325_GAINZI3_MASK = (0x1 << NAU8325_GAINZI3_SFT);
+  static constexpr uint16_t NAU8325_GAINZI2_MASK = 0x7;
+  static constexpr uint16_t NAU8325_IRQ_PL_SFT = 7;
+  static constexpr uint16_t NAU8325_IRQ_PL_ACT_HIGH = (0x1 << NAU8325_IRQ_PL_SFT);
+  static constexpr uint16_t NAU8325_IRQ_PS_SFT = 6;
+  static constexpr uint16_t NAU8325_IRQ_PS_UP = (0x1 << NAU8325_IRQ_PS_SFT);
+  static constexpr uint16_t NAU8325_IRQ_PE_SFT = 5;
+  static constexpr uint16_t NAU8325_IRQ_PE_EN = (0x1 << NAU8325_IRQ_PE_SFT);
+  static constexpr uint16_t NAU8325_IRQ_DS_SFT = 4;
+  static constexpr uint16_t NAU8325_IRQ_DS_HIGH = (0x1 << NAU8325_IRQ_DS_SFT);
+  static constexpr uint16_t NAU8325_IRQ_OUTPUT_SFT = 3;
+  static constexpr uint16_t NAU8325_IRQ_OUTPUT_EN = (0x1 << NAU8325_IRQ_OUTPUT_SFT);
+  static constexpr uint16_t NAU8325_IRQ_PIN_DEBUG_SFT = 2;
+  static constexpr uint16_t NAU8325_IRQ_PIN_DEBUG_EN = (0x1 << NAU8325_IRQ_PIN_DEBUG_SFT);
+  static constexpr uint16_t NAU8325_PDM_LCH_EDGE_SFT = 1;
+  static constexpr uint16_t NAU8325_PDM_LCH_EDGE__MASK = (0x1 << NAU8325_PDM_LCH_EDGE_SFT);
+  static constexpr uint16_t NAU8325_PDM_MODE_EN = 0x1;
+  static constexpr uint16_t NAU8325_TDM_SFT = 15;
+  static constexpr uint16_t NAU8325_TDM_EN = (0x1 << NAU8325_TDM_SFT);
+  static constexpr uint16_t NAU8325_PCM_OFFSET_CTRL_SFT = 14;
+  static constexpr uint16_t NAU8325_PCM_OFFSET_CTRL_EN = (0x1 << NAU8325_PCM_OFFSET_CTRL_SFT);
+  static constexpr uint16_t NAU8325_DAC_LEFT_SFT = 6;
+  static constexpr uint16_t NAU8325_NAU8325_DAC_LEFT_MASK = (0x7 << NAU8325_DAC_LEFT_SFT);
+  static constexpr uint16_t NAU8325_DAC_RIGHT_SFT = 3;
+  static constexpr uint16_t NAU8325_DAC_RIGHT_MASK = (0x7 << NAU8325_DAC_RIGHT_SFT);
+  static constexpr uint16_t NAU8325_DACCM_CTL_SFT = 14;
+  static constexpr uint16_t NAU8325_DACCM_CTL_MASK = (0x3 << NAU8325_DACCM_CTL_SFT);
+  static constexpr uint16_t NAU8325_CMB8_0_SFT = 13;
+  static constexpr uint16_t NAU8325_CMB8_0_MASK = (0x1 << NAU8325_CMB8_0_SFT);
+  static constexpr uint16_t NAU8325_UA_OFFSET_SFT = 12;
+  static constexpr uint16_t NAU8325_UA_OFFSET_MASK = (0x1 << NAU8325_UA_OFFSET_SFT);
+  static constexpr uint16_t NAU8325_I2S_BP_SFT = 7;
+  static constexpr uint16_t NAU8325_I2S_BP_MASK = (0x1 << NAU8325_I2S_BP_SFT);
+  static constexpr uint16_t NAU8325_I2S_BP_INV = (0x1 << NAU8325_I2S_BP_SFT);
+  static constexpr uint16_t NAU8325_I2S_PCMB_SFT = 6;
+  static constexpr uint16_t NAU8325_I2S_PCMB_EN = (0x1 << NAU8325_I2S_PCMB_SFT);
+  static constexpr uint16_t NAU8325_I2S_DACPSHS0_SFT = 4;
+  static constexpr uint16_t NAU8325_I2S_DACPSHS0_MASK = (0x3 << NAU8325_I2S_DACPSHS0_SFT);
+  static constexpr uint16_t NAU8325_I2S_DL_SFT = 2;
+  static constexpr uint16_t NAU8325_I2S_DL_MASK = (0x3 << NAU8325_I2S_DL_SFT);
+  static constexpr uint16_t NAU8325_I2S_DL_32 = (0x3 << NAU8325_I2S_DL_SFT);
+  static constexpr uint16_t NAU8325_I2S_DL_24 = (0x2 << NAU8325_I2S_DL_SFT);
+  static constexpr uint16_t NAU8325_I2S_DL_20 = (0x1 << NAU8325_I2S_DL_SFT);
+  static constexpr uint16_t NAU8325_I2S_DL_16 = (0x0 << NAU8325_I2S_DL_SFT);
+  static constexpr uint16_t NAU8325_I2S_DF_MASK = 0x3;
+  static constexpr uint16_t NAU8325_I2S_DF_RIGTH = 0x0;
+  static constexpr uint16_t NAU8325_I2S_DF_LEFT = 0x1;
+  static constexpr uint16_t NAU8325_I2S_DF_I2S = 0x2;
+  static constexpr uint16_t NAU8325_I2S_DF_PCM_AB = 0x3;
+  static constexpr uint16_t NAU8325_PCM_TS_SFT = 10;
+  static constexpr uint16_t NAU8325_PCM_TS_EN = (0x1 << NAU8325_PCM_TS_SFT);
+  static constexpr uint16_t NAU8325_PCM8BIT0_SFT = 8;
+  static constexpr uint16_t NAU8325_PCM8BIT0_MASK = (0x3 << NAU8325_PCM8BIT0_SFT);
+  static constexpr uint16_t NAU8325_SHORT_FS_DET_SFT = 9;
+  static constexpr uint16_t NAU8325_SHORT_FS_DET_DIS = (0x1 << NAU8325_SHORT_FS_DET_SFT);
+  static constexpr uint16_t NAU8325_TSLOT_L0_MASK = 0x1ff;
+  static constexpr uint16_t NAU8325_TSLOT_R0_MASK = 0x1ff;
+  static constexpr uint16_t NAU8325_DAC_HPF_SFT = 15;
+  static constexpr uint16_t NAU8325_DAC_HPF_EN = (0x1 << NAU8325_DAC_HPF_SFT);
+  static constexpr uint16_t NAU8325_DAC_HPF_APP_SFT = 4;
+  static constexpr uint16_t NAU8325_DAC_HPF_APP_MASK = (0x1 << NAU8325_DAC_HPF_APP_SFT);
+  static constexpr uint32_t NAU8325_DAC_HPF_FCUT_SFT = 0;
+  static constexpr uint16_t NAU8325_DAC_HPF_FCUT_MASK = (0xf << NAU8325_DAC_HPF_FCUT_SFT);
+  static constexpr uint16_t NAU8325_SOFT_MUTE_SFT = 9;
+  static constexpr uint16_t NAU8325_SOFT_MUTE = (0x1 << NAU8325_SOFT_MUTE_SFT);
+  static constexpr uint16_t NAU8325_DAC_ZC_SFT = 8;
+  static constexpr uint16_t NAU8325_DAC_ZC_EN = (0x1 << NAU8325_DAC_ZC_SFT);
+  static constexpr uint16_t NAU8325_UNMUTE_CTL_SFT = 6;
+  static constexpr uint16_t NAU8325_UNMUTE_CTL_MASK = (0x3 << NAU8325_UNMUTE_CTL_SFT);
+  static constexpr uint16_t NAU8325_ANA_MUTE_SFT = 4;
+  static constexpr uint16_t NAU8325_ANA_MUTE_MASK = (0x3 << NAU8325_ANA_MUTE_SFT);
+  static constexpr uint16_t NAU8325_AUTO_MUTE_SFT = 2;
+  static constexpr uint16_t NAU8325_AUTO_MUTE_DIS = (0x1 << NAU8325_AUTO_MUTE_SFT);
+  static constexpr uint16_t NAU8325_DAC_VOLUME_L_SFT = 8;
+  static constexpr uint16_t NAU8325_DAC_VOLUME_L_EN = (0xff << NAU8325_DAC_VOLUME_L_SFT);
+  static constexpr uint32_t NAU8325_DAC_VOLUME_R_SFT = 0;
+  static constexpr uint16_t NAU8325_DAC_VOLUME_R_EN = (0xff << NAU8325_DAC_VOLUME_R_SFT);
+  static constexpr uint32_t NAU8325_DAC_VOL_MAX = 0xfe;
+  static constexpr uint16_t NAU8325_OSR100_MASK = (0x1 << 7);
+  static constexpr uint16_t NAU8325_MIPS500_MASK = (0x1 << 6);
+  static constexpr uint16_t NAU8325_SHUTDWNDRVR_R_MASK = (0x1 << 5);
+  static constexpr uint16_t NAU8325_SHUTDWNDRVR_L_MASK = (0x1 << 4);
+  static constexpr uint16_t NAU8325_MUTEB_MASK = (0x1 << 3);
+  static constexpr uint16_t NAU8325_PDOSCB_MASK = (0x1 << 2);
+  static constexpr uint16_t NAU8325_POWERDOWN1B_D_MASK = (0x1 << 1);
+  static constexpr uint16_t NAU8325_R_CHANNEL_Vol_SFT = 8;
+  static constexpr uint16_t NAU8325_R_CHANNEL_Vol_MASK = (0x1f << NAU8325_R_CHANNEL_Vol_SFT);
+  static constexpr uint16_t NAU8325_L_CHANNEL_Vol_MASK = 0x1f;
+  static constexpr uint16_t NAU8325_PGAL_GAIN_MASK = (0x1f << 8);
+  static constexpr uint16_t NAU8325_CLIP_MASK = (0x1 << 7);
+  static constexpr uint16_t NAU8325_SCAN_MODE_MASK = (0x1 << 6);
+  static constexpr uint16_t NAU8325_SDB_MASK = (0x1 << 5);
+  static constexpr uint16_t NAU8325_TALARM_MASK = (0x1 << 4);
+  static constexpr uint16_t NAU8325_SHORTR_MASK = (0x1 << 3);
+  static constexpr uint16_t NAU8325_SHORTL_MASK = (0x1 << 2);
+  static constexpr uint16_t NAU8325_TMDET_MASK = 0x3;
+  static constexpr uint32_t NAU8325_DAC_OVERSAMPLE_SFT = 0;
+  static constexpr uint16_t NAU8325_DAC_OVERSAMPLE_MASK = (0x7 << NAU8325_DAC_OVERSAMPLE_SFT);
+  static constexpr uint16_t NAU8325_DAC_OVERSAMPLE_256 = (0x0 << NAU8325_DAC_OVERSAMPLE_SFT);
+  static constexpr uint16_t NAU8325_DAC_OVERSAMPLE_128 = (0x1 << NAU8325_DAC_OVERSAMPLE_SFT);
+  static constexpr uint16_t NAU8325_DAC_OVERSAMPLE_64 = (0x2 << NAU8325_DAC_OVERSAMPLE_SFT);
+  static constexpr uint16_t NAU8325_DAC_OVERSAMPLE_32 = (0x4 << NAU8325_DAC_OVERSAMPLE_SFT);
+  static constexpr uint16_t NAU8325_ALC_MAXGAIN_SFT = 8;
+  static constexpr uint32_t NAU8325_ALC_MAXGAIN_MAX = 7;
+  static constexpr uint16_t NAU8325_ALC_MAXGAIN_MASK = (0x7 << NAU8325_ALC_MAXGAIN_SFT);
+  static constexpr uint32_t NAU8325_ALC_MINGAIN_MAX = 7;
+  static constexpr uint32_t NAU8325_ALC_MINGAIN_SFT = 4;
+  static constexpr uint32_t NAU8325_ALC_MINGAIN_MASK = (0x7 << NAU8325_ALC_MINGAIN_SFT);
+  static constexpr uint16_t NAU8325_ALC_DCY_SFT = 12;
+  static constexpr uint32_t NAU8325_ALC_DCY_MAX = 0xf;
+  static constexpr uint16_t NAU8325_ALC_DCY_MASK = (0xf << NAU8325_ALC_DCY_SFT);
+  static constexpr uint16_t NAU8325_ALC_ATK_SFT = 8;
+  static constexpr uint32_t NAU8325_ALC_ATK_MAX = 0xf;
+  static constexpr uint16_t NAU8325_ALC_ATK_MASK = (0xf << NAU8325_ALC_ATK_SFT);
+  static constexpr uint16_t NAU8325_ALC_HLD_SFT = 4;
+  static constexpr uint32_t NAU8325_ALC_HLD_MAX = 0xf;
+  static constexpr uint16_t NAU8325_ALC_HLD_MASK = (0xf << NAU8325_ALC_HLD_SFT);
+  static constexpr uint32_t NAU8325_ALC_LVL_SFT = 0;
+  static constexpr uint32_t NAU8325_ALC_LVL_MAX = 0xf;
+  static constexpr uint16_t NAU8325_ALC_LVL_MASK = (0xf << NAU8325_ALC_LVL_SFT);
+  static constexpr uint16_t NAU8325_ALC_EN_SFT = 15;
+  static constexpr uint16_t NAU8325_ALC_EN = (0x1 << NAU8325_ALC_EN_SFT);
+  static constexpr uint16_t NAU8325_TEMP_COMP_ACT2_MASK = (0x1 << 5);
+  static constexpr uint16_t NAU8325_LPF_IN1_EN_SFT = 15;
+  static constexpr uint16_t NAU8325_LPF_IN1_EN = (0x1 << NAU8325_LPF_IN1_EN_SFT);
+  static constexpr uint16_t NAU8325_LPF_IN1_TC_SFT = 12;
+  static constexpr uint16_t NAU8325_LPF_IN1_TC_MASK = (0x7 << NAU8325_LPF_IN1_TC_SFT);
+  static constexpr uint16_t NAU8325_LPF_IN2_EN_SFT = 11;
+  static constexpr uint16_t NAU8325_LPF_IN2_EN = (0x1 << NAU8325_LPF_IN2_EN_SFT);
+  static constexpr uint16_t NAU8325_LPF_IN2_TC_SFT = 8;
+  static constexpr uint16_t NAU8325_LPF_IN2_TC_MASK = (0x7 << NAU8325_LPF_IN2_TC_SFT);
+  static constexpr uint16_t NAU8325_APWRUP_SFT = 15;
+  static constexpr uint16_t NAU8325_APWRUP_EN = (0x1 << NAU8325_APWRUP_SFT);
+  static constexpr uint32_t NAU8325_CLKPWRUP_SFT = 14;
+  static constexpr uint32_t NAU8325_CLKPWRUP_DIS = (0x1 << NAU8325_CLKPWRUP_SFT);
+  static constexpr uint16_t NAU8325_PWRUP_DFT_SFT = 13;
+  static constexpr uint16_t NAU8325_PWRUP_DFT = (0x1 << NAU8325_PWRUP_DFT_SFT);
+  static constexpr uint16_t NAU8325_REG_SRATE_SFT = 10;
+  static constexpr uint16_t NAU8325_REG_SRATE_MASK = (0x7 << NAU8325_REG_SRATE_SFT);
+  static constexpr uint16_t NAU8325_REG_ALT_SRATE_SFT = 9;
+  static constexpr uint16_t NAU8325_REG_ALT_SRATE_EN = (0x1 << NAU8325_REG_ALT_SRATE_SFT);
+  static constexpr uint32_t NAU8325_REG_DIV_MAX = (0x1 << 8);
+  static constexpr uint16_t NAU8325_BIAS_VMID_SEL_SFT = 4;
+  static constexpr uint16_t NAU8325_BIAS_VMID_SEL_MASK = (0x3 << NAU8325_BIAS_VMID_SEL_SFT);
+  static constexpr uint16_t NAU8325_VMDFSTENB_SFT = 14;
+  static constexpr uint16_t NAU8325_VMDFSTENB_MASK = (0x3 << NAU8325_VMDFSTENB_SFT);
+  static constexpr uint16_t NAU8325_CLASSDEN_SFT = 12;
+  static constexpr uint16_t NAU8325_CLASSDEN_MASK = (0x3 << NAU8325_CLASSDEN_SFT);
+  static constexpr uint32_t NAU8325_DACCLKEN_R_SFT = 10;
+  static constexpr uint32_t NAU8325_DACCLKEN_R_MASK = (0x3 << NAU8325_DACCLKEN_R_SFT);
+  static constexpr uint16_t NAU8325_DACEN_R_SFT = 8;
+  static constexpr uint16_t NAU8325_DACEN_R_MASK = (0x3 << NAU8325_DACEN_R_SFT);
+  static constexpr uint32_t NAU8325_DACCLKEN_SFT = 6;
+  static constexpr uint32_t NAU8325_DACCLKEN_MASK = (0x3 << NAU8325_DACCLKEN_SFT);
+  static constexpr uint16_t NAU8325_DACEN_SFT = 4;
+  static constexpr uint16_t NAU8325_DACEN_MASK = (0x3 << NAU8325_DACEN_SFT);
+  static constexpr uint16_t NAU8325_BIASEN_SFT = 2;
+  static constexpr uint16_t NAU8325_BIASEN_MASK = (0x3 << NAU8325_BIASEN_SFT);
+  static constexpr uint16_t NAU8325_VMIDEN_MASK = 0x3;
+  static constexpr uint16_t NAU8325_ANALOG_CTRL1_VMID_EN = (0x3 << 0);
+  static constexpr uint16_t NAU8325_ANALOG_CTRL1_CLASSD_EN = (0x3 << 12);
+  static constexpr uint16_t NAU8325_ANALOG_CTRL1_EN_MASK = (NAU8325_ANALOG_CTRL1_VMID_EN | NAU8325_ANALOG_CTRL1_CLASSD_EN);
+  static constexpr uint16_t NAU8325_PWMMOD_SFT = 14;
+  static constexpr uint16_t NAU8325_PWMMOD_MASK = (0x3 << NAU8325_PWMMOD_SFT);
+  static constexpr uint16_t NAU8325_DACTEST_SFT = 8;
+  static constexpr uint16_t NAU8325_DACTEST_MASK = (0x7 << NAU8325_DACTEST_SFT);
+  static constexpr uint16_t NAU8325_DACREFCAP_SFT = 6;
+  static constexpr uint16_t NAU8325_DACREFCAP_MASK = (0x3 << NAU8325_DACREFCAP_SFT);
+  static constexpr uint16_t NAU8325_POWER_DOWN_L_SFT = 8;
+  static constexpr uint16_t NAU8325_POWER_DOWN_L_MASK = (0x3 << NAU8325_POWER_DOWN_L_SFT);
+  static constexpr uint16_t NAU8325_POWER_DOWN_R_SFT = 6;
+  static constexpr uint16_t NAU8325_POWER_DOWN_R_MASK = (0x3 << NAU8325_POWER_DOWN_R_SFT);
+  static constexpr uint16_t NAU8325_CLASSD_FINE_SFT = 3;
+  static constexpr uint16_t NAU8325_CLASSD_FINE_MASK = (0x7 << NAU8325_CLASSD_FINE_SFT);
+  static constexpr uint16_t NAU8325_CLASSD_COARSE_GAIN_MASK = 0x7;
+  static constexpr uint16_t NAU8325_CLASSD_OCPN_SFT = 8;
+  static constexpr uint16_t NAU8325_CLASSD_OCPN_MASK = (0xf << NAU8325_CLASSD_OCPN_SFT);
+  static constexpr uint16_t NAU8325_CLASSD_OCPP_SFT = 4;
+  static constexpr uint16_t NAU8325_CLASSD_OCPP_MASK = (0xf << NAU8325_CLASSD_OCPP_SFT);
+  static constexpr uint16_t NAU8325_CLASSD_SLEWN_MASK = 0xf;
+  static constexpr uint32_t NAU8325_MCLK_RANGE_SFT = 15;
+  static constexpr uint32_t NAU8325_MCLK_RANGE_EN = (0x1 << NAU8325_MCLK_RANGE_SFT);
+  static constexpr uint32_t NAU8325_MCLK8XEN_SFT = 4;
+  static constexpr uint32_t NAU8325_MCLK8XEN_EN = (0x1 << NAU8325_MCLK8XEN_SFT);
+  static constexpr uint32_t NAU8325_MCLK4XEN_EN = (0x1 << 3);
+  static constexpr uint16_t NAU8325_VBATLOW_SFT = 14;
+  static constexpr uint16_t NAU8325_VBATLOW_MASK = (0x3 << NAU8325_VBATLOW_SFT);
+  static constexpr uint16_t NAU8325_VDDSPK_LIM_SFT = 8;
+  static constexpr uint16_t NAU8325_VDDSPK_LIM_EN = (0x1 << NAU8325_VDDSPK_LIM_SFT);
+  static constexpr uint16_t NAU8325_VDDSPK_LIM_MASK = (0x7 << 9);
+  static constexpr uint16_t NAU8325_ANALOG_CTRL6_SPKL_EN = (0x1 << 2);
+  static constexpr uint16_t NAU8325_ANALOG_CTRL6_SPKR_EN = (0x1 << 1);
+  static constexpr uint16_t NAU8325_ANALOG_CTRL6_EN_MASK = (NAU8325_ANALOG_CTRL6_SPKL_EN | NAU8325_ANALOG_CTRL6_SPKR_EN);
+  static constexpr uint16_t NAU8325_ANTI_CLIP_SFT = 15;
+  static constexpr uint16_t NAU8325_ANTI_CLIP_EN = (0x1 << NAU8325_ANTI_CLIP_SFT);
+  static constexpr uint32_t NAU8325_CLK_DAC_DELAY_SFT = 4;
+  static constexpr uint32_t NAU8325_CLK_DAC_DELAY_EN = (0xf << NAU8325_CLK_DAC_DELAY_SFT);
+  static constexpr uint16_t NAU8325_DACVREFSEL_SFT = 2;
+  static constexpr uint16_t NAU8325_DACVREFSEL_MASK = (0x3 << NAU8325_DACVREFSEL_SFT);
+  static constexpr uint32_t CLK_DA_AD_MAX = 6144000;
+  static constexpr uint32_t MASTER_CLK_MIN = 2048000;
+  static constexpr uint32_t MASTER_CLK_MAX = 49152000;
   PCBCUPID_NAU8325(i2c_bus_handle_t wire);
 
   static const RegDefault reg_defaults[];
@@ -1112,4 +1030,3 @@ inline bool PCBCUPID_NAU8325::readRegister(uint16_t reg, uint16_t& value) {
 
 }  // namespace audio_driver
 
-#endif  // PCBCUPID_NAU8325_H

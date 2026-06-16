@@ -24,10 +24,6 @@
 
 #pragma once
 
-/**
- * @defgroup wm8960 WM8960 Audio Codec
- * @brief Transmit Audio
- */
 
 /**
  * Basic set of APIs for interacting with the WM8960 audio codec display.
@@ -47,475 +43,159 @@
 #include <Wire.h>
 #endif
 
-#define WM8960_I2C_ADDRESS (0x1A)
-
-/**
- * \{
- * @name WM8960_REG_LEFT_IN_VOL (0x00) and WM8960_REG_RIGHT_IN_VOL (0x01)
- * Bit definitions for the WM8960_REG_LEFT_IN_VOL
- * and WM8960_REG_RIGHT_IN_VOL register
- */
-#define WM8960_LEFT_RIGHT_IN_VOL_IPVU 0x100u   /**< Input PGA Volume Update */
-#define WM8960_LEFT_RIGHT_IN_VOL_INMUTE 0x080u /**< Input PGA Analogue Mute */
-#define WM8960_LEFT_RIGHT_IN_VOL_IZC_ZC  0x040u /**< Input PGA Zero Cross Detector */
-#define WM8960_LEFT_RIGHT_IN_VOL_INVOL_0dB 0x017u /**< Input PGA Volume 0dB */
-#define WM8960_LEFT_RIGHT_IN_VOL_INVOL_30dB 0x03Fu /**< Input PGA Volume 30dB */
-/** \} WM8960_REG_LEFT_IN_VOL and WM8960_REG_RIGHT_IN_VOL */
-
-/**
- * \{
- * @name WM8960_REG_LOUT1_VOL (0x02) and WM8960_REG_ROUT1_VOL (0x03)
- * Bit definitions for the WM8960_REG_LOUT1_VOL
- * and WM8960_REG_ROUT1_VOL register.
- */
-#define WM8960_LOUT1_ROUT1_VOL_OUT1VU \
-  0x100u /**< Headphone Output Volume Update */
-#define WM8960_LOUT1_ROUT1_VOL_O1ZC_ZC \
-  0x080u /**< Headphone Output Zero Cross Enable */
-#define WM8960_LOUT1_ROUT1_VOL_OUT1VOL_0dB \
-  0x079u /**< LOUT1 or ROUT1 Volume 0dB */
-#define WM8960_LOUT1_ROUT1_VOL_OUT1VOL_6dB \
-  0x07Fu /**< LOUT1 or ROUT1 Volume 6dB */
-/** \} WM8960_REG_LOUT1_VOL and WM8960_REG_ROUT1_VOL */
-
-/**
- * \{
- * @name WM8960_REG_CLK1 (0x04)
- * Bit definitions for the WM8960_REG_CLK1 register.
- */
-#define WM8960_CLK1_ADCDIV_BY_1 \
-  0x000u /**< ADC Sample rate divider (SYSCLK/(1 * 256)) */
-#define WM8960_CLK1_ADCDIV_BY_1_5 \
-  0x040u /**< ADC Sample rate divider (SYSCLK/(1.5 * 256)) */
-#define WM8960_CLK1_ADCDIV_BY_2 \
-  0x080u /**< ADC Sample rate divider (SYSCLK/(2 * 256)) */
-#define WM8960_CLK1_ADCDIV_BY_3 \
-  0x0C0u /**< ADC Sample rate divider (SYSCLK/(3 * 256)) */
-#define WM8960_CLK1_ADCDIV_BY_4 \
-  0x100u /**< ADC Sample rate divider (SYSCLK/(4 * 256)) */
-#define WM8960_CLK1_ADCDIV_BY_5_5 \
-  0x140u /**< ADC Sample rate divider (SYSCLK/(5.5 * 256)) */
-#define WM8960_CLK1_ADCDIV_BY_6 \
-  0x180u /**< ADC Sample rate divider (SYSCLK/(6 * 256)) */
-
-#define WM8960_CLK1_DACDIV_BY_1 \
-  0x000u /**< DAC Sample rate divider (SYSCLK/(1 * 256)) */
-#define WM8960_CLK1_DACDIV_BY_1_5 \
-  0x008u /**< DAC Sample rate divider (SYSCLK/(1.5 * 256)) */
-#define WM8960_CLK1_DACDIV_BY_2 \
-  0x010u /**< DAC Sample rate divider (SYSCLK/(2 * 256)) */
-#define WM8960_CLK1_DACDIV_BY_3 \
-  0x018u /**< DAC Sample rate divider (SYSCLK/(3 * 256)) */
-#define WM8960_CLK1_DACDIV_BY_4 \
-  0x020u /**< DAC Sample rate divider (SYSCLK/(4 * 256)) */
-#define WM8960_CLK1_DACDIV_BY_5_5 \
-  0x028u /**< DAC Sample rate divider (SYSCLK/(5.5 * 256)) */
-#define WM8960_CLK1_DACDIV_BY_6 \
-  0x030u /**< DAC Sample rate divider (SYSCLK/(6 * 256)) */
-
-#define WM8960_CLK1_SYSCLKDIV_BY_1 \
-  0x000u /**< SYSCLK Pre-divider. Divide SYSCLK by 1 */
-#define WM8960_CLK1_SYSCLKDIV_BY_2 \
-  0x004u /**< SYSCLK Pre-divider. Divide SYSCLK by 2 */
-
-#define WM8960_CLK1_CLKSEL_MCLK 0x000u /**< SYSCLK derived from MCLK */
-#define WM8960_CLK1_CLKSEL_PLL 0x001u  /**< SYSCLK derived from PLL output */
-/** \} WM8960_REG_CLK1 */
-
-/**
- * \{
- * @name WM8960_REG_CTR1 (0x05)
- * Bit definitions for the WM8960_REG_CTR1 register.
- */
-#define WM8960_CTR1_DACDIV2_6B_EN 0x080u /**< DAC 6dB Attenuate Enable, */
-
-#define WM8960_CTR1_ADCPOL_LR_INV \
-  0x060u /**< ADC polarity control. ADC L and R inverted */
-#define WM8960_CTR1_ADCPOL_L_INV \
-  0x040u /**< ADC polarity control. ADC R inverted */
-#define WM8960_CTR1_ADCPOL_R_INV \
-  0x020u /**< ADC polarity control. ADC L inverted */
-
-#define WM8960_CTR1_DACMU_NO 0x000u   /**< DAC Digital Soft Mute disabled */
-#define WM8960_CTR1_DACMU_MUTE 0x008u /**< DAC Digital Soft Mute enabled */
-
-#define WM8960_CTR1_DEEMPH_48_KHZ \
-  0x006u /**< De-emphasis Control for 48 KHz sample rate */
-#define WM8960_CTR1_DEEMPH_44_1_KHZ \
-  0x004u /**< De-emphasis Control for 44.1 KHz sample rate */
-#define WM8960_CTR1_DEEMPH_32_KHZ \
-  0x002u /**< De-emphasis Control for 32 KHz sample rate */
-
-#define WM8960_CTR1_ADCHPD_DIS 0x001u /**< ADC High Pass Filter Disable */
-/** \} WM8960_REG_CTR1 */
-
-/**
- * \{
- * @name WM8960_REG_CTR2 (0x06)
- * Bit definitions for the WM8960_REG_CTR2 register.
- */
-#define WM8960_CTR2_DACPOL_LR_INV \
-  0x060u /**< DAC polarity control. DAC L and R inverted */
-#define WM8960_CTR2_DACPOL_L_INV \
-  0x040u /**< DAC polarity control. DAC R inverted */
-#define WM8960_CTR2_DACPOL_R_INV \
-  0x020u /**< DAC polarity control. DAC L inverted */
-
-#define WM8960_CTR2_DACSMM_GRAD                       \
-  0x008u /**< DAC Soft Mute Mode. Disabling soft-mute \
-              (DACMU=0) will cause the volume to ramp \
-              up gradually to the LDACVOL/RDACVOL settings */
-
-#define WM8960_CTR2_DACMR_SLOW_RMP                   \
-  0x004u /**< DAC Soft Mute Ramp Rate.               \
-              Slow ramp (1.5kHz at fs=48k, providing \
-              maximum delay of 171ms) */
-
-#define WM8960_CTR2_DACSLOPE_SS \
-  0x002u /**< DAC filter characteristics. Sloping stopband */
-/** \} WM8960_REG_CTR2 */
-
-/**
- * \{
- * @name WM8960_REG_AUDIO_INTF0 (0x07)
- * Bit definitions for the WM8960_REG_AUDIO_INTF0 register.
- */
-#define WM8960_AUDIO_INTF0_ALRSWAP                   \
-  0x100u /**< Left/Right ADC Channel Swap. Swap left \
-              and right ADC data in audio interface */
-
-#define WM8960_AUDIO_INTF0_BCLKINV           \
-  0x080u /**< BCLK invert bit. BCLK inverted \
-          */
-
-#define WM8960_AUDIO_INTF0_MS_MASTER 0x040u /**< Master Mode. */
-#define WM8960_AUDIO_INTF0_MS_SLAVE 0x000u  /**< Slave Mode. */
-
-#define WM8960_AUDIO_INTF0_DLRSWAP                   \
-  0x020u /**< Left/Right DAC Channel Swap. Swap left \
-              and right DAC data in audio interface */
-
-#define WM8960_AUDIO_INTF0_LRP_INV                          \
-  0x010u /**< Right, left and I2S modes – LRCLK polarity. \
-              Invert LRCLK polarity*/
-
-#define WM8960_AUDIO_INTF0_WL_16BITS \
-  0x000u /**< Audio Data Word Length. 16 bits */
-#define WM8960_AUDIO_INTF0_WL_20BITS \
-  0x004u /**< Audio Data Word Length. 20 bits */
-#define WM8960_AUDIO_INTF0_WL_24BITS \
-  0x008u /**< Audio Data Word Length. 24 bits */
-#define WM8960_AUDIO_INTF0_WL_32BITS \
-  0x00Cu /**< Audio Data Word Length. 32 bits */
-
-#define WM8960_AUDIO_INTF0_FORMAT_R_JUSTIF \
-  0x000u /**< Right justified format       \
-          */
-#define WM8960_AUDIO_INTF0_FORMAT_L_JUSTIF                                   \
-  0x001u                                          /**< Left justified format \
-                                                   */
-#define WM8960_AUDIO_INTF0_FORMAT_I2S_MODE 0x002u /**< I2S format */
-#define WM8960_AUDIO_INTF0_FORMAT_DSP_MODE 0x003u /**< DSP Mode */
-/** \} WM8960_REG_AUDIO_INTF0 */
-
-/**
- * \{
- * @name WM8960_REG_CLK2 (0x08)
- * Bit definitions for the WM8960_REG_CLK2 register.
- */
-#define WM8960_CLK2_DCLKDIV_BY_2 \
-  0x040u /**< Class D switching clock divider (SYSCLK/2) */
-#define WM8960_CLK2_DCLKDIV_BY_3 \
-  0x080u /**< Class D switching clock divider (SYSCLK/3) */
-#define WM8960_CLK2_DCLKDIV_BY_4 \
-  0x0C0u /**< Class D switching clock divider (SYSCLK/4) */
-#define WM8960_CLK2_DCLKDIV_BY_6 \
-  0x100u /**< Class D switching clock divider (SYSCLK/6) */
-#define WM8960_CLK2_DCLKDIV_BY_8 \
-  0x140u /**< Class D switching clock divider (SYSCLK/8) */
-#define WM8960_CLK2_DCLKDIV_BY_12 \
-  0x180u /**< Class D switching clock divider (SYSCLK/12) */
-#define WM8960_CLK2_DCLKDIV_BY_16 \
-  0x1C0u /**< Class D switching clock divider (SYSCLK/16) */
-
-#define WM8960_CLK2_BCLKDIV_BY_1_5 0x001u /**< BCLK Frequency (SYSCLK/1.5) */
-#define WM8960_CLK2_BCLKDIV_BY_2 0x002u   /**< BCLK Frequency (SYSCLK/2) */
-#define WM8960_CLK2_BCLKDIV_BY_3 0x003u   /**< BCLK Frequency (SYSCLK/3) */
-#define WM8960_CLK2_BCLKDIV_BY_4 0x004u   /**< BCLK Frequency (SYSCLK/4) */
-#define WM8960_CLK2_BCLKDIV_BY_5_5 0x005u /**< BCLK Frequency (SYSCLK/5.5) */
-#define WM8960_CLK2_BCLKDIV_BY_6 0x006u   /**< BCLK Frequency (SYSCLK/6) */
-#define WM8960_CLK2_BCLKDIV_BY_8 0x007u   /**< BCLK Frequency (SYSCLK/8) */
-#define WM8960_CLK2_BCLKDIV_BY_11 0x008u  /**< BCLK Frequency (SYSCLK/11) */
-#define WM8960_CLK2_BCLKDIV_BY_12 0x009u  /**< BCLK Frequency (SYSCLK/12) */
-#define WM8960_CLK2_BCLKDIV_BY_16 0x00Au  /**< BCLK Frequency (SYSCLK/16) */
-#define WM8960_CLK2_BCLKDIV_BY_22 0x00Bu  /**< BCLK Frequency (SYSCLK/22) */
-#define WM8960_CLK2_BCLKDIV_BY_24 0x00Cu  /**< BCLK Frequency (SYSCLK/24) */
-#define WM8960_CLK2_BCLKDIV_BY_32 0x00Du  /**< BCLK Frequency (SYSCLK/32) */
-/** \} WM8960_REG_CLK2 */
-
-/**
- * \{
- * @name WM8960_REG_AUDIO_INTF1 (0x09)
- * Bit definitions for the WM8960_REG_AUDIO_INTF1 register.
- */
-#define WM8960_AUDIO_INTF1_ALRCGPIO_GPIO \
-  0x040u /**< GPIO1 Pin Function Select */
-
-#define WM8960_AUDIO_INTF1_WL8_8BIT     \
-  0x020u /**< 8-Bit Word Length Select. \
-            Device operates in 8-bit mode. */
-
-#define WM8960_AUDIO_INTF1_DACCOMP_ALAW 0x010u /**< DAC companding. A-Law */
-#define WM8960_AUDIO_INTF1_DACCOMP_ULAW 0x018u /**< DAC companding. u-Law */
-
-#define WM8960_AUDIO_INTF1_ADCCOMP_ULAW 0x004u /**< ADC companding. u-Law */
-#define WM8960_AUDIO_INTF1_ADCCOMP_ALAW 0x006u /**< ADC companding. A-Law */
-
-#define WM8960_AUDIO_INTF1_LOOPBACK_EN   \
-  0x001u /**< Loopback enabled, ADC data \
-            output is fed directly into  \
-            DAC data input. */
-/** \} WM8960_REG_AUDIO_INTF1 */
-
-/**
- * \{
- * @name WM8960_REG_LEFT_DAC_VOL (0x0A) and WM8960_REG_RIGHT_DAC_VOL (0x0B)
- * Bit definitions for the WM8960_REG_LEFT_DAC_VOL and
- * WM8960_REG_RIGHT_DAC_VOL register.
- */
-#define WM8960_LEFT_RIGHT_DAC_VOL_DACVU_UP \
-  0x100u /**< DAC Volume Update bit        \
-          */
-
-#define WM8960_LEFT_RIGHT_DAC_VOL_0dB 0x0FFu /**< DAC Volume Control 0dB  */
-#define WM8960_LEFT_RIGHT_DAC_VOL_127dB \
-  0x001u /**< DAC Volume Control -127dB \
-          */
-/** \} WM8960_REG_LEFT_DAC_VOL and WM8960_REG_RIGHT_DAC_VOL */
-
-/**
- * \{
- * @name WM8960_REG_3D_CTR (0x10)
- * Bit definitions for the WM8960_REG_3D_CTR register.
- */
-#define WM8960_3D_CTR_3DUC_LOW                       \
-  0x040u /**< 3D Enhance Filter Upper                \
-              Cut-Off Frequency Low (Recommended for \
-              fs<32kHz) */
-#define WM8960_3D_CTR_3DUC_HIGH                       \
-  0x000u /**< 3D Enhance Filter Upper                 \
-              Cut-Off Frequency High (Recommended for \
-              fs>=32kHz)*/
-#define WM8960_3D_CTR_3DLC_LOW                       \
-  0x000u /**< 3D Enhance Filter Lower                \
-              Cut-Off Frequency Low (Recommended for \
-              fs>=32kHz) */
-#define WM8960_3D_CTR_3DLC_HIGH                       \
-  0x020u /**< 3D Enhance Filter Lower                 \
-              Cut-Off Frequency High (Recommended for \
-              fs<32kHz) */
-
-#define WM8960_3D_CTR_3DDEPTH_100 0x01Eu /**< 3D Stereo Depth 100% */
-
-#define WM8960_3D_CTR_3DEN 0x001u /**< 3D Stereo Enhancement Enable */
-/** \} WM8960_REG_3D_CTR */
-
-/**
- * \{
- * @name WM8960_REG_LEFT_ADC_VOL (0x15) and WM8960_REG_RIGHT_ADC_VOL (0x16)
- * Bit definitions for the WM8960_REG_LEFT_ADC_VOL and
- * WM8960_REG_LEFT_ADC_VOL register
- */
-#define WM8960_LEFT_RIGHT_ADC_VOL_ADCVU_UP \
-  0x100u /**< ADC Volume Update bit        \
-          */
-
-#define WM8960_LEFT_RIGHT_ADC_VOL_ADCVOL_0dB \
-  0x0C3u /**< ADC Volume Control 0dB  */
-#define WM8960_LEFT_RIGHT_ADC_VOL_ADCVOL_30dB \
-  0x0FFu /**< DAC Volume Control 30dB */
-/** \} WM8960_REG_LEFT_ADC_VOL and WM8960_REG_LEFT_ADC_VOL */
-
-/**
- * \{
- * @name WM8960_REG_PWR_MGMT1 (0x19)
- * Bit definitions for the WM8960_REG_PWR_MGMT1 register
- */
-/* WM8960_REG_PWR_MGMT1 (0x19) bits */
-#define WM8960_PWR_MGMT1_VMIDSEL_50K  \
-  0x080u /**< 2 x 50k Divider enabled \
-              (for playback/record) */
-#define WM8960_PWR_MGMT1_VMIDSEL_250K  \
-  0x100u /**< 2 x 250k Divider enabled \
-              (for low-power standby) */
-#define WM8960_PWR_MGMT1_VMIDSEL_5K  \
-  0x180u /**< 2 x 5k Divider enabled \
-              (for fast start-up) */
-
-#define WM8960_PWR_MGMT1_VREF_UP 0x040u   /**< VREF power up */
-#define WM8960_PWR_MGMT1_AINL_UP 0x020u   /**< Analogue in PGA Left power up */
-#define WM8960_PWR_MGMT1_AINR_UP 0x010u   /**< Analogue in PGA Right power up */
-#define WM8960_PWR_MGMT1_ADCL_UP 0x008u   /**< ADC Left power up */
-#define WM8960_PWR_MGMT1_ADCR_UP 0x004u   /**< ADC Right power up */
-#define WM8960_PWR_MGMT1_MICB_UP 0x002u   /**< MICBIAS power up*/
-#define WM8960_PWR_MGMT1_DIGENB_DI 0x001u /**< Master Clock disabled */
-/** \} WM8960_REG_PWR_MGMT1 */
-
-/**
- * \{
- * @name WM8960_REG_PWR_MGMT2 (0x1A)
- * Bit definitions for the WM8960_REG_PWR_MGMT2 register
- */
-#define WM8960_PWR_MGMT2_DACL_UP 0x100u  /**< DAC Left power up */
-#define WM8960_PWR_MGMT2_DACR_UP 0x080u  /**< DAC Right power up */
-#define WM8960_PWR_MGMT2_LOUT1_UP 0x040u /**< LOUT1 Output Buffer power up */
-#define WM8960_PWR_MGMT2_ROUT1_UP 0x020u /**< ROUT1 Output Buffer power up */
-#define WM8960_PWR_MGMT2_SPKL_UP \
-  0x010u /**< SPK_LP/SPK_LN Output Buffers power up */
-#define WM8960_PWR_MGMT2_SPKR_UP \
-  0x008u /**< SPK_RP/SPK_RN Output Buffers power up */
-#define WM8960_PWR_MGMT2_OUT3_UP 0x002u   /**< OUT3 Output Buffer power up */
-#define WM8960_PWR_MGMT2_PLL_EN_UP 0x001u /**< PLL power up */
-/** \} WM8960_REG_PWR_MGMT2 */
-
-/**
- * \{
- * @name WM8960_REG_ADCL_SIG_PTH (0x20) and WM8960_REG_ADCR_SIG_PTH (0x21)
- * Bit definitions for the WM8960_REG_ADCL_SIG_PTH and
- * WM8960_REG_ADCR_SIG_PTH register
- */
-#define WM8960_ADCL_ADCR_SIG_PTH_MN1_CON             \
-  0x100u /**< Connect (L/R)INPUT1 to inverting input \
-              of Input PGA */
-#define WM8960_ADCL_ADCR_SIG_PTH_MP3_CON           \
-  0x080u /**< Connect (L/R)INPUT3 to non-inverting \
-              input of Input PGA */
-#define WM8960_ADCL_ADCR_SIG_PTH_MP2_CON           \
-  0x040u /**< Connect (L/R)INPUT2 to non-inverting \
-              input of Input PGA */
-
-#define WM8960_ADCL_ADCR_SIG_PTH_MICBOOST_0dB \
-  0x000u /**< Input PGA Boost Gain 0dB */
-#define WM8960_ADCL_ADCR_SIG_PTH_MICBOOST_13dB \
-  0x010u /**< Input PGA Boost Gain 13dB */
-#define WM8960_ADCL_ADCR_SIG_PTH_MICBOOST_20dB \
-  0x020u /**< Input PGA Boost Gain 20dB */
-#define WM8960_ADCL_ADCR_SIG_PTH_MICBOOST_29dB \
-  0x030u /**< Input PGA Boost Gain 29dB */
-
-#define WM8960_ADCL_ADCR_SIG_PTH_MIC2B_CON \
-  0x008u /**< Connect I/P PGA to I/P Boost Mixer */
-/** \} WM8960_REG_ADCL_SIG_PTH and WM8960_REG_ADCR_SIG_PTH */
-
-/**
- * \{
- * @name WM8960_REG_LEFT_OUT_MIX (0x22)
- * Bit definitions for the WM8960_REG_LEFT_OUT_MIX register
- */
-/* WM8960_REG_LEFT_OUT_MIX (0x22) bits */ /**< */
-#define WM8960_LEFT_OUT_MIX_LD2LO_EN \
-  0x100u /**< Connect Left DAC to Left Output Mixer */
-#define WM8960_LEFT_OUT_MIX_LI2LO_EN \
-  0x080u /**< Connect LINPUT3 to Left Output Mixer */
-/** \} WM8960_REG_LEFT_OUT_MIX */
-
-/**
- * \{
- * @name WM8960_REG_RIGHT_OUT_MIX (0x25)
- * Bit definitions for the WM8960_REG_RIGHT_OUT_MIX register
- */
-#define WM8960_RIGHT_OUT_MIX_RD2RO_EN \
-  0x100u /**< Connect Right DAC to Right Output Mixer */
-#define WM8960_RIGHT_OUT_MIX_RI2RO_EN \
-  0x080u /**< Connect RINPUT3 to Right Output Mixer */
-/** \} WM8960_REG_RIGHT_OUT_MIX */
-
-/**
- * \{
- * @name WM8960_REG_MONO_OUT_MIX1 (0x26)
- *   and WM8960_REG_MONO_OUT_MIX2 (0x27)
- *
- * Bit definitions for the WM8960_REG_MONO_OUT_MIX1
- * and WM8960_REG_MONO_OUT_MIX2 register.
- */
-#define WM8960_MONO_OUT_MIX1_MIX2_2MO_DI      \
-  0x000u /**< Disconnect Left Output Mixer to \
-              Mono Output Mixer Control */
-#define WM8960_MONO_OUT_MIX1_MIX2_2MO_EN    \
-  0x080u /**< Connect Right Output Mixer to \
-              Mono Output Mixer Control */
-/** \} WM8960_REG_MONO_OUT_MIX1 and WM8960_REG_MONO_OUT_MIX1 */
-
-/**
- * \{
- * @name WM8960_REG_LOUT2_VOL (0x28)
- *   and WM8960_REG_ROUT2_VOL (0x29)
- *
- * Bit definitions for the WM8960_REG_LOUT2_VOL
- * and WM8960_REG_ROUT2_VOL register
- */
-#define WM8960_LOUT2_ROUT2_VOL_SPKVU 0x100u  /**< Speaker Volume Update */
-#define WM8960_LOUT2_ROUT2_VOL_SPKRZC 0x080u /**< Speaker Zero Cross Enable */
-
-#define WM8960_LOUT2_ROUT2_VOL_SPKRVOL_0dB \
-  0x079u /**< SPK_RP/SPK_RN Volume 0dB */
-#define WM8960_LOUT2_ROUT2_VOL_SPKRVOL_6dB \
-  0x07Fu /**< SPK_RP/SPK_RN Volume 6dB */
-
-/** \} WM8960_REG_LOUT2_VOL and WM8960_REG_ROUT2_VOL */
-
-/**
- * \{
- * @name WM8960_REG_PWR_MGMT3 (0x2F)
- * Bit definitions for the WM8960_REG_PWR_MGMT3 register
- */
-#define WM8960_PWR_MGMT3_LMIC_UP 0x020u  /**< Left Channel Input PGA Enable */
-#define WM8960_PWR_MGMT3_RMIC_UP 0x010u  /**< Right Channel Input PGA Enable */
-#define WM8960_PWR_MGMT3_LOMIX_UP 0x008u /**< Left Output Mixer Enable */
-#define WM8960_PWR_MGMT3_ROMIX_UP 0x004u /**< Right Output Mixer Enable */
-/** \} WM8960_REG_PWR_MGMT3 */
-
-/**
- * \{
- * @name WM8960_REG_PLL_N (0x34)
- * Bit definitions for the WM8960_REG_PWR_MGMT3 register
- */
-#define WM8960_PLL_N_PLLPRESCALE_DI        \
-  0x000u /**< MCLK input directly into PLL \
-          */
-#define WM8960_PLL_N_PLLPRESCALE_EN \
-  0x010u /**< Divide MCLK by 2 before input to PLL */
-
-#define WM8960_PLL_N_SDM_INT 0x000u  /**< Enable Integer Mode */
-#define WM8960_PLL_N_SDM_FRAC 0x020u /**< Enable Fractional Mode */
-
-#define WM8960_PLL_N_OPCLKDIV_BY_1                        \
-  0x000u /**< SYSCLK Output to GPIO Clock Division ratio. \
-            (SYSCLK) */
-#define WM8960_PLL_N_OPCLKDIV_BY_2                        \
-  0x040u /**< SYSCLK Output to GPIO Clock Division ratio. \
-            (SYSCLK/2) */
-#define WM8960_PLL_N_OPCLKDIV_BY_3                        \
-  0x080u /**< SYSCLK Output to GPIO Clock Division ratio. \
-            (SYSCLK/3) */
-#define WM8960_PLL_N_OPCLKDIV_BY_4                        \
-  0x0C0u /**< SYSCLK Output to GPIO Clock Division ratio. \
-            (SYSCLK/4) */
-#define WM8960_PLL_N_OPCLKDIV_BY_5_5                      \
-  0x100u /**< SYSCLK Output to GPIO Clock Division ratio. \
-            (SYSCLK/5.5) */
-#define WM8960_PLL_N_OPCLKDIV_BY_6                        \
-  0x140u /**< SYSCLK Output to GPIO Clock Division ratio. \
-            (SYSCLK/6) */
-/** \} WM8960_REG_PLL_N */
-
-/** Invalid argument was passed into a function. */
-#define MTB_RSLT_WM8960_BAD_ARG false
-
-#define WM8960_TIMEOUT_MS (100u)
-#define REGISTER_MAP_SIZE (56u)
 
 namespace audio_driver {
+
+static constexpr int WM8960_I2C_ADDRESS = 0x1A;
+static constexpr uint16_t WM8960_LEFT_RIGHT_IN_VOL_IPVU = 0x100u;
+static constexpr uint16_t WM8960_LEFT_RIGHT_IN_VOL_INMUTE = 0x080u;
+static constexpr uint16_t WM8960_LEFT_RIGHT_IN_VOL_IZC_ZC = 0x040u;
+static constexpr uint16_t WM8960_LEFT_RIGHT_IN_VOL_INVOL_0dB = 0x017u;
+static constexpr uint16_t WM8960_LEFT_RIGHT_IN_VOL_INVOL_30dB = 0x03Fu;
+static constexpr uint16_t WM8960_LOUT1_ROUT1_VOL_OUT1VU = 0x100u;
+static constexpr uint16_t WM8960_LOUT1_ROUT1_VOL_O1ZC_ZC = 0x080u;
+static constexpr uint16_t WM8960_LOUT1_ROUT1_VOL_OUT1VOL_0dB = 0x079u;
+static constexpr uint16_t WM8960_LOUT1_ROUT1_VOL_OUT1VOL_6dB = 0x07Fu;
+static constexpr uint16_t WM8960_CLK1_ADCDIV_BY_1 = 0x000u;
+static constexpr uint16_t WM8960_CLK1_ADCDIV_BY_1_5 = 0x040u;
+static constexpr uint16_t WM8960_CLK1_ADCDIV_BY_2 = 0x080u;
+static constexpr uint16_t WM8960_CLK1_ADCDIV_BY_3 = 0x0C0u;
+static constexpr uint16_t WM8960_CLK1_ADCDIV_BY_4 = 0x100u;
+static constexpr uint16_t WM8960_CLK1_ADCDIV_BY_5_5 = 0x140u;
+static constexpr uint16_t WM8960_CLK1_ADCDIV_BY_6 = 0x180u;
+static constexpr uint16_t WM8960_CLK1_DACDIV_BY_1 = 0x000u;
+static constexpr uint16_t WM8960_CLK1_DACDIV_BY_1_5 = 0x008u;
+static constexpr uint16_t WM8960_CLK1_DACDIV_BY_2 = 0x010u;
+static constexpr uint16_t WM8960_CLK1_DACDIV_BY_3 = 0x018u;
+static constexpr uint16_t WM8960_CLK1_DACDIV_BY_4 = 0x020u;
+static constexpr uint16_t WM8960_CLK1_DACDIV_BY_5_5 = 0x028u;
+static constexpr uint16_t WM8960_CLK1_DACDIV_BY_6 = 0x030u;
+static constexpr uint16_t WM8960_CLK1_SYSCLKDIV_BY_1 = 0x000u;
+static constexpr uint16_t WM8960_CLK1_SYSCLKDIV_BY_2 = 0x004u;
+static constexpr uint16_t WM8960_CLK1_CLKSEL_MCLK = 0x000u;
+static constexpr uint16_t WM8960_CLK1_CLKSEL_PLL = 0x001u;
+static constexpr uint16_t WM8960_CTR1_DACDIV2_6B_EN = 0x080u;
+static constexpr uint16_t WM8960_CTR1_ADCPOL_LR_INV = 0x060u;
+static constexpr uint16_t WM8960_CTR1_ADCPOL_L_INV = 0x040u;
+static constexpr uint16_t WM8960_CTR1_ADCPOL_R_INV = 0x020u;
+static constexpr uint16_t WM8960_CTR1_DACMU_NO = 0x000u;
+static constexpr uint16_t WM8960_CTR1_DACMU_MUTE = 0x008u;
+static constexpr uint16_t WM8960_CTR1_DEEMPH_48_KHZ = 0x006u;
+static constexpr uint16_t WM8960_CTR1_DEEMPH_44_1_KHZ = 0x004u;
+static constexpr uint16_t WM8960_CTR1_DEEMPH_32_KHZ = 0x002u;
+static constexpr uint16_t WM8960_CTR1_ADCHPD_DIS = 0x001u;
+static constexpr uint16_t WM8960_CTR2_DACPOL_LR_INV = 0x060u;
+static constexpr uint16_t WM8960_CTR2_DACPOL_L_INV = 0x040u;
+static constexpr uint16_t WM8960_CTR2_DACPOL_R_INV = 0x020u;
+static constexpr uint16_t WM8960_CTR2_DACSMM_GRAD = 0x008u;
+static constexpr uint16_t WM8960_CTR2_DACMR_SLOW_RMP = 0x004u;
+static constexpr uint16_t WM8960_CTR2_DACSLOPE_SS = 0x002u;
+static constexpr uint16_t WM8960_AUDIO_INTF0_ALRSWAP = 0x100u;
+static constexpr uint16_t WM8960_AUDIO_INTF0_BCLKINV = 0x080u;
+static constexpr uint16_t WM8960_AUDIO_INTF0_MS_MASTER = 0x040u;
+static constexpr uint16_t WM8960_AUDIO_INTF0_MS_SLAVE = 0x000u;
+static constexpr uint16_t WM8960_AUDIO_INTF0_DLRSWAP = 0x020u;
+static constexpr uint16_t WM8960_AUDIO_INTF0_LRP_INV = 0x010u;
+static constexpr uint16_t WM8960_AUDIO_INTF0_WL_16BITS = 0x000u;
+static constexpr uint16_t WM8960_AUDIO_INTF0_WL_20BITS = 0x004u;
+static constexpr uint16_t WM8960_AUDIO_INTF0_WL_24BITS = 0x008u;
+static constexpr uint16_t WM8960_AUDIO_INTF0_WL_32BITS = 0x00Cu;
+static constexpr uint16_t WM8960_AUDIO_INTF0_FORMAT_R_JUSTIF = 0x000u;
+static constexpr uint16_t WM8960_AUDIO_INTF0_FORMAT_L_JUSTIF = 0x001u;
+static constexpr uint16_t WM8960_AUDIO_INTF0_FORMAT_I2S_MODE = 0x002u;
+static constexpr uint16_t WM8960_AUDIO_INTF0_FORMAT_DSP_MODE = 0x003u;
+static constexpr uint16_t WM8960_CLK2_DCLKDIV_BY_2 = 0x040u;
+static constexpr uint16_t WM8960_CLK2_DCLKDIV_BY_3 = 0x080u;
+static constexpr uint16_t WM8960_CLK2_DCLKDIV_BY_4 = 0x0C0u;
+static constexpr uint16_t WM8960_CLK2_DCLKDIV_BY_6 = 0x100u;
+static constexpr uint16_t WM8960_CLK2_DCLKDIV_BY_8 = 0x140u;
+static constexpr uint16_t WM8960_CLK2_DCLKDIV_BY_12 = 0x180u;
+static constexpr uint16_t WM8960_CLK2_DCLKDIV_BY_16 = 0x1C0u;
+static constexpr uint16_t WM8960_CLK2_BCLKDIV_BY_1_5 = 0x001u;
+static constexpr uint16_t WM8960_CLK2_BCLKDIV_BY_2 = 0x002u;
+static constexpr uint16_t WM8960_CLK2_BCLKDIV_BY_3 = 0x003u;
+static constexpr uint16_t WM8960_CLK2_BCLKDIV_BY_4 = 0x004u;
+static constexpr uint16_t WM8960_CLK2_BCLKDIV_BY_5_5 = 0x005u;
+static constexpr uint16_t WM8960_CLK2_BCLKDIV_BY_6 = 0x006u;
+static constexpr uint16_t WM8960_CLK2_BCLKDIV_BY_8 = 0x007u;
+static constexpr uint16_t WM8960_CLK2_BCLKDIV_BY_11 = 0x008u;
+static constexpr uint16_t WM8960_CLK2_BCLKDIV_BY_12 = 0x009u;
+static constexpr uint16_t WM8960_CLK2_BCLKDIV_BY_16 = 0x00Au;
+static constexpr uint16_t WM8960_CLK2_BCLKDIV_BY_22 = 0x00Bu;
+static constexpr uint16_t WM8960_CLK2_BCLKDIV_BY_24 = 0x00Cu;
+static constexpr uint16_t WM8960_CLK2_BCLKDIV_BY_32 = 0x00Du;
+static constexpr uint16_t WM8960_AUDIO_INTF1_ALRCGPIO_GPIO = 0x040u;
+static constexpr uint16_t WM8960_AUDIO_INTF1_WL8_8BIT = 0x020u;
+static constexpr uint16_t WM8960_AUDIO_INTF1_DACCOMP_ALAW = 0x010u;
+static constexpr uint16_t WM8960_AUDIO_INTF1_DACCOMP_ULAW = 0x018u;
+static constexpr uint16_t WM8960_AUDIO_INTF1_ADCCOMP_ULAW = 0x004u;
+static constexpr uint16_t WM8960_AUDIO_INTF1_ADCCOMP_ALAW = 0x006u;
+static constexpr uint16_t WM8960_AUDIO_INTF1_LOOPBACK_EN = 0x001u;
+static constexpr uint16_t WM8960_LEFT_RIGHT_DAC_VOL_DACVU_UP = 0x100u;
+static constexpr uint16_t WM8960_LEFT_RIGHT_DAC_VOL_0dB = 0x0FFu;
+static constexpr uint16_t WM8960_LEFT_RIGHT_DAC_VOL_127dB = 0x001u;
+static constexpr uint16_t WM8960_3D_CTR_3DUC_LOW = 0x040u;
+static constexpr uint16_t WM8960_3D_CTR_3DUC_HIGH = 0x000u;
+static constexpr uint16_t WM8960_3D_CTR_3DLC_LOW = 0x000u;
+static constexpr uint16_t WM8960_3D_CTR_3DLC_HIGH = 0x020u;
+static constexpr uint16_t WM8960_3D_CTR_3DDEPTH_100 = 0x01Eu;
+static constexpr uint16_t WM8960_3D_CTR_3DEN = 0x001u;
+static constexpr uint16_t WM8960_LEFT_RIGHT_ADC_VOL_ADCVU_UP = 0x100u;
+static constexpr uint16_t WM8960_LEFT_RIGHT_ADC_VOL_ADCVOL_0dB = 0x0C3u;
+static constexpr uint16_t WM8960_LEFT_RIGHT_ADC_VOL_ADCVOL_30dB = 0x0FFu;
+static constexpr uint16_t WM8960_PWR_MGMT1_VMIDSEL_50K = 0x080u;
+static constexpr uint16_t WM8960_PWR_MGMT1_VMIDSEL_250K = 0x100u;
+static constexpr uint16_t WM8960_PWR_MGMT1_VMIDSEL_5K = 0x180u;
+static constexpr uint16_t WM8960_PWR_MGMT1_VREF_UP = 0x040u;
+static constexpr uint16_t WM8960_PWR_MGMT1_AINL_UP = 0x020u;
+static constexpr uint16_t WM8960_PWR_MGMT1_AINR_UP = 0x010u;
+static constexpr uint16_t WM8960_PWR_MGMT1_ADCL_UP = 0x008u;
+static constexpr uint16_t WM8960_PWR_MGMT1_ADCR_UP = 0x004u;
+static constexpr uint16_t WM8960_PWR_MGMT1_MICB_UP = 0x002u;
+static constexpr uint16_t WM8960_PWR_MGMT1_DIGENB_DI = 0x001u;
+static constexpr uint16_t WM8960_PWR_MGMT2_DACL_UP = 0x100u;
+static constexpr uint16_t WM8960_PWR_MGMT2_DACR_UP = 0x080u;
+static constexpr uint16_t WM8960_PWR_MGMT2_LOUT1_UP = 0x040u;
+static constexpr uint16_t WM8960_PWR_MGMT2_ROUT1_UP = 0x020u;
+static constexpr uint16_t WM8960_PWR_MGMT2_SPKL_UP = 0x010u;
+static constexpr uint16_t WM8960_PWR_MGMT2_SPKR_UP = 0x008u;
+static constexpr uint16_t WM8960_PWR_MGMT2_OUT3_UP = 0x002u;
+static constexpr uint16_t WM8960_PWR_MGMT2_PLL_EN_UP = 0x001u;
+static constexpr uint16_t WM8960_ADCL_ADCR_SIG_PTH_MN1_CON = 0x100u;
+static constexpr uint16_t WM8960_ADCL_ADCR_SIG_PTH_MP3_CON = 0x080u;
+static constexpr uint16_t WM8960_ADCL_ADCR_SIG_PTH_MP2_CON = 0x040u;
+static constexpr uint16_t WM8960_ADCL_ADCR_SIG_PTH_MICBOOST_0dB = 0x000u;
+static constexpr uint16_t WM8960_ADCL_ADCR_SIG_PTH_MICBOOST_13dB = 0x010u;
+static constexpr uint16_t WM8960_ADCL_ADCR_SIG_PTH_MICBOOST_20dB = 0x020u;
+static constexpr uint16_t WM8960_ADCL_ADCR_SIG_PTH_MICBOOST_29dB = 0x030u;
+static constexpr uint16_t WM8960_ADCL_ADCR_SIG_PTH_MIC2B_CON = 0x008u;
+static constexpr uint16_t WM8960_LEFT_OUT_MIX_LD2LO_EN = 0x100u;
+static constexpr uint16_t WM8960_LEFT_OUT_MIX_LI2LO_EN = 0x080u;
+static constexpr uint16_t WM8960_RIGHT_OUT_MIX_RD2RO_EN = 0x100u;
+static constexpr uint16_t WM8960_RIGHT_OUT_MIX_RI2RO_EN = 0x080u;
+static constexpr uint16_t WM8960_MONO_OUT_MIX1_MIX2_2MO_DI = 0x000u;
+static constexpr uint16_t WM8960_MONO_OUT_MIX1_MIX2_2MO_EN = 0x080u;
+static constexpr uint16_t WM8960_LOUT2_ROUT2_VOL_SPKVU = 0x100u;
+static constexpr uint16_t WM8960_LOUT2_ROUT2_VOL_SPKRZC = 0x080u;
+static constexpr uint16_t WM8960_LOUT2_ROUT2_VOL_SPKRVOL_0dB = 0x079u;
+static constexpr uint16_t WM8960_LOUT2_ROUT2_VOL_SPKRVOL_6dB = 0x07Fu;
+static constexpr uint16_t WM8960_PWR_MGMT3_LMIC_UP = 0x020u;
+static constexpr uint16_t WM8960_PWR_MGMT3_RMIC_UP = 0x010u;
+static constexpr uint16_t WM8960_PWR_MGMT3_LOMIX_UP = 0x008u;
+static constexpr uint16_t WM8960_PWR_MGMT3_ROMIX_UP = 0x004u;
+static constexpr uint16_t WM8960_PLL_N_PLLPRESCALE_DI = 0x000u;
+static constexpr uint16_t WM8960_PLL_N_PLLPRESCALE_EN = 0x010u;
+static constexpr uint16_t WM8960_PLL_N_SDM_INT = 0x000u;
+static constexpr uint16_t WM8960_PLL_N_SDM_FRAC = 0x020u;
+static constexpr uint16_t WM8960_PLL_N_OPCLKDIV_BY_1 = 0x000u;
+static constexpr uint16_t WM8960_PLL_N_OPCLKDIV_BY_2 = 0x040u;
+static constexpr uint16_t WM8960_PLL_N_OPCLKDIV_BY_3 = 0x080u;
+static constexpr uint16_t WM8960_PLL_N_OPCLKDIV_BY_4 = 0x0C0u;
+static constexpr uint16_t WM8960_PLL_N_OPCLKDIV_BY_5_5 = 0x100u;
+static constexpr uint16_t WM8960_PLL_N_OPCLKDIV_BY_6 = 0x140u;
+static constexpr bool MTB_RSLT_WM8960_BAD_ARG = false;
+static constexpr uint32_t WM8960_TIMEOUT_MS = 100u;
+static constexpr uint32_t REGISTER_MAP_SIZE = 56u;
 
 /**
  * Enumeration for the WM8960 I2C Interface Register Addresses
@@ -601,9 +281,8 @@ enum wm8960_features_t {
   WM8960_FEATURE_SPEAKER = 0x10      /**< Enable the class D speaker */
 };
 
-#define WM8960_FEATURE_MICROPHONES                           \
-  (WM8960_FEATURE_MICROPHONE1 | WM8960_FEATURE_MICROPHONE2 | \
-   WM8960_FEATURE_MICROPHONE3)
+static constexpr uint8_t WM8960_FEATURE_MICROPHONES =
+  WM8960_FEATURE_MICROPHONE1 | WM8960_FEATURE_MICROPHONE2 | WM8960_FEATURE_MICROPHONE3;
 
 /**
  * Enumeration for supported sample rates for ADC and DAC in the WM8960

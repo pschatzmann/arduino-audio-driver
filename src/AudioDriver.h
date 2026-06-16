@@ -472,7 +472,7 @@ class AudioDriverCS43l22Class : public AudioDriver {
   int volume = 100;
 
   bool deinit() {
-    int cnt = cs43l22.stop(AUDIO_MUTE_ON);
+    int cnt = cs43l22.stop(CS43L22::AUDIO_MUTE_ON);
     cnt += cs43l22.reset();
     setPAPower(false);
     return cnt == 0;
@@ -507,15 +507,15 @@ class AudioDriverCS43l22Class : public AudioDriver {
       case DAC_OUTPUT_NONE:
         return 0;
       case DAC_OUTPUT_LINE1:
-        return OUTPUT_DEVICE_SPEAKER;
+        return CS43L22::OUTPUT_DEVICE_SPEAKER;
       case DAC_OUTPUT_LINE2:
-        return OUTPUT_DEVICE_HEADPHONE;
+        return CS43L22::OUTPUT_DEVICE_HEADPHONE;
       case DAC_OUTPUT_ALL:
-        return OUTPUT_DEVICE_BOTH;
+        return CS43L22::OUTPUT_DEVICE_BOTH;
       default:
         break;
     }
-    return OUTPUT_DEVICE_BOTH;
+    return CS43L22::OUTPUT_DEVICE_BOTH;
   }
 };
 
@@ -822,7 +822,7 @@ class AudioDriverES7243eClass : public AudioDriver {
  */
 class AudioDriverES8156Class : public AudioDriver {
  public:
-  AudioDriverES8156Class() { i2c_default_address = ES8156_ADDR; }
+  AudioDriverES8156Class() { i2c_default_address = ES8156::ES8156_ADDR; }
   bool setMute(bool mute) {
     return es8156.setVoiceMute(mute) == RESULT_OK;
   }
@@ -939,7 +939,7 @@ class AudioDriverSGTL5000Class : public AudioDriver {
  */
 class AudioDriverES8311Class : public AudioDriver {
  public:
-  AudioDriverES8311Class() { i2c_default_address = ES8311_ADDR; }
+  AudioDriverES8311Class() { i2c_default_address = ES8311::ES8311_ADDR; }
   bool setMute(bool mute) { return es8311.setVoiceMute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     return es8311.setVoiceVolume(limitValue(volume, 0, 100)) ==
@@ -990,7 +990,7 @@ class AudioDriverES8311Class : public AudioDriver {
  */
 class AudioDriverES8374Class : public AudioDriver {
  public:
-  AudioDriverES8374Class() { i2c_default_address = ES8374_ADDR; }
+  AudioDriverES8374Class() { i2c_default_address = ES8374::ES8374_ADDR; }
   bool setMute(bool mute) { return es8374.setVoiceMute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
@@ -1032,10 +1032,10 @@ class AudioDriverES8374Class : public AudioDriver {
 class AudioDriverES8388Class : public AudioDriver {
  public:
   AudioDriverES8388Class(int volumeHack) {
-    i2c_default_address = ES8388_ADDR;
+    i2c_default_address = ES8388::ES8388_ADDR;
     volume_hack = volumeHack;
   }
-  AudioDriverES8388Class() { i2c_default_address = ES8388_ADDR; }
+  AudioDriverES8388Class() { i2c_default_address = ES8388::ES8388_ADDR; }
   bool setMute(bool mute) {
     line_active[0] = !mute;
     line_active[1] = !mute;
@@ -1148,7 +1148,7 @@ class AudioDriverES8388Class : public AudioDriver {
  */
 class AudioDriverTAS5805MClass : public AudioDriver {
  public:
-  AudioDriverTAS5805MClass() { i2c_default_address = TAS5805M_ADDR; }
+  AudioDriverTAS5805MClass() { i2c_default_address = TAS5805M::TAS5805M_ADDR; }
   bool setMute(bool mute) { return tas5805m.setMute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
@@ -1508,7 +1508,7 @@ class AudioDriverWM8978Class : public AudioDriver {
  */
 class AudioDriverWM8994Class : public AudioDriver {
  public:
-  AudioDriverWM8994Class(uint16_t deviceAddr = WM8994_ADDR) {
+  AudioDriverWM8994Class(uint16_t deviceAddr = WM8994::WM8994_ADDR) {
     this->i2c_default_address = deviceAddr;
   }
 
@@ -1521,7 +1521,7 @@ class AudioDriverWM8994Class : public AudioDriver {
     setPAPower(true);
     delayMs(10);
     p_pins = &pins;
-    int vol = mapVolume(volume, 0, 100, DEFAULT_VOLMIN, DEFAULT_VOLMAX);
+    int vol = mapVolume(volume, 0, 100, WM8994::DEFAULT_VOLMIN, WM8994::DEFAULT_VOLMAX);
     uint32_t freq = codecCfg.getRateNumeric();
     uint16_t outputDevice = getOutput(codec_cfg.output_device);
 
@@ -1537,7 +1537,7 @@ class AudioDriverWM8994Class : public AudioDriver {
 
   bool setVolume(int volume) {
     this->volume = volume;
-    int vol = mapVolume(volume, 0, 100, DEFAULT_VOLMIN, DEFAULT_VOLMAX);
+    int vol = mapVolume(volume, 0, 100, WM8994::DEFAULT_VOLMIN, WM8994::DEFAULT_VOLMAX);
     return wm8994.setVolume(vol) == 0;
   }
   int getVolume() { return volume; }
@@ -1547,7 +1547,7 @@ class AudioDriverWM8994Class : public AudioDriver {
   WM8994 wm8994;
 
   bool deinit() {
-    int cnt = wm8994.stop(AUDIO_MUTE_ON);
+    int cnt = wm8994.stop(WM8994::AUDIO_MUTE_ON);
     cnt += wm8994.reset();
     setPAPower(false);
     return cnt == 0;
@@ -1558,13 +1558,13 @@ class AudioDriverWM8994Class : public AudioDriver {
       case DAC_OUTPUT_NONE:
         return 0;
       case DAC_OUTPUT_LINE1:
-        return OUTPUT_DEVICE_SPEAKER;
+        return WM8994::OUTPUT_DEVICE_SPEAKER;
       case DAC_OUTPUT_LINE2:
-        return OUTPUT_DEVICE_HEADPHONE;
+        return WM8994::OUTPUT_DEVICE_HEADPHONE;
       case DAC_OUTPUT_ALL:
-        return OUTPUT_DEVICE_BOTH;
+        return WM8994::OUTPUT_DEVICE_BOTH;
     }
-    return OUTPUT_DEVICE_BOTH;
+    return WM8994::OUTPUT_DEVICE_BOTH;
   }
 };
 

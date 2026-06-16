@@ -28,57 +28,6 @@
 #include "DriverCommon.h"
 #include "Platforms/API_I2C.h"
 
-/*
- *  Definitions for Audio registers for CS42448
- */
-#define CS42448_Chip_ID 0x01
-#define CS42448_Power_Control 0x02
-#define CS42448_Functional_Mode 0x03
-#define CS42448_Interface_Formats 0x04
-#define CS42448_ADC_Control_DAC_DeEmphasis 0x05
-#define CS42448_Transition_Control 0x06
-#define CS42448_DAC_Channel_Mute 0x07
-#define CS42448_AOUT1_Volume_Control 0x08
-#define CS42448_AOUT2_Volume_Control 0x09
-#define CS42448_AOUT3_Volume_Control 0x0A
-#define CS42448_AOUT4_Volume_Control 0x0B
-#define CS42448_AOUT5_Volume_Control 0x0C
-#define CS42448_AOUT6_Volume_Control 0x0D
-#define CS42448_AOUT7_Volume_Control 0x0E
-#define CS42448_AOUT8_Volume_Control 0x0F
-#define CS42448_DAC_Channel_Invert 0x10
-#define CS42448_AIN1_Volume_Control 0x11
-#define CS42448_AIN2_Volume_Control 0x12
-#define CS42448_AIN3_Volume_Control 0x13
-#define CS42448_AIN4_Volume_Control 0x14
-#define CS42448_AIN5_Volume_Control 0x15
-#define CS42448_AIN6_Volume_Control 0x16
-#define CS42448_ADC_Channel_Invert 0x17
-#define CS42448_Status_Control 0x18
-#define CS42448_Status 0x19
-#define CS42448_Status_Mask 0x1A
-#define CS42448_MUTEC_Pin_Control 0x1B
-
-/* Bit definitions for Power Control Register */
-#define CS42448_PDN (1 << 0)
-#define CS42448_PDN_DAC1 (1 << 1)
-#define CS42448_PDN_DAC2 (1 << 2)
-#define CS42448_PDN_DAC3 (1 << 3)
-#define CS42448_PDN_DAC4 (1 << 4)
-#define CS42448_PDN_ADC1 (1 << 5)
-#define CS42448_PDN_ADC2 (1 << 6)
-#define CS42448_PDN_ADC3 (1 << 7)
-
-/* Bit definitions for Functional Mode Register */
-#define CS42448_DAC_FM_SLAVE (3 << 6)
-#define CS42448_ADC_FM_SLAVE (3 << 4)
-
-/* Bit definitions for Interface Format Register */
-#define CS42448_DAC_DIF_I2S (1 << 3)
-#define CS42448_ADC_DIF_I2S (1 << 0)
-#define CS42448_DAC_DIF_TDM (3 << 4)
-#define CS42448_ADC_DIF_TDM (3 << 1)
-
 namespace audio_driver {
 
 /**
@@ -88,6 +37,48 @@ namespace audio_driver {
  */
 class CS42448 {
  public:
+  static constexpr uint8_t CS42448_Chip_ID = 0x01;
+  static constexpr uint8_t CS42448_Power_Control = 0x02;
+  static constexpr uint8_t CS42448_Functional_Mode = 0x03;
+  static constexpr uint8_t CS42448_Interface_Formats = 0x04;
+  static constexpr uint8_t CS42448_ADC_Control_DAC_DeEmphasis = 0x05;
+  static constexpr uint8_t CS42448_Transition_Control = 0x06;
+  static constexpr uint8_t CS42448_DAC_Channel_Mute = 0x07;
+  static constexpr uint8_t CS42448_AOUT1_Volume_Control = 0x08;
+  static constexpr uint8_t CS42448_AOUT2_Volume_Control = 0x09;
+  static constexpr uint8_t CS42448_AOUT3_Volume_Control = 0x0A;
+  static constexpr uint8_t CS42448_AOUT4_Volume_Control = 0x0B;
+  static constexpr uint8_t CS42448_AOUT5_Volume_Control = 0x0C;
+  static constexpr uint8_t CS42448_AOUT6_Volume_Control = 0x0D;
+  static constexpr uint8_t CS42448_AOUT7_Volume_Control = 0x0E;
+  static constexpr uint8_t CS42448_AOUT8_Volume_Control = 0x0F;
+  static constexpr uint8_t CS42448_DAC_Channel_Invert = 0x10;
+  static constexpr uint8_t CS42448_AIN1_Volume_Control = 0x11;
+  static constexpr uint8_t CS42448_AIN2_Volume_Control = 0x12;
+  static constexpr uint8_t CS42448_AIN3_Volume_Control = 0x13;
+  static constexpr uint8_t CS42448_AIN4_Volume_Control = 0x14;
+  static constexpr uint8_t CS42448_AIN5_Volume_Control = 0x15;
+  static constexpr uint8_t CS42448_AIN6_Volume_Control = 0x16;
+  static constexpr uint8_t CS42448_ADC_Channel_Invert = 0x17;
+  static constexpr uint8_t CS42448_Status_Control = 0x18;
+  static constexpr uint8_t CS42448_Status = 0x19;
+  static constexpr uint8_t CS42448_Status_Mask = 0x1A;
+  static constexpr uint8_t CS42448_MUTEC_Pin_Control = 0x1B;
+  static constexpr uint8_t CS42448_PDN = (1 << 0);
+  static constexpr uint8_t CS42448_PDN_DAC1 = (1 << 1);
+  static constexpr uint8_t CS42448_PDN_DAC2 = (1 << 2);
+  static constexpr uint8_t CS42448_PDN_DAC3 = (1 << 3);
+  static constexpr uint8_t CS42448_PDN_DAC4 = (1 << 4);
+  static constexpr uint8_t CS42448_PDN_ADC1 = (1 << 5);
+  static constexpr uint8_t CS42448_PDN_ADC2 = (1 << 6);
+  static constexpr uint8_t CS42448_PDN_ADC3 = (1 << 7);
+  static constexpr uint8_t CS42448_DAC_FM_SLAVE = (3 << 6);
+  static constexpr uint8_t CS42448_ADC_FM_SLAVE = (3 << 4);
+  static constexpr uint8_t CS42448_DAC_DIF_I2S = (1 << 3);
+  static constexpr uint8_t CS42448_ADC_DIF_I2S = (1 << 0);
+  static constexpr uint8_t CS42448_DAC_DIF_TDM = (3 << 4);
+  static constexpr uint8_t CS42448_ADC_DIF_TDM = (3 << 1);
+
   enum class Format {
     LeftJustified24Bit = 0,
     I2S = 1,

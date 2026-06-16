@@ -24,8 +24,7 @@
  *
  */
 
-#ifndef _ES7243E_H_
-#define _ES7243E_H_
+#pragma once
 
 #include "stddef.h"  // NULL
 
@@ -157,5 +156,3 @@ class ES7243E {
 };
 
 }  // namespace audio_driver
-
-#endif

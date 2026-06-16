@@ -24,8 +24,7 @@
  *
  */
 
-#ifndef _ES7243_H_
-#define _ES7243_H_
+#pragma once
 
 #include <string.h>
 
@@ -36,12 +35,6 @@
 #include "Platforms/GPIO.h"
 #include "stdbool.h"
 
-#define MCLK_PULSES_NUMBER (20)
-#define ES_ASSERT(a, format, b, ...) \
-  if ((a) != 0) {                    \
-    AD_LOGE(format, ##__VA_ARGS__);  \
-    return b;                        \
-  }
 
 namespace audio_driver {
 
@@ -52,6 +45,7 @@ namespace audio_driver {
  */
 class ES7243 {
  public:
+  static constexpr int MCLK_PULSES_NUMBER = 20;
   ES7243() = default;
 
   /// Defines the I2C bus instance to be used
@@ -221,5 +215,3 @@ class ES7243 {
 };
 
 }  // namespace audio_driver
-
-#endif

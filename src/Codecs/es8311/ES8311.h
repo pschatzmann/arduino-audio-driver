@@ -33,100 +33,6 @@
 #include <math.h>
 #include <string.h>
 
-#ifndef BIT
-#define BIT(nr) (1 << (nr))
-#endif
-
-/* ES8311 address
- * 0x32:CE=1;0x30:CE=0
- * 0x32>>1 = 0x19
- * 0x30>>1 = 0x18
- */
-#define ES8311_ADDR 0x18
-
-/*
- * to define the clock source of MCLK
- */
-#define FROM_MCLK_PIN 0
-#define FROM_SCLK_PIN 1
-
-/*
- * to define whether to reverse the clock
- */
-#define INVERT_MCLK 0  // do not invert
-#define INVERT_SCLK 0
-#define IS_DMIC 0  // Is it a digital microphone
-#define MCLK_DIV_FRE 256
-
-/*
- *   ES8311_REGISTER NAME_REG_REGISTER ADDRESS
- */
-#define ES8311_RESET_REG00 0x00 /*reset digital,csm,clock manager etc.*/
-
-/*
- * Clock Scheme Register definition
- */
-#define ES8311_CLK_MANAGER_REG01 \
-  0x01 /* select clk src for mclk, enable clock for codec */
-#define ES8311_CLK_MANAGER_REG02 0x02 /* clk divider and clk multiplier */
-#define ES8311_CLK_MANAGER_REG03 0x03 /* adc fsmode and osr  */
-#define ES8311_CLK_MANAGER_REG04 0x04 /* dac osr */
-#define ES8311_CLK_MANAGER_REG05 0x05 /* clk divier for adc and dac */
-#define ES8311_CLK_MANAGER_REG06 0x06 /* bclk inverter and divider */
-#define ES8311_CLK_MANAGER_REG07 0x07 /* tri-state, lrck divider */
-#define ES8311_CLK_MANAGER_REG08 0x08 /* lrck divider */
-/*
- * SDP
- */
-#define ES8311_SDPIN_REG09 0x09  /* dac serial digital port */
-#define ES8311_SDPOUT_REG0A 0x0A /* adc serial digital port */
-/*
- * SYSTEM
- */
-#define ES8311_SYSTEM_REG0B 0x0B /* system */
-#define ES8311_SYSTEM_REG0C 0x0C /* system */
-#define ES8311_SYSTEM_REG0D 0x0D /* system, power up/down */
-#define ES8311_SYSTEM_REG0E 0x0E /* system, power up/down */
-#define ES8311_SYSTEM_REG0F 0x0F /* system, low power */
-#define ES8311_SYSTEM_REG10 0x10 /* system */
-#define ES8311_SYSTEM_REG11 0x11 /* system */
-#define ES8311_SYSTEM_REG12 0x12 /* system, Enable DAC */
-#define ES8311_SYSTEM_REG13 0x13 /* system */
-#define ES8311_SYSTEM_REG14 \
-  0x14 /* system, select DMIC, select analog pga gain */
-/*
- * ADC
- */
-#define ES8311_ADC_REG15 0x15 /* ADC, adc ramp rate, dmic sense */
-#define ES8311_ADC_REG16 0x16 /* ADC */
-#define ES8311_ADC_REG17 0x17 /* ADC, volume */
-#define ES8311_ADC_REG18 0x18 /* ADC, alc enable and winsize */
-#define ES8311_ADC_REG19 0x19 /* ADC, alc maxlevel */
-#define ES8311_ADC_REG1A 0x1A /* ADC, alc automute */
-#define ES8311_ADC_REG1B 0x1B /* ADC, alc automute, adc hpf s1 */
-#define ES8311_ADC_REG1C 0x1C /* ADC, equalizer, hpf s2 */
-/*
- * DAC
- */
-#define ES8311_DAC_REG31 0x31 /* DAC, mute */
-#define ES8311_DAC_REG32 0x32 /* DAC, volume */
-#define ES8311_DAC_REG33 0x33 /* DAC, offset */
-#define ES8311_DAC_REG34 0x34 /* DAC, drc enable, drc winsize */
-#define ES8311_DAC_REG35 0x35 /* DAC, drc maxlevel, minilevel */
-#define ES8311_DAC_REG37 0x37 /* DAC, ramprate */
-/*
- *GPIO
- */
-#define ES8311_GPIO_REG44 0x44 /* GPIO, dac2adc for test */
-#define ES8311_GP_REG45 0x45   /* GP CONTROL */
-/*
- * CHIP
- */
-#define ES8311_CHD1_REGFD 0xFD  /* CHIP ID1 */
-#define ES8311_CHD2_REGFE 0xFE  /* CHIP ID2 */
-#define ES8311_CHVER_REGFF 0xFF /* VERSION */
-
-#define ES8311_MAX_REGISTER 0xFF
 
 namespace audio_driver {
 
@@ -340,6 +246,55 @@ static const struct es8311_coeff_div es8311_coeff_div[] = {
  */
 class ES8311 {
  public:
+  static constexpr int ES8311_ADDR = 0x18;
+  static constexpr int FROM_MCLK_PIN = 0;
+  static constexpr int FROM_SCLK_PIN = 1;
+  static constexpr int INVERT_MCLK = 0;
+  static constexpr int INVERT_SCLK = 0;
+  static constexpr int IS_DMIC = 0;
+  static constexpr int MCLK_DIV_FRE = 256;
+  static constexpr uint8_t ES8311_RESET_REG00 = 0x00;
+  static constexpr uint8_t ES8311_CLK_MANAGER_REG01 = 0x01;
+  static constexpr uint8_t ES8311_CLK_MANAGER_REG02 = 0x02;
+  static constexpr uint8_t ES8311_CLK_MANAGER_REG03 = 0x03;
+  static constexpr uint8_t ES8311_CLK_MANAGER_REG04 = 0x04;
+  static constexpr uint8_t ES8311_CLK_MANAGER_REG05 = 0x05;
+  static constexpr uint8_t ES8311_CLK_MANAGER_REG06 = 0x06;
+  static constexpr uint8_t ES8311_CLK_MANAGER_REG07 = 0x07;
+  static constexpr uint8_t ES8311_CLK_MANAGER_REG08 = 0x08;
+  static constexpr uint8_t ES8311_SDPIN_REG09 = 0x09;
+  static constexpr uint8_t ES8311_SDPOUT_REG0A = 0x0A;
+  static constexpr uint8_t ES8311_SYSTEM_REG0B = 0x0B;
+  static constexpr uint8_t ES8311_SYSTEM_REG0C = 0x0C;
+  static constexpr uint8_t ES8311_SYSTEM_REG0D = 0x0D;
+  static constexpr uint8_t ES8311_SYSTEM_REG0E = 0x0E;
+  static constexpr uint8_t ES8311_SYSTEM_REG0F = 0x0F;
+  static constexpr uint8_t ES8311_SYSTEM_REG10 = 0x10;
+  static constexpr uint8_t ES8311_SYSTEM_REG11 = 0x11;
+  static constexpr uint8_t ES8311_SYSTEM_REG12 = 0x12;
+  static constexpr uint8_t ES8311_SYSTEM_REG13 = 0x13;
+  static constexpr uint8_t ES8311_SYSTEM_REG14 = 0x14;
+  static constexpr uint8_t ES8311_ADC_REG15 = 0x15;
+  static constexpr uint8_t ES8311_ADC_REG16 = 0x16;
+  static constexpr uint8_t ES8311_ADC_REG17 = 0x17;
+  static constexpr uint8_t ES8311_ADC_REG18 = 0x18;
+  static constexpr uint8_t ES8311_ADC_REG19 = 0x19;
+  static constexpr uint8_t ES8311_ADC_REG1A = 0x1A;
+  static constexpr uint8_t ES8311_ADC_REG1B = 0x1B;
+  static constexpr uint8_t ES8311_ADC_REG1C = 0x1C;
+  static constexpr uint8_t ES8311_DAC_REG31 = 0x31;
+  static constexpr uint8_t ES8311_DAC_REG32 = 0x32;
+  static constexpr uint8_t ES8311_DAC_REG33 = 0x33;
+  static constexpr uint8_t ES8311_DAC_REG34 = 0x34;
+  static constexpr uint8_t ES8311_DAC_REG35 = 0x35;
+  static constexpr uint8_t ES8311_DAC_REG37 = 0x37;
+  static constexpr uint8_t ES8311_GPIO_REG44 = 0x44;
+  static constexpr uint8_t ES8311_GP_REG45 = 0x45;
+  static constexpr uint8_t ES8311_CHD1_REGFD = 0xFD;
+  static constexpr uint8_t ES8311_CHD2_REGFE = 0xFE;
+  static constexpr uint8_t ES8311_CHVER_REGFF = 0xFF;
+  static constexpr uint8_t ES8311_MAX_REGISTER = 0xFF;
+  static constexpr int bitVal(int nr) { return 1 << nr; }
   ES8311() = default;
 
   /// Defines the I2C bus instance to be used
@@ -799,18 +754,18 @@ class ES8311 {
 
     dac_iface = readReg(ES8311_SDPIN_REG09) & 0xBF;
     adc_iface = readReg(ES8311_SDPOUT_REG0A) & 0xBF;
-    adc_iface |= BIT(6);
-    dac_iface |= BIT(6);
+    adc_iface |= bitVal(6);
+    dac_iface |= bitVal(6);
 
     if (mode == CODEC_MODE_LINE_IN) {
       AD_LOGE("The codec es8311 doesn't support CODEC_MODE_LINE_IN mode");
       return RESULT_FAIL;
     }
     if (mode == CODEC_MODE_ENCODE || mode == CODEC_MODE_BOTH) {
-      adc_iface &= ~(BIT(6));
+      adc_iface &= ~(bitVal(6));
     }
     if (mode == CODEC_MODE_DECODE || mode == CODEC_MODE_BOTH) {
-      dac_iface &= ~(BIT(6));
+      dac_iface &= ~(bitVal(6));
     }
 
     ret |= writeReg(ES8311_SDPIN_REG09, dac_iface);

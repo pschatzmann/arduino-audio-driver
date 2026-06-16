@@ -32,14 +32,6 @@
 #include "stdbool.h"
 #include <string.h>
 
-/* ES8374 address 0x22:CE=1;0x20:CE=0 / 0x20>>1 = 0x10 */
-#define ES8374_ADDR 0x10
-
-#define ES_ASSERT(a, format, b, ...) \
-  if ((a) != 0) {                    \
-    AD_LOGE(format, ##__VA_ARGS__);  \
-    return b;                        \
-  }
 
 namespace audio_driver {
 
@@ -58,6 +50,7 @@ enum es_d2se_pga_t {
  */
 class ES8374 {
  public:
+  static constexpr int ES8374_ADDR = 0x10;
   ES8374() = default;
 
   /// Defines the I2C bus instance to be used

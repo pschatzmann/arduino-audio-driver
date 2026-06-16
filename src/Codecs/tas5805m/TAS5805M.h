@@ -33,43 +33,6 @@
 #include "tas5805m_reg_cfg.h"
 #include <stdint.h>
 
-#define TAS5805M_REG_00      0x00
-#define TAS5805M_REG_02      0x02
-#define TAS5805M_REG_03      0x03
-#define TAS5805M_REG_24      0x24
-#define TAS5805M_REG_25      0x25
-#define TAS5805M_REG_26      0x26
-#define TAS5805M_REG_27      0x27
-#define TAS5805M_REG_28      0x28
-#define TAS5805M_REG_29      0x29
-#define TAS5805M_REG_2A      0x2a
-#define TAS5805M_REG_2B      0x2b
-#define TAS5805M_REG_35      0x35
-#define TAS5805M_REG_7E      0x7e
-#define TAS5805M_REG_7F      0x7f
-
-#define TAS5805M_PAGE_00     0x00
-#define TAS5805M_PAGE_2A     0x2a
-
-#define TAS5805M_BOOK_00     0x00
-#define TAS5805M_BOOK_8C     0x8c
-
-#define  MASTER_VOL_REG_ADDR    0X4C
-#define  MUTE_TIME_REG_ADDR     0X51
-
-#define  TAS5805M_DAMP_MODE_BTL      0x0
-#define  TAS5805M_DAMP_MODE_PBTL     0x04
-
-// 0x5c>>1 = 0x2E
-#define TAS5805M_ADDR 0x2E
-#define TAS5805M_VOLUME_MAX 100
-#define TAS5805M_VOLUME_MIN 0
-
-#define TAS5805M_ASSERT(a, format, b, ...) \
-  if ((a) != 0) {                          \
-    AD_LOGE(format, ##__VA_ARGS__);        \
-    return b;                              \
-  }
 
 namespace audio_driver {
 
@@ -80,6 +43,31 @@ namespace audio_driver {
  */
 class TAS5805M {
  public:
+  static constexpr uint8_t TAS5805M_REG_00 = 0x00;
+  static constexpr uint8_t TAS5805M_REG_02 = 0x02;
+  static constexpr uint8_t TAS5805M_REG_03 = 0x03;
+  static constexpr uint8_t TAS5805M_REG_24 = 0x24;
+  static constexpr uint8_t TAS5805M_REG_25 = 0x25;
+  static constexpr uint8_t TAS5805M_REG_26 = 0x26;
+  static constexpr uint8_t TAS5805M_REG_27 = 0x27;
+  static constexpr uint8_t TAS5805M_REG_28 = 0x28;
+  static constexpr uint8_t TAS5805M_REG_29 = 0x29;
+  static constexpr uint8_t TAS5805M_REG_2A = 0x2a;
+  static constexpr uint8_t TAS5805M_REG_2B = 0x2b;
+  static constexpr uint8_t TAS5805M_REG_35 = 0x35;
+  static constexpr uint8_t TAS5805M_REG_7E = 0x7e;
+  static constexpr uint8_t TAS5805M_REG_7F = 0x7f;
+  static constexpr uint8_t TAS5805M_PAGE_00 = 0x00;
+  static constexpr uint8_t TAS5805M_PAGE_2A = 0x2a;
+  static constexpr uint8_t TAS5805M_BOOK_00 = 0x00;
+  static constexpr uint8_t TAS5805M_BOOK_8C = 0x8c;
+  static constexpr uint8_t MASTER_VOL_REG_ADDR = 0x4C;
+  static constexpr uint8_t MUTE_TIME_REG_ADDR = 0x51;
+  static constexpr uint8_t TAS5805M_DAMP_MODE_BTL = 0x0;
+  static constexpr uint8_t TAS5805M_DAMP_MODE_PBTL = 0x04;
+  static constexpr int TAS5805M_ADDR = 0x2E;
+  static constexpr int TAS5805M_VOLUME_MAX = 100;
+  static constexpr int TAS5805M_VOLUME_MIN = 0;
   TAS5805M() = default;
 
   /// Defines the I2C bus instance to be used
@@ -108,7 +96,7 @@ class TAS5805M {
         tas5805m_registers,
         sizeof(tas5805m_registers) / sizeof(tas5805m_registers[0]));
 
-    TAS5805M_ASSERT(ret, "Fail to iniitialize tas5805m PA", RESULT_FAIL);
+    if (ret != 0) { AD_LOGE("Fail to iniitialize tas5805m PA"); return RESULT_FAIL; }
     return ret;
   }
 
@@ -146,7 +134,7 @@ class TAS5805M {
     uint8_t cmd[2] = {MASTER_VOL_REG_ADDR, 0x00};
     error_t ret =
         i2c_bus_read_bytes(i2c_handle, i2c_addr, &cmd[0], 1, &cmd[1], 1);
-    TAS5805M_ASSERT(ret, "Fail to get volume", RESULT_FAIL);
+    if (ret != 0) { AD_LOGE("Fail to get volume"); return RESULT_FAIL; }
     unsigned i;
     for (i = 0; i < sizeof(tas5805m_volume); i++) {
       if (cmd[1] >= tas5805m_volume[i]) break;
@@ -173,7 +161,7 @@ class TAS5805M {
     }
     ret |= i2c_bus_write_bytes(i2c_handle, i2c_addr, &cmd[0], 1, &cmd[1], 1);
 
-    TAS5805M_ASSERT(ret, "Fail to set mute", RESULT_FAIL);
+    if (ret != 0) { AD_LOGE("Fail to set mute"); return RESULT_FAIL; }
     return ret;
   }
 
@@ -214,7 +202,7 @@ class TAS5805M {
     cmd[1] |= (cmd[1] << 4);
 
     ret |= i2c_bus_write_bytes(i2c_handle, i2c_addr, &cmd[0], 1, &cmd[1], 1);
-    TAS5805M_ASSERT(ret, "Fail to set mute fade", RESULT_FAIL);
+    if (ret != 0) { AD_LOGE("Fail to set mute fade"); return RESULT_FAIL; }
     AD_LOGI("Set mute fade, value:%d, 0x%x", value, cmd[1]);
     return ret;
   }
@@ -225,7 +213,7 @@ class TAS5805M {
     uint8_t cmd[2] = {TAS5805M_REG_03, 0x00};
     ret |= i2c_bus_read_bytes(i2c_handle, i2c_addr, &cmd[0], 1, &cmd[1], 1);
 
-    TAS5805M_ASSERT(ret, "Fail to get mute", RESULT_FAIL);
+    if (ret != 0) { AD_LOGE("Fail to get mute"); return RESULT_FAIL; }
     *value = (cmd[1] & 0x08) >> 3;
     AD_LOGI("Get mute value: 0x%x", *value);
     return ret;

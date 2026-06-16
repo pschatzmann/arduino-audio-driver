@@ -9,80 +9,6 @@
 #include "stdbool.h"
 #include <string.h>
 
-#define AC_ASSERT(a, format, b, ...)         \
-  if ((a) != 0) {                            \
-    AD_LOGE("AC101", format, ##__VA_ARGS__); \
-    return b;                                \
-  }
-
-#define I2C_MASTER_WRITE 0
-#define I2C_MASTER_READ 1
-
-#define AC101_ADDR 0x1A /*!< Device address 0x1a/0x34 */
-
-#undef READ_BIT
-#undef WRITE_BIT
-
-#define WRITE_BIT I2C_MASTER_WRITE /*!< I2C master write */
-#define READ_BIT I2C_MASTER_READ   /*!< I2C master read */
-#define ACK_CHECK_EN 0x1           /*!< I2C master will check ack from slave*/
-#define ACK_CHECK_DIS 0x0 /*!< I2C master will not check ack from slave */
-#define ACK_VAL 0x0       /*!< I2C ack value */
-#define NACK_VAL 0x1      /*!< I2C nack value */
-
-#define CHIP_AUDIO_RS 0x00
-#define PLL_CTRL1 0x01
-#define PLL_CTRL2 0x02
-#define SYSCLK_CTRL 0x03
-#define MOD_CLK_ENA 0x04
-#define MOD_RST_CTRL 0x05
-#define I2S_SR_CTRL 0x06
-#define I2S1LCK_CTRL 0x10
-#define I2S1_SDOUT_CTRL 0x11
-#define I2S1_SDIN_CTRL 0x12
-#define I2S1_MXR_SRC 0x13
-#define I2S1_VOL_CTRL1 0x14
-#define I2S1_VOL_CTRL2 0x15
-#define I2S1_VOL_CTRL3 0x16
-#define I2S1_VOL_CTRL4 0x17
-#define I2S1_MXR_GAIN 0x18
-#define ADC_DIG_CTRL 0x40
-#define ADC_VOL_CTRL 0x41
-#define HMIC_CTRL1 0x44
-#define HMIC_CTRL2 0x45
-#define HMIC_STATUS 0x46
-#define DAC_DIG_CTRL 0x48
-#define DAC_VOL_CTRL 0x49
-#define DAC_MXR_SRC 0x4c
-#define DAC_MXR_GAIN 0x4d
-#define ADC_APC_CTRL 0x50
-#define ADC_SRC 0x51
-#define ADC_SRCBST_CTRL 0x52
-#define OMIXER_DACA_CTRL 0x53
-#define OMIXER_SR 0x54
-#define OMIXER_BST1_CTRL 0x55
-#define HPOUT_CTRL 0x56
-#define SPKOUT_CTRL 0x58
-#define AC_DAC_DAPCTRL 0xa0
-#define AC_DAC_DAPHHPFC 0xa1
-#define AC_DAC_DAPLHPFC 0xa2
-#define AC_DAC_DAPLHAVC 0xa3
-#define AC_DAC_DAPLLAVC 0xa4
-#define AC_DAC_DAPRHAVC 0xa5
-#define AC_DAC_DAPRLAVC 0xa6
-#define AC_DAC_DAPHGDEC 0xa7
-#define AC_DAC_DAPLGDEC 0xa8
-#define AC_DAC_DAPHGATC 0xa9
-#define AC_DAC_DAPLGATC 0xaa
-#define AC_DAC_DAPHETHD 0xab
-#define AC_DAC_DAPLETHD 0xac
-#define AC_DAC_DAPHGKPA 0xad
-#define AC_DAC_DAPLGKPA 0xae
-#define AC_DAC_DAPHGOPA 0xaf
-#define AC_DAC_DAPLGOPA 0xb0
-#define AC_DAC_DAPOPT 0xb1
-#define DAC_DAP_ENA 0xb5
-
 namespace audio_driver {
 
 enum ac_adda_fs_i2s1_t {
@@ -180,6 +106,67 @@ struct ac_i2s_clock_t {
  */
 class AC101 {
  public:
+  static constexpr int AC101_ADDR = 0x1A;
+  static constexpr int I2C_MASTER_WRITE = 0;
+  static constexpr int I2C_MASTER_READ = 1;
+  static constexpr int WRITE_BIT = 0;
+  static constexpr int READ_BIT = 1;
+  static constexpr int ACK_CHECK_EN = 0x1;
+  static constexpr int ACK_CHECK_DIS = 0x0;
+  static constexpr int ACK_VAL = 0x0;
+  static constexpr int NACK_VAL = 0x1;
+  static constexpr uint8_t CHIP_AUDIO_RS = 0x00;
+  static constexpr uint8_t PLL_CTRL1 = 0x01;
+  static constexpr uint8_t PLL_CTRL2 = 0x02;
+  static constexpr uint8_t SYSCLK_CTRL = 0x03;
+  static constexpr uint8_t MOD_CLK_ENA = 0x04;
+  static constexpr uint8_t MOD_RST_CTRL = 0x05;
+  static constexpr uint8_t I2S_SR_CTRL = 0x06;
+  static constexpr uint8_t I2S1LCK_CTRL = 0x10;
+  static constexpr uint8_t I2S1_SDOUT_CTRL = 0x11;
+  static constexpr uint8_t I2S1_SDIN_CTRL = 0x12;
+  static constexpr uint8_t I2S1_MXR_SRC = 0x13;
+  static constexpr uint8_t I2S1_VOL_CTRL1 = 0x14;
+  static constexpr uint8_t I2S1_VOL_CTRL2 = 0x15;
+  static constexpr uint8_t I2S1_VOL_CTRL3 = 0x16;
+  static constexpr uint8_t I2S1_VOL_CTRL4 = 0x17;
+  static constexpr uint8_t I2S1_MXR_GAIN = 0x18;
+  static constexpr uint8_t ADC_DIG_CTRL = 0x40;
+  static constexpr uint8_t ADC_VOL_CTRL = 0x41;
+  static constexpr uint8_t HMIC_CTRL1 = 0x44;
+  static constexpr uint8_t HMIC_CTRL2 = 0x45;
+  static constexpr uint8_t HMIC_STATUS = 0x46;
+  static constexpr uint8_t DAC_DIG_CTRL = 0x48;
+  static constexpr uint8_t DAC_VOL_CTRL = 0x49;
+  static constexpr uint8_t DAC_MXR_SRC = 0x4c;
+  static constexpr uint8_t DAC_MXR_GAIN = 0x4d;
+  static constexpr uint8_t ADC_APC_CTRL = 0x50;
+  static constexpr uint8_t ADC_SRC = 0x51;
+  static constexpr uint8_t ADC_SRCBST_CTRL = 0x52;
+  static constexpr uint8_t OMIXER_DACA_CTRL = 0x53;
+  static constexpr uint8_t OMIXER_SR = 0x54;
+  static constexpr uint8_t OMIXER_BST1_CTRL = 0x55;
+  static constexpr uint8_t HPOUT_CTRL = 0x56;
+  static constexpr uint8_t SPKOUT_CTRL = 0x58;
+  static constexpr uint8_t AC_DAC_DAPCTRL = 0xa0;
+  static constexpr uint8_t AC_DAC_DAPHHPFC = 0xa1;
+  static constexpr uint8_t AC_DAC_DAPLHPFC = 0xa2;
+  static constexpr uint8_t AC_DAC_DAPLHAVC = 0xa3;
+  static constexpr uint8_t AC_DAC_DAPLLAVC = 0xa4;
+  static constexpr uint8_t AC_DAC_DAPRHAVC = 0xa5;
+  static constexpr uint8_t AC_DAC_DAPRLAVC = 0xa6;
+  static constexpr uint8_t AC_DAC_DAPHGDEC = 0xa7;
+  static constexpr uint8_t AC_DAC_DAPLGDEC = 0xa8;
+  static constexpr uint8_t AC_DAC_DAPHGATC = 0xa9;
+  static constexpr uint8_t AC_DAC_DAPLGATC = 0xaa;
+  static constexpr uint8_t AC_DAC_DAPHETHD = 0xab;
+  static constexpr uint8_t AC_DAC_DAPLETHD = 0xac;
+  static constexpr uint8_t AC_DAC_DAPHGKPA = 0xad;
+  static constexpr uint8_t AC_DAC_DAPLGKPA = 0xae;
+  static constexpr uint8_t AC_DAC_DAPHGOPA = 0xaf;
+  static constexpr uint8_t AC_DAC_DAPLGOPA = 0xb0;
+  static constexpr uint8_t AC_DAC_DAPOPT = 0xb1;
+  static constexpr uint8_t DAC_DAP_ENA = 0xb5;
   AC101() = default;
 
   /// Defines the I2C bus instance to be used

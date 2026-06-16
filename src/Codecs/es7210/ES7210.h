@@ -33,50 +33,6 @@
 #include "Platforms/API_I2C.h"
 #include "stdbool.h"
 
-#define ES7210_RESET_REG00 0x00      /* Reset control */
-#define ES7210_CLOCK_OFF_REG01 0x01  /* Used to turn off the ADC clock */
-#define ES7210_MAINCLK_REG02 0x02    /* Set ADC clock frequency division */
-#define ES7210_MASTER_CLK_REG03 0x03 /* MCLK source $ SCLK division */
-#define ES7210_LRCK_DIVH_REG04 0x04  /* lrck_divh */
-#define ES7210_LRCK_DIVL_REG05 0x05  /* lrck_divl */
-#define ES7210_POWER_DOWN_REG06 0x06 /* power down */
-#define ES7210_OSR_REG07 0x07
-#define ES7210_MODE_CONFIG_REG08 0x08     /* Set master/slave & channels */
-#define ES7210_TIME_CONTROL0_REG09 0x09   /* Set Chip intial state period*/
-#define ES7210_TIME_CONTROL1_REG0A 0x0A   /* Set Power up state period */
-#define ES7210_SDP_INTERFACE1_REG11 0x11  /* Set sample & fmt */
-#define ES7210_SDP_INTERFACE2_REG12 0x12  /* Pins state */
-#define ES7210_ADC_AUTOMUTE_REG13 0x13    /* Set mute */
-#define ES7210_ADC34_MUTERANGE_REG14 0x14 /* Set mute range */
-#define ES7210_ADC34_HPF2_REG20 0x20      /* HPF */
-#define ES7210_ADC34_HPF1_REG21 0x21
-#define ES7210_ADC12_HPF1_REG22 0x22
-#define ES7210_ADC12_HPF2_REG23 0x23
-#define ES7210_ANALOG_REG40 0x40 /* ANALOG Power */
-#define ES7210_MIC12_BIAS_REG41 0x41
-#define ES7210_MIC34_BIAS_REG42 0x42
-#define ES7210_MIC1_ES7210_GAIN_REG43 0x43
-#define ES7210_MIC2_ES7210_GAIN_REG44 0x44
-#define ES7210_MIC3_ES7210_GAIN_REG45 0x45
-#define ES7210_MIC4_ES7210_GAIN_REG46 0x46
-#define ES7210_MIC1_POWER_REG47 0x47
-#define ES7210_MIC2_POWER_REG48 0x48
-#define ES7210_MIC3_POWER_REG49 0x49
-#define ES7210_MIC4_POWER_REG4A 0x4A
-#define ES7210_MIC12_POWER_REG4B 0x4B /* MICBias & ADC & PGA Power */
-#define ES7210_MIC34_POWER_REG4C 0x4C
-
-#define I2S_DSP_MODE 0
-#define MCLK_DIV_FRE 256
-#define TAG_ES7210 "ES7210"
-
-/* ES7210 address */
-#define ES7210_ADDR ES7210_AD1_AD0_00 >> 1
-#define FROM_PAD_PIN 0
-#define FROM_CLOCK_DOUBLE_PIN 1
-#define ES7210_MCLK_SOURCE                                                    \
-  FROM_CLOCK_DOUBLE_PIN /* In master mode, 0 : MCLK from pad    1 : MCLK from \
-                           clock doubler */
 
 namespace audio_driver {
 
@@ -200,6 +156,45 @@ static const struct _coeff_div es7210_coeff_div[] = {
  */
 class ES7210 {
  public:
+  static constexpr uint8_t ES7210_RESET_REG00 = 0x00;
+  static constexpr uint8_t ES7210_CLOCK_OFF_REG01 = 0x01;
+  static constexpr uint8_t ES7210_MAINCLK_REG02 = 0x02;
+  static constexpr uint8_t ES7210_MASTER_CLK_REG03 = 0x03;
+  static constexpr uint8_t ES7210_LRCK_DIVH_REG04 = 0x04;
+  static constexpr uint8_t ES7210_LRCK_DIVL_REG05 = 0x05;
+  static constexpr uint8_t ES7210_POWER_DOWN_REG06 = 0x06;
+  static constexpr uint8_t ES7210_OSR_REG07 = 0x07;
+  static constexpr uint8_t ES7210_MODE_CONFIG_REG08 = 0x08;
+  static constexpr uint8_t ES7210_TIME_CONTROL0_REG09 = 0x09;
+  static constexpr uint8_t ES7210_TIME_CONTROL1_REG0A = 0x0A;
+  static constexpr uint8_t ES7210_SDP_INTERFACE1_REG11 = 0x11;
+  static constexpr uint8_t ES7210_SDP_INTERFACE2_REG12 = 0x12;
+  static constexpr uint8_t ES7210_ADC_AUTOMUTE_REG13 = 0x13;
+  static constexpr uint8_t ES7210_ADC34_MUTERANGE_REG14 = 0x14;
+  static constexpr uint8_t ES7210_ADC34_HPF2_REG20 = 0x20;
+  static constexpr uint8_t ES7210_ADC34_HPF1_REG21 = 0x21;
+  static constexpr uint8_t ES7210_ADC12_HPF1_REG22 = 0x22;
+  static constexpr uint8_t ES7210_ADC12_HPF2_REG23 = 0x23;
+  static constexpr uint8_t ES7210_ANALOG_REG40 = 0x40;
+  static constexpr uint8_t ES7210_MIC12_BIAS_REG41 = 0x41;
+  static constexpr uint8_t ES7210_MIC34_BIAS_REG42 = 0x42;
+  static constexpr uint8_t ES7210_MIC1_ES7210_GAIN_REG43 = 0x43;
+  static constexpr uint8_t ES7210_MIC2_ES7210_GAIN_REG44 = 0x44;
+  static constexpr uint8_t ES7210_MIC3_ES7210_GAIN_REG45 = 0x45;
+  static constexpr uint8_t ES7210_MIC4_ES7210_GAIN_REG46 = 0x46;
+  static constexpr uint8_t ES7210_MIC1_POWER_REG47 = 0x47;
+  static constexpr uint8_t ES7210_MIC2_POWER_REG48 = 0x48;
+  static constexpr uint8_t ES7210_MIC3_POWER_REG49 = 0x49;
+  static constexpr uint8_t ES7210_MIC4_POWER_REG4A = 0x4A;
+  static constexpr uint8_t ES7210_MIC12_POWER_REG4B = 0x4B;
+  static constexpr uint8_t ES7210_MIC34_POWER_REG4C = 0x4C;
+  static constexpr int I2S_DSP_MODE = 0;
+  static constexpr int MCLK_DIV_FRE = 256;
+  static constexpr const char* TAG_ES7210 = "ES7210";
+  static constexpr int FROM_PAD_PIN = 0;
+  static constexpr int FROM_CLOCK_DOUBLE_PIN = 1;
+  static constexpr int ES7210_MCLK_SOURCE = FROM_CLOCK_DOUBLE_PIN;
+  static constexpr int ES7210_ADDR = ES7210_AD1_AD0_00 >> 1;
   ES7210() = default;
 
   /// Defines the I2C bus instance to be used

@@ -37,9 +37,7 @@
  ******************************************************************************
  */
 
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __WM8994_H
-#define __WM8994_H
+#pragma once
 
 /* Includes ------------------------------------------------------------------*/
 // #include "../Common/audio.h"
@@ -52,95 +50,6 @@
 #include "Platforms/API_I2C.h"
 #include "stdbool.h"
 
-/** @addtogroup Component
- * @{
- */
-
-/** @addtogroup WM8994
- * @{
- */
-
-/** @defgroup WM8994_Exported_Constants
- * @{
- */
-
-/******************************************************************************/
-/***************************  Codec User defines ******************************/
-/******************************************************************************/
-/* Codec output DEVICE */
-#ifndef OUTPUT_DEVICE_SPEAKER
-#define OUTPUT_DEVICE_SPEAKER ((uint16_t)0x0001)
-#define OUTPUT_DEVICE_HEADPHONE ((uint16_t)0x0002)
-#define OUTPUT_DEVICE_BOTH ((uint16_t)0x0003)
-#define OUTPUT_DEVICE_AUTO ((uint16_t)0x0004)
-#endif
-#define INPUT_DEVICE_DIGITAL_MICROPHONE_1 ((uint16_t)0x0100)
-#define INPUT_DEVICE_DIGITAL_MICROPHONE_2 ((uint16_t)0x0200)
-#define INPUT_DEVICE_INPUT_LINE_1 ((uint16_t)0x0300)
-#define INPUT_DEVICE_INPUT_LINE_2 ((uint16_t)0x0400)
-
-/* Volume Levels values */
-#define DEFAULT_VOLMIN 0x00
-#define DEFAULT_VOLMAX 0xFF
-#define DEFAULT_VOLSTEP 0x04
-
-#define AUDIO_PAUSE 0
-#define AUDIO_RESUME 1
-
-/* Codec POWER DOWN modes */
-#define CODEC_PDWN_HW 1
-#define CODEC_PDWN_SW 2
-
-/* MUTE commands */
-#define AUDIO_MUTE_ON 1
-#define AUDIO_MUTE_OFF 0
-
-/* AUDIO FREQUENCY */
-#define AUDIO_FREQUENCY_192K ((uint32_t)192000)
-#define AUDIO_FREQUENCY_96K ((uint32_t)96000)
-#define AUDIO_FREQUENCY_48K ((uint32_t)48000)
-#define AUDIO_FREQUENCY_44K ((uint32_t)44100)
-#define AUDIO_FREQUENCY_32K ((uint32_t)32000)
-#define AUDIO_FREQUENCY_22K ((uint32_t)22050)
-#define AUDIO_FREQUENCY_16K ((uint32_t)16000)
-#define AUDIO_FREQUENCY_11K ((uint32_t)11025)
-#define AUDIO_FREQUENCY_8K ((uint32_t)8000)
-
-#define WM8994_VOLUME_CONVERT(Volume) \
-  (((Volume) > 100) ? 100 : ((uint8_t)(((Volume) * 63) / 100)))
-#define VOLUME_IN_CONVERT(Volume) \
-  (((Volume) >= 100) ? 239 : ((uint8_t)(((Volume) * 240) / 100)))
-
-/******************************************************************************/
-/****************************** REGISTER MAPPING ******************************/
-/******************************************************************************/
-/**
- * @brief  WM8994 ID
- */
-#define WM8994_ID 0x8994
-
-/**
- * @brief Device ID Register: Reading from this register will indicate device
- *                            family ID 8994h
- */
-#define WM8994_CHIPID_ADDR 0x00
-
-/** @brief Default I2C address of the WM8994 codec */
-#define WM8994_ADDR 0x1A
-
-/* Uncomment this line to enable verifying data sent to codec after each write
-   operation (for debug purpose) */
-#if !defined(VERIFY_WRITTENDATA)
-/* #define VERIFY_WRITTENDATA */
-#endif /* VERIFY_WRITTENDATA */
-
-/**
- * @}
- */
-
-/** @defgroup WM8994_Exported_Functions
- * @{
- */
 
 namespace audio_driver {
 
@@ -151,6 +60,38 @@ namespace audio_driver {
  */
 class WM8994 {
  public:
+  enum AudioFrequency : uint32_t {
+    AUDIO_FREQUENCY_192K = 192000,
+    AUDIO_FREQUENCY_96K = 96000,
+    AUDIO_FREQUENCY_48K = 48000,
+    AUDIO_FREQUENCY_44K = 44100,
+    AUDIO_FREQUENCY_32K = 32000,
+    AUDIO_FREQUENCY_22K = 22050,
+    AUDIO_FREQUENCY_16K = 16000,
+    AUDIO_FREQUENCY_11K = 11025,
+    AUDIO_FREQUENCY_8K = 8000
+  };
+  static constexpr uint16_t OUTPUT_DEVICE_SPEAKER = 0x0001;
+  static constexpr uint16_t OUTPUT_DEVICE_HEADPHONE = 0x0002;
+  static constexpr uint16_t OUTPUT_DEVICE_BOTH = 0x0003;
+  static constexpr uint16_t OUTPUT_DEVICE_AUTO = 0x0004;
+  static constexpr uint16_t INPUT_DEVICE_DIGITAL_MICROPHONE_1 = 0x0100;
+  static constexpr uint16_t INPUT_DEVICE_DIGITAL_MICROPHONE_2 = 0x0200;
+  static constexpr uint16_t INPUT_DEVICE_INPUT_LINE_1 = 0x0300;
+  static constexpr uint16_t INPUT_DEVICE_INPUT_LINE_2 = 0x0400;
+  static constexpr uint8_t DEFAULT_VOLMIN = 0x00;
+  static constexpr uint8_t DEFAULT_VOLMAX = 0xFF;
+  static constexpr uint8_t DEFAULT_VOLSTEP = 0x04;
+  static constexpr int AUDIO_PAUSE = 0;
+  static constexpr int AUDIO_RESUME = 1;
+  static constexpr int CODEC_PDWN_HW = 1;
+  static constexpr int CODEC_PDWN_SW = 2;
+  static constexpr int AUDIO_MUTE_ON = 1;
+  static constexpr int AUDIO_MUTE_OFF = 0;
+  static constexpr uint32_t WM8994_ID = 0x8994;
+  static constexpr uint16_t WM8994_CHIPID_ADDR = 0x00;
+  static constexpr int WM8994_ADDR = 0x1A;
+
   WM8994() = default;
 
   /// Defines the I2C bus instance to be used
@@ -614,7 +555,7 @@ class WM8994 {
    */
   uint32_t setVolume(uint8_t Volume) {
     uint32_t counter = 0;
-    uint8_t convertedvol = WM8994_VOLUME_CONVERT(Volume);
+    uint8_t convertedvol = wm8994VolumeConvert(Volume);
 
     /* Output volume */
     if (outputEnabled != 0) {
@@ -656,7 +597,7 @@ class WM8994 {
 
     /* Input volume */
     if (inputEnabled != 0) {
-      convertedvol = VOLUME_IN_CONVERT(Volume);
+      convertedvol = volumeInConvert(Volume);
 
       /* Left AIF1 ADC1 volume */
       counter += writeReg16(0x400, convertedvol | 0x100);
@@ -885,6 +826,13 @@ class WM8994 {
     return result;
   }
 
+  static constexpr uint8_t wm8994VolumeConvert(uint8_t volume) {
+    return volume > 100 ? 100 : (uint8_t)((volume * 63) / 100);
+  }
+  static constexpr uint8_t volumeInConvert(uint8_t volume) {
+    return volume >= 100 ? 239 : (uint8_t)((volume * 240) / 100);
+  }
+
  protected:
   i2c_bus_handle_t i2c_handle = nullptr;
   int i2c_addr = WM8994_ADDR;
@@ -893,8 +841,6 @@ class WM8994 {
 };
 
 }  // namespace audio_driver
-
-#endif /* __WM8994_H */
 
 /**
  * @}
