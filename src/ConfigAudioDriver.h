@@ -58,3 +58,7 @@
 #if AUDIO_DRIVER_FORCE_IDF
 #  define AUDIO_DRIVER_FORCE_IDF false
 #endif
+
+#ifndef USE_NEW_DRIVER_API
+#  define USE_NEW_DRIVER_API true
+#endif
