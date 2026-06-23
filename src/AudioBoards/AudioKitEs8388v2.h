@@ -28,6 +28,24 @@ class PinsAudioKitEs8388v2Class : public DriverDeviceInfo {
     addPin(PinFunction::PA, GPIO_DT_SPEC_GET(DT_ALIAS(pa), gpios), PinLogic::Output);
     addPin(PinFunction::LED, GPIO_DT_SPEC_GET(DT_ALIAS(led), gpios), PinLogic::Output);
 #else
+    // sd pins 14, 2, 15, 13
+    addSPI(ESP32PinsSD);
+    // add i2c codec pins: scl, sda, port, frequency
+    addI2C(PinFunction::CODEC, 23, 18);
+    // add i2s pins: mclk, bck, ws,data_out, data_in ,(port)
+    addI2S(PinFunction::CODEC, 0, 5, 25, 26, 35);
+
+    // add other pins
+    addPin(PinFunction::KEY, 36, PinLogic::InputActiveLow, 1);
+    addPin(PinFunction::KEY, 13, PinLogic::InputActiveLow, 2);
+    addPin(PinFunction::KEY, 19, PinLogic::InputActiveLow, 3);
+    addPin(PinFunction::KEY, 23, PinLogic::InputActiveLow, 4);
+    addPin(PinFunction::KEY, 18, PinLogic::InputActiveLow, 5);
+    addPin(PinFunction::KEY, 5, PinLogic::InputActiveLow, 6);
+    addPin(PinFunction::AUXIN_DETECT, 12, PinLogic::InputActiveLow);
+    addPin(PinFunction::HEADPHONE_DETECT, 39, PinLogic::InputActiveLow);
+    addPin(PinFunction::PA, 21, PinLogic::Output);
+    addPin(PinFunction::LED, 22, PinLogic::Output);
 #endif
   }
 };
