@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['sample_5frate_5f11052_0',['SAMPLE_RATE_11052',['../ac101_8h.html#a3391697d865bae4eb6aee3d5ae6282c3ae1c09121221bff5b26ec3326051e5223',1,'ac101.h']]],
+  ['sample_5frate_5f12000_1',['SAMPLE_RATE_12000',['../ac101_8h.html#a3391697d865bae4eb6aee3d5ae6282c3a52c7c76d2212033044a4dceb8817a85d',1,'ac101.h']]],
+  ['sample_5frate_5f16000_2',['SAMPLE_RATE_16000',['../ac101_8h.html#a3391697d865bae4eb6aee3d5ae6282c3a1d687fbd6d8bed1652afec1067fe9330',1,'ac101.h']]],
+  ['sample_5frate_5f192000_3',['SAMPLE_RATE_192000',['../ac101_8h.html#a3391697d865bae4eb6aee3d5ae6282c3aca36f55f679d65d98febd6024221341b',1,'ac101.h']]],
+  ['sample_5frate_5f22050_4',['SAMPLE_RATE_22050',['../ac101_8h.html#a3391697d865bae4eb6aee3d5ae6282c3a74de8bacccce57aeb73f80569fbf343d',1,'ac101.h']]],
+  ['sample_5frate_5f24000_5',['SAMPLE_RATE_24000',['../ac101_8h.html#a3391697d865bae4eb6aee3d5ae6282c3a201b5b313e8c1262e9280be39a48a3da',1,'ac101.h']]],
+  ['sample_5frate_5f32000_6',['SAMPLE_RATE_32000',['../ac101_8h.html#a3391697d865bae4eb6aee3d5ae6282c3a79f714073aa3901e28ad8f55f7c06791',1,'ac101.h']]],
+  ['sample_5frate_5f44100_7',['SAMPLE_RATE_44100',['../ac101_8h.html#a3391697d865bae4eb6aee3d5ae6282c3a9dbc3d86312cdbc16d20d2869e1063ac',1,'ac101.h']]],
+  ['sample_5frate_5f48000_8',['SAMPLE_RATE_48000',['../ac101_8h.html#a3391697d865bae4eb6aee3d5ae6282c3a145edbc36830d9a675db57d77fb51a72',1,'ac101.h']]],
+  ['sample_5frate_5f8000_9',['SAMPLE_RATE_8000',['../ac101_8h.html#a3391697d865bae4eb6aee3d5ae6282c3a18be34ded6319de38bf09a5bdfdc7ced',1,'ac101.h']]],
+  ['sample_5frate_5f96000_10',['SAMPLE_RATE_96000',['../ac101_8h.html#a3391697d865bae4eb6aee3d5ae6282c3a43752f6789050f94cc85a215129e9e93',1,'ac101.h']]],
+  ['sd_11',['SD',['../namespaceaudio__driver.html#a6b03ddbf1e0f5abd0e46e02555850aafa38f99abbc1d339c277c0669e7bc373c0',1,'audio_driver']]],
+  ['signal_5famalog_12',['SIGNAL_AMALOG',['../namespaceaudio__driver.html#aedfd99612f33cabeb5d2af288bcd95a5aae40a9da55f252df25244d198b0fff61',1,'audio_driver']]],
+  ['signal_5fdigital_13',['SIGNAL_DIGITAL',['../namespaceaudio__driver.html#aedfd99612f33cabeb5d2af288bcd95a5a106a872d1a2b385136a2fafd17e06ed4',1,'audio_driver']]],
+  ['signal_5fpdm_14',['SIGNAL_PDM',['../namespaceaudio__driver.html#aedfd99612f33cabeb5d2af288bcd95a5a8363950b10909688bd9d09acb98ab2cc',1,'audio_driver']]],
+  ['signal_5ftdm_15',['SIGNAL_TDM',['../namespaceaudio__driver.html#aedfd99612f33cabeb5d2af288bcd95a5a3c09d5ffc58f9ac8e2832c73403a53b8',1,'audio_driver']]],
+  ['slaveautodetect_16',['SlaveAutoDetect',['../class_c_s42448.html#a8f5dcc5f62eecd6f2b1bbf920e593321a91314a23f49eb2ae48c0f07d136891da',1,'CS42448']]],
+  ['softramp_17',['SoftRamp',['../class_c_s42448.html#a1dd65b290a55f33850fda5e32f67558bab81a966af9a2e46b05c1d9a020ebb246',1,'CS42448']]],
+  ['softramponzerocross_18',['SoftRampOnZeroCross',['../class_c_s42448.html#a1dd65b290a55f33850fda5e32f67558baf297deafabb33e169f138c5dd95f7eef',1,'CS42448']]],
+  ['src_5flinein_19',['SRC_LINEIN',['../ac101_8h.html#aa37d0a5e7bfe3b30846a9780570bc79bab84aac24b09531b2d2ca8c0bc6e40d09',1,'ac101.h']]],
+  ['src_5fmic1_20',['SRC_MIC1',['../ac101_8h.html#aa37d0a5e7bfe3b30846a9780570bc79ba373e9104bd5089f3545998a2cff50b91',1,'ac101.h']]],
+  ['src_5fmic2_21',['SRC_MIC2',['../ac101_8h.html#aa37d0a5e7bfe3b30846a9780570bc79bae4602d326b2b26437f532738418304bf',1,'ac101.h']]]
+];

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['gpio_0',['GPIO',['../classaudio__driver_1_1_g_p_i_o.html',1,'audio_driver']]],
-  ['gpioext_1',['GPIOExt',['../classaudio__driver_1_1_g_p_i_o_ext.html',1,'audio_driver']]]
+  ['driverdeviceinfo_0',['DriverDeviceInfo',['../classaudio__driver_1_1_driver_device_info.html',1,'audio_driver']]],
+  ['drivertouchclass_1',['DriverTouchClass',['../classaudio__driver_1_1_driver_touch_class.html',1,'audio_driver']]]
 ];

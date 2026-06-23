@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['i2c_5fbus_5fhandle_5ft_0',['i2c_bus_handle_t',['../_driver_common_8h.html#a7031876dbed79a4a0cf1a5f82970275c',1,'DriverCommon.h']]]
+  ['driverpins_0',['DriverPins',['../namespaceaudio__driver.html#a0c74c9479582dc77acb2ceb134995815',1,'audio_driver']]]
 ];

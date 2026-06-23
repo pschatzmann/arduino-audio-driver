@@ -1,12 +1,22 @@
 var searchData=
 [
-  ['i2c_0',['i2c',['../classaudio__driver_1_1_driver_pins.html#a3fb5f991130c2a10a0cfecb026a70775',1,'audio_driver::DriverPins']]],
-  ['i2c_5fconfigs_1',['i2c_configs',['../_a_p_i___i2_c___espressif_i_d_f_8cpp.html#a2766648188cf1c5e35db4c0187ab7a92',1,'API_I2C_EspressifIDF.cpp']]],
-  ['i2c_5fdefault_5faddress_2',['i2c_default_address',['../classaudio__driver_1_1_audio_driver.html#a0d4acc5e3fcbd7a3d4689c8b4d0c15f1',1,'audio_driver::AudioDriver::i2c_default_address'],['../classaudio__driver_1_1_t_c_a9555.html#a64d89b327fba38eab81bcb0b96f499a2',1,'audio_driver::TCA9555::i2c_default_address']]],
-  ['i2c_5fretry_5fcount_3',['i2c_retry_count',['../classaudio__driver_1_1_audio_driver_w_m8960_class.html#a54efa0ea60ca2c083bc8ae8b528c60ce',1,'audio_driver::AudioDriverWM8960Class']]],
-  ['i2s_4',['i2s',['../structcodec__config__t.html#aaf711847489250fbc86db83f79b01b2b',1,'codec_config_t::i2s'],['../classaudio__driver_1_1_driver_pins.html#a0a595946501467f993c4cc65dac0972b',1,'audio_driver::DriverPins::i2s']]],
-  ['index_5',['index',['../structaudio__driver_1_1_pins_function.html#a750b5d744c39a06bfb13e6eb010e35d0',1,'audio_driver::PinsFunction']]],
-  ['input_5fdevice_6',['input_device',['../structcodec__config__t.html#af1127704c2bde9a89bb0b092bfb13746',1,'codec_config_t']]],
-  ['is_5factive_7',['is_active',['../classaudio__driver_1_1_audio_board.html#a407c3efba665d276a38229f905bef352',1,'audio_driver::AudioBoard']]],
-  ['is_5fvalid_8',['is_valid',['../classaudio__driver__local_1_1_optional.html#a7b1d0df736739f38994ed29f54cffdf3',1,'audio_driver_local::Optional']]]
+  ['i2c_0',['i2c',['../classaudio__driver_1_1_driver_device_info.html#ae6b2232a3f4e3d55afcaa0d2db700406',1,'audio_driver::DriverDeviceInfo::i2c'],['../class_c_s42448.html#a897673882e9fa1624dcabecb6fed31d6',1,'CS42448::i2c']]],
+  ['i2c_5faddr_1',['i2c_addr',['../class_p_c_m3168.html#a3590df8c0f943a671fd63d696a55a50c',1,'PCM3168']]],
+  ['i2c_5faddr_5fac101_2',['i2c_addr_ac101',['../ac101_8cpp.html#af77bc1f3244f027057b23e17699e1a97',1,'ac101.cpp']]],
+  ['i2c_5faddress_3',['i2c_address',['../class_c_s42448.html#a962c50e2ca85425174e1cc8bd43720bd',1,'CS42448']]],
+  ['i2c_5faddress_5fes8311_4',['i2c_address_es8311',['../es8311_8cpp.html#a4954c7211bda31e7e5cb8a8cf70eac66',1,'es8311.cpp']]],
+  ['i2c_5faddress_5fes8374_5',['i2c_address_es8374',['../es8374_8cpp.html#a4abed19a89dd761b76e568e21a80e801',1,'es8374.cpp']]],
+  ['i2c_5fbase_6',['I2C_BASE',['../class_p_c_m3168.html#ae298439a2564e971327dbcded76d5516',1,'PCM3168']]],
+  ['i2c_5fdefault_5faddress_7',['i2c_default_address',['../classaudio__driver_1_1_t_c_a9555.html#a64d89b327fba38eab81bcb0b96f499a2',1,'audio_driver::TCA9555::i2c_default_address'],['../classaudio__driver_1_1_audio_driver.html#a0d4acc5e3fcbd7a3d4689c8b4d0c15f1',1,'audio_driver::AudioDriver::i2c_default_address']]],
+  ['i2c_5fhandle_8',['i2c_handle',['../es7243e_8cpp.html#aaf1d0eba62b6e9c884a18c0f4a0b7798',1,'i2c_handle:&#160;es7243e.cpp'],['../es7243_8cpp.html#aaf1d0eba62b6e9c884a18c0f4a0b7798',1,'i2c_handle:&#160;es7243.cpp'],['../es7210_8cpp.html#aaf1d0eba62b6e9c884a18c0f4a0b7798',1,'i2c_handle:&#160;es7210.cpp'],['../group___c_s43_l22___private___variables.html#gaaf1d0eba62b6e9c884a18c0f4a0b7798',1,'i2c_handle:&#160;cs43l22.cpp'],['../ac101_8cpp.html#aaf1d0eba62b6e9c884a18c0f4a0b7798',1,'i2c_handle:&#160;ac101.cpp'],['../es8156_8cpp.html#aaf1d0eba62b6e9c884a18c0f4a0b7798',1,'i2c_handle:&#160;es8156.cpp'],['../es8311_8cpp.html#aaf1d0eba62b6e9c884a18c0f4a0b7798',1,'i2c_handle:&#160;es8311.cpp'],['../es8374_8cpp.html#aaf1d0eba62b6e9c884a18c0f4a0b7798',1,'i2c_handle:&#160;es8374.cpp'],['../es8388_8cpp.html#aaf1d0eba62b6e9c884a18c0f4a0b7798',1,'i2c_handle:&#160;es8388.cpp'],['../group___w_m8994___private___variables.html#gaaf1d0eba62b6e9c884a18c0f4a0b7798',1,'i2c_handle:&#160;wm8994.cpp']]],
+  ['i2c_5fhandler_9',['i2c_handler',['../tas5805m_8cpp.html#a817e098559619712e95207cd9eb1c585',1,'tas5805m.cpp']]],
+  ['i2c_5fptr_10',['i2c_ptr',['../mtb__wm8960_8cpp.html#a24cc26a7b450eba80e95c18717516b55',1,'mtb_wm8960.cpp']]],
+  ['i2c_5fretry_5fcount_11',['i2c_retry_count',['../classaudio__driver_1_1_audio_driver_w_m8960_class.html#a54efa0ea60ca2c083bc8ae8b528c60ce',1,'audio_driver::AudioDriverWM8960Class']]],
+  ['i2s_12',['i2s',['../classaudio__driver_1_1_driver_device_info.html#adba978dbd6a12a0ceb202c6dabd94f52',1,'audio_driver::DriverDeviceInfo::i2s'],['../structaudio__driver_1_1codec__config__t.html#aaf711847489250fbc86db83f79b01b2b',1,'audio_driver::codec_config_t::i2s']]],
+  ['index_13',['index',['../structaudio__driver_1_1_pins_function.html#a750b5d744c39a06bfb13e6eb010e35d0',1,'audio_driver::PinsFunction']]],
+  ['input_5fdevice_14',['input_device',['../structaudio__driver_1_1codec__config__t.html#af1127704c2bde9a89bb0b092bfb13746',1,'audio_driver::codec_config_t']]],
+  ['inputenabled_15',['inputEnabled',['../group___w_m8994___private___variables.html#ga3ef6c1954a0ac95d56a3ed75f5605141',1,'wm8994.cpp']]],
+  ['is_5factive_16',['is_active',['../class_c_s42448.html#a407c3efba665d276a38229f905bef352',1,'CS42448::is_active'],['../classaudio__driver_1_1_audio_board.html#a407c3efba665d276a38229f905bef352',1,'audio_driver::AudioBoard::is_active']]],
+  ['is_5fcs43l22_5fstop_17',['Is_cs43l22_Stop',['../group___c_s43_l22___private___variables.html#ga3f475102edbc163701bafdc4b14d48e1',1,'cs43l22.cpp']]],
+  ['is_5fvalid_18',['is_valid',['../classaudio__driver__local_1_1_optional.html#a7b1d0df736739f38994ed29f54cffdf3',1,'audio_driver_local::Optional']]]
 ];

@@ -338,4 +338,4 @@ class Vector {
     }
 };
 
-}
+} // namespace audio_driver_local

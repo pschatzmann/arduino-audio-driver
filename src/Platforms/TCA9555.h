@@ -7,7 +7,7 @@
 
 #include "API_GPIO.h"
 #include "Platforms/API_I2C.h"
-#include "Platforms/IDriverPins.h"
+#include "Platforms/IDriverDeviceInfo.h"
 
 /**
  * @namespace audio_driver
@@ -31,14 +31,14 @@ class TCA9555 : public API_GPIO {
 
   /**
    * @brief Initialize the TCA9555 and create the I2C bus.
-   * @param pins DriverPins structure with SCL and SDA pin assignments.
+   * @param pins DriverDeviceInfo structure with SCL and SDA pin assignments.
    * @return true if initialization was successful, false otherwise.
    */
-  bool begin(IDriverPins& pins) override {
+  bool begin(IDriverDeviceInfo& pins) override {
     AD_LOGI("TCA9555::begin");
     auto expanderPins = pins.getI2CPins(PinFunction::EXPANDER);
     if (!expanderPins) {
-      AD_LOGI("TCA9555 not configured in DriverPins");
+      AD_LOGI("TCA9555 not configured in DriverDeviceInfo");
       return false;
     }
     // Setup I2CConfig and create the bus
@@ -69,8 +69,8 @@ class TCA9555 : public API_GPIO {
    * @param value true for HIGH, false for LOW.
    * @return true if successful, false otherwise.
    */
-  bool digitalWrite(int pin, bool value) override {
-    if (pin > 1000) pin -= 1000;
+  bool digitalWrite(GpioPin pin, bool value) override {
+    if (pin >= 1000) pin -= 1000;
     AD_LOGI("TCA9555::digitalWrite %d: %d", pin, value);
     if (pin > 15 || bus == nullptr) {
       AD_LOGE("TCA9555 invalid pin: %d", pin);
@@ -100,8 +100,8 @@ class TCA9555 : public API_GPIO {
    * @param pin Pin number (0-15).
    * @return true if HIGH, false if LOW or on error.
    */
-  bool digitalRead(int pin) override {
-    if (pin > 1000) pin -= 1000;
+  bool digitalRead(GpioPin pin) override {
+    if (pin >= 1000) pin -= 1000;
     AD_LOGI("TCA9555::digitalRead %d", pin);
     if (pin > 15 || bus == nullptr) return false;
     uint8_t port = pin / 8;
@@ -118,8 +118,8 @@ class TCA9555 : public API_GPIO {
    * @param input true for input, false for output.
    * @return true if successful, false otherwise.
    */
-  void pinMode(int pin, int mode) override {
-    if (pin > 1000) pin -= 1000;
+  void pinMode(GpioPin pin, int mode) override {
+    if (pin >= 1000) pin -= 1000;
     AD_LOGI("TCA9555::pinMode: %d", pin);
     if (pin > 15 || bus == nullptr) {
       AD_LOGE("TCA9555 pinMode: invalid pin: %d", pin);
@@ -140,6 +140,13 @@ class TCA9555 : public API_GPIO {
       cfg &= ~(1 << bit);
     i2c_write(i2c_default_address, reg, &cfg, 1);
   }
+
+  /// Not supported
+  int analogRead(ADCPin pin) { 
+    AD_LOGE("TCA9555 analogRead() not supported");
+    return 0; 
+  }
+
 
   /**
    * @brief Set the I2C address for the TCA9555.

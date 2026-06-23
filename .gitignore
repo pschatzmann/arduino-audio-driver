@@ -1,10 +1,6 @@
-debug*
 .vscode/
-<<<<<<< HEAD
-.claude/
-build/
-=======
-.continue/
 .zed/
+.continue/
+.claude/
+debug*
 build/
->>>>>>> d4fc092d68fd629311c2b6b5986ea420289b0945

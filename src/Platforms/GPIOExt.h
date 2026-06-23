@@ -23,7 +23,7 @@ class GPIOExt : public API_GPIO {
    * @param pin The pin number or handle.
    */
   GPIOExt() = default;
-  bool begin(IDriverPins& pins) override {
+  bool begin(IDriverDeviceInfo& pins) override {
     bool rc = gpio.begin(pins);
     if (p_ext) p_ext->begin(pins);
     return rc;
@@ -32,14 +32,14 @@ class GPIOExt : public API_GPIO {
     gpio.end();
     if (p_ext) p_ext->end();
   }
-  void pinMode(int pin, int mode) override {
+  void pinMode(GpioPin pin, int mode) override {
     if (p_ext && pin >= offset) {
       p_ext->pinMode(pin, mode);
     } else {
       gpio.pinMode(pin, mode);
     }
   }
-  bool digitalWrite(int pin, bool value) override {
+  bool digitalWrite(GpioPin pin, bool value) override {
     if (p_ext && pin >= offset) {
       return p_ext->digitalWrite(pin, value);
     } else {
@@ -47,12 +47,16 @@ class GPIOExt : public API_GPIO {
     }
   }
 
-  bool digitalRead(int pin) override {
+  bool digitalRead(GpioPin pin) override {
     if (p_ext && pin >= offset) {
       return p_ext->digitalRead(pin);
     } else {
       return gpio.digitalRead(pin);
     }
+  }
+
+  int analogRead(ADCPin pin) override {
+    return gpio.analogRead(pin);
   }
 
   void setAltGPIO(API_GPIO& gpioExt, int offset = 1000) {

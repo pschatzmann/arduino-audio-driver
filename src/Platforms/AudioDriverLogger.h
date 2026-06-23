@@ -4,11 +4,14 @@
 #if AUDIO_DRIVER_LOGGIN_ACTVIE && !defined(AUDIO_DRIVER_LOGGING_IDF)
 
 #include "LoggerSTD.h"
-#include "etc.h"
+#include "Platforms/API_Delay.h"
 
 #ifdef ARDUINO
 #  include "Print.h"
 #endif
+
+namespace audio_driver {
+
 // define supported log levels
 enum class AudioDriverLogLevel {Debug=0, Info=1, Warning=2, Error=3};
 
@@ -42,5 +45,7 @@ public:
 
 // global object for std logging api
 static AudioDriverLoggerClass AudioDriverLogger;
+
+} // namespace audio_driver
 
 #endif

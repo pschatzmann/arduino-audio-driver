@@ -58,3 +58,8 @@
 #if AUDIO_DRIVER_FORCE_IDF
 #  define AUDIO_DRIVER_FORCE_IDF false
 #endif
+
+/// Mark that this library is providing the new class names
+#ifndef AUDIO_DRIVER_USE_NEW_API
+#  define AUDIO_DRIVER_USE_NEW_API 
+#endif

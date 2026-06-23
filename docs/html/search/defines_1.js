@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['default_5fwire_0',['DEFAULT_WIRE',['../_i_driver_pins_8h.html#a785670dfb4e35011c2078e4f791f9101',1,'IDriverPins.h']]],
-  ['driver_5fdefault_5fvolume_1',['DRIVER_DEFAULT_VOLUME',['../_config_audio_driver_8h.html#a2513e2bd0eb45a0ccefbbcd3f289ca47',1,'ConfigAudioDriver.h']]],
-  ['driver_5freport_5fdriver_5fvolume_2',['DRIVER_REPORT_DRIVER_VOLUME',['../_config_audio_driver_8h.html#a9d56c6ea19f3b09ed4850731fd1e6726',1,'ConfigAudioDriver.h']]]
+  ['bit_0',['bit',['../es8156_8cpp.html#a4eaf4bf81c52c3f375967906e4d5ba17',1,'BIT:&#160;es8156.cpp'],['../es8311_8cpp.html#a4eaf4bf81c52c3f375967906e4d5ba17',1,'BIT:&#160;es8311.cpp']]],
+  ['board_5fpa_5fgain_1',['BOARD_PA_GAIN',['../es8156_8cpp.html#a5ccd5a7fd4b91006f9e73512c6722377',1,'es8156.cpp']]]
 ];

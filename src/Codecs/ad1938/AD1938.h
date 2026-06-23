@@ -1,0 +1,592 @@
+/* AD1938 Audio Codec  control library
+ *
+ * Copyright (c) 2017, Yasmeen Sultana
+ * Copyright (c) 2024, Phil Schatzmann
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice, development funding notice, and this permission
+ * notice shall be included in all copies or substantial portions of the
+ * Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+#ifdef ARDUINO
+#pragma once
+#include <SPI.h>
+
+#include "Codecs/CodecConstants.h"
+#include "DriverCommon.h"
+#include "Platforms/API_GPIO.h"
+
+/*
+reference
+http://www.analog.com/media/en/technical-documentation/data-sheets/AD1938.pdf
+http://www.analog.com/media/en/technical-documentation/application-notes/AN-1365.pdf
+*/
+/* SPI 3 byte register format
+----------------------------------------------
+|Global Address |R/W |Register Address |Data |
+----------------------------------------------
+|23:17          |16  |15:8             |  7:0|
+----------------------------------------------
+Address Register
+0 		PLL and Clock Control 0
+1 		PLL and Clock Control 1
+2 		DAC Control 0
+3 		DAC Control 1
+4 		DAC Control 2
+5 		DAC individual channel mutes
+6 		DAC L1 volume control
+7 		DAC R1 volume control
+8 		DAC L2 volume control
+9 		DAC R2 volume control
+10 		DAC L3 volume control
+11 		DAC R3 volume control
+12 		DAC L4 volume control
+13 		DAC R4 volume control
+14 		ADC Control 0
+15 		ADC Control 1
+16 		ADC Control 2
+*/
+
+
+namespace audio_driver {
+
+/**
+ * @brief The AD1938 is a high performance, single-chip codec that pro-
+ * vides four analog-to-digital converters (ADCs) with input and
+ * eight digital-to-analog converters (DACs) with single-ended output
+ * using the Analog Devices, Inc., patented multibit sigma-delta (Σ-Δ)
+ * architecture. An SPI port is included, allowing a microcontroller
+ * to adjust volume and many other parameters.
+ */
+class AD1938 {
+ public:
+  static constexpr uint8_t AD1938_GLOBAL_ADDRESS = 0x04;
+  static constexpr uint8_t AD1938_WRITE_ADDRESS = (AD1938_GLOBAL_ADDRESS << 1);
+  static constexpr uint8_t AD1938_READ_ADDRESS = ((AD1938_GLOBAL_ADDRESS << 1) | 1);
+  static constexpr int AD1938_SPI_WRITE_BYTE_COUNT = 3;
+  static constexpr int AD1938_SPI_READ_BYTE_COUNT = 2;
+  static constexpr uint8_t AD1938_PLL_CLK_CTRL0 = 0x00;
+  static constexpr uint8_t DIS_ADC_DAC = 0x00;
+  static constexpr uint8_t ENA_ADC_DAC = 0x80;
+  static constexpr uint8_t PLL_IN_MCLK = 0x00;
+  static constexpr uint8_t PLL_IN_DLRCLK = 0x20;
+  static constexpr uint8_t PLL_IN_ALRCLK = 0x40;
+  static constexpr uint8_t MCLK_OUT_XTAL = 0x00;
+  static constexpr uint8_t MCLK_OUT_256FS = 0x08;
+  static constexpr uint8_t MCLK_OUT_512FS = 0x10;
+  static constexpr uint8_t MCLK_OUT_OFF = 0x18;
+  static constexpr uint8_t INPUT256 = 0x00;
+  static constexpr uint8_t INPUT384 = 0x02;
+  static constexpr uint8_t INPUT512 = 0x04;
+  static constexpr uint8_t INPUT768 = 0x06;
+  static constexpr uint8_t PLL_PWR_UP = 0x00;
+  static constexpr uint8_t PLL_PWR_DWN = 0x01;
+  static constexpr uint8_t AD1938_PLL_CLK_CTRL1 = 0x01;
+  static constexpr uint8_t AD1938_PLL_LOCK = 0x08;
+  static constexpr uint8_t DIS_VREF = 0x04;
+  static constexpr uint8_t ENA_VREF = 0x00;
+  static constexpr uint8_t ADC_CLK_PLL = 0x00;
+  static constexpr uint8_t ADC_CLK_MCLK = 0x20;
+  static constexpr uint8_t DAC_CLK_PLL = 0x00;
+  static constexpr uint8_t DAC_CLK_MCLK = 0x01;
+  static constexpr uint8_t AD1938_DAC_CTRL0 = 0x02;
+  static constexpr uint8_t DAC_FMT_I2S = 0x00;
+  static constexpr uint8_t DAC_FMT_TDM = 0x40;
+  static constexpr uint8_t DAC_FMT_AUX = 0x80;
+  static constexpr uint8_t DAC_FMT_DUALTDM = 0xc0;
+  static constexpr uint8_t DAC_BCLK_DLY_1 = 0x00;
+  static constexpr uint8_t DAC_BCLK_DLY_0 = 0x08;
+  static constexpr uint8_t DAC_BCLK_DLY_8 = 0x01;
+  static constexpr uint8_t DAC_BCLK_DLY_12 = 0x18;
+  static constexpr uint8_t DAC_BCLK_DLY_16 = 0x20;
+  static constexpr uint8_t DAC_SR_48K = 0x00;
+  static constexpr uint8_t DAC_SR_96K = 0x02;
+  static constexpr uint8_t DAC_SR_192K = 0x04;
+  static constexpr uint8_t DAC_PWR_UP = 0x00;
+  static constexpr uint8_t DAC_PWR_DWN = 0x01;
+  static constexpr uint8_t AD1938_DAC_CTRL1 = 0x03;
+  static constexpr uint8_t DAC_BCLK_POL_NORM = 0x00;
+  static constexpr uint8_t DAC_BCLK_POL_INV = 0x80;
+  static constexpr uint8_t DAC_BCLK_SRC_PIN = 0x00;
+  static constexpr uint8_t DAC_BCLK_SRC_INTERNAL = 0x40;
+  static constexpr uint8_t DAC_BCLK_SLAVE = 0x00;
+  static constexpr uint8_t DAC_BCLK_MASTER = 0x20;
+  static constexpr uint8_t DAC_LRCLK_SLAVE = 0x00;
+  static constexpr uint8_t DAC_LRCLK_MASTER = 0x10;
+  static constexpr uint8_t DAC_LRCLK_POL_NORM = 0x00;
+  static constexpr uint8_t DAC_LRCLK_POL_INV = 0x08;
+  static constexpr uint8_t DAC_CHANNELS_2 = 0x00;
+  static constexpr uint8_t DAC_CHANNELS_4 = 0x02;
+  static constexpr uint8_t DAC_CHANNELS_8 = 0x04;
+  static constexpr uint8_t DAC_CHANNELS_16 = 0x06;
+  static constexpr uint8_t DAC_LATCH_MID = 0x00;
+  static constexpr uint8_t DAC_LATCH_END = 0x01;
+  static constexpr uint8_t AD1938_DAC_CTRL2 = 0x04;
+  static constexpr uint8_t DAC_OUT_POL_NORM = 0x00;
+  static constexpr uint8_t DAC_OUT_POL_INV = 0x20;
+  static constexpr uint8_t DAC_WIDTH_24 = 0x00;
+  static constexpr uint8_t DAC_WIDTH_20 = 0x08;
+  static constexpr uint8_t DAC_WIDTH_16 = 0x18;
+  static constexpr uint8_t DAC_DEEMPH_FLAT = 0x00;
+  static constexpr uint8_t DAC_DEEMPH_48K = 0x02;
+  static constexpr uint8_t DAC_DEEMPH_44_1K = 0x04;
+  static constexpr uint8_t DAC_DEEMPH_32K = 0x06;
+  static constexpr uint8_t DAC_UNMUTE_ALL = 0x00;
+  static constexpr uint8_t DAC_MUTE_ALL = 0x01;
+  static constexpr uint8_t AD1938_DAC_CHNL_MUTE = 0x05;
+  static constexpr uint8_t DACMUTE_R4 = 0x80;
+  static constexpr uint8_t DACMUTE_L4 = 0x40;
+  static constexpr uint8_t DACMUTE_R3 = 0x20;
+  static constexpr uint8_t DACMUTE_L3 = 0x10;
+  static constexpr uint8_t DACMUTE_R2 = 0x08;
+  static constexpr uint8_t DACMUTE_L2 = 0x04;
+  static constexpr uint8_t DACMUTE_R1 = 0x02;
+  static constexpr uint8_t DACMUTE_L1 = 0x01;
+  static constexpr uint8_t DACVOL_MIN = 0xFF;
+  static constexpr uint8_t DACVOL_LOW = 0xC0;
+  static constexpr uint8_t DACVOL_MED = 0x80;
+  static constexpr uint8_t DACVOL_HI = 0x40;
+  static constexpr uint8_t DACVOL_MAX = 0x00;
+  static constexpr uint8_t DACVOL_MASK = 0xFF;
+  static constexpr uint8_t AD1938_DAC_L1_VOL = 0x06;
+  static constexpr uint8_t AD1938_DAC_R1_VOL = 0x07;
+  static constexpr uint8_t AD1938_DAC_L2_VOL = 0x08;
+  static constexpr uint8_t AD1938_DAC_R2_VOL = 0x09;
+  static constexpr uint8_t AD1938_DAC_L3_VOL = 0x0a;
+  static constexpr uint8_t AD1938_DAC_R3_VOL = 0x0b;
+  static constexpr uint8_t AD1938_DAC_L4_VOL = 0x0c;
+  static constexpr uint8_t AD1938_DAC_R4_VOL = 0x0d;
+  static constexpr uint8_t AD1938_ADC_CTRL0 = 0x0e;
+  static constexpr uint8_t ADC_SR_48K = 0x00;
+  static constexpr uint8_t ADC_SR_96K = 0x40;
+  static constexpr uint8_t ADC_SR_192K = 0x80;
+  static constexpr uint8_t ADC_R2_UNMUTE = 0x00;
+  static constexpr uint8_t ADC_R2_MUTE = 0x20;
+  static constexpr uint8_t ADC_L2_UNMUTE = 0x00;
+  static constexpr uint8_t ADC_L2_MUTE = 0x10;
+  static constexpr uint8_t ADC_R1_UNMUTE = 0x00;
+  static constexpr uint8_t ADC_R1_MUTE = 0x08;
+  static constexpr uint8_t ADC_L1_UNMUTE = 0x00;
+  static constexpr uint8_t ADC_L1_MUTE = 0x04;
+  static constexpr uint8_t ADC_HP_FILT_OFF = 0x00;
+  static constexpr uint8_t ADC_HP_FILT_ON = 0x02;
+  static constexpr uint8_t ADC_PWR_UP = 0x00;
+  static constexpr uint8_t ADC_PWR_DWN = 0x01;
+  static constexpr uint8_t AD1938_ADC_CTRL1 = 0x0f;
+  static constexpr int AD1938_SPI_CLK_FREQ = 1000000;
+  static constexpr uint8_t ADC_LATCH_MID = 0x00;
+  static constexpr uint8_t ADC_LATCH_END = 0x80;
+  static constexpr uint8_t ADC_FMT_I2S = 0x00;
+  static constexpr uint8_t ADC_FMT_TDM = 0x20;
+  static constexpr uint8_t ADC_FMT_AUX = 0x40;
+  static constexpr uint8_t ADC_BCLK_DLY_1 = 0x00;
+  static constexpr uint8_t ADC_BCLK_DLY_0 = 0x04;
+  static constexpr uint8_t ADC_BCLK_DLY_8 = 0x08;
+  static constexpr uint8_t ADC_BCLK_DLY_12 = 0x0c;
+  static constexpr uint8_t ADC_BCLK_DLY_16 = 0x10;
+  static constexpr uint8_t ADC_WIDTH_24 = 0x00;
+  static constexpr uint8_t ADC_WIDTH_20 = 0x01;
+  static constexpr uint8_t ADC_WIDTH_16 = 0x03;
+  static constexpr uint8_t AD1938_ADC_CTRL2 = 0x10;
+  static constexpr uint8_t ADC_BCLK_SRC_PIN = 0x00;
+  static constexpr uint8_t ADC_BCLK_SRC_INTERNAL = 0x80;
+  static constexpr uint8_t ADC_BCLK_SLAVE = 0x00;
+  static constexpr uint8_t ADC_BCLK_MASTER = 0x40;
+  static constexpr uint8_t ADC_CHANNELS_2 = 0x00;
+  static constexpr uint8_t ADC_CHANNELS_4 = 0x10;
+  static constexpr uint8_t ADC_CHANNELS_8 = 0x20;
+  static constexpr uint8_t ADC_CHANNELS_16 = 0x30;
+  static constexpr uint8_t ADC_LRCLK_SLAVE = 0x00;
+  static constexpr uint8_t ADC_LRCLK_MASTER = 0x08;
+  static constexpr uint8_t ADC_LRCLK_POL_NORM = 0x00;
+  static constexpr uint8_t ADC_LRCLK_POL_INV = 0x04;
+  static constexpr uint8_t ADC_BCLK_POL_NORM = 0x00;
+  static constexpr uint8_t ADC_BCLK_POL_INV = 0x02;
+  static constexpr uint8_t ADC_LRCLK_FMT_50_50 = 0x00;
+  static constexpr uint8_t ADC_LRCLK_FMT_PULSE = 0x01;
+  bool begin(API_GPIO& gpio, codec_config_t cfg, int clatchPin, int resetPin,
+             SPIClass& spi = SPI);
+
+  bool end() {
+    setMute(true);
+    return disable();
+  }
+
+  bool enable(void);
+
+  bool disable(void);
+
+  bool setVolume(float volume) {
+    int vol = scaleVolume(volume);
+    for (int j = 0; j < 4; j++) setVolumeDAC(j, vol);
+    return true;
+  }
+  bool setVolume(int dac, float volume) {
+    return setVolumeDAC(dac, scaleVolume(volume));
+  }
+  bool setVolume(int volume) {
+    for (int j = 0; j < 4; j++) setVolumeDAC(j, volume);
+    return true;
+  }
+  bool setVolumeDAC(int dac, int volume);
+
+  bool setMuteADC(bool mute);
+
+  bool setMuteDAC(bool mute);
+
+  bool setMute(bool mute) { return setMuteADC(mute) && setMuteDAC(mute); }
+
+ protected:
+  codec_config_t cfg;
+  int ad1938_clatch_pin;
+  int ad1938_reset_pin;
+  SPIClass* p_spi = nullptr;
+  unsigned char dac_fs = 0;
+  unsigned char adc_fs = 0;
+  unsigned char dac_mode = 0;
+  unsigned char adc_mode = 0;
+  unsigned char dac_wl = 0;
+  unsigned char adc_wl = 0;
+  unsigned char dac_channels = 0;
+  unsigned char adc_channels = 0;
+  API_GPIO* p_gpio = nullptr;
+
+  bool config();
+  bool configMaster();
+  bool configSlave();
+  bool spi_write_reg(unsigned char reg, unsigned char val);
+  unsigned char spi_read_reg(unsigned char reg);
+  bool isPllLocked();
+  int scaleVolume(float volume) {
+    int vol = (1.0 - volume) * 255;
+    if (vol < 0) vol = 0;
+    if (vol > 255) vol = 255;
+    return vol;
+  }
+};
+
+inline bool AD1938::begin(API_GPIO& gpio, codec_config_t configVal,
+                          int clatchPin, int resetPin, SPIClass& spi) {
+  ad1938_clatch_pin = clatchPin;
+  ad1938_reset_pin = resetPin;
+  cfg = configVal;
+  p_spi = &spi;
+  p_gpio = &gpio;
+
+  // setup pins
+  p_gpio->pinMode(ad1938_clatch_pin, OUTPUT);
+  p_gpio->pinMode(ad1938_reset_pin, OUTPUT);
+
+  // reset codec
+  p_gpio->digitalWrite(ad1938_reset_pin, LOW);
+  delayMs(200);
+  p_gpio->digitalWrite(ad1938_reset_pin, HIGH);
+  delayMs(400);  // wait for 300ms to load the code
+
+  // setup basic information from codec_config_t
+  config();
+
+  return true;
+}
+
+inline unsigned char AD1938::spi_read_reg(unsigned char reg) {
+  unsigned char result = 0;
+  unsigned char data[AD1938_SPI_WRITE_BYTE_COUNT];
+
+  data[0] = AD1938_READ_ADDRESS;
+  data[1] = reg;
+  data[2] = 0x0;
+
+  // and configure settings
+  p_spi->beginTransaction(
+      SPISettings(AD1938_SPI_CLK_FREQ, MSBFIRST, SPI_MODE3));
+  // take the chip select low to select the device:
+  p_gpio->digitalWrite(ad1938_clatch_pin, LOW);
+
+  p_spi->transfer(
+      &data[0],
+      AD1938_SPI_READ_BYTE_COUNT);  // Send register location , read byte is 2
+
+  // send a value of 0 to read the first byte returned:
+  result = (unsigned char)p_spi->transfer(0x00);
+
+  // take the chip select high to de-select:
+  p_gpio->digitalWrite(ad1938_clatch_pin, HIGH);
+  // release control of the SPI port
+  p_spi->endTransaction();
+
+  return (result);
+}
+
+inline bool AD1938::spi_write_reg(unsigned char reg, unsigned char val) {
+  unsigned char data[AD1938_SPI_WRITE_BYTE_COUNT];
+
+  /*fill the buffer as per AD1938 format*/
+  data[0] = AD1938_WRITE_ADDRESS;
+  data[1] = reg;
+  data[2] = val;
+
+  // and configure settings
+  p_spi->beginTransaction(SPISettings(
+      AD1938_SPI_CLK_FREQ, MSBFIRST,
+      SPI_MODE3));  // 3
+                    //  take the chip select low to select the device:
+  p_gpio->digitalWrite(ad1938_clatch_pin, LOW);
+
+  p_spi->transfer(&data[0], AD1938_SPI_WRITE_BYTE_COUNT);
+  // take the chip select high to de-select:
+  p_gpio->digitalWrite(ad1938_clatch_pin, HIGH);
+  // release control of the SPI port
+  p_spi->endTransaction();
+
+  return true;
+}
+
+inline bool AD1938::config() {
+  switch (cfg.i2s.rate) {
+    case RATE_32K:
+    case RATE_44K:
+    case RATE_48K: {
+      dac_fs = DAC_SR_48K;
+      adc_fs = ADC_SR_48K;
+    } break;
+    case RATE_64K:
+    case RATE_88K:
+    case RATE_96K: {
+      dac_fs = DAC_SR_96K;
+      adc_fs = ADC_SR_96K;
+    } break;
+    case RATE_128K:
+    case RATE_176K:
+    case RATE_192K: {
+      dac_fs = DAC_SR_192K;
+      adc_fs = ADC_SR_192K;
+    } break;
+    default: {
+      dac_fs = DAC_SR_48K;
+      adc_fs = ADC_SR_48K;
+    }
+  }
+
+  switch (cfg.i2s.bits) {
+    case BIT_LENGTH_16BITS: {
+      dac_wl = DAC_WIDTH_16;
+      adc_wl = ADC_WIDTH_16;
+
+    } break;
+    case BIT_LENGTH_20BITS: {
+      dac_wl = DAC_WIDTH_20;
+      adc_wl = ADC_WIDTH_20;
+
+    } break;
+    case BIT_LENGTH_24BITS: {
+      dac_wl = DAC_WIDTH_24;
+      adc_wl = ADC_WIDTH_24;
+    }
+
+    break;
+
+    default: {
+      dac_wl = DAC_WIDTH_24;
+      adc_wl = ADC_WIDTH_24;
+    }
+  }
+
+  switch (cfg.i2s.channels) {
+    case CHANNELS2: {
+      dac_mode = DAC_FMT_I2S;
+      adc_mode = ADC_FMT_I2S;
+      dac_channels = DAC_CHANNELS_2;
+      adc_channels = ADC_CHANNELS_2;
+
+    } break;
+    case CHANNELS8: {
+      dac_mode = DAC_FMT_TDM;
+      adc_mode = ADC_FMT_TDM;
+      dac_channels = DAC_CHANNELS_8;
+      adc_channels = ADC_CHANNELS_8;
+
+    } break;
+    case CHANNELS16: {
+      dac_mode = DAC_FMT_TDM;
+      adc_mode = ADC_FMT_TDM;
+      dac_channels = DAC_CHANNELS_16;
+      adc_channels = ADC_CHANNELS_16;
+
+    } break;
+    default: {
+      dac_mode = DAC_FMT_I2S;
+      adc_mode = ADC_FMT_I2S;
+      dac_channels = DAC_CHANNELS_2;
+      adc_channels = ADC_CHANNELS_2;
+    }
+  }
+
+  if (cfg.i2s.mode == MODE_SLAVE) {
+    configSlave();
+  } else {
+    configMaster();
+  }
+  return true;
+}
+
+inline bool AD1938::configMaster() {
+  // 0 PLL and Clock Control 0
+  spi_write_reg(AD1938_PLL_CLK_CTRL0, (DIS_ADC_DAC | INPUT512 | PLL_IN_MCLK |
+                                       MCLK_OUT_XTAL | PLL_PWR_DWN));
+
+  // 1 PLL and Clock Control 1
+  spi_write_reg(AD1938_PLL_CLK_CTRL1, (DAC_CLK_MCLK | ADC_CLK_MCLK | ENA_VREF));
+
+  // 2 DAC Control 0
+  spi_write_reg(AD1938_DAC_CTRL0,
+                (dac_mode | DAC_BCLK_DLY_1 | dac_fs | DAC_PWR_UP));
+
+  // 3 DAC Control 1
+  spi_write_reg(AD1938_DAC_CTRL1,
+                (DAC_BCLK_SRC_INTERNAL | DAC_BCLK_SLAVE | DAC_LRCLK_SLAVE |
+                 DAC_LRCLK_POL_NORM | dac_channels | DAC_LATCH_MID));
+
+  // 4 DAC Control 2
+  spi_write_reg(AD1938_DAC_CTRL2, dac_wl);
+
+  // 5 DAC individual channel mutes
+  spi_write_reg(AD1938_DAC_CHNL_MUTE, 0x00); /*unmute*/
+
+  setVolume(DACVOL_MAX);
+
+  // 14 ADC Control 0
+  spi_write_reg(AD1938_ADC_CTRL0, adc_fs);
+
+  // 15 ADC Control 1
+  spi_write_reg(AD1938_ADC_CTRL1,
+                (ADC_LATCH_MID | adc_mode | ADC_BCLK_DLY_1 | adc_wl));
+
+  // 16 ADC Control 2
+  spi_write_reg(AD1938_ADC_CTRL2,
+                (ADC_BCLK_SRC_INTERNAL | ADC_BCLK_MASTER | adc_channels |
+                 ADC_LRCLK_MASTER | ADC_LRCLK_FMT_50_50 | ADC_LRCLK_POL_NORM |
+                 ADC_BCLK_POL_NORM));
+  return true;
+}
+
+inline bool AD1938::configSlave() {
+  // 0 PLL and Clock Control 0
+  spi_write_reg(AD1938_PLL_CLK_CTRL0, (DIS_ADC_DAC | INPUT512 | PLL_IN_ALRCLK |
+                                       MCLK_OUT_OFF | PLL_PWR_DWN));
+
+  // 1 PLL and Clock Control 1
+  spi_write_reg(AD1938_PLL_CLK_CTRL1, (DAC_CLK_PLL | ADC_CLK_PLL | ENA_VREF));
+
+  // 2 DAC Control 0
+  spi_write_reg(AD1938_DAC_CTRL0,
+                (dac_mode | DAC_BCLK_DLY_1 | dac_fs | DAC_PWR_UP));
+
+  // 3 DAC Control 1
+  spi_write_reg(AD1938_DAC_CTRL1,
+                (DAC_BCLK_SRC_PIN | DAC_BCLK_SLAVE | DAC_LRCLK_SLAVE |
+                 DAC_LRCLK_POL_NORM | dac_channels | DAC_LATCH_MID));
+  // 4 DAC Control 2
+  spi_write_reg(AD1938_DAC_CTRL2, dac_wl);
+
+  // 5 DAC individual channel mutes
+  spi_write_reg(AD1938_DAC_CHNL_MUTE, 0x00); /*mute*/
+
+  setVolume(DACVOL_MAX);
+
+  // 14 ADC Control 0
+  spi_write_reg(AD1938_ADC_CTRL0, adc_fs);
+
+  // 15 ADC Control 1
+  spi_write_reg(AD1938_ADC_CTRL1,
+                (ADC_LATCH_MID | adc_mode | ADC_BCLK_DLY_0 | adc_wl));
+
+  // 16 ADC Control 2
+  spi_write_reg(
+      AD1938_ADC_CTRL2,
+      (ADC_BCLK_SRC_PIN | ADC_BCLK_SLAVE | adc_channels | ADC_LRCLK_SLAVE |
+       ADC_LRCLK_FMT_50_50 | ADC_LRCLK_POL_NORM | ADC_BCLK_POL_NORM));
+  return true;
+}
+
+inline bool AD1938::isPllLocked(void) {
+  return ((spi_read_reg(AD1938_PLL_CLK_CTRL1) >> 3) & 0x1);
+}
+
+inline bool AD1938::enable(void) {
+  if (cfg.i2s.mode == MODE_SLAVE) {
+    spi_write_reg(
+        AD1938_PLL_CLK_CTRL0,
+        (ENA_ADC_DAC | INPUT512 | PLL_IN_DLRCLK | MCLK_OUT_OFF | PLL_PWR_UP));
+  } else {
+    spi_write_reg(AD1938_PLL_CLK_CTRL0, (ENA_ADC_DAC | INPUT512 | PLL_IN_MCLK |
+                                         MCLK_OUT_XTAL | PLL_PWR_UP));
+  }
+
+  spi_write_reg(AD1938_DAC_CHNL_MUTE, 0); /*un mute*/
+
+  return true;
+}
+
+inline bool AD1938::disable(void) {
+  unsigned char reg_value;
+  reg_value = spi_read_reg(AD1938_PLL_CLK_CTRL0);
+  reg_value = (reg_value & 0x7e); /*mask the last and first bits*/
+  spi_write_reg(AD1938_PLL_CLK_CTRL0, (DIS_ADC_DAC | reg_value | PLL_PWR_DWN));
+
+  reg_value = spi_read_reg(AD1938_DAC_CTRL0);
+
+  spi_write_reg(AD1938_DAC_CTRL0, ((reg_value & 0xfe) | DAC_PWR_DWN));
+
+  reg_value = spi_read_reg(AD1938_ADC_CTRL0);
+
+  spi_write_reg(AD1938_ADC_CTRL0, ((reg_value & 0xfe) | ADC_PWR_DWN));
+
+  return true;
+}
+
+inline bool AD1938::setVolumeDAC(int dac_num, int volume) {
+  if (dac_num < 0 || dac_num > 3) return false;
+  spi_write_reg(AD1938_DAC_L1_VOL + dac_num * 2, volume);
+  spi_write_reg(AD1938_DAC_R1_VOL + dac_num * 2, volume);
+
+  return true;
+}
+
+inline bool AD1938::setMuteDAC(bool mute) {
+  if (mute == true) {
+    spi_write_reg(AD1938_DAC_CHNL_MUTE, 0xff); /*mute*/
+  } else {
+    spi_write_reg(AD1938_DAC_CHNL_MUTE, 00); /*unmute*/
+  }
+  return true;
+}
+
+inline bool AD1938::setMuteADC(bool mute) {
+  unsigned char reg_value;
+  reg_value = spi_read_reg(AD1938_ADC_CTRL0);
+  if (mute == true) {
+    spi_write_reg(AD1938_ADC_CTRL0, (reg_value & 0xc3) | 0x3c); /*mute*/
+  } else {
+    spi_write_reg(AD1938_ADC_CTRL0, (reg_value & 0xc3)); /*unmute*/
+  }
+  return true;
+}
+
+}  // namespace audio_driver
+
+#endif

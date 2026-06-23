@@ -1,4 +1,23 @@
 var searchData=
 [
-  ['warning_826',['Warning',['../_audio_driver_logger_8h.html#a54677b0d53115c3e6f6e3b4d07c2ffc5a0eaadb4fcb48a0a0ed7bc9868be9fbaa',1,'AudioDriverLogger.h']]]
+  ['rate_5f11k_0',['RATE_11K',['../namespaceaudio__driver.html#a9455c9aa894b64d5d3997a038141991baccef6e39d6855b77e2ec01e10095ea6b',1,'audio_driver']]],
+  ['rate_5f128k_1',['RATE_128K',['../namespaceaudio__driver.html#a9455c9aa894b64d5d3997a038141991ba635120f9ee8f66a9d42c4b3f5e2cf348',1,'audio_driver']]],
+  ['rate_5f16k_2',['RATE_16K',['../namespaceaudio__driver.html#a9455c9aa894b64d5d3997a038141991bae713f819f76ea57722e5a1296fd77cf0',1,'audio_driver']]],
+  ['rate_5f176k_3',['RATE_176K',['../namespaceaudio__driver.html#a9455c9aa894b64d5d3997a038141991baaf2afb3b8f1a2bd2b6487e7faf89e4ff',1,'audio_driver']]],
+  ['rate_5f192k_4',['RATE_192K',['../namespaceaudio__driver.html#a9455c9aa894b64d5d3997a038141991bafa3a6c59d2bc607e34859a0afaf08707',1,'audio_driver']]],
+  ['rate_5f22k_5',['RATE_22K',['../namespaceaudio__driver.html#a9455c9aa894b64d5d3997a038141991ba48d81c4b3d3c47c2edaf53287a74440f',1,'audio_driver']]],
+  ['rate_5f24k_6',['RATE_24K',['../namespaceaudio__driver.html#a9455c9aa894b64d5d3997a038141991ba3f394c7023481136a11456f4d6fd7674',1,'audio_driver']]],
+  ['rate_5f32k_7',['RATE_32K',['../namespaceaudio__driver.html#a9455c9aa894b64d5d3997a038141991bab22cf724e3c3bb37888df8870cc6f60b',1,'audio_driver']]],
+  ['rate_5f44k_8',['RATE_44K',['../namespaceaudio__driver.html#a9455c9aa894b64d5d3997a038141991ba1448cc64c77cf916c8d7f735c6374b37',1,'audio_driver']]],
+  ['rate_5f48k_9',['RATE_48K',['../namespaceaudio__driver.html#a9455c9aa894b64d5d3997a038141991baf72a585e7262a1b6a49e268f3672987d',1,'audio_driver']]],
+  ['rate_5f64k_10',['RATE_64K',['../namespaceaudio__driver.html#a9455c9aa894b64d5d3997a038141991baceb52239e4a6b2fcc88cb4851e7d31c6',1,'audio_driver']]],
+  ['rate_5f88k_11',['RATE_88K',['../namespaceaudio__driver.html#a9455c9aa894b64d5d3997a038141991ba91943b4ef802c7ff3aa4f4948870472c',1,'audio_driver']]],
+  ['rate_5f8k_12',['RATE_8K',['../namespaceaudio__driver.html#a9455c9aa894b64d5d3997a038141991ba6c34cf487fbecbdb9c7282a24e338cb2',1,'audio_driver']]],
+  ['rate_5f96k_13',['RATE_96K',['../namespaceaudio__driver.html#a9455c9aa894b64d5d3997a038141991bac23375dadba2f10d3166fc98207dcd0c',1,'audio_driver']]],
+  ['reset_14',['RESET',['../namespaceaudio__driver.html#a6b03ddbf1e0f5abd0e46e02555850aafab5859d8721cfdc0312b2838b9c985bc1',1,'audio_driver']]],
+  ['right16bit_15',['Right16bit',['../class_p_c_m3168.html#af06d04dcc3cc2baa48eac3c07fb60a64ac1128da4d448f2952ca7f06433d70938',1,'PCM3168']]],
+  ['right24bit_16',['Right24bit',['../class_p_c_m3168.html#af06d04dcc3cc2baa48eac3c07fb60a64aad97e3bb3640c7951482cd46f9e33525',1,'PCM3168']]],
+  ['right_5fjustified_17',['RIGHT_JUSTIFIED',['../_p_c_b_c_u_p_i_d___n_a_u8325_8h.html#a694abef13450931a2d93b7ece18bbb3aa7e171d348e9a9fdcab5012385ba1ad3d',1,'PCBCUPID_NAU8325.h']]],
+  ['rightjustified16bits_18',['RightJustified16Bits',['../class_c_s42448.html#ab4e88c89b3b7ea1735996cc4def22d58a2a76ad60a80ded67f0c89142bf558067',1,'CS42448']]],
+  ['rightjustified24bits_19',['RightJustified24Bits',['../class_c_s42448.html#ab4e88c89b3b7ea1735996cc4def22d58a5e31c8e5bcb85bfe4c4dcfa2591302a2',1,'CS42448']]]
 ];

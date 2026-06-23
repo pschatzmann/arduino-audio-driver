@@ -1,0 +1,125 @@
+#pragma once
+#include "IDriverDeviceInfo.h"
+#include <zephyr/device.h>
+#include <zephyr/kernel.h>
+
+namespace audio_driver {
+
+/**
+ * @brief Pins for LED, Buttons, AMP etc
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+struct InfoGPIOZephyr {
+  InfoGPIOZephyr() = default;
+  InfoGPIOZephyr(PinFunction function, GpioPin pin, PinLogic logic,
+               int index = 0) {
+    this->function = function;
+    this->pin = pin;
+    this->index = index;
+    this->pin_logic = logic;
+  }
+  PinFunction function;
+  GpioPin pin{};
+  int index = 0;
+  PinLogic pin_logic;
+  bool active = true;  // false if pin conflict
+};
+
+using InfoGPIO = InfoGPIOZephyr;
+
+/**
+ * @brief I2S device
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+struct InfoI2SZephyr {
+  InfoI2SZephyr() = default;
+  InfoI2SZephyr(PinFunction function, device* dev_i2s, int port = 0) {
+    this->function = function;
+    this->dev = dev_i2s;
+    this->port = port;
+  }
+  PinFunction function;
+  device* dev = nullptr;
+  int port = 0;  // port number
+};
+
+/// New name as used in Arduino
+using InfoI2S = InfoI2SZephyr;
+/// Legacy name for backward compatibility
+using PinsI2S = InfoI2SZephyr;
+
+/**
+ * @brief SPI zephyr device
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+struct InfoSPIZephyr : public SPIConfig {
+  InfoSPIZephyr() = default;
+
+  InfoSPIZephyr(PinFunction function, device* dev_spi) {
+    this->function = function;
+    this->dev = dev_spi;
+  }
+
+  PinFunction function;
+  device* dev = nullptr; // zephyr device
+
+  bool pinsAvailable() { return dev != nullptr; }
+  operator bool() { return pinsAvailable(); }
+  bool begin() { return true; }
+  void end() { AD_LOGD("PinsSPI::end"); }
+};
+
+/// New name as used in Arduino
+using InfoSPI = InfoSPIZephyr;
+/// Legacy name for backward compatibility
+using PinsSPI = InfoSPIZephyr;
+
+/**
+ * @brief I2C zephyr device
+ * @author Phil Schatzmann
+ * @copyright GPLv3
+ */
+struct InfoI2CZephyr : public I2CConfig {
+  InfoI2CZephyr() {
+    port = 0;
+    address = -1;
+    set_active = true;
+  };
+
+  InfoI2CZephyr(PinFunction function, device* dev_i2c, int address = -1,
+
+          bool active = true) {
+    this->function = function;
+    this->dev = dev_i2c;
+    this->set_active = active;
+    this->address = address;
+  }
+
+  PinFunction function;
+  bool set_active = true;
+  device* dev = nullptr;
+
+  bool pinsAvailable() { return dev != nullptr; }
+
+  operator bool() { return pinsAvailable(); }
+
+  bool begin() {
+    return true;
+  }
+  void end() {}
+};
+
+/// New name as used in Arduino
+using InfoI2C = InfoI2CZephyr;
+/// Legacy name for backward compatibility
+using PinsI2C = InfoI2CZephyr;
+
+class IDriverDeviceInfo {
+ public:
+   virtual audio_driver_local::Optional<InfoI2C> getI2CPins(PinFunction function) = 0;
+};
+
+} // namespace audio_driver

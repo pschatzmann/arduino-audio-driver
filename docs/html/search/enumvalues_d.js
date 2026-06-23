@@ -1,8 +1,11 @@
 var searchData=
 [
-  ['sd_0',['SD',['../namespaceaudio__driver.html#a6b03ddbf1e0f5abd0e46e02555850aafa38f99abbc1d339c277c0669e7bc373c0',1,'audio_driver']]],
-  ['signal_5famalog_1',['SIGNAL_AMALOG',['../_driver_common_8h.html#aedfd99612f33cabeb5d2af288bcd95a5aae40a9da55f252df25244d198b0fff61',1,'DriverCommon.h']]],
-  ['signal_5fdigital_2',['SIGNAL_DIGITAL',['../_driver_common_8h.html#aedfd99612f33cabeb5d2af288bcd95a5a106a872d1a2b385136a2fafd17e06ed4',1,'DriverCommon.h']]],
-  ['signal_5fpdm_3',['SIGNAL_PDM',['../_driver_common_8h.html#aedfd99612f33cabeb5d2af288bcd95a5a8363950b10909688bd9d09acb98ab2cc',1,'DriverCommon.h']]],
-  ['signal_5ftdm_4',['SIGNAL_TDM',['../_driver_common_8h.html#aedfd99612f33cabeb5d2af288bcd95a5a3c09d5ffc58f9ac8e2832c73403a53b8',1,'DriverCommon.h']]]
+  ['oneline1_0',['OneLine1',['../class_c_s42448.html#ab4e88c89b3b7ea1735996cc4def22d58ae3edf0e85a78651f4063cd8106aef027',1,'CS42448']]],
+  ['oneline2_1',['OneLine2',['../class_c_s42448.html#ab4e88c89b3b7ea1735996cc4def22d58a24cb946a80057773c2fea28ac0ba353d',1,'CS42448']]],
+  ['opendrain_2',['OpenDrain',['../class_c_s42448.html#af4704bc32f39912ec1ee8297b043e856a8df1809fc704fe02606f58b4ba2a6c99',1,'CS42448']]],
+  ['osr_5f128_3',['OSR_128',['../_p_c_b_c_u_p_i_d___n_a_u8325_8h.html#aca2ce4fcb4240a6f8260639a0d28fef2a143443aad6e0e83f8b58859287fef09a',1,'PCBCUPID_NAU8325.h']]],
+  ['osr_5f256_4',['OSR_256',['../_p_c_b_c_u_p_i_d___n_a_u8325_8h.html#aca2ce4fcb4240a6f8260639a0d28fef2a59f3fd592d352249f8c45bc11a8ddad8',1,'PCBCUPID_NAU8325.h']]],
+  ['osr_5f32_5',['OSR_32',['../_p_c_b_c_u_p_i_d___n_a_u8325_8h.html#aca2ce4fcb4240a6f8260639a0d28fef2ab3beff6f8d7e1ecfb1b813abdda9945c',1,'PCBCUPID_NAU8325.h']]],
+  ['osr_5f64_6',['OSR_64',['../_p_c_b_c_u_p_i_d___n_a_u8325_8h.html#aca2ce4fcb4240a6f8260639a0d28fef2a5bd310e1975e0307e1a421fb93d0465c',1,'PCBCUPID_NAU8325.h']]],
+  ['output_7',['Output',['../namespaceaudio__driver.html#a541db2b810d671856e3d258a0e184d4fa29c2c02a361c9d7028472e5d92cd4a54',1,'audio_driver']]]
 ];

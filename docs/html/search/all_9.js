@@ -1,10 +1,13 @@
 var searchData=
 [
-  ['key_0',['KEY',['../namespaceaudio__driver.html#a6b03ddbf1e0f5abd0e46e02555850aafa3b5949e0c26b87767a4752a276de9570',1,'audio_driver']]],
-  ['key_5fmode_1',['KEY_MODE',['../namespaceaudio__driver.html#a0e38a8cbaae36dea9c9053a4ee8f9e18a1b0a91ff3a855d6993930ebf0abaa518',1,'audio_driver']]],
-  ['key_5fplay_2',['KEY_PLAY',['../namespaceaudio__driver.html#a0e38a8cbaae36dea9c9053a4ee8f9e18a55c7db415d84b1af47010601aa8053e7',1,'audio_driver']]],
-  ['key_5frec_3',['KEY_REC',['../namespaceaudio__driver.html#a0e38a8cbaae36dea9c9053a4ee8f9e18aa67b95b87566b12f21da0f8dc7224e9c',1,'audio_driver']]],
-  ['key_5fset_4',['KEY_SET',['../namespaceaudio__driver.html#a0e38a8cbaae36dea9c9053a4ee8f9e18a368a9f9c881efcaf697bdbd9d6e5cd8d',1,'audio_driver']]],
-  ['key_5fvolume_5fdown_5',['KEY_VOLUME_DOWN',['../namespaceaudio__driver.html#a0e38a8cbaae36dea9c9053a4ee8f9e18a2304f457aba66febcf852dbf1cbae8b0',1,'audio_driver']]],
-  ['key_5fvolume_5fup_6',['KEY_VOLUME_UP',['../namespaceaudio__driver.html#a0e38a8cbaae36dea9c9053a4ee8f9e18aedbb585f9e7ee87263a250c91542fb02',1,'audio_driver']]]
+  ['hasconflict_0',['hasConflict',['../classaudio__driver_1_1_driver_device_info.html#a7e6698448823208004c99dd0882782b5',1,'audio_driver::DriverDeviceInfo']]],
+  ['hasi2cconflict_1',['hasI2CConflict',['../classaudio__driver_1_1_driver_device_info.html#ae00a8041f5afb1b774a6d4c5168aaa7f',1,'audio_driver::DriverDeviceInfo']]],
+  ['haspins_2',['hasPins',['../classaudio__driver_1_1_driver_device_info.html#ace76b4671946819aff61b75c62717b08',1,'audio_driver::DriverDeviceInfo']]],
+  ['hasspiconflict_3',['hasSPIConflict',['../classaudio__driver_1_1_driver_device_info.html#ae346dfc0d2db191574abf006ab44cc15',1,'audio_driver::DriverDeviceInfo']]],
+  ['headphone_5fdetect_4',['HEADPHONE_DETECT',['../namespaceaudio__driver.html#a6b03ddbf1e0f5abd0e46e02555850aafa9decb49b0b8a11118da5ae919a09e766',1,'audio_driver']]],
+  ['high_5',['HIGH',['../_driver_common_8h.html#a5bb885982ff66a2e0a0a45a8ee9c35e2',1,'DriverCommon.h']]],
+  ['hmic_5fctrl1_6',['HMIC_CTRL1',['../ac101_8h.html#a5fe511ab0128ac8e6e3b2d3fb3dcaf22',1,'ac101.h']]],
+  ['hmic_5fctrl2_7',['HMIC_CTRL2',['../ac101_8h.html#abb4b50d7d85bb9021c154b0ae84f97cf',1,'ac101.h']]],
+  ['hmic_5fstatus_8',['HMIC_STATUS',['../ac101_8h.html#a6a7e78c0e83a7190bab1e8d0754b59cf',1,'ac101.h']]],
+  ['hpout_5fctrl_9',['HPOUT_CTRL',['../ac101_8h.html#aa99ce580bd2090ae6a15e9dc14ef3449',1,'ac101.h']]]
 ];
