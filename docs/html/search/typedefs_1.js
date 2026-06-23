@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['audio_5fcodec_5fdac_5fvol_5foffset_0',['audio_codec_dac_vol_offset',['../_codec_constants_8h.html#a365a435da551ade1f79f9a989657c901',1,'CodecConstants.h']]]
+  ['driverpins_0',['DriverPins',['../namespaceaudio__driver.html#a0c74c9479582dc77acb2ceb134995815',1,'audio_driver']]]
 ];

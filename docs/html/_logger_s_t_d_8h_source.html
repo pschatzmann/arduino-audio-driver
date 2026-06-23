@@ -93,35 +93,94 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">// Log trace</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="_logger_s_t_d_8h.html#af9428450604c88efb857390e83bff098">   11</a></span><span class="preprocessor">#define AD_TRACED() AD_LOGD(LOG_METHOD)</span></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment">// define default log level</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">extern</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="_logger_s_t_d_8h.html#a945fe534307abe9fa66afdb4f6476543">LOGLEVEL_AUDIODRIVER</a>;</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="_logger_s_t_d_8h.html#a9ad68b9be1a9751690256858a3b16036">   20</a></span><span class="keywordtype">void</span> <a class="code hl_define" href="_logger_8h.html#a6f5de956206e83db6bed915a621a017d">AD_LOGD</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* fmr,...);</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="_logger_s_t_d_8h.html#ada3b7c7d836d0f21f2bd2f945c997294">   21</a></span><span class="keywordtype">void</span> <a class="code hl_define" href="_logger_8h.html#ab2f9e6eeab8ec4eebf04a27004c7d24b">AD_LOGI</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* fmr,...);</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="_logger_s_t_d_8h.html#aea139a2cbe97c9a8e561a011e249a2f7">   22</a></span><span class="keywordtype">void</span> <a class="code hl_define" href="_logger_8h.html#af8f040b34bd6bed5b97336c63cbaec53">AD_LOGW</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* fmr,...);</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="_logger_s_t_d_8h.html#a5ca2348ac26af72e565d526564f2e696">   23</a></span><span class="keywordtype">void</span> <a class="code hl_define" href="_logger_8h.html#abfe9aca2539e12cf2be781bc31f8643d">AD_LOGE</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* fmr,...);</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#if AUDIO_DRIVER_LOGGIN_ACTVIE &amp;&amp; !defined(AUDIO_DRIVER_LOGGING_IDF)</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;stdarg.h&gt;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &lt;string.h&gt;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#if defined(ARDUINO)</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#  include &quot;Arduino.h&quot;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">inline</span> <span class="keywordtype">int</span> LOGLEVEL_AUDIODRIVER = <a class="code hl_define" href="_config_audio_driver_8h.html#a87a484255c267da93db4fc6a46bf77f1">AUDIO_DRIVER_LOG_LEVEL</a>;</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="_logger_s_t_d_8h.html#a13adbc58d15884d5f751bacc69af8391">   25</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="_logger_s_t_d_8h.html#a13adbc58d15884d5f751bacc69af8391">audioDriverLogStr</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* msg);</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="_logger_s_t_d_8h.html#a660eaa73742d5132c2e84ba9eacfaa3d">   26</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="_logger_s_t_d_8h.html#a660eaa73742d5132c2e84ba9eacfaa3d">setAudioDriverLogOutput</a>(<span class="keywordtype">void</span> *out);</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#if defined(ARDUINO)</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">inline</span> Print *p_audio_driver_log_output = &amp;Serial;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>}</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="keyword">inline</span> <span class="keywordtype">void</span> audioDriverLogStr(<span class="keyword">const</span> <span class="keywordtype">char</span> *msg) {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#if defined(ARDUINO)</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>  <span class="keywordflow">if</span> (p_audio_driver_log_output) p_audio_driver_log_output-&gt;println(msg);</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  printf(<span class="stringliteral">&quot;%s\n&quot;</span>, msg);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>}</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_define" href="_logger_8h.html#a6f5de956206e83db6bed915a621a017d">AD_LOGD</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *fmr, ...) {</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  <span class="keywordflow">if</span> (LOGLEVEL_AUDIODRIVER &lt;= 0) {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordtype">char</span> log_buffer[<a class="code hl_define" href="_logger_s_t_d_8h.html#a0379d471086e8024914aed0246ca43b4">AD_LOGLENGTH</a> + 1];</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    strcpy(log_buffer, <span class="stringliteral">&quot;Debug:   &quot;</span>);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    va_list arg;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    va_start(arg, fmr);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    vsnprintf(log_buffer + 9, <a class="code hl_define" href="_logger_s_t_d_8h.html#a0379d471086e8024914aed0246ca43b4">AD_LOGLENGTH</a> - 9, fmr, arg);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    va_end(arg);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    audioDriverLogStr(log_buffer);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>  }</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>}</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_define" href="_logger_8h.html#ab2f9e6eeab8ec4eebf04a27004c7d24b">AD_LOGI</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *fmr, ...) {</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>  <span class="keywordflow">if</span> (LOGLEVEL_AUDIODRIVER &lt;= 1) {</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordtype">char</span> log_buffer[<a class="code hl_define" href="_logger_s_t_d_8h.html#a0379d471086e8024914aed0246ca43b4">AD_LOGLENGTH</a> + 1];</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    strcpy(log_buffer, <span class="stringliteral">&quot;Info:    &quot;</span>);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    va_list arg;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    va_start(arg, fmr);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    vsnprintf(log_buffer + 9, <a class="code hl_define" href="_logger_s_t_d_8h.html#a0379d471086e8024914aed0246ca43b4">AD_LOGLENGTH</a> - 9, fmr, arg);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    va_end(arg);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    audioDriverLogStr(log_buffer);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>  }</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>}</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_define" href="_logger_8h.html#af8f040b34bd6bed5b97336c63cbaec53">AD_LOGW</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *fmr, ...) {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  <span class="keywordflow">if</span> (LOGLEVEL_AUDIODRIVER &lt;= 2) {</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keywordtype">char</span> log_buffer[<a class="code hl_define" href="_logger_s_t_d_8h.html#a0379d471086e8024914aed0246ca43b4">AD_LOGLENGTH</a> + 1];</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    strcpy(log_buffer, <span class="stringliteral">&quot;Warning:  &quot;</span>);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    va_list arg;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    va_start(arg, fmr);</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    vsnprintf(log_buffer + 9, <a class="code hl_define" href="_logger_s_t_d_8h.html#a0379d471086e8024914aed0246ca43b4">AD_LOGLENGTH</a> - 9, fmr, arg);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    va_end(arg);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    audioDriverLogStr(log_buffer);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>  }</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>}</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_define" href="_logger_8h.html#abfe9aca2539e12cf2be781bc31f8643d">AD_LOGE</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *fmr, ...) {</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>  <span class="keywordflow">if</span> (LOGLEVEL_AUDIODRIVER &lt;= 3) {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordtype">char</span> log_buffer[<a class="code hl_define" href="_logger_s_t_d_8h.html#a0379d471086e8024914aed0246ca43b4">AD_LOGLENGTH</a> + 1];</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    strcpy(log_buffer, <span class="stringliteral">&quot;Error:   &quot;</span>);</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    va_list arg;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    va_start(arg, fmr);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    vsnprintf(log_buffer + 9, <a class="code hl_define" href="_logger_s_t_d_8h.html#a0379d471086e8024914aed0246ca43b4">AD_LOGLENGTH</a> - 9, fmr, arg);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    va_end(arg);</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    audioDriverLogStr(log_buffer);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>  }</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>}</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="preprocessor">#if defined(ARDUINO)</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="keyword">inline</span> <span class="keywordtype">void</span> setAudioDriverLogOutput(<span class="keywordtype">void</span> *out) {</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>  p_audio_driver_log_output = (Print *)out;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>}</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="keyword">inline</span> <span class="keywordtype">void</span> setAudioDriverLogOutput(<span class="keywordtype">void</span> *out) {}</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="preprocessor">#endif  </span><span class="comment">// AUDIO_DRIVER_LOGGIN_ACTVIE &amp;&amp; !defined(AUDIO_DRIVER_LOGGING_IDF)</span></div>
 <div class="ttc" id="a_config_audio_driver_8h_html"><div class="ttname"><a href="_config_audio_driver_8h.html">ConfigAudioDriver.h</a></div></div>
+<div class="ttc" id="a_config_audio_driver_8h_html_a87a484255c267da93db4fc6a46bf77f1"><div class="ttname"><a href="_config_audio_driver_8h.html#a87a484255c267da93db4fc6a46bf77f1">AUDIO_DRIVER_LOG_LEVEL</a></div><div class="ttdeci">#define AUDIO_DRIVER_LOG_LEVEL</div><div class="ttdoc">Define the default log level for the standard logger (2=Warning)</div><div class="ttdef"><b>Definition</b> ConfigAudioDriver.h:49</div></div>
 <div class="ttc" id="a_logger_8h_html_a6f5de956206e83db6bed915a621a017d"><div class="ttname"><a href="_logger_8h.html#a6f5de956206e83db6bed915a621a017d">AD_LOGD</a></div><div class="ttdeci">#define AD_LOGD(...)</div><div class="ttdef"><b>Definition</b> Logger.h:12</div></div>
 <div class="ttc" id="a_logger_8h_html_ab2f9e6eeab8ec4eebf04a27004c7d24b"><div class="ttname"><a href="_logger_8h.html#ab2f9e6eeab8ec4eebf04a27004c7d24b">AD_LOGI</a></div><div class="ttdeci">#define AD_LOGI(...)</div><div class="ttdef"><b>Definition</b> Logger.h:13</div></div>
 <div class="ttc" id="a_logger_8h_html_abfe9aca2539e12cf2be781bc31f8643d"><div class="ttname"><a href="_logger_8h.html#abfe9aca2539e12cf2be781bc31f8643d">AD_LOGE</a></div><div class="ttdeci">#define AD_LOGE(...)</div><div class="ttdef"><b>Definition</b> Logger.h:15</div></div>
 <div class="ttc" id="a_logger_8h_html_af8f040b34bd6bed5b97336c63cbaec53"><div class="ttname"><a href="_logger_8h.html#af8f040b34bd6bed5b97336c63cbaec53">AD_LOGW</a></div><div class="ttdeci">#define AD_LOGW(...)</div><div class="ttdef"><b>Definition</b> Logger.h:14</div></div>
-<div class="ttc" id="a_logger_s_t_d_8h_html_a13adbc58d15884d5f751bacc69af8391"><div class="ttname"><a href="_logger_s_t_d_8h.html#a13adbc58d15884d5f751bacc69af8391">audioDriverLogStr</a></div><div class="ttdeci">void audioDriverLogStr(const char *msg)</div></div>
-<div class="ttc" id="a_logger_s_t_d_8h_html_a660eaa73742d5132c2e84ba9eacfaa3d"><div class="ttname"><a href="_logger_s_t_d_8h.html#a660eaa73742d5132c2e84ba9eacfaa3d">setAudioDriverLogOutput</a></div><div class="ttdeci">void setAudioDriverLogOutput(void *out)</div></div>
-<div class="ttc" id="a_logger_s_t_d_8h_html_a945fe534307abe9fa66afdb4f6476543"><div class="ttname"><a href="_logger_s_t_d_8h.html#a945fe534307abe9fa66afdb4f6476543">LOGLEVEL_AUDIODRIVER</a></div><div class="ttdeci">int LOGLEVEL_AUDIODRIVER</div></div>
+<div class="ttc" id="a_logger_s_t_d_8h_html_a0379d471086e8024914aed0246ca43b4"><div class="ttname"><a href="_logger_s_t_d_8h.html#a0379d471086e8024914aed0246ca43b4">AD_LOGLENGTH</a></div><div class="ttdeci">#define AD_LOGLENGTH</div><div class="ttdef"><b>Definition</b> LoggerSTD.h:6</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

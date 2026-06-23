@@ -1,22 +1,4 @@
 var searchData=
 [
-  ['i2c_5fend_0',['I2C_END',['../_driver_common_8h.html#a8fc551cf153061a8f672861064f29ed0',1,'DriverCommon.h']]],
-  ['i2c_5fmaster_5fread_1',['I2C_MASTER_READ',['../ac101_8h.html#aee7945850ec56f8eff19a0ebdd867bc9',1,'ac101.h']]],
-  ['i2c_5fmaster_5fwrite_2',['I2C_MASTER_WRITE',['../ac101_8h.html#a3426ca310e7aec3fed386c10c9e45bf3',1,'ac101.h']]],
-  ['i2s1_5fmxr_5fgain_3',['I2S1_MXR_GAIN',['../ac101_8h.html#ad91f0e35e03611c175f7fb26f024f39f',1,'ac101.h']]],
-  ['i2s1_5fmxr_5fsrc_4',['I2S1_MXR_SRC',['../ac101_8h.html#a2426b69c47a630122633b57a556936c7',1,'ac101.h']]],
-  ['i2s1_5fsdin_5fctrl_5',['I2S1_SDIN_CTRL',['../ac101_8h.html#a201e218be972928b9e9f4b7d0a1112e1',1,'ac101.h']]],
-  ['i2s1_5fsdout_5fctrl_6',['I2S1_SDOUT_CTRL',['../ac101_8h.html#a17d27cac0227f13df1072a10fde92ff7',1,'ac101.h']]],
-  ['i2s1_5fvol_5fctrl1_7',['I2S1_VOL_CTRL1',['../ac101_8h.html#aed41f3e3f3374c89518e7bd7a9de4375',1,'ac101.h']]],
-  ['i2s1_5fvol_5fctrl2_8',['I2S1_VOL_CTRL2',['../ac101_8h.html#a9417c7292d452bf130e2463ea6c2a26f',1,'ac101.h']]],
-  ['i2s1_5fvol_5fctrl3_9',['I2S1_VOL_CTRL3',['../ac101_8h.html#aa8741da94849d6d58b7880fb24055347',1,'ac101.h']]],
-  ['i2s1_5fvol_5fctrl4_10',['I2S1_VOL_CTRL4',['../ac101_8h.html#aa4a12e9d0340777acfc0893a126401fb',1,'ac101.h']]],
-  ['i2s1lck_5fctrl_11',['I2S1LCK_CTRL',['../ac101_8h.html#a1998e6f033a065de33699d16d9024e33',1,'ac101.h']]],
-  ['i2s_5fdsp_5fmode_12',['I2S_DSP_MODE',['../es7210_8cpp.html#a1b11aeeaccb3102f31062e144d5de5de',1,'es7210.cpp']]],
-  ['i2s_5fsr_5fctrl_13',['I2S_SR_CTRL',['../ac101_8h.html#a0a1f0f25cbd48ccf5c3b66318b610a8a',1,'ac101.h']]],
-  ['input_14',['INPUT',['../_driver_common_8h.html#a1bb283bd7893b9855e2f23013891fc82',1,'DriverCommon.h']]],
-  ['input_5fpullup_15',['INPUT_PULLUP',['../_driver_common_8h.html#a6295096662a20dd56186396e535fbe92',1,'DriverCommon.h']]],
-  ['invert_5fmclk_16',['INVERT_MCLK',['../es8311_8cpp.html#ac1ee65f06a7502c50c66e2bf049d2103',1,'es8311.cpp']]],
-  ['invert_5fsclk_17',['INVERT_SCLK',['../es8311_8cpp.html#af38f4ef50b94cbb44a00278bf5ad3c60',1,'es8311.cpp']]],
-  ['is_5fdmic_18',['IS_DMIC',['../es8311_8cpp.html#a63ba80d57ec3b24ad0abf88f16b0155a',1,'es8311.cpp']]]
+  ['key_0',['KEY',['../_audio_kit_es8388v1_8h.html#a0b09d102f5d5b02336b65bc5d6c1b5ef',1,'AudioKitEs8388v1.h']]]
 ];

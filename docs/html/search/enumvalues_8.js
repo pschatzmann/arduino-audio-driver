@@ -1,20 +1,12 @@
 var searchData=
 [
-  ['i2s_0',['I2S',['../class_c_s42448.html#ab4e88c89b3b7ea1735996cc4def22d58a7afea11a7df0179a32a3e20d7f8beef4',1,'CS42448']]],
-  ['i2s24bit_1',['I2S24bit',['../class_p_c_m3168.html#af06d04dcc3cc2baa48eac3c07fb60a64a8374fbb358b6c67d5e9a11f26c414b90',1,'PCM3168']]],
-  ['i2s_5fdsp_2',['I2S_DSP',['../namespaceaudio__driver.html#ad4b0ae616e0ce2bdb666f8e75ab686b2ad1bdd515df80c99f3068af41f20d5821',1,'audio_driver']]],
-  ['i2s_5fleft_3',['I2S_LEFT',['../namespaceaudio__driver.html#ad4b0ae616e0ce2bdb666f8e75ab686b2ae9f238a61c76626d78722324905fd50b',1,'audio_driver']]],
-  ['i2s_5fnormal_4',['I2S_NORMAL',['../namespaceaudio__driver.html#ad4b0ae616e0ce2bdb666f8e75ab686b2afe1e487005429f74e5cd4d2320db823a',1,'audio_driver']]],
-  ['i2s_5fright_5',['I2S_RIGHT',['../namespaceaudio__driver.html#ad4b0ae616e0ce2bdb666f8e75ab686b2a22b65b9bffe0216e00cc6363d8bc8acd',1,'audio_driver']]],
-  ['i2s_5fstd_6',['I2S_STD',['../_p_c_b_c_u_p_i_d___n_a_u8325_8h.html#a694abef13450931a2d93b7ece18bbb3aac9a227368edc20981732cfeb0c06bf4b',1,'PCBCUPID_NAU8325.h']]],
-  ['i2sdsp24bit_7',['I2SDSP24bit',['../class_p_c_m3168.html#af06d04dcc3cc2baa48eac3c07fb60a64aac7d2b5919b2b91b2269f765df8a9055',1,'PCM3168']]],
-  ['i2shighspeedtdm24bit_8',['I2SHighSpeedTDM24bit',['../class_p_c_m3168.html#af06d04dcc3cc2baa48eac3c07fb60a64a1106c0014ded472603b8bf19d1c6092d',1,'PCM3168']]],
-  ['i2stdm24bit_9',['I2STDM24bit',['../class_p_c_m3168.html#af06d04dcc3cc2baa48eac3c07fb60a64a87afadb2fec6092f7af1a517cead199e',1,'PCM3168']]],
-  ['immediatechange_10',['ImmediateChange',['../class_c_s42448.html#a1dd65b290a55f33850fda5e32f67558ba730d7a50c37f238c625f4c4f9fa4d8cc',1,'CS42448']]],
-  ['inactive_11',['Inactive',['../namespaceaudio__driver.html#a541db2b810d671856e3d258a0e184d4fa3cab03c00dbd11bc3569afa0748013f0',1,'audio_driver']]],
-  ['input_12',['Input',['../namespaceaudio__driver.html#a541db2b810d671856e3d258a0e184d4fa324118a6721dd6b8a9b9f4e327df2bf5',1,'audio_driver']]],
-  ['inputactivehigh_13',['InputActiveHigh',['../namespaceaudio__driver.html#a541db2b810d671856e3d258a0e184d4fad1f4343083391d4134755122ffd1bdad',1,'audio_driver']]],
-  ['inputactivelow_14',['InputActiveLow',['../namespaceaudio__driver.html#a541db2b810d671856e3d258a0e184d4faf85e76a7d5932924d3a4fca6f1352840',1,'audio_driver']]],
-  ['inputactivetouch_15',['InputActiveTouch',['../namespaceaudio__driver.html#a541db2b810d671856e3d258a0e184d4fa5b29dd72614886bd07cc85d9efc6e11b',1,'audio_driver']]],
-  ['inverted_5fbclk_16',['INVERTED_BCLK',['../_p_c_b_c_u_p_i_d___n_a_u8325_8h.html#a86cf67da2bdabf54eea14c51e4820bbaaed6db35ac725fc19766d2e8482da824a',1,'PCBCUPID_NAU8325.h']]]
+  ['headphone_0',['Headphone',['../namespaceaudio__driver.html#a57ae6b4956902777fdbee5ccf9516c9da52f40b8ad1f6b4675a8df324a0df10ee',1,'audio_driver']]],
+  ['headphone_5fdetect_1',['HEADPHONE_DETECT',['../namespaceaudio__driver.html#a6b03ddbf1e0f5abd0e46e02555850aafa9decb49b0b8a11118da5ae919a09e766',1,'audio_driver']]],
+  ['headphoneboth_2',['HeadphoneBoth',['../classaudio__driver_1_1_w_m8731.html#ad0e020671360fcf6eb01e0484a521a67ac15fa5dc218aa234740673799b42ba1e',1,'audio_driver::WM8731']]],
+  ['headphoneleft_3',['headphoneleft',['../namespaceaudio__driver.html#a185d65baa7dfa44852cbe13abbdb65d6a4e399b3c78c5b655cbb9acf7e56d4061',1,'audio_driver::HeadphoneLeft'],['../namespaceaudio__driver.html#aae48c9bc20aeac1e4174076e47e88c5aa4e399b3c78c5b655cbb9acf7e56d4061',1,'audio_driver::HeadphoneLeft'],['../namespaceaudio__driver.html#adfd45f879a4b8c904eb38a5d898a8530a4e399b3c78c5b655cbb9acf7e56d4061',1,'audio_driver::HeadphoneLeft'],['../namespaceaudio__driver.html#a2989f0a1d331d9708c4a6db06e79f65ba4e399b3c78c5b655cbb9acf7e56d4061',1,'audio_driver::HeadphoneLeft'],['../namespaceaudio__driver.html#a7fb40e6713ab75b4d8654df4f098b87da4e399b3c78c5b655cbb9acf7e56d4061',1,'audio_driver::HeadphoneLeft']]],
+  ['headphoneright_4',['headphoneright',['../namespaceaudio__driver.html#a7fb40e6713ab75b4d8654df4f098b87da58a91bf0f0627082005f33d7bf4ed2b0',1,'audio_driver::HeadphoneRight'],['../namespaceaudio__driver.html#a2989f0a1d331d9708c4a6db06e79f65ba58a91bf0f0627082005f33d7bf4ed2b0',1,'audio_driver::HeadphoneRight'],['../namespaceaudio__driver.html#a185d65baa7dfa44852cbe13abbdb65d6a58a91bf0f0627082005f33d7bf4ed2b0',1,'audio_driver::HeadphoneRight'],['../namespaceaudio__driver.html#aae48c9bc20aeac1e4174076e47e88c5aa58a91bf0f0627082005f33d7bf4ed2b0',1,'audio_driver::HeadphoneRight'],['../namespaceaudio__driver.html#adfd45f879a4b8c904eb38a5d898a8530a58a91bf0f0627082005f33d7bf4ed2b0',1,'audio_driver::HeadphoneRight']]],
+  ['headphonevolmask_5',['HeadphoneVolMask',['../classaudio__driver_1_1_w_m8731.html#ad0e020671360fcf6eb01e0484a521a67a64f962581ee616814e9a91736d11b03a',1,'audio_driver::WM8731']]],
+  ['headphonezerocross_6',['HeadphoneZeroCross',['../classaudio__driver_1_1_w_m8731.html#ad0e020671360fcf6eb01e0484a521a67a504f78a8795afbfd58ec3b311e81caea',1,'audio_driver::WM8731']]],
+  ['highpassonreset_7',['HighPassOnReset',['../classaudio__driver_1_1_w_m8731.html#a6f750de0043fbf1145db14b0ddda82b4a9ed3e59417e887184d175eae67004682',1,'audio_driver::WM8731']]],
+  ['hiz_8',['Hiz',['../namespaceaudio__driver.html#ac0a4f30502004314c16d3e9399d6224dadba7ebc8eb5599e6640a46ac2d631da7',1,'audio_driver']]]
 ];

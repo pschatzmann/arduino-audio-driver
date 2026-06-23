@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['driver_0',['Audio Driver',['../group__audio__driver.html',1,'']]]
+  ['public_20enumeration_20types_0',['Public Enumeration Types',['../group__enumerations.html',1,'']]]
 ];

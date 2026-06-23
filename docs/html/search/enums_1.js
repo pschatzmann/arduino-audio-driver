@@ -1,13 +1,23 @@
 var searchData=
 [
-  ['ac_5fadda_5ffs_5fi2s1_5ft_0',['ac_adda_fs_i2s1_t',['../ac101_8h.html#a3391697d865bae4eb6aee3d5ae6282c3',1,'ac101.h']]],
-  ['ac_5fbits_5flength_5ft_1',['ac_bits_length_t',['../ac101_8h.html#a7da675608ffdc04e4e9c938756706f30',1,'ac101.h']]],
-  ['ac_5fi2s1_5fbclk_5fdiv_5ft_2',['ac_i2s1_bclk_div_t',['../ac101_8h.html#ab4cebcf8d2c1067e92c8233c3b458b4a',1,'ac101.h']]],
-  ['ac_5fi2s1_5flrck_5fdiv_5ft_3',['ac_i2s1_lrck_div_t',['../ac101_8h.html#a767b4707fb6c2d703dc93a546bb32ae5',1,'ac101.h']]],
-  ['ac_5fmode_5fsm_5ft_4',['ac_mode_sm_t',['../ac101_8h.html#af2015670872c8441625fa6d4406cba77',1,'ac101.h']]],
-  ['ac_5fmodule_5ft_5',['ac_module_t',['../ac101_8h.html#a984ea7908d2407e0e32ad0f86eeb38bc',1,'ac101.h']]],
-  ['ac_5foutput_5fmixer_5fgain_5ft_6',['ac_output_mixer_gain_t',['../ac101_8h.html#ad070a6f190ba2fc248b0f212e4304e08',1,'ac101.h']]],
-  ['ac_5foutput_5fmixer_5fsource_5ft_7',['ac_output_mixer_source_t',['../ac101_8h.html#aa37d0a5e7bfe3b30846a9780570bc79b',1,'ac101.h']]],
-  ['audiodriverkey_8',['AudioDriverKey',['../namespaceaudio__driver.html#a0e38a8cbaae36dea9c9053a4ee8f9e18',1,'audio_driver']]],
-  ['audioi2sformat_9',['AudioI2SFormat',['../_p_c_b_c_u_p_i_d___n_a_u8325_8h.html#a694abef13450931a2d93b7ece18bbb3a',1,'PCBCUPID_NAU8325.h']]]
+  ['ac_5fadda_5ffs_5fi2s1_5ft_0',['ac_adda_fs_i2s1_t',['../namespaceaudio__driver.html#a3391697d865bae4eb6aee3d5ae6282c3',1,'audio_driver']]],
+  ['ac_5fbits_5flength_5ft_1',['ac_bits_length_t',['../namespaceaudio__driver.html#a7da675608ffdc04e4e9c938756706f30',1,'audio_driver']]],
+  ['ac_5fi2s1_5fbclk_5fdiv_5ft_2',['ac_i2s1_bclk_div_t',['../namespaceaudio__driver.html#ab4cebcf8d2c1067e92c8233c3b458b4a',1,'audio_driver']]],
+  ['ac_5fi2s1_5flrck_5fdiv_5ft_3',['ac_i2s1_lrck_div_t',['../namespaceaudio__driver.html#a767b4707fb6c2d703dc93a546bb32ae5',1,'audio_driver']]],
+  ['ac_5fmode_5fsm_5ft_4',['ac_mode_sm_t',['../namespaceaudio__driver.html#af2015670872c8441625fa6d4406cba77',1,'audio_driver']]],
+  ['ac_5fmodule_5ft_5',['ac_module_t',['../namespaceaudio__driver.html#a984ea7908d2407e0e32ad0f86eeb38bc',1,'audio_driver']]],
+  ['ac_5foutput_5fmixer_5fgain_5ft_6',['ac_output_mixer_gain_t',['../namespaceaudio__driver.html#ad070a6f190ba2fc248b0f212e4304e08',1,'audio_driver']]],
+  ['ac_5foutput_5fmixer_5fsource_5ft_7',['ac_output_mixer_source_t',['../namespaceaudio__driver.html#aa37d0a5e7bfe3b30846a9780570bc79b',1,'audio_driver']]],
+  ['activecontrol_8',['ActiveControl',['../classaudio__driver_1_1_w_m8731.html#a91cbbac27f5deacda89f1cfff412f274',1,'audio_driver::WM8731']]],
+  ['aic3110adcprocblock_9',['AIC3110AdcProcBlock',['../namespaceaudio__driver.html#adf596ae66082e524e46e6d06a4a09a59',1,'audio_driver']]],
+  ['aic3110channel_10',['AIC3110Channel',['../namespaceaudio__driver.html#adfd45f879a4b8c904eb38a5d898a8530',1,'audio_driver']]],
+  ['aic3110cmvoltage_11',['AIC3110CmVoltage',['../namespaceaudio__driver.html#a9f44169a353b51f8e22019a2568e5251',1,'audio_driver']]],
+  ['aic3110dacprocblock_12',['AIC3110DacProcBlock',['../namespaceaudio__driver.html#ab74140f888eac3aa756e0412ce084296',1,'audio_driver']]],
+  ['anactrlbits_13',['AnaCtrlBits',['../classaudio__driver_1_1_s_g_t_l5000.html#ad7b26e935ce6ddfb5a3a4265e0cad367',1,'audio_driver::SGTL5000']]],
+  ['analoguepath_14',['AnaloguePath',['../classaudio__driver_1_1_w_m8731.html#a6b860cf62c5223b2629300c473064aed',1,'audio_driver::WM8731']]],
+  ['audiodriverkey_15',['AudioDriverKey',['../namespaceaudio__driver.html#a0e38a8cbaae36dea9c9053a4ee8f9e18',1,'audio_driver']]],
+  ['audiofrequency_16',['audiofrequency',['../classaudio__driver_1_1_w_m8994.html#a258b6134d167e8597ecd8e5d1b4e9443',1,'audio_driver::WM8994::AudioFrequency'],['../classaudio__driver_1_1_c_s43_l22.html#a258b6134d167e8597ecd8e5d1b4e9443',1,'audio_driver::CS43L22::AudioFrequency']]],
+  ['audioi2sformat_17',['AudioI2SFormat',['../namespaceaudio__driver.html#a694abef13450931a2d93b7ece18bbb3a',1,'audio_driver']]],
+  ['aw88298mode_18',['AW88298Mode',['../namespaceaudio__driver.html#ad7b79805f3994598721a8755955273f8',1,'audio_driver']]],
+  ['aw88298wordsize_19',['AW88298WordSize',['../namespaceaudio__driver.html#ac62033f83f6712308dcf4a5da4cdf59a',1,'audio_driver']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['driver_0',['Arduino Audio Driver',['../index.html',1,'']]]
+  ['driver_20library_0',['Audio Driver Library',['../index.html',1,'']]]
 ];

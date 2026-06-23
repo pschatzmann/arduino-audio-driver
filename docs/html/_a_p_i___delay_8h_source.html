@@ -83,9 +83,27 @@ $(document).ready(function() { init_codefold(0); });
 <div class="contents">
 <a href="_a_p_i___delay_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno"><a class="line" href="_a_p_i___delay_8h.html#adf0ddeb1f0931007240e51d09e9e3059">    3</a></span><span class="keywordtype">void</span> <a class="code hl_define" href="ac101_8cpp.html#a2b47dfff6cafd0bcc9ba7673e4e2d913">delayMs</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>);</div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="ttc" id="aac101_8cpp_html_a2b47dfff6cafd0bcc9ba7673e4e2d913"><div class="ttname"><a href="ac101_8cpp.html#a2b47dfff6cafd0bcc9ba7673e4e2d913">delayMs</a></div><div class="ttdeci">#define delayMs(n)</div><div class="ttdef"><b>Definition</b> ac101.cpp:12</div></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#ifdef ARDUINO</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#  include &quot;Arduino.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceaudio__driver.html">audio_driver</a> {</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="namespaceaudio__driver.html#a6950e701b37e073d393949304e706e84">delayMs</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> ms) { delay(ms); }</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>} <span class="comment">// namespace audio_driver</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#elif defined(__zephyr__)</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#  include &lt;zephyr/kernel.h&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceaudio__driver.html">audio_driver</a> {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="namespaceaudio__driver.html#a6950e701b37e073d393949304e706e84">delayMs</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> ms) { k_msleep(ms); }</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>} <span class="comment">// namespace audio_driver</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#elif defined(ESP32)</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceaudio__driver.html">audio_driver</a> {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="namespaceaudio__driver.html#a6950e701b37e073d393949304e706e84">delayMs</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> ms) { vTaskDelay(ms / portTICK_PERIOD_MS); }</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>} <span class="comment">// namespace audio_driver</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceaudio__driver.html">audio_driver</a> {</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="namespaceaudio__driver.html#a6950e701b37e073d393949304e706e84">   19</a></span><span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="namespaceaudio__driver.html#a6950e701b37e073d393949304e706e84">delayMs</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> ms) {}</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>} <span class="comment">// namespace audio_driver</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="anamespaceaudio__driver_html"><div class="ttname"><a href="namespaceaudio__driver.html">audio_driver</a></div><div class="ttdoc">Namespace for audio driver components.</div><div class="ttdef"><b>Definition</b> AudioBoard.h:5</div></div>
+<div class="ttc" id="anamespaceaudio__driver_html_a6950e701b37e073d393949304e706e84"><div class="ttname"><a href="namespaceaudio__driver.html#a6950e701b37e073d393949304e706e84">audio_driver::delayMs</a></div><div class="ttdeci">void delayMs(unsigned long ms)</div><div class="ttdef"><b>Definition</b> API_Delay.h:19</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

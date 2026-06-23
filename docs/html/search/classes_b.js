@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['spiclass_0',['SPIClass',['../struct_s_p_i_class.html',1,'']]],
-  ['spiconfig_1',['SPIConfig',['../struct_s_p_i_config.html',1,'']]],
-  ['srateattr_2',['SRateAttr',['../struct_s_rate_attr.html',1,'']]],
-  ['srcattr_3',['SrcAttr',['../struct_src_attr.html',1,'']]]
+  ['ratedivs_0',['RateDivs',['../structaudio__driver_1_1_t_l_v320_a_i_c3110_1_1_rate_divs.html',1,'audio_driver::TLV320AIC3110']]],
+  ['regaddr_1',['RegAddr',['../structaudio__driver_1_1_t_l_v320_a_i_c3110_1_1_reg_addr.html',1,'audio_driver::TLV320AIC3110']]],
+  ['regdefault_2',['RegDefault',['../structaudio__driver_1_1_reg_default.html',1,'audio_driver']]]
 ];

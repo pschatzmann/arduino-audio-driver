@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['_5fmtb_5fwm8960_5fsysclk_5ffreq_5ft_0',['_mtb_wm8960_sysclk_freq_t',['../mtb__wm8960_8cpp.html#a7b8d5bf89c04c4d1f33ba36e1c6acbb6',1,'mtb_wm8960.cpp']]]
+  ['_5fwm8960_5fsysclk_5ffreq_5ft_0',['_wm8960_sysclk_freq_t',['../namespaceaudio__driver.html#a99ca8e5eba585ead21bbfa00b0dac6f4',1,'audio_driver']]]
 ];

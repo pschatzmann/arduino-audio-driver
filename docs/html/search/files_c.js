@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['tas5805m_2ecpp_0',['tas5805m.cpp',['../tas5805m_8cpp.html',1,'']]],
-  ['tas5805m_2eh_1',['tas5805m.h',['../tas5805m_8h.html',1,'']]],
-  ['tas5805m_5freg_5fcfg_2eh_2',['tas5805m_reg_cfg.h',['../tas5805m__reg__cfg_8h.html',1,'']]],
-  ['tca9555_2eh_3',['TCA9555.h',['../_t_c_a9555_8h.html',1,'']]]
+  ['sf32lb_2eh_0',['SF32LB.h',['../_s_f32_l_b_8h.html',1,'']]],
+  ['sgtl5000_2eh_1',['SGTL5000.h',['../_s_g_t_l5000_8h.html',1,'']]],
+  ['stm32f411disco_2eh_2',['STM32F411Disco.h',['../_s_t_m32_f411_disco_8h.html',1,'']]]
 ];

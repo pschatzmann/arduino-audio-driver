@@ -100,7 +100,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="comment">// Optional: reset GPIOs if needed</span></div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>  }</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>  <span class="keywordtype">void</span> pinMode(<a class="code hl_typedef" href="namespaceaudio__driver.html#abdf74e3c0806040d87d21f1e1534c4a6">GpioPin</a> pin, <span class="keywordtype">int</span> mode) {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>  <span class="keywordtype">void</span> pinMode(<a class="code hl_typedef" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> pin, <span class="keywordtype">int</span> mode) {</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    gpio_config_t io_conf = {};</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    io_conf.pin_bit_mask = (1ULL &lt;&lt; pin);</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
@@ -138,24 +138,26 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    gpio_config(&amp;io_conf);</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  }</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  <span class="keywordtype">bool</span> digitalWrite(<a class="code hl_typedef" href="namespaceaudio__driver.html#abdf74e3c0806040d87d21f1e1534c4a6">GpioPin</a> pin, <span class="keywordtype">bool</span> value) {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  <span class="keywordtype">bool</span> digitalWrite(<a class="code hl_typedef" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> pin, <span class="keywordtype">bool</span> value) {</div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    esp_err_t err = gpio_set_level((gpio_num_t)pin, value ? 1 : 0);</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keywordflow">return</span> err == ESP_OK;</div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  }</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>  <span class="keywordtype">bool</span> digitalRead(<a class="code hl_typedef" href="namespaceaudio__driver.html#abdf74e3c0806040d87d21f1e1534c4a6">GpioPin</a> pin) { <span class="keywordflow">return</span> gpio_get_level((gpio_num_t)pin); }</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>};</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>} <span class="comment">// namespace audio_driver</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>  <span class="keywordtype">bool</span> digitalRead(<a class="code hl_typedef" href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">GpioPin</a> pin) { <span class="keywordflow">return</span> gpio_get_level((gpio_num_t)pin); }</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>  <span class="keywordtype">int</span> analogRead(<a class="code hl_typedef" href="namespaceaudio__driver.html#a747b056cb94ce53a72c2687def90e90e">ADCPin</a> pin) { <span class="keywordflow">return</span> -1; }</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>};</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="a_driver_common_8h_html_a1bb283bd7893b9855e2f23013891fc82"><div class="ttname"><a href="_driver_common_8h.html#a1bb283bd7893b9855e2f23013891fc82">INPUT</a></div><div class="ttdeci">#define INPUT</div><div class="ttdef"><b>Definition</b> DriverCommon.h:28</div></div>
-<div class="ttc" id="a_driver_common_8h_html_a61a3c9a18380aafb6e430e79bf596557"><div class="ttname"><a href="_driver_common_8h.html#a61a3c9a18380aafb6e430e79bf596557">OUTPUT</a></div><div class="ttdeci">#define OUTPUT</div><div class="ttdef"><b>Definition</b> DriverCommon.h:31</div></div>
-<div class="ttc" id="a_driver_common_8h_html_a6295096662a20dd56186396e535fbe92"><div class="ttname"><a href="_driver_common_8h.html#a6295096662a20dd56186396e535fbe92">INPUT_PULLUP</a></div><div class="ttdeci">#define INPUT_PULLUP</div><div class="ttdef"><b>Definition</b> DriverCommon.h:34</div></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>} <span class="comment">// namespace audio_driver</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="a_driver_common_8h_html_a1bb283bd7893b9855e2f23013891fc82"><div class="ttname"><a href="_driver_common_8h.html#a1bb283bd7893b9855e2f23013891fc82">INPUT</a></div><div class="ttdeci">#define INPUT</div><div class="ttdef"><b>Definition</b> DriverCommon.h:41</div></div>
+<div class="ttc" id="a_driver_common_8h_html_a61a3c9a18380aafb6e430e79bf596557"><div class="ttname"><a href="_driver_common_8h.html#a61a3c9a18380aafb6e430e79bf596557">OUTPUT</a></div><div class="ttdeci">#define OUTPUT</div><div class="ttdef"><b>Definition</b> DriverCommon.h:44</div></div>
+<div class="ttc" id="a_driver_common_8h_html_a6295096662a20dd56186396e535fbe92"><div class="ttname"><a href="_driver_common_8h.html#a6295096662a20dd56186396e535fbe92">INPUT_PULLUP</a></div><div class="ttdeci">#define INPUT_PULLUP</div><div class="ttdef"><b>Definition</b> DriverCommon.h:47</div></div>
 <div class="ttc" id="aclass_g_p_i_o_html"><div class="ttname"><a href="class_g_p_i_o.html">GPIO</a></div><div class="ttdoc">Abstraction for digital GPIO pin operations.</div></div>
 <div class="ttc" id="anamespaceaudio__driver_html"><div class="ttname"><a href="namespaceaudio__driver.html">audio_driver</a></div><div class="ttdoc">Namespace for audio driver components.</div><div class="ttdef"><b>Definition</b> AudioBoard.h:5</div></div>
-<div class="ttc" id="anamespaceaudio__driver_html_a89c3683edc5e9eb1ce1acf9d74bc1da6"><div class="ttname"><a href="namespaceaudio__driver.html#a89c3683edc5e9eb1ce1acf9d74bc1da6">audio_driver::GPIO</a></div><div class="ttdeci">GPIOZephyr GPIO</div><div class="ttdef"><b>Definition</b> GPIO_Zephyr.h:88</div></div>
-<div class="ttc" id="anamespaceaudio__driver_html_abdf74e3c0806040d87d21f1e1534c4a6"><div class="ttname"><a href="namespaceaudio__driver.html#abdf74e3c0806040d87d21f1e1534c4a6">audio_driver::GpioPin</a></div><div class="ttdeci">int16_t GpioPin</div><div class="ttdef"><b>Definition</b> DriverCommon.h:75</div></div>
+<div class="ttc" id="anamespaceaudio__driver_html_a4c343c4d8992a509dce6cff41726322a"><div class="ttname"><a href="namespaceaudio__driver.html#a4c343c4d8992a509dce6cff41726322a">audio_driver::GpioPin</a></div><div class="ttdeci">int16_t GpioPin</div><div class="ttdef"><b>Definition</b> DriverCommon.h:150</div></div>
+<div class="ttc" id="anamespaceaudio__driver_html_a747b056cb94ce53a72c2687def90e90e"><div class="ttname"><a href="namespaceaudio__driver.html#a747b056cb94ce53a72c2687def90e90e">audio_driver::ADCPin</a></div><div class="ttdeci">int16_t ADCPin</div><div class="ttdef"><b>Definition</b> DriverCommon.h:151</div></div>
+<div class="ttc" id="anamespaceaudio__driver_html_a89c3683edc5e9eb1ce1acf9d74bc1da6"><div class="ttname"><a href="namespaceaudio__driver.html#a89c3683edc5e9eb1ce1acf9d74bc1da6">audio_driver::GPIO</a></div><div class="ttdeci">GPIOZephyr GPIO</div><div class="ttdef"><b>Definition</b> GPIO_Zephyr.h:109</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

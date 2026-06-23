@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['gpio_0',['GPIO',['../namespaceaudio__driver.html#a89c3683edc5e9eb1ce1acf9d74bc1da6',1,'audio_driver']]],
-  ['gpiopin_1',['GpioPin',['../namespaceaudio__driver.html#abdf74e3c0806040d87d21f1e1534c4a6',1,'audio_driver']]]
+  ['i2c_5fbus_5fhandle_5ft_0',['i2c_bus_handle_t',['../namespaceaudio__driver.html#af64bc1da974c4a3530b8d7ce30ef9194',1,'audio_driver']]]
 ];

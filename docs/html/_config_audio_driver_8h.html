@@ -91,6 +91,9 @@ Macros</h2></td></tr>
 <tr class="memitem:a39099ab4cfb45d30b5ab03c51a19cf0b" id="r_a39099ab4cfb45d30b5ab03c51a19cf0b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_config_audio_driver_8h.html#a39099ab4cfb45d30b5ab03c51a19cf0b">AUDIO_DRIVER_LOGGIN_ACTVIE</a>&#160;&#160;&#160;true</td></tr>
 <tr class="memdesc:a39099ab4cfb45d30b5ab03c51a19cf0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Activate / Deactivate Logging: set to true or false.  <br /></td></tr>
 <tr class="separator:a39099ab4cfb45d30b5ab03c51a19cf0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd02b4858505db065059a26ac209ca98" id="r_afd02b4858505db065059a26ac209ca98"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_config_audio_driver_8h.html#afd02b4858505db065059a26ac209ca98">AUDIO_DRIVER_USE_NEW_API</a></td></tr>
+<tr class="memdesc:afd02b4858505db065059a26ac209ca98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use IDF Logger: by default we use it if ESP32 outside of ARDUINO.  <br /></td></tr>
+<tr class="separator:afd02b4858505db065059a26ac209ca98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2513e2bd0eb45a0ccefbbcd3f289ca47" id="r_a2513e2bd0eb45a0ccefbbcd3f289ca47"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_config_audio_driver_8h.html#a2513e2bd0eb45a0ccefbbcd3f289ca47">DRIVER_DEFAULT_VOLUME</a>&#160;&#160;&#160;70</td></tr>
 <tr class="separator:a2513e2bd0eb45a0ccefbbcd3f289ca47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d56c6ea19f3b09ed4850731fd1e6726" id="r_a9d56c6ea19f3b09ed4850731fd1e6726"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_config_audio_driver_8h.html#a9d56c6ea19f3b09ed4850731fd1e6726">DRIVER_REPORT_DRIVER_VOLUME</a>&#160;&#160;&#160;false</td></tr>
@@ -146,6 +149,23 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Activate / Deactivate Logging: set to true or false. </p>
+
+</div>
+</div>
+<a id="afd02b4858505db065059a26ac209ca98" name="afd02b4858505db065059a26ac209ca98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd02b4858505db065059a26ac209ca98">&#9670;&#160;</a></span>AUDIO_DRIVER_USE_NEW_API</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define AUDIO_DRIVER_USE_NEW_API</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Use IDF Logger: by default we use it if ESP32 outside of ARDUINO. </p>
+<p>Force to use the IDF I2C Implementation instead of the Arduino Wire Mark that this library is providing the new class names </p>
 
 </div>
 </div>

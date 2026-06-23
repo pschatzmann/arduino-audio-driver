@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['driverpins_0',['DriverPins',['../namespaceaudio__driver.html#a0c74c9479582dc77acb2ceb134995815',1,'audio_driver']]]
+  ['error_5ft_0',['error_t',['../namespaceaudio__driver.html#a7692ad5e57c8a238594439ab076ab486',1,'audio_driver']]]
 ];
