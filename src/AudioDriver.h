@@ -276,6 +276,7 @@ class AudioDriver {
 
   /// Defines the i2c address
   virtual bool setI2CAddress(uint16_t adr) {
+    i2c_default_address = adr;
     if (p_pins == nullptr) return false;
     // look it up from the pin definition
     auto i2c = pins().getI2CPins(PinFunction::CODEC);
