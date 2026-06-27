@@ -384,7 +384,9 @@ class NoDriverClass : public AudioDriver {
  */
 class AudioDriverAC101Class : public AudioDriver {
  public:
-  AudioDriverAC101Class() { i2c_default_address = 0x1A; }
+  AudioDriverAC101Class(uint16_t deviceAddr = 0x1A) {
+    i2c_default_address = deviceAddr;
+  }
   bool setMute(bool mute) { return ac101.setVoiceMute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     return ac101.setVoiceVolume(limitValue(volume, 0, 100)) == RESULT_OK;
@@ -641,7 +643,9 @@ class AudioDriverCS42L51Class : public AudioDriver {
  */
 class AudioDriverCS42448Class : public AudioDriver {
  public:
-  AudioDriverCS42448Class() { i2c_default_address = 0x48; }
+  AudioDriverCS42448Class(uint16_t deviceAddr = 0x48) {
+    i2c_default_address = deviceAddr;
+  }
   bool begin(CodecConfig codecCfg, DriverDeviceInfo& pins) override {
     cfg = codecCfg;
     // setup pins
@@ -704,7 +708,9 @@ class AudioDriverCS42448Class : public AudioDriver {
  */
 class AudioDriverES7210Class : public AudioDriver {
  public:
-  AudioDriverES7210Class() { i2c_default_address = ES7210_AD1_AD0_00 >> 1; }
+  AudioDriverES7210Class(uint16_t deviceAddr = ES7210_AD1_AD0_00 >> 1) {
+    i2c_default_address = deviceAddr;
+  }
   bool setMute(bool mute) { return es7210.setMute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     this->volume = volume;
@@ -741,7 +747,9 @@ class AudioDriverES7210Class : public AudioDriver {
  */
 class AudioDriverES7243Class : public AudioDriver {
  public:
-  AudioDriverES7243Class() { i2c_default_address = 0x13; }
+  AudioDriverES7243Class(uint16_t deviceAddr = 0x13) {
+    i2c_default_address = deviceAddr;
+  }
   bool setMute(bool mute) {
     return es7243.setVoiceMute(mute) == RESULT_OK;
   }
@@ -781,7 +789,9 @@ class AudioDriverES7243Class : public AudioDriver {
 
 class AudioDriverES7243eClass : public AudioDriver {
  public:
-  AudioDriverES7243eClass() { i2c_default_address = 0x10; }
+  AudioDriverES7243eClass(uint16_t deviceAddr = 0x10) {
+    i2c_default_address = deviceAddr;
+  }
   bool setMute(bool mute) {
     return mute ? setVolume(0) == RESULT_OK : setVolume(volume) == RESULT_OK;
   }
@@ -823,7 +833,9 @@ class AudioDriverES7243eClass : public AudioDriver {
  */
 class AudioDriverES8156Class : public AudioDriver {
  public:
-  AudioDriverES8156Class() { i2c_default_address = ES8156::ES8156_ADDR; }
+  AudioDriverES8156Class(uint16_t deviceAddr = ES8156::ES8156_ADDR) {
+    i2c_default_address = deviceAddr;
+  }
   bool setMute(bool mute) {
     return es8156.setVoiceMute(mute) == RESULT_OK;
   }
@@ -864,7 +876,9 @@ class AudioDriverES8156Class : public AudioDriver {
  */
 class AudioDriverWM8731Class : public AudioDriver {
  public:
-  AudioDriverWM8731Class() { i2c_default_address = WM8731_ADDR; }
+  AudioDriverWM8731Class(uint16_t deviceAddr = WM8731_ADDR) {
+    i2c_default_address = deviceAddr;
+  }
   bool setMute(bool mute) { return wm8731.setVoiceMute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
@@ -902,7 +916,9 @@ class AudioDriverWM8731Class : public AudioDriver {
  */
 class AudioDriverSGTL5000Class : public AudioDriver {
  public:
-  AudioDriverSGTL5000Class() { i2c_default_address = SGTL5000_ADDR; }
+  AudioDriverSGTL5000Class(uint16_t deviceAddr = SGTL5000_ADDR) {
+    i2c_default_address = deviceAddr;
+  }
   bool setMute(bool mute) { return sgtl5000.setVoiceMute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
@@ -940,7 +956,9 @@ class AudioDriverSGTL5000Class : public AudioDriver {
  */
 class AudioDriverES8311Class : public AudioDriver {
  public:
-  AudioDriverES8311Class() { i2c_default_address = ES8311::ES8311_ADDR; }
+  AudioDriverES8311Class(uint16_t deviceAddr = ES8311::ES8311_ADDR) {
+    i2c_default_address = deviceAddr;
+  }
   bool setMute(bool mute) { return es8311.setVoiceMute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     return es8311.setVoiceVolume(limitValue(volume, 0, 100)) ==
@@ -991,7 +1009,9 @@ class AudioDriverES8311Class : public AudioDriver {
  */
 class AudioDriverES8374Class : public AudioDriver {
  public:
-  AudioDriverES8374Class() { i2c_default_address = ES8374::ES8374_ADDR; }
+  AudioDriverES8374Class(uint16_t deviceAddr = ES8374::ES8374_ADDR) {
+    i2c_default_address = deviceAddr;
+  }
   bool setMute(bool mute) { return es8374.setVoiceMute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
@@ -1032,11 +1052,11 @@ class AudioDriverES8374Class : public AudioDriver {
  */
 class AudioDriverES8388Class : public AudioDriver {
  public:
-  AudioDriverES8388Class(int volumeHack) {
-    i2c_default_address = ES8388::ES8388_ADDR;
+  AudioDriverES8388Class(uint16_t deviceAddr = ES8388::ES8388_ADDR,
+                         int volumeHack = AI_THINKER_ES8388_VOLUME_HACK) {
+    i2c_default_address = deviceAddr;
     volume_hack = volumeHack;
   }
-  AudioDriverES8388Class() { i2c_default_address = ES8388::ES8388_ADDR; }
   bool setMute(bool mute) {
     line_active[0] = !mute;
     line_active[1] = !mute;
@@ -1149,7 +1169,9 @@ class AudioDriverES8388Class : public AudioDriver {
  */
 class AudioDriverTAS5805MClass : public AudioDriver {
  public:
-  AudioDriverTAS5805MClass() { i2c_default_address = TAS5805M::TAS5805M_ADDR; }
+  AudioDriverTAS5805MClass(uint16_t deviceAddr = TAS5805M::TAS5805M_ADDR) {
+    i2c_default_address = deviceAddr;
+  }
   bool setMute(bool mute) { return tas5805m.setMute(mute) == RESULT_OK; }
   bool setVolume(int volume) {
     AD_LOGD("volume %d", volume);
@@ -1182,7 +1204,9 @@ class AudioDriverTAS5805MClass : public AudioDriver {
  */
 class AudioDriverWM8960Class : public AudioDriver {
  public:
-  AudioDriverWM8960Class() { i2c_default_address = WM8960_I2C_ADDRESS; }
+  AudioDriverWM8960Class(uint16_t deviceAddr = WM8960_I2C_ADDRESS) {
+    i2c_default_address = deviceAddr;
+  }
 
   /// Provides access to the WM8960 driver
   WM8960& driver() { return wm8960; }
@@ -1368,7 +1392,9 @@ class AudioDriverWM8960Class : public AudioDriver {
  */
 class AudioDriverWM8978Class : public AudioDriver {
  public:
-  AudioDriverWM8978Class() = default;
+  AudioDriverWM8978Class(uint16_t deviceAddr = WM8978::WM8978_ADDR) {
+    i2c_default_address = deviceAddr;
+  }
 
   bool begin(CodecConfig codecCfg, DriverDeviceInfo& pins) override {
     bool rc = true;
@@ -1576,7 +1602,9 @@ class AudioDriverWM8994Class : public AudioDriver {
  */
 class AudioDriverPCM3168Class : public AudioDriver {
  public:
-  AudioDriverPCM3168Class() { i2c_default_address = 0x44; };
+  AudioDriverPCM3168Class(uint16_t deviceAddr = 0x44) {
+    i2c_default_address = deviceAddr;
+  }
 
   bool setMute(bool mute) { return driver.setMute(mute); }
 
@@ -1845,6 +1873,10 @@ class AudioDriverZephyrT : public AudioDriver {
 /*  -- NAU8325 Driver Class---  */
 class AudioDriverNAU8325Class : public AudioDriver {
  public:
+  AudioDriverNAU8325Class(uint16_t deviceAddr = NAU8325::NAU8325_I2C_ADDR) {
+    i2c_default_address = deviceAddr;
+  }
+
   NAU8325* nau8325 = nullptr;  // pointer to construct later
 
   ~AudioDriverNAU8325Class() {
@@ -2014,13 +2046,13 @@ static AudioDriverES8374Class AudioDriverES8374;
 /// @ingroup audio_driver
 static AudioDriverES8388Class AudioDriverES8388;
 /// @ingroup audio_driver
-static AudioDriverES8388Class AudioDriverES8388H0{0};
+static AudioDriverES8388Class AudioDriverES8388H0{ES8388::ES8388_ADDR, 0};
 /// @ingroup audio_driver
-static AudioDriverES8388Class AudioDriverES8388H1{1};
+static AudioDriverES8388Class AudioDriverES8388H1{ES8388::ES8388_ADDR, 1};
 /// @ingroup audio_driver
-static AudioDriverES8388Class AudioDriverES8388H2{2};
+static AudioDriverES8388Class AudioDriverES8388H2{ES8388::ES8388_ADDR, 2};
 /// @ingroup audio_driver
-static AudioDriverES8388Class AudioDriverES8388H3{3};
+static AudioDriverES8388Class AudioDriverES8388H3{ES8388::ES8388_ADDR, 3};
 /// @ingroup audio_driver
 static AudioDriverWM8960Class AudioDriverWM8960;
 /// @ingroup audio_driver
