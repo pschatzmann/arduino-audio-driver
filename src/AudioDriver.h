@@ -2043,6 +2043,9 @@ static AudioDriverCombined AudioDriverES8311_ES7210(AudioDriverES8311,
 static AudioDriverCombined AudioDriverES8311_ES7243(AudioDriverES8311,
                                                     AudioDriverES7243);
 
+/// @ingroup audio_driver
+static AudioDriverSGTL5000Class AudioDriverSGTL5000;
+
 // -- Zephyr ported Drivers
 /// @ingroup audio_driver
 static AudioDriverZephyrT<WM8904, 0x1A> AudioDriverWM8904;
