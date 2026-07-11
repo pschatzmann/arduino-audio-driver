@@ -265,7 +265,11 @@ class AudioDriver {
       return false;
     }
     AD_LOGI("setPAPower pin %d -> %d", pin, enable);
-    getGPIO().digitalWrite(pin, enable ? HIGH : LOW);
+
+    PinLogic pin_logic = pins().getPinLogic(PinFunction::PA);
+    uint8_t enable_value = pin_logic == PinLogic::Output ? HIGH : LOW;
+
+    getGPIO().digitalWrite(pin, enable ? enable_value : !enable_value);
     return true;
   }
 

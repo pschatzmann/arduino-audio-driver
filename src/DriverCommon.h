@@ -329,6 +329,7 @@ enum class PinLogic {
   Input,
   Output,
   Inactive,
+  OutputActiveLow,
 };
 
 /**

@@ -152,6 +152,12 @@ class DriverDeviceInfo : public IDriverDeviceInfo {
     return -1;
   }
 
+  PinLogic getPinLogic(PinFunction function, int pos = 0) {
+    auto pin = getPin(function, pos);
+    if (pin) return pin.value().pin_logic;
+    return PinLogic::Inactive;
+  }
+
   /// Finds the I2C pin info with the help of the function
   audio_driver_local::Optional<InfoI2C> getI2CPins(
       PinFunction function) override {
@@ -301,6 +307,7 @@ class DriverDeviceInfo : public IDriverDeviceInfo {
               gpio.pinMode(tmp.pin, INPUT);
               break;
             case PinLogic::Output:
+            case PinLogic::OutputActiveLow:
               gpio.pinMode(tmp.pin, OUTPUT);
               break;
             default:

@@ -176,5 +176,3 @@ class IDriverDeviceInfo {
 } // namespace audio_driver
 
 #endif
-
-
