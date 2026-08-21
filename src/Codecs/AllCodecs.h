@@ -30,3 +30,4 @@
 #include "wm8978/WM8978.h"
 #include "wm8994/WM8994.h"
 #include "nau8325/NAU8325.h"
+#include "tlv320aic3104/TLV320AIC3104.h"
