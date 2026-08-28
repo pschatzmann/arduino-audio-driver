@@ -10,6 +10,7 @@
 #include "M5stackAtomEchoS3R.h"
 #include "ESP32S3AISmartSpeaker.h"
 #include "ESP32S3HosyondDisplay.h"
+#include "GmicHaToyMd.h"
 #endif
 
 // STM32 boards use STM32-specific pin name macros (e.g. PA0, PB6) that are
