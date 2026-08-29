@@ -46,6 +46,22 @@ enum AIC3110CmVoltage {
   AIC3110_CM_VOLTAGE_1P8 = 3,
 };
 
+namespace tlv320aic3110_detail {
+/// Page + register address pair, packed as (page << 8) | reg.
+/// A plain scalar (rather than a class type) so that the RegAddr constants
+/// below are never odr-used, which avoids requiring out-of-class
+/// definitions on pre-C++17 compilers (e.g. the ESP32 Arduino core's
+/// default -std=gnu++11). Defined at namespace scope (rather than as a
+/// static member function) so it is already complete when used in the
+/// static member initializers below.
+using RegAddr = uint16_t;
+constexpr RegAddr regAddr(uint8_t page, uint8_t reg) {
+  return (static_cast<RegAddr>(page) << 8) | reg;
+}
+constexpr uint8_t regAddrPage(RegAddr addr) { return addr >> 8; }
+constexpr uint8_t regAddrReg(RegAddr addr) { return addr & 0xFF; }
+}  // namespace tlv320aic3110_detail
+
 /**
  * @brief Header only C++ driver for the TLV320AIC3110 audio codec.
  *
@@ -57,67 +73,72 @@ enum AIC3110CmVoltage {
  */
 class TLV320AIC3110 : public ZephyrDriverCommon {
  public:
-  /// Page + register address pair
-  struct RegAddr {
-    uint8_t page;
-    uint8_t reg;
-  };
+  using RegAddr = tlv320aic3110_detail::RegAddr;
+  static constexpr RegAddr regAddr(uint8_t page, uint8_t reg) {
+    return tlv320aic3110_detail::regAddr(page, reg);
+  }
+  static constexpr uint8_t regAddrPage(RegAddr addr) {
+    return tlv320aic3110_detail::regAddrPage(addr);
+  }
+  static constexpr uint8_t regAddrReg(RegAddr addr) {
+    return tlv320aic3110_detail::regAddrReg(addr);
+  }
 
   // ---- Page 0 registers ----
-  static constexpr RegAddr SOFT_RESET_ADDR{0, 1};
-  static constexpr RegAddr CLOCK_GEN_MUX_ADDR{0, 4};
-  static constexpr RegAddr PLL_P_R_ADDR{0, 5};
-  static constexpr RegAddr PLL_J_ADDR{0, 6};
-  static constexpr RegAddr PLL_D_MSB_ADDR{0, 7};
-  static constexpr RegAddr PLL_D_LSB_ADDR{0, 8};
-  static constexpr RegAddr NDAC_DIV_ADDR{0, 11};
-  static constexpr RegAddr MDAC_DIV_ADDR{0, 12};
-  static constexpr RegAddr OSR_MSB_ADDR{0, 13};
-  static constexpr RegAddr OSR_LSB_ADDR{0, 14};
-  static constexpr RegAddr NADC_DIV_ADDR{0, 18};
-  static constexpr RegAddr MADC_DIV_ADDR{0, 19};
-  static constexpr RegAddr AOSR_ADDR{0, 20};
-  static constexpr RegAddr IF_CTRL1_ADDR{0, 27};
-  static constexpr RegAddr BCLK_DIV_ADDR{0, 30};
-  static constexpr RegAddr OVF_FLAG_ADDR{0, 39};
-  static constexpr RegAddr DAC_PROC_BLK_SEL_ADDR{0, 60};
-  static constexpr RegAddr ADC_PROC_BLK_SEL_ADDR{0, 61};
-  static constexpr RegAddr DATA_PATH_SETUP_ADDR{0, 63};
-  static constexpr RegAddr VOL_CTRL_ADDR{0, 64};
-  static constexpr RegAddr L_DIG_VOL_CTRL_ADDR{0, 65};
-  static constexpr RegAddr DRC_CTRL1_ADDR{0, 68};
-  static constexpr RegAddr L_BEEP_GEN_ADDR{0, 71};
-  static constexpr RegAddr R_BEEP_GEN_ADDR{0, 72};
-  static constexpr RegAddr BEEP_LEN_MSB_ADDR{0, 73};
-  static constexpr RegAddr BEEP_LEN_MIB_ADDR{0, 74};
-  static constexpr RegAddr BEEP_LEN_LSB_ADDR{0, 75};
-  static constexpr RegAddr MIC_ADC_FLAG_ADDR{0, 36};
-  static constexpr RegAddr MIC_ADC_CTRL_ADDR{0, 81};
-  static constexpr RegAddr MIC_FCTRL_ADDR{0, 82};
-  static constexpr RegAddr MIC_CCTRL_ADDR{0, 83};
+  static constexpr RegAddr SOFT_RESET_ADDR = tlv320aic3110_detail::regAddr(0, 1);
+  static constexpr RegAddr CLOCK_GEN_MUX_ADDR = tlv320aic3110_detail::regAddr(0, 4);
+  static constexpr RegAddr PLL_P_R_ADDR = tlv320aic3110_detail::regAddr(0, 5);
+  static constexpr RegAddr PLL_J_ADDR = tlv320aic3110_detail::regAddr(0, 6);
+  static constexpr RegAddr PLL_D_MSB_ADDR = tlv320aic3110_detail::regAddr(0, 7);
+  static constexpr RegAddr PLL_D_LSB_ADDR = tlv320aic3110_detail::regAddr(0, 8);
+  static constexpr RegAddr NDAC_DIV_ADDR = tlv320aic3110_detail::regAddr(0, 11);
+  static constexpr RegAddr MDAC_DIV_ADDR = tlv320aic3110_detail::regAddr(0, 12);
+  static constexpr RegAddr OSR_MSB_ADDR = tlv320aic3110_detail::regAddr(0, 13);
+  static constexpr RegAddr OSR_LSB_ADDR = tlv320aic3110_detail::regAddr(0, 14);
+  static constexpr RegAddr NADC_DIV_ADDR = tlv320aic3110_detail::regAddr(0, 18);
+  static constexpr RegAddr MADC_DIV_ADDR = tlv320aic3110_detail::regAddr(0, 19);
+  static constexpr RegAddr AOSR_ADDR = tlv320aic3110_detail::regAddr(0, 20);
+  static constexpr RegAddr IF_CTRL1_ADDR = tlv320aic3110_detail::regAddr(0, 27);
+  static constexpr RegAddr BCLK_DIV_ADDR = tlv320aic3110_detail::regAddr(0, 30);
+  static constexpr RegAddr OVF_FLAG_ADDR = tlv320aic3110_detail::regAddr(0, 39);
+  static constexpr RegAddr DAC_PROC_BLK_SEL_ADDR = tlv320aic3110_detail::regAddr(0, 60);
+  static constexpr RegAddr ADC_PROC_BLK_SEL_ADDR = tlv320aic3110_detail::regAddr(0, 61);
+  static constexpr RegAddr DATA_PATH_SETUP_ADDR = tlv320aic3110_detail::regAddr(0, 63);
+  static constexpr RegAddr VOL_CTRL_ADDR = tlv320aic3110_detail::regAddr(0, 64);
+  static constexpr RegAddr L_DIG_VOL_CTRL_ADDR = tlv320aic3110_detail::regAddr(0, 65);
+  static constexpr RegAddr DRC_CTRL1_ADDR = tlv320aic3110_detail::regAddr(0, 68);
+  static constexpr RegAddr L_BEEP_GEN_ADDR = tlv320aic3110_detail::regAddr(0, 71);
+  static constexpr RegAddr R_BEEP_GEN_ADDR = tlv320aic3110_detail::regAddr(0, 72);
+  static constexpr RegAddr BEEP_LEN_MSB_ADDR = tlv320aic3110_detail::regAddr(0, 73);
+  static constexpr RegAddr BEEP_LEN_MIB_ADDR = tlv320aic3110_detail::regAddr(0, 74);
+  static constexpr RegAddr BEEP_LEN_LSB_ADDR = tlv320aic3110_detail::regAddr(0, 75);
+  static constexpr RegAddr MIC_ADC_FLAG_ADDR = tlv320aic3110_detail::regAddr(0, 36);
+  static constexpr RegAddr MIC_ADC_CTRL_ADDR = tlv320aic3110_detail::regAddr(0, 81);
+  static constexpr RegAddr MIC_FCTRL_ADDR = tlv320aic3110_detail::regAddr(0, 82);
+  static constexpr RegAddr MIC_CCTRL_ADDR = tlv320aic3110_detail::regAddr(0, 83);
 
   // ---- Page 1 registers ----
-  static constexpr RegAddr HEADPHONE_DRV_ADDR{1, 31};
-  static constexpr RegAddr SPEAKER_DRV_ADDR{1, 32};
-  static constexpr RegAddr HP_OUT_POP_RM_ADDR{1, 33};
-  static constexpr RegAddr OUTPUT_ROUTING_ADDR{1, 35};
-  static constexpr RegAddr HPL_ANA_VOL_CTRL_ADDR{1, 36};
-  static constexpr RegAddr HPR_ANA_VOL_CTRL_ADDR{1, 37};
-  static constexpr RegAddr SPL_ANA_VOL_CTRL_ADDR{1, 38};
-  static constexpr RegAddr SPR_ANA_VOL_CTRL_ADDR{1, 39};
-  static constexpr RegAddr HPL_DRV_GAIN_CTRL_ADDR{1, 40};
-  static constexpr RegAddr HPR_DRV_GAIN_CTRL_ADDR{1, 41};
-  static constexpr RegAddr SPL_DRV_GAIN_CTRL_ADDR{1, 42};
-  static constexpr RegAddr SPR_DRV_GAIN_CTRL_ADDR{1, 43};
-  static constexpr RegAddr HEADPHONE_DRV_CTRL_ADDR{1, 44};
-  static constexpr RegAddr MIC_BIAS_ADDR{1, 46};
-  static constexpr RegAddr MIC_PGA_ADDR{1, 47};
-  static constexpr RegAddr MIC_PGAPI_ADDR{1, 48};
-  static constexpr RegAddr MIC_PGAMI_ADDR{1, 49};
-  static constexpr RegAddr MIC_ICM_ADDR{1, 50};
+  static constexpr RegAddr HEADPHONE_DRV_ADDR = tlv320aic3110_detail::regAddr(1, 31);
+  static constexpr RegAddr SPEAKER_DRV_ADDR = tlv320aic3110_detail::regAddr(1, 32);
+  static constexpr RegAddr HP_OUT_POP_RM_ADDR = tlv320aic3110_detail::regAddr(1, 33);
+  static constexpr RegAddr OUTPUT_ROUTING_ADDR = tlv320aic3110_detail::regAddr(1, 35);
+  static constexpr RegAddr HPL_ANA_VOL_CTRL_ADDR = tlv320aic3110_detail::regAddr(1, 36);
+  static constexpr RegAddr HPR_ANA_VOL_CTRL_ADDR = tlv320aic3110_detail::regAddr(1, 37);
+  static constexpr RegAddr SPL_ANA_VOL_CTRL_ADDR = tlv320aic3110_detail::regAddr(1, 38);
+  static constexpr RegAddr SPR_ANA_VOL_CTRL_ADDR = tlv320aic3110_detail::regAddr(1, 39);
+  static constexpr RegAddr HPL_DRV_GAIN_CTRL_ADDR = tlv320aic3110_detail::regAddr(1, 40);
+  static constexpr RegAddr HPR_DRV_GAIN_CTRL_ADDR = tlv320aic3110_detail::regAddr(1, 41);
+  static constexpr RegAddr SPL_DRV_GAIN_CTRL_ADDR = tlv320aic3110_detail::regAddr(1, 42);
+  static constexpr RegAddr SPR_DRV_GAIN_CTRL_ADDR = tlv320aic3110_detail::regAddr(1, 43);
+  static constexpr RegAddr HEADPHONE_DRV_CTRL_ADDR = tlv320aic3110_detail::regAddr(1, 44);
+  static constexpr RegAddr MIC_BIAS_ADDR = tlv320aic3110_detail::regAddr(1, 46);
+  static constexpr RegAddr MIC_PGA_ADDR = tlv320aic3110_detail::regAddr(1, 47);
+  static constexpr RegAddr MIC_PGAPI_ADDR = tlv320aic3110_detail::regAddr(1, 48);
+  static constexpr RegAddr MIC_PGAMI_ADDR = tlv320aic3110_detail::regAddr(1, 49);
+  static constexpr RegAddr MIC_ICM_ADDR = tlv320aic3110_detail::regAddr(1, 50);
 
   // ---- Page 3 registers ----
-  static constexpr RegAddr TIMER_MCLK_DIV_ADDR{3, 16};
+  static constexpr RegAddr TIMER_MCLK_DIV_ADDR = tlv320aic3110_detail::regAddr(3, 16);
 
   // ---- Bit definitions ----
   static constexpr uint8_t SOFT_RESET_ASSERT = 1;
@@ -626,14 +647,14 @@ class TLV320AIC3110 : public ZephyrDriverCommon {
 
   /// Writes a register on the given page
   bool writePagedReg(RegAddr reg, uint8_t value) {
-    if (!selectPage(reg.page)) return false;
-    return writeReg(reg.reg, value);
+    if (!selectPage(regAddrPage(reg))) return false;
+    return writeReg(regAddrReg(reg), value);
   }
 
   /// Reads a register on the given page
   bool readPagedReg(RegAddr reg, uint8_t& value) {
-    if (!selectPage(reg.page)) return false;
-    return readReg(reg.reg, value);
+    if (!selectPage(regAddrPage(reg))) return false;
+    return readReg(regAddrReg(reg), value);
   }
 
   /// Read-Modify-Write of a register on the given page

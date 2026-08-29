@@ -310,7 +310,7 @@ class CS43L22 {
     return counter;
   }
 
-  /// Sets new frequency.
+  /// Sets new frequency: not implemented for this codec, as it is automatically detected by the codec.
   uint32_t setFrequency(uint32_t audioFreq) { return 0; }
 
   /// Enables or disables the mute feature on the audio codec.
