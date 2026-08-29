@@ -34,7 +34,7 @@ You can deactivate the logging completly and if you are using an ESP32, you can 
 
 - [Wiki](https://github.com/pschatzmann/arduino-audio-driver/wiki)
 - [Drivers and Boards](https://github.com/pschatzmann/arduino-audio-driver/wiki/Drivers-and-Boards)
-- [Classes and Objects](https://pschatzmann.github.io/arduino-audio-driver/html/group__audio__driver.html)
+- [Classes and Objects](https://pschatzmann.github.io/arduino-audio-driver/group__audio__driver.html)
 - [Examples](https://github.com/pschatzmann/arduino-audio-driver/tree/main/examples)
 
 ## Support
