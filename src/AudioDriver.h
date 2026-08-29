@@ -990,6 +990,21 @@ class AudioDriverES8311Class : public AudioDriver {
     return vol;
   }
 
+  bool setInputVolume(int volume) override {
+    // map volume from 0 - 100 to the 8 mic gain steps (0, 6, 12, ... 42 dB)
+    es8311_mic_gain_t gains[] = {
+        ES8311MIC_GAIN_0DB,  ES8311MIC_GAIN_6DB,  ES8311MIC_GAIN_12DB,
+        ES8311MIC_GAIN_18DB, ES8311MIC_GAIN_24DB, ES8311MIC_GAIN_30DB,
+        ES8311MIC_GAIN_36DB, ES8311MIC_GAIN_42DB};
+    int vol = limitValue(volume, 0, 100);
+    int idx = mapVolume(vol, 0, 100, 0, 7);
+    es8311_mic_gain_t gain = gains[idx];
+    AD_LOGD("input volume: %d -> gain idx %d", volume, idx);
+    return es8311.setMicGain(gain) == RESULT_OK;
+  }
+
+  bool isInputVolumeSupported() { return true; }
+
   ///
   void setMasterClockSource(int source) { master_clock_source = source; }
 
