@@ -3,19 +3,10 @@
  * @brief Header only C++ driver for the Texas Instruments TLV320AIC3104
  * low-power stereo audio codec.
  *
- * Structured to mirror the arduino-audio-driver TLV320AIC3110.h driver
- * (paged register access, begin()/configure*() flow, channel-based
- * volume/mute API). NOTE: the AIC3104 is a member of the older "AIC3x"
+ * Structured to mirror the arduino-audio-driver TLV320AIC3110.h driver.
+ * NOTE: the AIC3104 is a member of the older "AIC3x"
  * codec family and has a materially different register map than the
- * AIC3110/TLV320AIC31xx family (simple P/Q/J/D PLL + a single NCODEC
- * divider shared by ADC and DAC, no NDAC/MDAC/OSR/AOSR/decimation-filter
- * processing-block selection, and a different output-driver topology:
- * HPLOUT/HPLCOM/HPROUT/HPRCOM high-power drivers plus fully differential
- * LEFT_LOP/M and RIGHT_LOP/M line outputs instead of a Class-D speaker
- * amplifier). Register addresses and bitfields below are taken from the
- * TLV320AIC3104 datasheet (SLAS510) register-map section and cross
- * checked against the Linux "tlv320aic3x" ASoC codec driver, which
- * supports this device family.
+ * AIC3110/TLV320AIC31xx family.
  *
  * Reference: https://www.ti.com/lit/ds/symlink/tlv320aic3104.pdf
  */
@@ -32,22 +23,6 @@ enum class AIC3104Channel {
   LineOutLeft,     ///< LEFT_LOP/M  (fully differential line output)
   LineOutRight,    ///< RIGHT_LOP/M (fully differential line output)
   All,
-};
-
-/// Audio serial data interface transfer mode (page 0, register 9, D7-D6)
-enum AIC3104IfType {
-  AIC3104_IFTYPE_I2S = 0,
-  AIC3104_IFTYPE_DSP = 1,
-  AIC3104_IFTYPE_RJF = 2,
-  AIC3104_IFTYPE_LJF = 3,
-};
-
-/// MICBIAS output level (page 0, register 25, D7-D6)
-enum AIC3104MicBias {
-  AIC3104_MICBIAS_OFF = 0,
-  AIC3104_MICBIAS_2_0V = 1,
-  AIC3104_MICBIAS_2_5V = 2,
-  AIC3104_MICBIAS_AVDD = 3,
 };
 
 /**
@@ -256,7 +231,6 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
   
   // ---- Bit definitions ----  
   // Codec sample rate select register (NCODEC = NADC = NDAC on this device)
-  // 0, 2
   static constexpr uint8_t NCODEC_1 = 0x0;
   static constexpr uint8_t NCODEC_1_5 = 0x1;
   static constexpr uint8_t NCODEC_2 = 0x2;
@@ -317,10 +291,6 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
   static uint8_t ROUTE_VOL(uint8_t atten) {
     return (uint8_t)(ROUTE_ON | BITS(6, 0, atten));
   }
-
-  /// ADC PGA gain register: bit7 = mute, bits6-0 = gain (0 .. 119 => 0 to
-  /// +59.5 dB in 0.5 dB steps)
-  static constexpr uint8_t ADC_PGA_GAIN_DEFAULT = BITS(6, 0, 0x20);  ///< 16 dB
 
   /// Output volume range, in 0.5dB steps (-63.5dB .. 0dB)
   static constexpr int CODEC_OUTPUT_VOLUME_MAX = 0;
@@ -446,7 +416,6 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
 
     bool rc = true;
   
-    // Using the process from https://github.com/palmerr23/tlv320AIC3104
     // D7 is PLL enable. D6-3 is Q. D2-0 is P
     uint8_t r3 = BIT(7, (use_bclk?0b1:0b0)) | BITS(2, 0, PLL_P_CODE(pll_entry->p)) | BITS(6, 3, (PLL_Q_CODE(2)));
     // D0 is CODEC_CLKIN: 0 is PLL, 1 is CLKDIV
@@ -472,8 +441,8 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
     if (rate_entry->dual_rate) datapath |= DUAL_RATE_MODE;
     rc &= writePagedReg(CODEC_DATAPATH_ADDR, datapath);
     rc &= writePagedReg(SAMPLE_RATE_SEL_ADDR, 
-        BITS(7, 4, rate_entry->ncodec_code)  // ADC Sample Rate Select
-      | BITS(3, 0, rate_entry->ncodec_code)  // DAC Sample Rate Select
+      BITS(7, 4, rate_entry->ncodec_code) | // ADC Sample Rate Select
+      BITS(3, 0, rate_entry->ncodec_code)   // DAC Sample Rate Select
     );
     return rc;
 
@@ -506,13 +475,11 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
     // DAC_QUIESCENT_CURRENT_ADDR
     //rc &= writePagedReg(DAC_QUIESCENT_CURRENT_ADDR, 0x40); // 50% increase in DAC current.
 
-    // route DAC_L1/DAC_R1 to the headphone output mixer at 0dB 
-    AD_LOGD("DAC to Headphone Out");
+    // Setup DACs, and HP outputs
     rc &= writePagedReg(HEADSET_BTN_PRESS_DETECTB_ADDR, BIT(7, 1));  // Sets HP for AC coupled.
     rc &= writePagedReg(DAC_PWR_ADDR, BIT(7, 1) | BIT(6, 1) | BITS(5, 4, 0b10));  // Both DACs on, HPLCOM independent
     rc &= writePagedReg(HPRCOM_CFG_ADDR, BITS(5, 3, 0b010) | BITS(2, 1, 0b10)); //HPRCOM independent, Short circuit protection enabled, current limit.
     //rc &= writePagedReg(DAC_SW_CTRL_ADDR, 0x00); // Defaults to: LDAC to DAC_L1, RDAC to DAC_R1, independent volumes
-
     rc &= writePagedReg(HPCOM_CMVOLT_ADDR, BITS(7, 6, 0b11)); // 1.8v common mode, soft step
     rc &= writePagedReg(POP_REDUCTION_ADDR, BITS(7, 4, 0b1001) | BITS(3, 2, 0b01) | BIT(1, 1)); // 800ms power-on time, 1ms ramp-up step, use band-gap for common mode reference
 
@@ -520,83 +487,124 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
     rc &= setOutputMute(true, AIC3104Channel::All);
     rc &= setDACMute(false);
 
+    // route DAC_L1/DAC_R1 to the headhpones output mixer at 0dB
     rc &= writePagedReg(DACL1_HPLOUT_VOL_ADDR, ROUTE_VOL(0));
     rc &= writePagedReg(DACR1_HPROUT_VOL_ADDR, ROUTE_VOL(0));
 
-    // For HaliKey Pro Only:  Route PGA Right to both left and right HP out
-    AD_LOGD("Side tone to Headphone Out");
-    rc &= writePagedReg(PGAR_HPLOUT_VOL_ADDR, ROUTE_VOL(0));
-    rc &= writePagedReg(PGAR_HPROUT_VOL_ADDR, ROUTE_VOL(0));
-
     // route DAC_L1/DAC_R1 to the fully differential line output mixer at 0dB 
-    AD_LOGD("DAC to Line Out");
     rc &= writePagedReg(DACL1_LLOPM_VOL_ADDR, ROUTE_VOL(0));
     rc &= writePagedReg(DACR1_RLOPM_VOL_ADDR, ROUTE_VOL(0));
 
     // power up/down the output drivers to match the requested devices
-    AD_LOGD("Powering up output drivers");
     rc &= updatePagedReg(HPLOUT_CTRL_ADDR, OUT_PWR_ON, hp ? OUT_PWR_ON : 0);
     rc &= updatePagedReg(HPROUT_CTRL_ADDR, OUT_PWR_ON, hp ? OUT_PWR_ON : 0);
     rc &= updatePagedReg(LLOPM_CTRL_ADDR, OUT_PWR_ON, line ? OUT_PWR_ON : 0);
     rc &= updatePagedReg(RLOPM_CTRL_ADDR, OUT_PWR_ON, line ? OUT_PWR_ON : 0);
 
-    AD_LOGI("Unmuting HP and Line, hp:%d  line:%d", hp, line);
+    // Unmute selected outputs
     rc &= setOutputMute(!hp, AIC3104Channel::HeadphoneLeft);
     rc &= setOutputMute(!hp, AIC3104Channel::HeadphoneRight);
     rc &= setOutputMute(!line, AIC3104Channel::LineOutLeft);
     rc &= setOutputMute(!line, AIC3104Channel::LineOutRight);
 
-    AD_LOGD("Returning: %d", rc);
     return rc;
   }
 
   /**
-   * @brief Configure the microphone/line input path: route LINE1L/LINE1R
-   * (single ended MIC1LP/MIC1RP inputs) to the Left/Right ADC PGA at 0dB
-   * and power up the ADC channels, set the microphone bias, and set the
-   * ADC PGA to its default gain, unmuted.
+   * @brief Configure the microphone/line input path to the 
+   * Left/Right ADC PGA at 0dB and power up the ADC channels,
+   * set the microphone bias, and set the ADC PGA to its default gain, 
+   * unmuted.
+   * ADC_INPUT_DIFFERENCE: Balanced inputs on Line1/Mic1, with Mic gain.
+   * ADC_INPUT_LINE1: Single ended inputs on Line1/Mic1, Line leve.
+   * ADC_INPUT_LINE2: Single ended inputs on Line2/Mic2, Line level
+   * ADC_INPUT_LINE3: Single ended inputs on Line2/Mic2, Mic gain.
+   * ADC_INPUT_ALL: Singled ended line inputs on Line1, Single ended mono Mic input on Mic2, Line2 off.
+   * No cross-mixing (eg: left to right)
    */
   bool configureInput() {
     AD_LOGI("TLV320AIC3104 configureInput()");
     bool rc = true;
-    /*
-    // This is for "normal" use.
-    rc &= writePagedReg(LINE1L_LADC_CTRL_ADDR, (uint8_t)(ROUTE_ON | ADC_PWR_ON));
-    rc &= writePagedReg(LINE1R_RADC_CTRL_ADDR, (uint8_t)(ROUTE_ON | ADC_PWR_ON));
-    rc &= writePagedReg(MICBIAS_CTRL_ADDR, MICBIAS_LEVEL(AIC3104_MICBIAS_2_5V));
-    rc &= writePagedReg(LADC_VOL_ADDR, ADC_PGA_GAIN_DEFAULT);
-    rc &= writePagedReg(RADC_VOL_ADDR, ADC_PGA_GAIN_DEFAULT);
-    */
 
-    // This is for HaliKey Pro.  We want:
-    // * Mic1 Left, Bal -> PGA Left -> ADC Left
-    // * Line2 Right, SE -> PGA Right -> Outputs
-    // * Line1 Right, muted
-    // * Line2 Left, muted
+    // Default to powered up, but muted
+    uint8_t left1_reg = BITS(6, 3, 0b1111) | BIT(2, 1);   // 19
+    uint8_t right1_reg = BITS(6, 3, 0b1111) | BIT(2, 1);  // 22
+    uint8_t left2_reg = 0xFF;   // 17
+    uint8_t right2_reg = 0xFF;  // 18
+    uint8_t pga_gain_reg = 0;   // 15, and 16
+    switch (input_device) {
+      case ADC_INPUT_DIFFERENCE:  // Balanced inputs on Line1/Mic1, with Mic gain and bias.
+        left1_reg = 
+          BIT(7, 1) |      // Fully differential input
+          BITS(6, 3, 0) |  // Input pad: -0dB
+          BIT (2, 1) |     // ADC powered up
+          BITS(1, 0, 0);    // ADC PGA soft stepping, 1/sample
+        right1_reg = left1_reg;
+        pga_gain_reg = 
+          BIT(7, 0) |             // Not muted
+          BITS(6, 0, 0b0110000);  // 24dB PGA Gain about right for a microphone
+        break;
+      case ADC_INPUT_LINE1:    // Single ended inputs on Line1/Mic1, Line level.
+        left1_reg = 
+          BIT(7, 0) |      // Single ended input
+          BITS(6, 3, 0) |  // Input pad: -0dB
+          BIT (2, 1) |     // ADC powered up
+          BITS(1, 0, 0);    // ADC PGA soft stepping, 1/sample
+        right1_reg = left1_reg;
+        pga_gain_reg = 
+          BIT(7, 0) |             // Not muted
+          BITS(6, 0, 0b0000000);  // 0dB PGA Gain for line level input
+        break;
+      case ADC_INPUT_LINE2:    // ADC_INPUT_LINE2: Single ended inputs on Line2/Mic2, Line level
+        left2_reg = 
+          BITS(7, 4, 0b0000) | // Mic2L/Line2L ---> Left ADC
+          BITS(3, 0, 0b1111);  // Mic2R/Line2R -X-> Left ADC
+        right2_reg =
+          BITS(7, 4, 0b1111) | // Mic2L/Line2L -X-> Right ADC
+          BITS(3, 0, 0b0000);  // Mic2R/Line2R ---> Right ADC
+        pga_gain_reg = 
+          BIT(7, 0) |             // Not muted
+          BITS(6, 0, 0b0000000);  // 0dB PGA Gain for line level input
+        break;
+      case ADC_INPUT_LINE3:  // ADC_INPUT_LINE3: Single ended inputs on Line2/Mic2, Mic gain and bias.
+        left2_reg = 
+          BITS(7, 4, 0b0000) | // Mic2L/Line2L ---> Left ADC
+          BITS(3, 0, 0b1111);  // Mic2R/Line2R -X-> Left ADC
+        right2_reg =
+          BITS(7, 4, 0b1111) | // Mic2L/Line2L -X-> Right ADC
+          BITS(3, 0, 0b0000);  // Mic2R/Line2R ---> Right ADC
+        pga_gain_reg = 
+          BIT(7, 0) |             // Not muted
+          BITS(6, 0, 0b0110000);  // 24dB PGA Gain about right for a microphone
+          break;
+        case ADC_INPUT_ALL: // Singled ended line inputs on Line1, Single ended mono Mic input on Mic2, Line2 off.
+        default: 
+        left1_reg = 
+          BIT(7, 0) |      // Single ended input
+          BITS(6, 3, 0b1000) |  // Input pad: -12dB to equalize Line Input with Mic gain, a little anyway.
+          BIT (2, 1) |     // ADC powered up
+          BITS(1, 0, 0);    // ADC PGA soft stepping, 1/sample
+        right1_reg = left1_reg;
+        left2_reg = 
+          BITS(7, 4, 0b0000) | // Mic2L/Line2L ---> Left ADC
+          BITS(3, 0, 0b0000);  // Mic2R/Line2R ---> Left ADC
+        right2_reg =
+          BITS(7, 4, 0b1111) | // Mic2L/Line2L -X-> Right ADC
+          BITS(3, 0, 0b1111);  // Mic2R/Line2R -X-> Right ADC
+        pga_gain_reg = 
+          BIT(7, 0) |             // Not muted
+          BITS(6, 0, 0b0110000);  // 24dB PGA Gain about right for a microphone
+          break;
+    }
+    rc &= writePagedReg(LINE1L_LADC_CTRL_ADDR, left1_reg);
+    rc &= writePagedReg(LINE1R_RADC_CTRL_ADDR, right1_reg);
+    rc &= writePagedReg(MIC2_LADC_CTRL_ADDR, left2_reg);
+    rc &= writePagedReg(MIC2_RADC_CTRL_ADDR, right2_reg);
 
-    // Setup the Mic input on the left side.
-    rc &= writePagedReg(LINE1L_LADC_CTRL_ADDR, 
-      BIT(7, 1) |      // Fully Differential mic input.
-      BITS(6, 3, 0) |  // Input pad: -0db
-      BIT(2, 1) |      // Left ADC powered up
-      BITS(1, 0, 0)    // Left ADC PGA soft stepping 1/sample
-    );
-    // Reg 0,21 default leaves Mic1/Line1 Right disconnected from the left PGA
-    rc &= writePagedReg(MICBIAS_CTRL_ADDR, BITS(7, 6, 0b10));   // Bias 2.5v
-    // TODO Adjust this gain as needed for mic input
-    rc &= writePagedReg(LADC_VOL_ADDR, BIT(7, 0) | BITS(6, 0, 0b0110000)); // Not muted, max gain.
-    // Reg 0,17, default leaves Mic2L and R disconnected from left PGA
+    rc &= writePagedReg(MICBIAS_CTRL_ADDR, BITS(7, 6, 0b10));  // Bias 2.5v
 
-    rc &= writePagedReg(LINE1R_RADC_CTRL_ADDR,   // Want it muted
-      BIT(7, 0) |      // Single ended
-      BITS(6, 3, 0xF)| // Input level: muted
-      BIT(2, 1) |      // Right ADC powered up  TODO maybe turn this off?  The PC doesn't need Tone from K16
-      BITS(1, 0, 0)    // Right ADC PGA soft stepping 1/sample
-    );
-    rc &= writePagedReg(MIC2_RADC_CTRL_ADDR, BITS(7, 4, 0xF) | BITS(3, 0, 0));  // Line2 -> Right PGA
-    // Reg 0,24 default leaves Line1L disconnected from right PGA
-    rc &= writePagedReg(RADC_VOL_ADDR, BIT(7, 0) | BITS(6, 0, 0)); // PGA is not muted, 0dB gain
-
+    rc &= writePagedReg(LADC_VOL_ADDR, pga_gain_reg);
+    rc &= writePagedReg(RADC_VOL_ADDR, pga_gain_reg);
     return rc;
   }
 
@@ -685,32 +693,14 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
 
   /// Stores the output device selection for use by configureOutput()
   bool setDevices(input_device_t input_device, output_device_t output_device) override {
-    (void)input_device;
+    this->input_device = input_device;
     this->output_device = output_device;
     return true;
   }
 
- protected:
-
-  uint8_t current_page = 0xFF;  ///< cached page, invalid initially
-
-  /// Output device selection set via setDevices(), used by configureOutput()
-  output_device_t output_device = DAC_OUTPUT_ALL;
-
-  /// Selects the active register page (writes register 0 of page 0)
-  bool selectPage(uint8_t page) {
-    if (current_page == page) return true;
-    uint8_t reg = PAGE_CONTROL_ADDR;
-    if (!writeReg(reg, page)) return false;
-    // pg47, 10.5.2. Recommended to read the page register back after writing.
-    uint8_t new_page = 0xFF;
-    // Ignoring errors. I don't want to succeed in write, but not update current_page because 
-    // of a read error. new_page will EITHER be the new page (the read) actually succeeded, 
-    // or it'll still be 0xFF which will trigger an attempt to write again next time.
-    readReg(reg, new_page); 
-    current_page = new_page;
-    return true;
-  }
+  // The *PagedReg() methods are public to allow for more complex
+  // configuration of the chip.  It's capable of a lot that is not implemented
+  // generally by this driver.
 
   /// Writes a register on the given page
   bool writePagedReg(RegAddr reg, uint8_t value) {
@@ -736,6 +726,29 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
     uint8_t updated = (old & ~mask) | (value & mask);
     if (updated == old) return true;
     return writePagedReg(reg, updated);
+  }
+
+protected:
+  uint8_t current_page = 0xFF;  ///< cached page, invalid initially
+
+  /// Output and input device selections set via setDevices(), 
+  // used by configureOutput() and configureInputs()
+  output_device_t output_device = DAC_OUTPUT_ALL;
+  input_device_t input_device = ADC_INPUT_ALL;
+
+  /// Selects the active register page (writes register 0 of page 0)
+  bool selectPage(uint8_t page) {
+    if (current_page == page) return true;
+    uint8_t reg = PAGE_CONTROL_ADDR;
+    if (!writeReg(reg, page)) return false;
+    // pg47, 10.5.2. Recommended to read the page register back after writing.
+    uint8_t new_page = 0xFF;
+    // Ignoring errors. I don't want to succeed in write, but not update current_page because 
+    // of a read error. new_page will EITHER be the new page (the read) actually succeeded, 
+    // or it'll still be 0xFF which will trigger an attempt to write again next time.
+    readReg(reg, new_page); 
+    current_page = new_page;
+    return true;
   }
 
   static constexpr uint8_t PAGE_CONTROL_ADDR = 0;
@@ -800,6 +813,9 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
     return table;
   }
 
+#ifdef TLV320AIC3104_DEBUG
+public:
+  // Debugging stuff
 
   // Start and end are inclusive. Doesn't matter whether you count from 
   // the left or the right, it will do the right thing.
@@ -812,8 +828,6 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
     return extractBits(val, _start, _start);
   }
 
-  // Debugging stuff
-public:
   void dumpRegisters() {
     AD_LOGI("Dumping Registers...");
     AD_LOGI("[");
@@ -881,6 +895,7 @@ public:
     AD_LOGI("PLL:%sabled  fS(ref):%s  ADC_DR:%s  DAC_DR:%s\r\n", pll_enabled, fSref, ADC_DR, DAC_DR);
     AD_LOGI("LDAC_DP:%d  RDAC_DP:%d  NADC:%d  NDAC:%d\r\n", LDAC_DP, RDAC_DP, NADC, NDAC);
   }
+#endif // TLV320AIC3104_DEBUG
 };
 
 }  // namespace audio_driver
