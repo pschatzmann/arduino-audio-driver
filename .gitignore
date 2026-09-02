@@ -1,3 +1,6 @@
 debug*
 build/
-.*/
+.vscode/
+.zed/
+.continue/
+.claude/
