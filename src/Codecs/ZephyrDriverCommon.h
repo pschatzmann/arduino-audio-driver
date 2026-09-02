@@ -99,7 +99,11 @@ class ZephyrDriverCommon {
   /// Reads a single byte from an 8 bit register address
   bool readReg(uint8_t reg, uint8_t& value, bool stopBit=true) {
     assert(wire != nullptr);
+  #if defined(ARDUINO) && !AUDIO_DRIVER_FORCE_IDF
     return i2c_bus_read_bytes(wire, i2c_addr, &reg, 1, &value, 1, stopBit) == 0;
+  #else
+    return i2c_bus_read_bytes(wire, i2c_addr, &reg, 1, &value, 1) == 0;
+  #endif // defined(ARDUINO) && !AUDIO_DRIVER_FORCE_IDF
   }
 
   /// Read-Modify-Write of a single byte register

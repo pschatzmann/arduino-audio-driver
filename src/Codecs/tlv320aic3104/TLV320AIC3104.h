@@ -325,19 +325,17 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
              i2s_format_t fmt, bool is_master, uint8_t channels) override {
     (void)mode;
     (void)fmt;
-    (void)is_master;
-    channels;
-    return begin(sample_rate, bits, channels);
+    return begin(sample_rate, bits, channels, is_master);
   }
 
-  bool begin(uint32_t sample_rate = 44100, uint8_t word_size = 16, uint8_t channels = 2, uint32_t mclk = 0, bool bclk_master = false) {
+  bool begin(uint32_t sample_rate = 44100, uint8_t word_size = 16, uint8_t channels = 2, bool is_master = false, uint32_t mclk = 0) {
     AD_LOGI("TLV320AIC3104 begin()");
-    AD_LOGD("rate:%d  size:%d  channels:%d  mclk:%d  master:%s", sample_rate, word_size, channels, mclk, bclk_master?"true":"false");
+    AD_LOGD("rate:%d  size:%d  channels:%d  master:%s  mclk:%d", sample_rate, word_size, channels, is_master?"true":"false", mclk);
 
     bool rc = true;
     rc &= softReset();
     delayMs(10);
-    rc &= configureClocks(sample_rate, word_size, channels, mclk);
+    rc &= configureClocks(sample_rate, word_size, channels, mclk, is_master);
     rc &= configureDai(word_size);
     rc &= configureInput();
     rc &= configureOutput();
@@ -375,8 +373,8 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
    * set the shared ADC/DAC NCODEC divider (and dual-rate mode) needed to
    * reach the requested sample rate from that fS(ref).
    */
-  bool configureClocks(uint32_t sample_rate, uint8_t word_size, uint8_t channels, uint32_t mclk) {
-    AD_LOGI("TLV320AIC3104 configureClocks() rate:%d  mclk:%d", sample_rate, mclk);
+  bool configureClocks(uint32_t sample_rate, uint8_t word_size, uint8_t channels, uint32_t mclk, bool is_master) {
+    AD_LOGI("TLV320AIC3104 configureClocks() rate:%d  mclk:%d  is_master:%s", sample_rate, mclk, is_master?"true":"false");
 
     // Are we using MCLK or BCLK to derive our local clock?
     bool use_bclk = (mclk == 0);
@@ -417,19 +415,18 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
     bool rc = true;
   
     // D7 is PLL enable. D6-3 is Q. D2-0 is P
-    uint8_t r3 = BIT(7, (use_bclk?0b1:0b0)) | BITS(2, 0, PLL_P_CODE(pll_entry->p)) | BITS(6, 3, (PLL_Q_CODE(2)));
+    uint8_t r3 = BIT(7, 0b1) | BITS(6, 3, (PLL_Q_CODE(2))) | BITS(2, 0, PLL_P_CODE(pll_entry->p));
+    uint8_t r8 = BITS(7, 6, is_master?0b11:0b00);  // BCLK and LRCLK set to input (slave) or output (master)
     // D0 is CODEC_CLKIN: 0 is PLL, 1 is CLKDIV
-    uint8_t r101 = BIT(0, (use_bclk) ? 0b0 : 0b1); // PLLDIV_OUT : CLKDIV_OUT
+    uint8_t r101 = BIT(0, 0b0);                     // PLLDIV_OUT 
     uint8_t r102 = BITS(7, 6, (use_bclk)?0b10:0b00) // CLKDIV_IN src. 0=MCLK, 2=BCLK.
                  | BITS(5, 4, (use_bclk)?0b10:0b00) // PLLCLK_IN src. 0=MCLK, 2=BCLK.
                  | BITS(3, 0, 0b0010);  // reserved bits, required to be this value.
-    // Only setup the PLL if we're going to use it.
-    if (use_bclk) {
-      rc &= writePagedReg(PLL_PROGB_ADDR, BITS(7, 2, pll_entry->j));
-      rc &= writePagedReg(PLL_PROGC_ADDR, BITS(7, 0, pll_entry->d >> 6));
-      rc &= writePagedReg(PLL_PROGD_ADDR, BITS(7, 2, pll_entry->d));
-      rc &= writePagedReg(OVRF_STATUS_PLLR_ADDR, BITS(3, 0, PLL_R_CODE(pll_entry->r)));
-    }
+    rc &= writePagedReg(PLL_PROGB_ADDR, BITS(7, 2, pll_entry->j));
+    rc &= writePagedReg(PLL_PROGC_ADDR, BITS(7, 0, pll_entry->d >> 6));
+    rc &= writePagedReg(PLL_PROGD_ADDR, BITS(7, 2, pll_entry->d));
+    rc &= writePagedReg(OVRF_STATUS_PLLR_ADDR, BITS(3, 0, PLL_R_CODE(pll_entry->r)));
+    rc &= writePagedReg(ASD_INTF_CTRLA_ADDR, r8);
     rc &= writePagedReg(CLK_ADDR, r101);
     rc &= writePagedReg(CLK_GEN_ADDR, r102);
     rc &= writePagedReg(PLL_PROGA_ADDR, r3);
