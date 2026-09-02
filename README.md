@@ -4,6 +4,7 @@
 [![Arduino Library](https://img.shields.io/badge/Arduino-Library-blue.svg)](https://www.arduino.cc/reference/en/libraries/)
 [![Zephyr Library](https://img.shields.io/badge/Zephyr-Library-blue.svg)](https://github.com/pschatzmann/arduino-audio-driver)
 [![IDF Component](https://img.shields.io/badge/IDF-Component-blue.svg)](https://github.com/pschatzmann/arduino-audio-driver)
+[![CMake](https://img.shields.io/badge/CMake-Supported-blue.svg)](https://github.com/pschatzmann/arduino-audio-driver/blob/main/CMakeLists.txt)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-green.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 This project replaces the obsolete [AudioKit project](https://github.com/pschatzmann/arduino-audiokit), which was a quick and dirty adaptation of the Espressif IDF Drivers for Arduino. 
@@ -33,7 +34,7 @@ You can deactivate the logging completly and if you are using an ESP32, you can 
 
 - [Wiki](https://github.com/pschatzmann/arduino-audio-driver/wiki)
 - [Drivers and Boards](https://github.com/pschatzmann/arduino-audio-driver/wiki/Drivers-and-Boards)
-- [Classes and Objects](https://pschatzmann.github.io/arduino-audio-driver/html/group__audio__driver.html)
+- [Classes and Objects](https://pschatzmann.github.io/arduino-audio-driver/group__audio__driver.html)
 - [Examples](https://github.com/pschatzmann/arduino-audio-driver/tree/main/examples)
 
 ## Support

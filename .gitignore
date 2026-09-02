@@ -1,7 +1,3 @@
-.vscode/
-.zed/
-.continue/
-.claude/
 debug*
 build/
-docs/html/
+.*/
