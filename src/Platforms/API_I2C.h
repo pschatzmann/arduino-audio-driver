@@ -125,11 +125,7 @@ inline error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
 
   p_wire->beginTransmission(addr);
   p_wire->write(reg, reglen);
-#if defined (ARDUINO) && !AUDIO_DRIVER_FORCE_IDF
   int rc = p_wire->endTransmission(stopBit);
-#else
-  int rc = p_wire->endTransmission();
-#endif // defined (ARDUINO) && !Audio_DRIVER_FORCE_IDF
   if (rc != 0) {
     AD_LOGE("->p_wire->endTransmission: %d", rc);
   }
