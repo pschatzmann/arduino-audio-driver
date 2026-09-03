@@ -13,5 +13,6 @@ var searchData=
   ['pinslyratminiclass_10',['PinsLyratMiniClass',['../classaudio__driver_1_1_pins_lyrat_mini_class.html',1,'audio_driver']]],
   ['pinsm5stackatomechos3rclass_11',['PinsM5stackAtomEchoS3RClass',['../classaudio__driver_1_1_pins_m5stack_atom_echo_s3_r_class.html',1,'audio_driver']]],
   ['pinsstm32f411discoclass_12',['PinsSTM32F411DiscoClass',['../classaudio__driver_1_1_pins_s_t_m32_f411_disco_class.html',1,'audio_driver']]],
-  ['pinsstm32f723discoclass_13',['PinsSTM32F723DiscoClass',['../classaudio__driver_1_1_pins_s_t_m32_f723_disco_class.html',1,'audio_driver']]]
+  ['pinsstm32f723discoclass_13',['PinsSTM32F723DiscoClass',['../classaudio__driver_1_1_pins_s_t_m32_f723_disco_class.html',1,'audio_driver']]],
+  ['plldivs_14',['PllDivs',['../structaudio__driver_1_1_t_l_v320_a_i_c3104_1_1_pll_divs.html',1,'audio_driver::TLV320AIC3104']]]
 ];

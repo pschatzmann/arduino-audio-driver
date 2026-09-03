@@ -369,9 +369,9 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a1d7d3740eb283565c25a17842120d27f" id="r_a1d7d3740eb283565c25a17842120d27f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_t_l_v320_d_a_c310x.html#a1d7d3740eb283565c25a17842120d27f">readPagedReg</a> (uint8_t page, uint8_t reg, uint8_t &amp;value)</td></tr>
 <tr class="memdesc:a1d7d3740eb283565c25a17842120d27f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a register on the given page.  <br /></td></tr>
 <tr class="separator:a1d7d3740eb283565c25a17842120d27f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a77ae6fc6cbafef38b39c5b8b2df52309" id="r_a77ae6fc6cbafef38b39c5b8b2df52309"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_zephyr_driver_common.html#a77ae6fc6cbafef38b39c5b8b2df52309">readReg</a> (uint8_t reg, uint8_t &amp;value)</td></tr>
-<tr class="memdesc:a77ae6fc6cbafef38b39c5b8b2df52309"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a single byte from an 8 bit register address.  <br /></td></tr>
-<tr class="separator:a77ae6fc6cbafef38b39c5b8b2df52309"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafff0d803ab5cda9c19585c30b1f2bab" id="r_aafff0d803ab5cda9c19585c30b1f2bab"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_zephyr_driver_common.html#aafff0d803ab5cda9c19585c30b1f2bab">readReg</a> (uint8_t reg, uint8_t &amp;value, bool stopBit=true)</td></tr>
+<tr class="memdesc:aafff0d803ab5cda9c19585c30b1f2bab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a single byte from an 8 bit register address.  <br /></td></tr>
+<tr class="separator:aafff0d803ab5cda9c19585c30b1f2bab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c39f9df87dae01c89343d4a6316ceb0" id="r_a3c39f9df87dae01c89343d4a6316ceb0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_zephyr_driver_common.html#a3c39f9df87dae01c89343d4a6316ceb0">readReg16</a> (uint8_t reg, uint16_t &amp;value)</td></tr>
 <tr class="memdesc:a3c39f9df87dae01c89343d4a6316ceb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a 16 bit (big endian) value from an 8 bit register address.  <br /></td></tr>
 <tr class="separator:a3c39f9df87dae01c89343d4a6316ceb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1164,8 +1164,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a77ae6fc6cbafef38b39c5b8b2df52309" name="a77ae6fc6cbafef38b39c5b8b2df52309"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a77ae6fc6cbafef38b39c5b8b2df52309">&#9670;&#160;</a></span>readReg()</h2>
+<a id="aafff0d803ab5cda9c19585c30b1f2bab" name="aafff0d803ab5cda9c19585c30b1f2bab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafff0d803ab5cda9c19585c30b1f2bab">&#9670;&#160;</a></span>readReg()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1183,7 +1183,13 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint8_t &amp;&#160;</td>
-          <td class="paramname"><em>value</em>&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>stopBit</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>

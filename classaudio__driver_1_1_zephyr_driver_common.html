@@ -99,10 +99,11 @@ Inheritance diagram for ZephyrDriverCommon:</div>
 <area href="classaudio__driver_1_1_s_f32_l_b.html" title="SF32LB (SiFli SF32LB5x) on-chip AUDCODEC driver, ported from the Zephyr RTOS driver drivers/audio/sf3..." alt="SF32LB" shape="rect" coords="148,280,286,304"/>
 <area href="classaudio__driver_1_1_t_a_s2563.html" title="Header only C++ driver for the TAS2563 mono Class-D smart amplifier." alt="TAS2563" shape="rect" coords="148,336,286,360"/>
 <area href="classaudio__driver_1_1_t_a_s6422_d_a_c.html" title="Header only C++ driver for the TAS6422 2-channel Class-D amplifier." alt="TAS6422DAC" shape="rect" coords="148,392,286,416"/>
-<area href="classaudio__driver_1_1_t_l_v320_a_i_c3110.html" title="Header only C++ driver for the TLV320AIC3110 audio codec." alt="TLV320AIC3110" shape="rect" coords="148,448,286,472"/>
-<area href="classaudio__driver_1_1_t_l_v320_d_a_c310x.html" title="Header only C++ driver for the TLV320DAC3100 / TLV320DAC3101 audio DAC." alt="TLV320DAC310x" shape="rect" coords="148,504,286,528"/>
-<area href="classaudio__driver_1_1_w_m8904.html" title="Header only C++ driver for the WM8904 audio codec." alt="WM8904" shape="rect" coords="148,560,286,584"/>
-<area href="classaudio__driver_1_1_w_m8962.html" title="Header only C++ driver for the WM8962 audio codec." alt="WM8962" shape="rect" coords="148,616,286,640"/>
+<area href="classaudio__driver_1_1_t_l_v320_a_i_c3104.html" title="Header only C++ driver for the TLV320AIC3104 audio codec." alt="TLV320AIC3104" shape="rect" coords="148,448,286,472"/>
+<area href="classaudio__driver_1_1_t_l_v320_a_i_c3110.html" title="Header only C++ driver for the TLV320AIC3110 audio codec." alt="TLV320AIC3110" shape="rect" coords="148,504,286,528"/>
+<area href="classaudio__driver_1_1_t_l_v320_d_a_c310x.html" title="Header only C++ driver for the TLV320DAC3100 / TLV320DAC3101 audio DAC." alt="TLV320DAC310x" shape="rect" coords="148,560,286,584"/>
+<area href="classaudio__driver_1_1_w_m8904.html" title="Header only C++ driver for the WM8904 audio codec." alt="WM8904" shape="rect" coords="148,616,286,640"/>
+<area href="classaudio__driver_1_1_w_m8962.html" title="Header only C++ driver for the WM8962 audio codec." alt="WM8962" shape="rect" coords="148,672,286,696"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -144,9 +145,9 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a77ae6fc6cbafef38b39c5b8b2df52309" id="r_a77ae6fc6cbafef38b39c5b8b2df52309"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_zephyr_driver_common.html#a77ae6fc6cbafef38b39c5b8b2df52309">readReg</a> (uint8_t reg, uint8_t &amp;value)</td></tr>
-<tr class="memdesc:a77ae6fc6cbafef38b39c5b8b2df52309"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a single byte from an 8 bit register address.  <br /></td></tr>
-<tr class="separator:a77ae6fc6cbafef38b39c5b8b2df52309"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafff0d803ab5cda9c19585c30b1f2bab" id="r_aafff0d803ab5cda9c19585c30b1f2bab"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_zephyr_driver_common.html#aafff0d803ab5cda9c19585c30b1f2bab">readReg</a> (uint8_t reg, uint8_t &amp;value, bool stopBit=true)</td></tr>
+<tr class="memdesc:aafff0d803ab5cda9c19585c30b1f2bab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a single byte from an 8 bit register address.  <br /></td></tr>
+<tr class="separator:aafff0d803ab5cda9c19585c30b1f2bab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c39f9df87dae01c89343d4a6316ceb0" id="r_a3c39f9df87dae01c89343d4a6316ceb0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_zephyr_driver_common.html#a3c39f9df87dae01c89343d4a6316ceb0">readReg16</a> (uint8_t reg, uint16_t &amp;value)</td></tr>
 <tr class="memdesc:a3c39f9df87dae01c89343d4a6316ceb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a 16 bit (big endian) value from an 8 bit register address.  <br /></td></tr>
 <tr class="separator:a3c39f9df87dae01c89343d4a6316ceb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -267,7 +268,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Initializes the codec. </p>
 
-<p>Implemented in <a class="el" href="classaudio__driver_1_1_a_w88298.html#aa545fce75be32826a5f62b86b71d00fe">AW88298</a>, <a class="el" href="classaudio__driver_1_1_d_a7212.html#aa545fce75be32826a5f62b86b71d00fe">DA7212</a>, <a class="el" href="classaudio__driver_1_1_m_a_x98091.html#aa545fce75be32826a5f62b86b71d00fe">MAX98091</a>, <a class="el" href="classaudio__driver_1_1_p_c_m1681.html#aa545fce75be32826a5f62b86b71d00fe">PCM1681</a>, <a class="el" href="classaudio__driver_1_1_t_a_s2563.html#aa545fce75be32826a5f62b86b71d00fe">TAS2563</a>, <a class="el" href="classaudio__driver_1_1_t_a_s6422_d_a_c.html#aa545fce75be32826a5f62b86b71d00fe">TAS6422DAC</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_a_i_c3110.html#aa545fce75be32826a5f62b86b71d00fe">TLV320AIC3110</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_d_a_c310x.html#aa545fce75be32826a5f62b86b71d00fe">TLV320DAC310x</a>, <a class="el" href="classaudio__driver_1_1_w_m8904.html#aa545fce75be32826a5f62b86b71d00fe">WM8904</a>, and <a class="el" href="classaudio__driver_1_1_w_m8962.html#aa545fce75be32826a5f62b86b71d00fe">WM8962</a>.</p>
+<p>Implemented in <a class="el" href="classaudio__driver_1_1_a_w88298.html#aa545fce75be32826a5f62b86b71d00fe">AW88298</a>, <a class="el" href="classaudio__driver_1_1_d_a7212.html#aa545fce75be32826a5f62b86b71d00fe">DA7212</a>, <a class="el" href="classaudio__driver_1_1_m_a_x98091.html#aa545fce75be32826a5f62b86b71d00fe">MAX98091</a>, <a class="el" href="classaudio__driver_1_1_p_c_m1681.html#aa545fce75be32826a5f62b86b71d00fe">PCM1681</a>, <a class="el" href="classaudio__driver_1_1_t_a_s2563.html#aa545fce75be32826a5f62b86b71d00fe">TAS2563</a>, <a class="el" href="classaudio__driver_1_1_t_a_s6422_d_a_c.html#aa545fce75be32826a5f62b86b71d00fe">TAS6422DAC</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_a_i_c3104.html#aa545fce75be32826a5f62b86b71d00fe">TLV320AIC3104</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_a_i_c3110.html#aa545fce75be32826a5f62b86b71d00fe">TLV320AIC3110</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_d_a_c310x.html#aa545fce75be32826a5f62b86b71d00fe">TLV320DAC310x</a>, <a class="el" href="classaudio__driver_1_1_w_m8904.html#aa545fce75be32826a5f62b86b71d00fe">WM8904</a>, and <a class="el" href="classaudio__driver_1_1_w_m8962.html#aa545fce75be32826a5f62b86b71d00fe">WM8962</a>.</p>
 
 </div>
 </div>
@@ -380,8 +381,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a77ae6fc6cbafef38b39c5b8b2df52309" name="a77ae6fc6cbafef38b39c5b8b2df52309"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a77ae6fc6cbafef38b39c5b8b2df52309">&#9670;&#160;</a></span>readReg()</h2>
+<a id="aafff0d803ab5cda9c19585c30b1f2bab" name="aafff0d803ab5cda9c19585c30b1f2bab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafff0d803ab5cda9c19585c30b1f2bab">&#9670;&#160;</a></span>readReg()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -399,7 +400,13 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint8_t &amp;&#160;</td>
-          <td class="paramname"><em>value</em>&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>stopBit</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -548,7 +555,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Selects the ADC input source / DAC output destination. By default this is a no-op; chip specific subclasses that support input/output routing override this to configure the corresponding registers. </p>
 
-<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_d_a7212.html#a0d24cb04b3b81db10f58d57ab81eb1b9">DA7212</a>, <a class="el" href="classaudio__driver_1_1_m_a_x98091.html#a0d24cb04b3b81db10f58d57ab81eb1b9">MAX98091</a>, <a class="el" href="classaudio__driver_1_1_t_a_s6422_d_a_c.html#a0d24cb04b3b81db10f58d57ab81eb1b9">TAS6422DAC</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_a_i_c3110.html#a0d24cb04b3b81db10f58d57ab81eb1b9">TLV320AIC3110</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_d_a_c310x.html#a0d24cb04b3b81db10f58d57ab81eb1b9">TLV320DAC310x</a>, <a class="el" href="classaudio__driver_1_1_w_m8904.html#a0d24cb04b3b81db10f58d57ab81eb1b9">WM8904</a>, and <a class="el" href="classaudio__driver_1_1_w_m8962.html#a0d24cb04b3b81db10f58d57ab81eb1b9">WM8962</a>.</p>
+<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_d_a7212.html#a0d24cb04b3b81db10f58d57ab81eb1b9">DA7212</a>, <a class="el" href="classaudio__driver_1_1_m_a_x98091.html#a0d24cb04b3b81db10f58d57ab81eb1b9">MAX98091</a>, <a class="el" href="classaudio__driver_1_1_t_a_s6422_d_a_c.html#a0d24cb04b3b81db10f58d57ab81eb1b9">TAS6422DAC</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_a_i_c3104.html#a0d24cb04b3b81db10f58d57ab81eb1b9">TLV320AIC3104</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_a_i_c3110.html#a0d24cb04b3b81db10f58d57ab81eb1b9">TLV320AIC3110</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_d_a_c310x.html#a0d24cb04b3b81db10f58d57ab81eb1b9">TLV320DAC310x</a>, <a class="el" href="classaudio__driver_1_1_w_m8904.html#a0d24cb04b3b81db10f58d57ab81eb1b9">WM8904</a>, and <a class="el" href="classaudio__driver_1_1_w_m8962.html#a0d24cb04b3b81db10f58d57ab81eb1b9">WM8962</a>.</p>
 
 </div>
 </div>
@@ -606,7 +613,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Mutes/unmutes all outputs. Chip specific subclasses map this to their native mute functionality. </p>
 
-<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_a_w88298.html#a3e7b3b9da454d773e945e4053f6e2b75">AW88298</a>, <a class="el" href="classaudio__driver_1_1_d_a7212.html#a3e7b3b9da454d773e945e4053f6e2b75">DA7212</a>, <a class="el" href="classaudio__driver_1_1_m_a_x98091.html#a3e7b3b9da454d773e945e4053f6e2b75">MAX98091</a>, <a class="el" href="classaudio__driver_1_1_p_c_m1681.html#a3e7b3b9da454d773e945e4053f6e2b75">PCM1681</a>, <a class="el" href="classaudio__driver_1_1_t_a_s2563.html#a3e7b3b9da454d773e945e4053f6e2b75">TAS2563</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_a_i_c3110.html#a3e7b3b9da454d773e945e4053f6e2b75">TLV320AIC3110</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_d_a_c310x.html#a3e7b3b9da454d773e945e4053f6e2b75">TLV320DAC310x</a>, <a class="el" href="classaudio__driver_1_1_w_m8904.html#a3e7b3b9da454d773e945e4053f6e2b75">WM8904</a>, <a class="el" href="classaudio__driver_1_1_w_m8962.html#a3e7b3b9da454d773e945e4053f6e2b75">WM8962</a>, and <a class="el" href="classaudio__driver_1_1_s_f32_l_b.html#aa59a5b49c67e573d57212124246992dc">SF32LB</a>.</p>
+<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_a_w88298.html#a3e7b3b9da454d773e945e4053f6e2b75">AW88298</a>, <a class="el" href="classaudio__driver_1_1_d_a7212.html#a3e7b3b9da454d773e945e4053f6e2b75">DA7212</a>, <a class="el" href="classaudio__driver_1_1_m_a_x98091.html#a3e7b3b9da454d773e945e4053f6e2b75">MAX98091</a>, <a class="el" href="classaudio__driver_1_1_p_c_m1681.html#a3e7b3b9da454d773e945e4053f6e2b75">PCM1681</a>, <a class="el" href="classaudio__driver_1_1_t_a_s2563.html#a3e7b3b9da454d773e945e4053f6e2b75">TAS2563</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_a_i_c3104.html#a3e7b3b9da454d773e945e4053f6e2b75">TLV320AIC3104</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_a_i_c3110.html#a3e7b3b9da454d773e945e4053f6e2b75">TLV320AIC3110</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_d_a_c310x.html#a3e7b3b9da454d773e945e4053f6e2b75">TLV320DAC310x</a>, <a class="el" href="classaudio__driver_1_1_w_m8904.html#a3e7b3b9da454d773e945e4053f6e2b75">WM8904</a>, <a class="el" href="classaudio__driver_1_1_w_m8962.html#a3e7b3b9da454d773e945e4053f6e2b75">WM8962</a>, and <a class="el" href="classaudio__driver_1_1_s_f32_l_b.html#aa59a5b49c67e573d57212124246992dc">SF32LB</a>.</p>
 
 </div>
 </div>
@@ -635,7 +642,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Defines the output volume in % (0...100). Chip specific subclasses map this to their native volume range. </p>
 
-<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_a_w88298.html#ad7e6263e14828b1df9e1bcea4f9fc67c">AW88298</a>, <a class="el" href="classaudio__driver_1_1_d_a7212.html#ad7e6263e14828b1df9e1bcea4f9fc67c">DA7212</a>, <a class="el" href="classaudio__driver_1_1_m_a_x98091.html#ad7e6263e14828b1df9e1bcea4f9fc67c">MAX98091</a>, <a class="el" href="classaudio__driver_1_1_s_f32_l_b.html#ad7e6263e14828b1df9e1bcea4f9fc67c">SF32LB</a>, <a class="el" href="classaudio__driver_1_1_t_a_s2563.html#ad7e6263e14828b1df9e1bcea4f9fc67c">TAS2563</a>, <a class="el" href="classaudio__driver_1_1_t_a_s6422_d_a_c.html#ad7e6263e14828b1df9e1bcea4f9fc67c">TAS6422DAC</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_a_i_c3110.html#ad7e6263e14828b1df9e1bcea4f9fc67c">TLV320AIC3110</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_d_a_c310x.html#ad7e6263e14828b1df9e1bcea4f9fc67c">TLV320DAC310x</a>, <a class="el" href="classaudio__driver_1_1_w_m8904.html#ad7e6263e14828b1df9e1bcea4f9fc67c">WM8904</a>, and <a class="el" href="classaudio__driver_1_1_w_m8962.html#ad7e6263e14828b1df9e1bcea4f9fc67c">WM8962</a>.</p>
+<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_a_w88298.html#ad7e6263e14828b1df9e1bcea4f9fc67c">AW88298</a>, <a class="el" href="classaudio__driver_1_1_d_a7212.html#ad7e6263e14828b1df9e1bcea4f9fc67c">DA7212</a>, <a class="el" href="classaudio__driver_1_1_m_a_x98091.html#ad7e6263e14828b1df9e1bcea4f9fc67c">MAX98091</a>, <a class="el" href="classaudio__driver_1_1_s_f32_l_b.html#ad7e6263e14828b1df9e1bcea4f9fc67c">SF32LB</a>, <a class="el" href="classaudio__driver_1_1_t_a_s2563.html#ad7e6263e14828b1df9e1bcea4f9fc67c">TAS2563</a>, <a class="el" href="classaudio__driver_1_1_t_a_s6422_d_a_c.html#ad7e6263e14828b1df9e1bcea4f9fc67c">TAS6422DAC</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_a_i_c3104.html#ad7e6263e14828b1df9e1bcea4f9fc67c">TLV320AIC3104</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_a_i_c3110.html#ad7e6263e14828b1df9e1bcea4f9fc67c">TLV320AIC3110</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_d_a_c310x.html#ad7e6263e14828b1df9e1bcea4f9fc67c">TLV320DAC310x</a>, <a class="el" href="classaudio__driver_1_1_w_m8904.html#ad7e6263e14828b1df9e1bcea4f9fc67c">WM8904</a>, and <a class="el" href="classaudio__driver_1_1_w_m8962.html#ad7e6263e14828b1df9e1bcea4f9fc67c">WM8962</a>.</p>
 
 </div>
 </div>

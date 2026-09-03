@@ -198,7 +198,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>}</div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="keyword">inline</span> <a class="code hl_typedef" href="namespaceaudio__driver.html#a7692ad5e57c8a238594439ab076ab486">error_t</a> i2c_bus_read_bytes(<a class="code hl_typedef" href="namespaceaudio__driver.html#af64bc1da974c4a3530b8d7ce30ef9194">i2c_bus_handle_t</a> bus, <span class="keywordtype">int</span> addr, uint8_t *reg,</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>                                  <span class="keywordtype">int</span> reglen, uint8_t *outdata, <span class="keywordtype">int</span> datalen) {</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>                                  <span class="keywordtype">int</span> reglen, uint8_t *outdata, <span class="keywordtype">int</span> datalen, <span class="keywordtype">bool</span> stopBit=<span class="keyword">true</span>) {</div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>  <span class="keywordtype">char</span> reg_hex[8];</div>
 <div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>  <a class="code hl_define" href="_logger_8h.html#a6f5de956206e83db6bed915a621a017d">AD_LOGD</a>(<span class="stringliteral">&quot;i2c_bus_read_bytes: addr=0x%X reg=0x%s&quot;</span>, addr,</div>
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>          ad_log_hex(reg_hex, <span class="keyword">sizeof</span>(reg_hex), reg, reglen));</div>
@@ -210,7 +210,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>  p_wire-&gt;beginTransmission(addr);</div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>  p_wire-&gt;write(reg, reglen);</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>  <span class="keywordtype">int</span> rc = p_wire-&gt;endTransmission();</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>  <span class="keywordtype">int</span> rc = p_wire-&gt;endTransmission(stopBit);</div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>  <span class="keywordflow">if</span> (rc != 0) {</div>
 <div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <a class="code hl_define" href="_logger_8h.html#abfe9aca2539e12cf2be781bc31f8643d">AD_LOGE</a>(<span class="stringliteral">&quot;-&gt;p_wire-&gt;endTransmission: %d&quot;</span>, rc);</div>
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>  }</div>

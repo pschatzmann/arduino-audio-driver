@@ -23,10 +23,12 @@ var searchData=
   ['audiodriverpcm3168class_20',['AudioDriverPCM3168Class',['../classaudio__driver_1_1_audio_driver_p_c_m3168_class.html',1,'audio_driver']]],
   ['audiodriversgtl5000class_21',['AudioDriverSGTL5000Class',['../classaudio__driver_1_1_audio_driver_s_g_t_l5000_class.html',1,'audio_driver']]],
   ['audiodrivertas5805mclass_22',['AudioDriverTAS5805MClass',['../classaudio__driver_1_1_audio_driver_t_a_s5805_m_class.html',1,'audio_driver']]],
-  ['audiodriverwm8731class_23',['AudioDriverWM8731Class',['../classaudio__driver_1_1_audio_driver_w_m8731_class.html',1,'audio_driver']]],
-  ['audiodriverwm8960class_24',['AudioDriverWM8960Class',['../classaudio__driver_1_1_audio_driver_w_m8960_class.html',1,'audio_driver']]],
-  ['audiodriverwm8978class_25',['AudioDriverWM8978Class',['../classaudio__driver_1_1_audio_driver_w_m8978_class.html',1,'audio_driver']]],
-  ['audiodriverwm8994class_26',['AudioDriverWM8994Class',['../classaudio__driver_1_1_audio_driver_w_m8994_class.html',1,'audio_driver']]],
-  ['audiodriverzephyrt_27',['AudioDriverZephyrT',['../classaudio__driver_1_1_audio_driver_zephyr_t.html',1,'audio_driver']]],
-  ['aw88298_28',['AW88298',['../classaudio__driver_1_1_a_w88298.html',1,'audio_driver']]]
+  ['audiodrivertlv320aic3104class_23',['AudioDriverTLV320AIC3104Class',['../classaudio__driver_1_1_audio_driver_t_l_v320_a_i_c3104_class.html',1,'audio_driver']]],
+  ['audiodriverwm8731class_24',['AudioDriverWM8731Class',['../classaudio__driver_1_1_audio_driver_w_m8731_class.html',1,'audio_driver']]],
+  ['audiodriverwm8960class_25',['AudioDriverWM8960Class',['../classaudio__driver_1_1_audio_driver_w_m8960_class.html',1,'audio_driver']]],
+  ['audiodriverwm8978class_26',['AudioDriverWM8978Class',['../classaudio__driver_1_1_audio_driver_w_m8978_class.html',1,'audio_driver']]],
+  ['audiodriverwm8994class_27',['AudioDriverWM8994Class',['../classaudio__driver_1_1_audio_driver_w_m8994_class.html',1,'audio_driver']]],
+  ['audiodriverzephyrt_28',['AudioDriverZephyrT',['../classaudio__driver_1_1_audio_driver_zephyr_t.html',1,'audio_driver']]],
+  ['audiodriverzephyrt_3c_20tlv320aic3104_2c_200x18_20_3e_29',['AudioDriverZephyrT&lt; TLV320AIC3104, 0x18 &gt;',['../classaudio__driver_1_1_audio_driver_zephyr_t.html',1,'audio_driver']]],
+  ['aw88298_30',['AW88298',['../classaudio__driver_1_1_a_w88298.html',1,'audio_driver']]]
 ];

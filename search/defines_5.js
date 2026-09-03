@@ -1,30 +1,5 @@
 var searchData=
 [
-  ['high_0',['HIGH',['../_driver_common_8h.html#a5bb885982ff66a2e0a0a45a8ee9c35e2',1,'DriverCommon.h']]],
-  ['hosyond_5faudio_5fpa_5fenable_1',['HOSYOND_AUDIO_PA_ENABLE',['../_e_s_p32_s3_hosyond_display_8h.html#a692c0543bafd3057e80259619b245244',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fbattery_2',['HOSYOND_BATTERY',['../_e_s_p32_s3_hosyond_display_8h.html#ab6325b900ae66a25d1fa97bfd9604190',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fboot_5fbutton_3',['HOSYOND_BOOT_BUTTON',['../_e_s_p32_s3_hosyond_display_8h.html#ad296bfa2232013f3df610151adfc52cb',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fgpio_5fexpander_5f1_4',['HOSYOND_GPIO_EXPANDER_1',['../_e_s_p32_s3_hosyond_display_8h.html#aa6733f24d05bec085eef206c943f9984',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fgpio_5fexpander_5f2_5',['HOSYOND_GPIO_EXPANDER_2',['../_e_s_p32_s3_hosyond_display_8h.html#a8357e69fa5054567aae870f3f6e0bf36',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fgpio_5fexpander_5f3_6',['HOSYOND_GPIO_EXPANDER_3',['../_e_s_p32_s3_hosyond_display_8h.html#a30f5954a16775538584e3eb953a2a818',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fgpio_5fexpander_5f4_7',['HOSYOND_GPIO_EXPANDER_4',['../_e_s_p32_s3_hosyond_display_8h.html#a2feb4c09af8909846b3ab329e340feb9',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fi2c_5fnum_8',['HOSYOND_I2C_NUM',['../_e_s_p32_s3_hosyond_display_8h.html#a4261a029338fe4089380c45a6a4e151f',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fi2c_5fscl_9',['HOSYOND_I2C_SCL',['../_e_s_p32_s3_hosyond_display_8h.html#ab5798cccdd97e2fcd000acdda83d72b5',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fi2c_5fsda_10',['HOSYOND_I2C_SDA',['../_e_s_p32_s3_hosyond_display_8h.html#a708100d568dfe647ec18daed4b403d45',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fi2c_5fspeed_11',['HOSYOND_I2C_SPEED',['../_e_s_p32_s3_hosyond_display_8h.html#abe7a910e9cdad0904ce251b416517f20',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fi2s_5fbck_12',['HOSYOND_I2S_BCK',['../_e_s_p32_s3_hosyond_display_8h.html#a0a475f29d07cf5689d57db293ee67752',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fi2s_5fdin_13',['HOSYOND_I2S_DIN',['../_e_s_p32_s3_hosyond_display_8h.html#a9d80f9d91bd4abc97e707fd19c3fa5e9',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fi2s_5fdout_14',['HOSYOND_I2S_DOUT',['../_e_s_p32_s3_hosyond_display_8h.html#ac5674bb61d3e53169351aca8880d7bb3',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fi2s_5fmck_15',['HOSYOND_I2S_MCK',['../_e_s_p32_s3_hosyond_display_8h.html#ad5541658818fe66aabd5a0109c5fca27',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fi2s_5fws_16',['HOSYOND_I2S_WS',['../_e_s_p32_s3_hosyond_display_8h.html#abd074c539ebb568c89f1983a31ad8cef',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5frgb_5fled_17',['HOSYOND_RGB_LED',['../_e_s_p32_s3_hosyond_display_8h.html#aef1c040068a82fe2442e813880fbf83a',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fsd_5fcs_18',['HOSYOND_SD_CS',['../_e_s_p32_s3_hosyond_display_8h.html#a65aacbc9c89364f56819235460c18755',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fsd_5fmmc_5fcmd_19',['HOSYOND_SD_MMC_CMD',['../_e_s_p32_s3_hosyond_display_8h.html#abf01855d36e33c0323a310b6a4d24184',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fsd_5fmmc_5fd0_20',['HOSYOND_SD_MMC_D0',['../_e_s_p32_s3_hosyond_display_8h.html#abcd8815abd2e0e4d9788cd4b6cb04790',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fsd_5fmmc_5fd1_21',['HOSYOND_SD_MMC_D1',['../_e_s_p32_s3_hosyond_display_8h.html#a5f261882dad1d34b333761ea917c9abf',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fsd_5fmmc_5fd2_22',['HOSYOND_SD_MMC_D2',['../_e_s_p32_s3_hosyond_display_8h.html#a01b43f2733e085bfd4521a04cbe63a69',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fsd_5fmmc_5fd3_23',['HOSYOND_SD_MMC_D3',['../_e_s_p32_s3_hosyond_display_8h.html#aee84262bf8d0de6c07c18ca716a9bf83',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fsd_5fmmc_5fsck_24',['HOSYOND_SD_MMC_SCK',['../_e_s_p32_s3_hosyond_display_8h.html#a72468fece854b2b9d3d47a16f2b6707f',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fuart0_5frx_25',['HOSYOND_UART0_RX',['../_e_s_p32_s3_hosyond_display_8h.html#a434fe5c6d28110d90ffa477f3211b044',1,'ESP32S3HosyondDisplay.h']]],
-  ['hosyond_5fuart0_5ftx_26',['HOSYOND_UART0_TX',['../_e_s_p32_s3_hosyond_display_8h.html#ab397fa289ab916238afc9c37b488398e',1,'ESP32S3HosyondDisplay.h']]]
+  ['gpio_5fto_5fint_0',['GPIO_TO_INT',['../_driver_common_8h.html#aa222c806f5498b65952f602eb23818b8',1,'DriverCommon.h']]],
+  ['gpio_5fundefined_1',['GPIO_UNDEFINED',['../_driver_common_8h.html#a34ab5b8b21a80d11d453f09d885ef613',1,'DriverCommon.h']]]
 ];

@@ -276,9 +276,9 @@ Static Public Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a77ae6fc6cbafef38b39c5b8b2df52309" id="r_a77ae6fc6cbafef38b39c5b8b2df52309"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_zephyr_driver_common.html#a77ae6fc6cbafef38b39c5b8b2df52309">readReg</a> (uint8_t reg, uint8_t &amp;value)</td></tr>
-<tr class="memdesc:a77ae6fc6cbafef38b39c5b8b2df52309"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a single byte from an 8 bit register address.  <br /></td></tr>
-<tr class="separator:a77ae6fc6cbafef38b39c5b8b2df52309"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafff0d803ab5cda9c19585c30b1f2bab" id="r_aafff0d803ab5cda9c19585c30b1f2bab"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_zephyr_driver_common.html#aafff0d803ab5cda9c19585c30b1f2bab">readReg</a> (uint8_t reg, uint8_t &amp;value, bool stopBit=true)</td></tr>
+<tr class="memdesc:aafff0d803ab5cda9c19585c30b1f2bab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a single byte from an 8 bit register address.  <br /></td></tr>
+<tr class="separator:aafff0d803ab5cda9c19585c30b1f2bab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c39f9df87dae01c89343d4a6316ceb0" id="r_a3c39f9df87dae01c89343d4a6316ceb0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaudio__driver_1_1_zephyr_driver_common.html#a3c39f9df87dae01c89343d4a6316ceb0">readReg16</a> (uint8_t reg, uint16_t &amp;value)</td></tr>
 <tr class="memdesc:a3c39f9df87dae01c89343d4a6316ceb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a 16 bit (big endian) value from an 8 bit register address.  <br /></td></tr>
 <tr class="separator:a3c39f9df87dae01c89343d4a6316ceb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -849,8 +849,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a77ae6fc6cbafef38b39c5b8b2df52309" name="a77ae6fc6cbafef38b39c5b8b2df52309"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a77ae6fc6cbafef38b39c5b8b2df52309">&#9670;&#160;</a></span>readReg()</h2>
+<a id="aafff0d803ab5cda9c19585c30b1f2bab" name="aafff0d803ab5cda9c19585c30b1f2bab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafff0d803ab5cda9c19585c30b1f2bab">&#9670;&#160;</a></span>readReg()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -868,7 +868,13 @@ Protected Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint8_t &amp;&#160;</td>
-          <td class="paramname"><em>value</em>&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>stopBit</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1114,7 +1120,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Mutes/unmutes all outputs. Chip specific subclasses map this to their native mute functionality. </p>
 
-<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_a_w88298.html#a3e7b3b9da454d773e945e4053f6e2b75">AW88298</a>, <a class="el" href="classaudio__driver_1_1_d_a7212.html#a3e7b3b9da454d773e945e4053f6e2b75">DA7212</a>, <a class="el" href="classaudio__driver_1_1_m_a_x98091.html#a3e7b3b9da454d773e945e4053f6e2b75">MAX98091</a>, <a class="el" href="classaudio__driver_1_1_p_c_m1681.html#a3e7b3b9da454d773e945e4053f6e2b75">PCM1681</a>, <a class="el" href="classaudio__driver_1_1_t_a_s2563.html#a3e7b3b9da454d773e945e4053f6e2b75">TAS2563</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_a_i_c3110.html#a3e7b3b9da454d773e945e4053f6e2b75">TLV320AIC3110</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_d_a_c310x.html#a3e7b3b9da454d773e945e4053f6e2b75">TLV320DAC310x</a>, <a class="el" href="classaudio__driver_1_1_w_m8904.html#a3e7b3b9da454d773e945e4053f6e2b75">WM8904</a>, <a class="el" href="classaudio__driver_1_1_w_m8962.html#a3e7b3b9da454d773e945e4053f6e2b75">WM8962</a>, and <a class="el" href="classaudio__driver_1_1_s_f32_l_b.html#aa59a5b49c67e573d57212124246992dc">SF32LB</a>.</p>
+<p>Reimplemented in <a class="el" href="classaudio__driver_1_1_a_w88298.html#a3e7b3b9da454d773e945e4053f6e2b75">AW88298</a>, <a class="el" href="classaudio__driver_1_1_d_a7212.html#a3e7b3b9da454d773e945e4053f6e2b75">DA7212</a>, <a class="el" href="classaudio__driver_1_1_m_a_x98091.html#a3e7b3b9da454d773e945e4053f6e2b75">MAX98091</a>, <a class="el" href="classaudio__driver_1_1_p_c_m1681.html#a3e7b3b9da454d773e945e4053f6e2b75">PCM1681</a>, <a class="el" href="classaudio__driver_1_1_t_a_s2563.html#a3e7b3b9da454d773e945e4053f6e2b75">TAS2563</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_a_i_c3104.html#a3e7b3b9da454d773e945e4053f6e2b75">TLV320AIC3104</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_a_i_c3110.html#a3e7b3b9da454d773e945e4053f6e2b75">TLV320AIC3110</a>, <a class="el" href="classaudio__driver_1_1_t_l_v320_d_a_c310x.html#a3e7b3b9da454d773e945e4053f6e2b75">TLV320DAC310x</a>, <a class="el" href="classaudio__driver_1_1_w_m8904.html#a3e7b3b9da454d773e945e4053f6e2b75">WM8904</a>, <a class="el" href="classaudio__driver_1_1_w_m8962.html#a3e7b3b9da454d773e945e4053f6e2b75">WM8962</a>, and <a class="el" href="classaudio__driver_1_1_s_f32_l_b.html#aa59a5b49c67e573d57212124246992dc">SF32LB</a>.</p>
 
 </div>
 </div>
