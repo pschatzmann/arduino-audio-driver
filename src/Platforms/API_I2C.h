@@ -113,7 +113,7 @@ inline error_t i2c_bus_write_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
 }
 
 inline error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
-                                  int reglen, uint8_t *outdata, int datalen) {
+                                  int reglen, uint8_t *outdata, int datalen, bool stopBit=true) {
   char reg_hex[8];
   AD_LOGD("i2c_bus_read_bytes: addr=0x%X reg=0x%s", addr,
           ad_log_hex(reg_hex, sizeof(reg_hex), reg, reglen));
@@ -125,7 +125,7 @@ inline error_t i2c_bus_read_bytes(i2c_bus_handle_t bus, int addr, uint8_t *reg,
 
   p_wire->beginTransmission(addr);
   p_wire->write(reg, reglen);
-  int rc = p_wire->endTransmission();
+  int rc = p_wire->endTransmission(stopBit);
   if (rc != 0) {
     AD_LOGE("->p_wire->endTransmission: %d", rc);
   }

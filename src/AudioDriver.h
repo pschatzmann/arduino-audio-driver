@@ -2113,6 +2113,34 @@ class AudioDriverAD1938Class : public AudioDriver {
 
 #endif
 
+/**
+ * @brief Driver for the TI TLV320AIC3104.  It might also work on other AIC310x chips.
+ * @ingroup audio_driver
+ * @author Mark Smith, @smittyhalibut
+ * @copyright GPLv3
+ */
+class AudioDriverTLV320AIC3104Class : public AudioDriverZephyrT<TLV320AIC3104, 0x18> {
+public:
+    // Set to 0 (default) to use BCLK instead of MCLK.  BCLK is calculated by sample rate, bits, and channels.
+    bool setMclk(uint32_t _mclk) {
+        mclk = _mclk;
+        return true;
+    }
+
+protected:
+    uint32_t mclk = 0;   // Defaults to using BCLK.
+    bool configInterface(codec_mode_t mode, I2SDefinition iface) override {
+        (void)mode;
+        AD_LOGI("configInterface()");
+
+        uint32_t sample_rate = (uint32_t)codec_cfg.getRateNumeric();
+        uint8_t bits = (uint8_t)codec_cfg.getBitsNumeric();
+        uint8_t channels = (uint8_t)codec_cfg.getChannelsNumeric();
+        return zephyr_driver.begin(sample_rate, bits, channels, mclk, iface.mode == MODE_MASTER);
+    }
+};
+
+
 // -- Drivers
 /// @ingroup audio_driver
 static AudioDriverAC101Class AudioDriverAC101;
@@ -2158,6 +2186,8 @@ static AudioDriverCS42448Class AudioDriverCS42448;
 static AudioDriverPCM3168Class AudioDriverPCM3168;
 /// @ingroup audio_driver
 static AudioDriverNAU8325Class AudioDriverNAU8325;
+/// @ingroup audio_driver
+static AudioDriverTLV320AIC3104Class AudioDriverTLV320AIC3104;
 /// @ingroup audio_driver
 static AudioDriverCombined AudioDriverES8311_ES7210(AudioDriverES8311,
                                                     AudioDriverES7210);
