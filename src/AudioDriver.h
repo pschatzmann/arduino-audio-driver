@@ -2136,7 +2136,7 @@ protected:
         uint32_t sample_rate = (uint32_t)codec_cfg.getRateNumeric();
         uint8_t bits = (uint8_t)codec_cfg.getBitsNumeric();
         uint8_t channels = (uint8_t)codec_cfg.getChannelsNumeric();
-        return zephyr_driver.begin(sample_rate, bits, channels, mclk, iface.mode == MODE_MASTER);
+        return zephyr_driver.begin(sample_rate, bits, channels, iface.mode == MODE_MASTER, mclk);
     }
 };
 
