@@ -311,6 +311,10 @@ class AudioDriver {
   void setupI2CAddress() {
     AD_LOGI("setupI2CAddress: 0x%x", i2c_default_address);
     int adr = getI2CAddress();
+    if (adr == -1) {
+      AD_LOGW("No i2c address defined - ignoring");
+      return;
+    }
     setI2CAddress(adr);
   }
 
