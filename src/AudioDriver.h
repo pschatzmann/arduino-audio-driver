@@ -1771,7 +1771,6 @@ class AudioDriverLyratMiniClass : public AudioDriver {
 
     // Start ES8311
     AD_LOGI("starting ES8311");
-    setupI2CAddress();
     if (!p_pins->begin()) {
       AD_LOGE("AudioBoard::pins::begin failed");
       return false;
@@ -1837,7 +1836,6 @@ class AudioDriverCombined : public AudioDriver {
     AD_LOGI("sdmmc_active: %d", codecCfg.sdmmc_active);
     p_pins->setSDMMCActive(codecCfg.sdmmc_active);
 
-    setupI2CAddress();
     // Start
     AD_LOGI("starting DAC");
     if (!p_pins->begin()) {
