@@ -1,6 +1,8 @@
 #if defined(ESP32_CMAKE)
 #include <driver/gpio.h>
 #include <esp_err.h>
+#include "Platforms/API_GPIO.h"
+#include "Platforms/IDriverDeviceInfo.h"
 
 namespace audio_driver {
 

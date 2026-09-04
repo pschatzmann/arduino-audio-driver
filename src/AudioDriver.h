@@ -1885,7 +1885,7 @@ class AudioDriverCombined : public AudioDriver {
 
 /**
  * @brief Generic Driver API that wraps a codec driver class which has been
- * ported from the Zephyr RTOS (see Codecs/<chip>/*.h, e.g. WM8904, DA7212,
+ * ported from the Zephyr RTOS (see Codecs/<chip>/ *.h, e.g. WM8904, DA7212,
  * TAS2563, ...). It provides the I2C wire/address from the pin configuration
  * to the driver and calls its begin()/setVolume()/setMute() (or
  * setOutputVolume()/setOutputMute()) methods, so that the chip can be used

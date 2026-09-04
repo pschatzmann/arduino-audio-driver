@@ -46,6 +46,9 @@
 #ifndef INPUT_PULLUP
 #define INPUT_PULLUP 0x2
 #endif
+#ifndef INPUT_PULLDOWN
+#define INPUT_PULLDOWN 0x3
+#endif
 #endif
 
 // ============================================================================

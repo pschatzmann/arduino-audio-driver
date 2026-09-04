@@ -14,7 +14,10 @@
  */
 
 #include "AudioBoard.h"
+// need Arduino's SD_MMC.h, unavailable in a plain ESP-IDF build
+#if defined(ARDUINO)
 #include "SD_MMC.h"
+#endif
 
 #if !defined(IS_ZEPHYR)
 
@@ -90,8 +93,13 @@ namespace audio_driver
 
             if (sdmmc_active) {
                 setSDMMCActive(true);
+#if defined(ARDUINO)
                 rc &= SD_MMC.setPins(HOSYOND_SD_MMC_SCK, HOSYOND_SD_MMC_CMD, HOSYOND_SD_MMC_D0, HOSYOND_SD_MMC_D1, HOSYOND_SD_MMC_D2, HOSYOND_SD_MMC_D3);
                 rc &= SD_MMC.begin();
+#else
+                AD_LOGE("SDMMC only supported in Arduino");
+                rc = false;
+#endif
             }
             return rc;
         }

@@ -5,6 +5,7 @@
 
 #include "Codecs/CodecConstants.h"
 #include "DriverCommon.h"
+#include "Platforms/API_Delay.h"
 #include "Platforms/API_I2C.h"
 #include "stdbool.h"
 #include <string.h>
