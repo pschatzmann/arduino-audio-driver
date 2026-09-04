@@ -225,10 +225,18 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
 
   // Make it easier to represent bits from the datasheet.
   // Bits D[l] - D[r] = 0b[v]  l & r are between 7 and 0 inclusive.
-  // For example: "D7-D5 set to 010" is `BITS(7, 5, 0b010)` or `BITS(7, 5, 2)`
-  #define BITS(l, r, v) (((v)<<(r)) & (1<<((l)+1))-1)
-  #define BIT(l, v) (((v) & 0x01) << (l))
-  
+  // For example: "D7-D5 set to 010" is `makeBits(7, 5, 0b010)` or
+  // `makeBits(7, 5, 2)`.
+  // Plain functions (not macros) are used here, unlike ESP-IDF's own
+  // single-arg BIT(x) macro (from esp_bit_defs.h), so this header never
+  // has to undef/restore anyone else's macro.
+  static constexpr uint8_t makeBits(uint8_t l, uint8_t r, uint8_t v) {
+    return (uint8_t)(((v) << (r)) & ((1 << ((l) + 1)) - 1));
+  }
+  static constexpr uint8_t makeBit(uint8_t l, uint8_t v) {
+    return (uint8_t)(((v) & 0x01) << (l));
+  }
+
   // ---- Bit definitions ----  
   // Codec sample rate select register (NCODEC = NADC = NDAC on this device)
   static constexpr uint8_t NCODEC_1 = 0x0;
@@ -257,39 +265,39 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
   static uint8_t PLL_R_CODE(uint8_t r) { return (r==16) ? 0 : r & 0x0F; }
 
   // Codec datapath setup register (7)
-  static constexpr uint8_t FSREF_44100 = BIT(7, 1);
+  static constexpr uint8_t FSREF_44100 = makeBit(7, 1);
   static constexpr uint8_t FSREF_48000 = 0;
-  static constexpr uint8_t DUAL_RATE_MODE = (BIT(6, 1)) | (BIT(5, 1));
-  static constexpr uint8_t LDAC2LCH = BIT(3, 1);
-  static constexpr uint8_t RDAC2RCH = BIT(1, 1);
+  static constexpr uint8_t DUAL_RATE_MODE = (makeBit(6, 1)) | (makeBit(5, 1));
+  static constexpr uint8_t LDAC2LCH = makeBit(3, 1);
+  static constexpr uint8_t RDAC2RCH = makeBit(1, 1);
 
   // Audio serial data interface control register B (9)
-  static constexpr uint8_t AIC3104_IFTYPE_I2S = BITS(7, 6, 0b00);
-  static constexpr uint8_t AIC3104_IFTYPE_DSP = BITS(7, 6, 0b01);
-  static constexpr uint8_t AIC3104_IFTYPE_RJF = BITS(7, 6, 0b10);
-  static constexpr uint8_t AIC3104_IFTYPE_LJF = BITS(7, 6, 0b11);
+  static constexpr uint8_t AIC3104_IFTYPE_I2S = makeBits(7, 6, 0b00);
+  static constexpr uint8_t AIC3104_IFTYPE_DSP = makeBits(7, 6, 0b01);
+  static constexpr uint8_t AIC3104_IFTYPE_RJF = makeBits(7, 6, 0b10);
+  static constexpr uint8_t AIC3104_IFTYPE_LJF = makeBits(7, 6, 0b11);
 
-  static constexpr uint8_t ASD_WLEN_16 = BITS(5, 4, 0b00);
-  static constexpr uint8_t ASD_WLEN_20 = BITS(5, 4, 0b01);
-  static constexpr uint8_t ASD_WLEN_24 = BITS(5, 4, 0b10);
-  static constexpr uint8_t ASD_WLEN_32 = BITS(5, 4, 0b11);
+  static constexpr uint8_t ASD_WLEN_16 = makeBits(5, 4, 0b00);
+  static constexpr uint8_t ASD_WLEN_20 = makeBits(5, 4, 0b01);
+  static constexpr uint8_t ASD_WLEN_24 = makeBits(5, 4, 0b10);
+  static constexpr uint8_t ASD_WLEN_32 = makeBits(5, 4, 0b11);
   
   // Generic route/mute/power bits, reused across many of the mixer /
   // output-driver registers on this device (matches the pattern used by
   // the vendor Linux driver for this codec family)
-  static constexpr uint8_t ROUTE_ON = BIT(7, 1);
-  static constexpr uint8_t DAC_UNMUTE = BIT(7, 1);
-  static constexpr uint8_t HP_UNMUTE = BIT(3, 1);
-  static constexpr uint8_t OUT_PWR_ON = BIT(0, 1);
-  static constexpr uint8_t ADC_PWR_ON = BIT(2, 1);
+  static constexpr uint8_t ROUTE_ON = makeBit(7, 1);
+  static constexpr uint8_t DAC_UNMUTE = makeBit(7, 1);
+  static constexpr uint8_t HP_UNMUTE = makeBit(3, 1);
+  static constexpr uint8_t OUT_PWR_ON = makeBit(0, 1);
+  static constexpr uint8_t ADC_PWR_ON = makeBit(2, 1);
 
-  static constexpr uint8_t LDAC_PWR_ON = BIT(7, 1);
-  static constexpr uint8_t RDAC_PWR_ON = BIT(6, 1);
+  static constexpr uint8_t LDAC_PWR_ON = makeBit(7, 1);
+  static constexpr uint8_t RDAC_PWR_ON = makeBit(6, 1);
 
   /// Route-volume field: bit7 = ROUTE_ON, bits6-0 = attenuation code
   /// (0 = 0 dB .. 127 = -63.5 dB in 0.5 dB steps)
   static uint8_t ROUTE_VOL(uint8_t atten) {
-    return (uint8_t)(ROUTE_ON | BITS(6, 0, atten));
+    return (uint8_t)(ROUTE_ON | makeBits(6, 0, atten));
   }
 
   /// Output volume range, in 0.5dB steps (-63.5dB .. 0dB)
@@ -345,13 +353,13 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
   /// Soft reset of the codec
   bool softReset() { 
     AD_LOGI("TLV320AIC3104 softReset()");
-    return writePagedReg(SOFT_RESET_ADDR, BIT(7, 1));
+    return writePagedReg(SOFT_RESET_ADDR, makeBit(7, 1));
   }
 
   /// Configure the digital audio interface (I2S) word size and clock direction
   bool configureDai(uint8_t word_size) {
     AD_LOGI("TLV320AIC3104 configureDai()");
-    bool rc = writePagedReg(ASD_INTF_CTRLA_ADDR, BIT(5, 1)); // BCLK, WCLK are inputs, DOUT is Hi-Z
+    bool rc = writePagedReg(ASD_INTF_CTRLA_ADDR, makeBit(5, 1)); // BCLK, WCLK are inputs, DOUT is Hi-Z
 
     uint8_t b = AIC3104_IFTYPE_I2S;  // The library doesn't support any other interface types yet.
     switch (word_size) {
@@ -361,7 +369,7 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
       case 32: b |= ASD_WLEN_32; break;
       default: return false;
     }
-    b |= BITS(2, 0, 0b111); // Resync DAC, ADC, with soft-mute
+    b |= makeBits(2, 0, 0b111); // Resync DAC, ADC, with soft-mute
     rc &= writePagedReg(ASD_INTF_CTRLB_ADDR, b);
     rc &= writePagedReg(ASD_INTF_CTRLC_ADDR, 0x00);  // No offset.
     return rc;
@@ -415,22 +423,22 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
     bool rc = true;
   
     // D7 is PLL enable. D6-3 is Q. D2-0 is P
-    uint8_t r3 = BIT(7, 0b1) | BITS(6, 3, (PLL_Q_CODE(2))) | BITS(2, 0, PLL_P_CODE(pll_entry->p));
-    uint8_t r8 = BITS(7, 6, is_master?0b11:0b00);  // BCLK and LRCLK set to input (slave) or output (master)
+    uint8_t r3 = makeBit(7, 0b1) | makeBits(6, 3, (PLL_Q_CODE(2))) | makeBits(2, 0, PLL_P_CODE(pll_entry->p));
+    uint8_t r8 = makeBits(7, 6, is_master?0b11:0b00);  // BCLK and LRCLK set to input (slave) or output (master)
     // D0 is CODEC_CLKIN: 0 is PLL, 1 is CLKDIV
-    uint8_t r101 = BIT(0, 0b0);                     // PLLDIV_OUT 
-    uint8_t r102 = BITS(7, 6, (use_bclk)?0b10:0b00) // CLKDIV_IN src. 0=MCLK, 2=BCLK.
-                 | BITS(5, 4, (use_bclk)?0b10:0b00) // PLLCLK_IN src. 0=MCLK, 2=BCLK.
-                 | BITS(3, 0, 0b0010);  // reserved bits, required to be this value.
-    rc &= writePagedReg(PLL_PROGB_ADDR, BITS(7, 2, pll_entry->j));
-    rc &= writePagedReg(PLL_PROGC_ADDR, BITS(7, 0, pll_entry->d >> 6));
-    rc &= writePagedReg(PLL_PROGD_ADDR, BITS(7, 2, pll_entry->d));
-    rc &= writePagedReg(OVRF_STATUS_PLLR_ADDR, BITS(3, 0, PLL_R_CODE(pll_entry->r)));
+    uint8_t r101 = makeBit(0, 0b0);                     // PLLDIV_OUT 
+    uint8_t r102 = makeBits(7, 6, (use_bclk)?0b10:0b00) // CLKDIV_IN src. 0=MCLK, 2=BCLK.
+                 | makeBits(5, 4, (use_bclk)?0b10:0b00) // PLLCLK_IN src. 0=MCLK, 2=BCLK.
+                 | makeBits(3, 0, 0b0010);  // reserved bits, required to be this value.
+    rc &= writePagedReg(PLL_PROGB_ADDR, makeBits(7, 2, pll_entry->j));
+    rc &= writePagedReg(PLL_PROGC_ADDR, makeBits(7, 0, pll_entry->d >> 6));
+    rc &= writePagedReg(PLL_PROGD_ADDR, makeBits(7, 2, pll_entry->d));
+    rc &= writePagedReg(OVRF_STATUS_PLLR_ADDR, makeBits(3, 0, PLL_R_CODE(pll_entry->r)));
     rc &= writePagedReg(ASD_INTF_CTRLA_ADDR, r8);
     rc &= writePagedReg(CLK_ADDR, r101);
     rc &= writePagedReg(CLK_GEN_ADDR, r102);
     rc &= writePagedReg(PLL_PROGA_ADDR, r3);
-    rc &= writePagedReg(ASD_INTF_CTRLA_ADDR, BIT(5, 1));  // Hi-z on idle
+    rc &= writePagedReg(ASD_INTF_CTRLA_ADDR, makeBit(5, 1));  // Hi-z on idle
 
     // fS(ref) selection + shared NCODEC divider + dual-rate mode
     uint8_t datapath = (rate_entry->fsref == 44100) ? FSREF_44100 : FSREF_48000;
@@ -438,8 +446,8 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
     if (rate_entry->dual_rate) datapath |= DUAL_RATE_MODE;
     rc &= writePagedReg(CODEC_DATAPATH_ADDR, datapath);
     rc &= writePagedReg(SAMPLE_RATE_SEL_ADDR, 
-      BITS(7, 4, rate_entry->ncodec_code) | // ADC Sample Rate Select
-      BITS(3, 0, rate_entry->ncodec_code)   // DAC Sample Rate Select
+      makeBits(7, 4, rate_entry->ncodec_code) | // ADC Sample Rate Select
+      makeBits(3, 0, rate_entry->ncodec_code)   // DAC Sample Rate Select
     );
     return rc;
 
@@ -473,12 +481,12 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
     //rc &= writePagedReg(DAC_QUIESCENT_CURRENT_ADDR, 0x40); // 50% increase in DAC current.
 
     // Setup DACs, and HP outputs
-    rc &= writePagedReg(HEADSET_BTN_PRESS_DETECTB_ADDR, BIT(7, 1));  // Sets HP for AC coupled.
-    rc &= writePagedReg(DAC_PWR_ADDR, BIT(7, 1) | BIT(6, 1) | BITS(5, 4, 0b10));  // Both DACs on, HPLCOM independent
-    rc &= writePagedReg(HPRCOM_CFG_ADDR, BITS(5, 3, 0b010) | BITS(2, 1, 0b10)); //HPRCOM independent, Short circuit protection enabled, current limit.
+    rc &= writePagedReg(HEADSET_BTN_PRESS_DETECTB_ADDR, makeBit(7, 1));  // Sets HP for AC coupled.
+    rc &= writePagedReg(DAC_PWR_ADDR, makeBit(7, 1) | makeBit(6, 1) | makeBits(5, 4, 0b10));  // Both DACs on, HPLCOM independent
+    rc &= writePagedReg(HPRCOM_CFG_ADDR, makeBits(5, 3, 0b010) | makeBits(2, 1, 0b10)); //HPRCOM independent, Short circuit protection enabled, current limit.
     //rc &= writePagedReg(DAC_SW_CTRL_ADDR, 0x00); // Defaults to: LDAC to DAC_L1, RDAC to DAC_R1, independent volumes
-    rc &= writePagedReg(HPCOM_CMVOLT_ADDR, BITS(7, 6, 0b11)); // 1.8v common mode, soft step
-    rc &= writePagedReg(POP_REDUCTION_ADDR, BITS(7, 4, 0b1001) | BITS(3, 2, 0b01) | BIT(1, 1)); // 800ms power-on time, 1ms ramp-up step, use band-gap for common mode reference
+    rc &= writePagedReg(HPCOM_CMVOLT_ADDR, makeBits(7, 6, 0b11)); // 1.8v common mode, soft step
+    rc &= writePagedReg(POP_REDUCTION_ADDR, makeBits(7, 4, 0b1001) | makeBits(3, 2, 0b01) | makeBit(1, 1)); // 800ms power-on time, 1ms ramp-up step, use band-gap for common mode reference
 
     // Mute while making other changes
     rc &= setOutputMute(true, AIC3104Channel::All);
@@ -524,73 +532,73 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
     bool rc = true;
 
     // Default to powered up, but muted
-    uint8_t left1_reg = BITS(6, 3, 0b1111) | BIT(2, 1);   // 19
-    uint8_t right1_reg = BITS(6, 3, 0b1111) | BIT(2, 1);  // 22
+    uint8_t left1_reg = makeBits(6, 3, 0b1111) | makeBit(2, 1);   // 19
+    uint8_t right1_reg = makeBits(6, 3, 0b1111) | makeBit(2, 1);  // 22
     uint8_t left2_reg = 0xFF;   // 17
     uint8_t right2_reg = 0xFF;  // 18
     uint8_t pga_gain_reg = 0;   // 15, and 16
     switch (input_device) {
       case ADC_INPUT_DIFFERENCE:  // Balanced inputs on Line1/Mic1, with Mic gain and bias.
         left1_reg = 
-          BIT(7, 1) |      // Fully differential input
-          BITS(6, 3, 0) |  // Input pad: -0dB
+          makeBit(7, 1) |      // Fully differential input
+          makeBits(6, 3, 0) |  // Input pad: -0dB
           BIT (2, 1) |     // ADC powered up
-          BITS(1, 0, 0);    // ADC PGA soft stepping, 1/sample
+          makeBits(1, 0, 0);    // ADC PGA soft stepping, 1/sample
         right1_reg = left1_reg;
         pga_gain_reg = 
-          BIT(7, 0) |             // Not muted
-          BITS(6, 0, 0b0110000);  // 24dB PGA Gain about right for a microphone
+          makeBit(7, 0) |             // Not muted
+          makeBits(6, 0, 0b0110000);  // 24dB PGA Gain about right for a microphone
         break;
       case ADC_INPUT_LINE1:    // Single ended inputs on Line1/Mic1, Line level.
         left1_reg = 
-          BIT(7, 0) |      // Single ended input
-          BITS(6, 3, 0) |  // Input pad: -0dB
+          makeBit(7, 0) |      // Single ended input
+          makeBits(6, 3, 0) |  // Input pad: -0dB
           BIT (2, 1) |     // ADC powered up
-          BITS(1, 0, 0);    // ADC PGA soft stepping, 1/sample
+          makeBits(1, 0, 0);    // ADC PGA soft stepping, 1/sample
         right1_reg = left1_reg;
         pga_gain_reg = 
-          BIT(7, 0) |             // Not muted
-          BITS(6, 0, 0b0000000);  // 0dB PGA Gain for line level input
+          makeBit(7, 0) |             // Not muted
+          makeBits(6, 0, 0b0000000);  // 0dB PGA Gain for line level input
         break;
       case ADC_INPUT_LINE2:    // ADC_INPUT_LINE2: Single ended inputs on Line2/Mic2, Line level
         left2_reg = 
-          BITS(7, 4, 0b0000) | // Mic2L/Line2L ---> Left ADC
-          BITS(3, 0, 0b1111);  // Mic2R/Line2R -X-> Left ADC
+          makeBits(7, 4, 0b0000) | // Mic2L/Line2L ---> Left ADC
+          makeBits(3, 0, 0b1111);  // Mic2R/Line2R -X-> Left ADC
         right2_reg =
-          BITS(7, 4, 0b1111) | // Mic2L/Line2L -X-> Right ADC
-          BITS(3, 0, 0b0000);  // Mic2R/Line2R ---> Right ADC
+          makeBits(7, 4, 0b1111) | // Mic2L/Line2L -X-> Right ADC
+          makeBits(3, 0, 0b0000);  // Mic2R/Line2R ---> Right ADC
         pga_gain_reg = 
-          BIT(7, 0) |             // Not muted
-          BITS(6, 0, 0b0000000);  // 0dB PGA Gain for line level input
+          makeBit(7, 0) |             // Not muted
+          makeBits(6, 0, 0b0000000);  // 0dB PGA Gain for line level input
         break;
       case ADC_INPUT_LINE3:  // ADC_INPUT_LINE3: Single ended inputs on Line2/Mic2, Mic gain and bias.
         left2_reg = 
-          BITS(7, 4, 0b0000) | // Mic2L/Line2L ---> Left ADC
-          BITS(3, 0, 0b1111);  // Mic2R/Line2R -X-> Left ADC
+          makeBits(7, 4, 0b0000) | // Mic2L/Line2L ---> Left ADC
+          makeBits(3, 0, 0b1111);  // Mic2R/Line2R -X-> Left ADC
         right2_reg =
-          BITS(7, 4, 0b1111) | // Mic2L/Line2L -X-> Right ADC
-          BITS(3, 0, 0b0000);  // Mic2R/Line2R ---> Right ADC
+          makeBits(7, 4, 0b1111) | // Mic2L/Line2L -X-> Right ADC
+          makeBits(3, 0, 0b0000);  // Mic2R/Line2R ---> Right ADC
         pga_gain_reg = 
-          BIT(7, 0) |             // Not muted
-          BITS(6, 0, 0b0110000);  // 24dB PGA Gain about right for a microphone
+          makeBit(7, 0) |             // Not muted
+          makeBits(6, 0, 0b0110000);  // 24dB PGA Gain about right for a microphone
           break;
         case ADC_INPUT_ALL: // Singled ended line inputs on Line1, Single ended mono Mic input on Mic2, Line2 off.
         default: 
         left1_reg = 
-          BIT(7, 0) |      // Single ended input
-          BITS(6, 3, 0b1000) |  // Input pad: -12dB to equalize Line Input with Mic gain, a little anyway.
+          makeBit(7, 0) |      // Single ended input
+          makeBits(6, 3, 0b1000) |  // Input pad: -12dB to equalize Line Input with Mic gain, a little anyway.
           BIT (2, 1) |     // ADC powered up
-          BITS(1, 0, 0);    // ADC PGA soft stepping, 1/sample
+          makeBits(1, 0, 0);    // ADC PGA soft stepping, 1/sample
         right1_reg = left1_reg;
         left2_reg = 
-          BITS(7, 4, 0b0000) | // Mic2L/Line2L ---> Left ADC
-          BITS(3, 0, 0b0000);  // Mic2R/Line2R ---> Left ADC
+          makeBits(7, 4, 0b0000) | // Mic2L/Line2L ---> Left ADC
+          makeBits(3, 0, 0b0000);  // Mic2R/Line2R ---> Left ADC
         right2_reg =
-          BITS(7, 4, 0b1111) | // Mic2L/Line2L -X-> Right ADC
-          BITS(3, 0, 0b1111);  // Mic2R/Line2R -X-> Right ADC
+          makeBits(7, 4, 0b1111) | // Mic2L/Line2L -X-> Right ADC
+          makeBits(3, 0, 0b1111);  // Mic2R/Line2R -X-> Right ADC
         pga_gain_reg = 
-          BIT(7, 0) |             // Not muted
-          BITS(6, 0, 0b0110000);  // 24dB PGA Gain about right for a microphone
+          makeBit(7, 0) |             // Not muted
+          makeBits(6, 0, 0b0110000);  // 24dB PGA Gain about right for a microphone
           break;
     }
     rc &= writePagedReg(LINE1L_LADC_CTRL_ADDR, left1_reg);
@@ -598,7 +606,7 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
     rc &= writePagedReg(MIC2_LADC_CTRL_ADDR, left2_reg);
     rc &= writePagedReg(MIC2_RADC_CTRL_ADDR, right2_reg);
 
-    rc &= writePagedReg(MICBIAS_CTRL_ADDR, BITS(7, 6, 0b10));  // Bias 2.5v
+    rc &= writePagedReg(MICBIAS_CTRL_ADDR, makeBits(7, 6, 0b10));  // Bias 2.5v
 
     rc &= writePagedReg(LADC_VOL_ADDR, pga_gain_reg);
     rc &= writePagedReg(RADC_VOL_ADDR, pga_gain_reg);
@@ -639,7 +647,7 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
   }
 
   bool setDACMute(bool mute) {
-    // BIT(7, 1) is muted, BIT(7, 0) is unmuted
+    // makeBit(7, 1) is muted, makeBit(7, 0) is unmuted
     uint8_t dac_val = mute ? DAC_UNMUTE : 0;
     bool rc = true;
     rc &= updatePagedReg(LDAC_VOL_ADDR, DAC_UNMUTE, dac_val);
