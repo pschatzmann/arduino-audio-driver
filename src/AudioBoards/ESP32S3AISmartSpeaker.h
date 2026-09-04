@@ -5,8 +5,10 @@
  */
 
 #include "AudioBoard.h"
+#if defined(ARDUINO)
 #include "FS.h"
 #include "SD_MMC.h"
+#endif
 
 #if !defined(IS_ZEPHYR)
 #define EXIO1 1000
@@ -94,11 +96,15 @@ class PinsESP32S3AISmartSpeakerClass : public DriverDeviceInfo {
     }
     // activate SDMMC
     if (sdmmc_active) {
+#if defined(ARDUINO)
       AD_LOGD("Activate SDMMC");
       if (!SD_MMC.setPins(40, 42, 41, -1, -1, -1)) {
         AD_LOGE("SDMMC setPins failed");
       }
       tca9555.digitalWrite(EXIO4, true);  // deactivate SD CS
+#else
+      AD_LOGE("SDMMC only supported in Arduino");
+#endif
     }
     return rc;
   }
