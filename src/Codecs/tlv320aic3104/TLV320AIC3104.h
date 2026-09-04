@@ -542,7 +542,7 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
         left1_reg = 
           makeBit(7, 1) |      // Fully differential input
           makeBits(6, 3, 0) |  // Input pad: -0dB
-          BIT (2, 1) |     // ADC powered up
+          makeBit(2, 1) |     // ADC powered up
           makeBits(1, 0, 0);    // ADC PGA soft stepping, 1/sample
         right1_reg = left1_reg;
         pga_gain_reg = 
@@ -553,7 +553,7 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
         left1_reg = 
           makeBit(7, 0) |      // Single ended input
           makeBits(6, 3, 0) |  // Input pad: -0dB
-          BIT (2, 1) |     // ADC powered up
+          makeBit(2, 1) |     // ADC powered up
           makeBits(1, 0, 0);    // ADC PGA soft stepping, 1/sample
         right1_reg = left1_reg;
         pga_gain_reg = 
@@ -587,7 +587,7 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
         left1_reg = 
           makeBit(7, 0) |      // Single ended input
           makeBits(6, 3, 0b1000) |  // Input pad: -12dB to equalize Line Input with Mic gain, a little anyway.
-          BIT (2, 1) |     // ADC powered up
+          makeBit(2, 1) |     // ADC powered up
           makeBits(1, 0, 0);    // ADC PGA soft stepping, 1/sample
         right1_reg = left1_reg;
         left2_reg = 
