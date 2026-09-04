@@ -1285,6 +1285,10 @@ Functions</h2></td></tr>
 <tr class="separator:ga677a498beeb358f92431d845178ea469"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6950e701b37e073d393949304e706e84" id="r_a6950e701b37e073d393949304e706e84"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaudio__driver.html#a6950e701b37e073d393949304e706e84">delayMs</a> (unsigned long ms)</td></tr>
 <tr class="separator:a6950e701b37e073d393949304e706e84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9faf36e31202471d5e56be1603d95a01" id="r_a9faf36e31202471d5e56be1603d95a01"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaudio__driver.html#a9faf36e31202471d5e56be1603d95a01">makeBit</a> (uint8_t l, uint8_t v)</td></tr>
+<tr class="separator:a9faf36e31202471d5e56be1603d95a01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dae1d604f2c02ab092b8cad5b100a6c" id="r_a6dae1d604f2c02ab092b8cad5b100a6c"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaudio__driver.html#a6dae1d604f2c02ab092b8cad5b100a6c">makeBits</a> (uint8_t l, uint8_t r, uint8_t v)</td></tr>
+<tr class="separator:a6dae1d604f2c02ab092b8cad5b100a6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd75abe10c9e6995a5be6a0b07f362d1" id="r_afd75abe10c9e6995a5be6a0b07f362d1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceaudio__driver.html#a7692ad5e57c8a238594439ab076ab486">error_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaudio__driver.html#afd75abe10c9e6995a5be6a0b07f362d1">spi_bus_create</a> (struct <a class="el" href="structaudio__driver_1_1_s_p_i_config.html">SPIConfig</a> *config)</td></tr>
 <tr class="separator:afd75abe10c9e6995a5be6a0b07f362d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2944353c826a01ee7852385fb3d7ae8" id="r_ab2944353c826a01ee7852385fb3d7ae8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaudio__driver.html#ab2944353c826a01ee7852385fb3d7ae8">spi_bus_delete</a> (<a class="el" href="namespaceaudio__driver.html#a1a31ba1466eab2dfb5e110e2df16a1cc">spi_bus_handle_t</a> bus)</td></tr>
@@ -4339,6 +4343,84 @@ Variables</h2></td></tr>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9faf36e31202471d5e56be1603d95a01" name="a9faf36e31202471d5e56be1603d95a01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9faf36e31202471d5e56be1603d95a01">&#9670;&#160;</a></span>makeBit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static constexpr uint8_t makeBit </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>v</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6dae1d604f2c02ab092b8cad5b100a6c" name="a6dae1d604f2c02ab092b8cad5b100a6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6dae1d604f2c02ab092b8cad5b100a6c">&#9670;&#160;</a></span>makeBits()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static constexpr uint8_t makeBits </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>r</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>v</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

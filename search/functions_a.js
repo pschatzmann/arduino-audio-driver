@@ -1,8 +1,8 @@
 var searchData=
 [
   ['madc_5fdiv_0',['MADC_DIV',['../classaudio__driver_1_1_t_l_v320_a_i_c3110.html#ab8db012f04da3386cb63bc0e67d32cb0',1,'audio_driver::TLV320AIC3110']]],
-  ['makebit_1',['makeBit',['../classaudio__driver_1_1_t_l_v320_a_i_c3104.html#a9faf36e31202471d5e56be1603d95a01',1,'audio_driver::TLV320AIC3104']]],
-  ['makebits_2',['makeBits',['../classaudio__driver_1_1_t_l_v320_a_i_c3104.html#a6dae1d604f2c02ab092b8cad5b100a6c',1,'audio_driver::TLV320AIC3104']]],
+  ['makebit_1',['makeBit',['../namespaceaudio__driver.html#a9faf36e31202471d5e56be1603d95a01',1,'audio_driver']]],
+  ['makebits_2',['makeBits',['../namespaceaudio__driver.html#a6dae1d604f2c02ab092b8cad5b100a6c',1,'audio_driver']]],
   ['mapvolume_3',['mapVolume',['../classaudio__driver_1_1_audio_driver.html#a5c9139f1cd859b1bcb2c6b16ea218c90',1,'audio_driver::AudioDriver']]],
   ['max98091_4',['MAX98091',['../classaudio__driver_1_1_m_a_x98091.html#a6d071bf17e91ed9162776801785ed336',1,'audio_driver::MAX98091']]],
   ['mclkactive_5',['mclkActive',['../classaudio__driver_1_1_e_s7243.html#aba01615454b74bc18019306216bdb6ae',1,'audio_driver::ES7243']]],
