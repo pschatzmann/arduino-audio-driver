@@ -76,7 +76,6 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a> &#124;
 <a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle"><div class="title">TLV320AIC3104.h File Reference</div></div>
 </div><!--header-->
@@ -108,13 +107,6 @@ Namespaces</h2></td></tr>
 <tr class="memdesc:namespaceaudio__driver"><td class="mdescLeft">&#160;</td><td class="mdescRight">Namespace for audio driver components. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a1c64ace20497bf561cd9b8eb95600b7e" id="r_a1c64ace20497bf561cd9b8eb95600b7e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_l_v320_a_i_c3104_8h.html#a1c64ace20497bf561cd9b8eb95600b7e">BIT</a>(l,  v)&#160;&#160;&#160;(((v) &amp; 0x01) &lt;&lt; (l))</td></tr>
-<tr class="separator:a1c64ace20497bf561cd9b8eb95600b7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32e9fbdee85e9c316c52bb2e9bb39879" id="r_a32e9fbdee85e9c316c52bb2e9bb39879"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_l_v320_a_i_c3104_8h.html#a32e9fbdee85e9c316c52bb2e9bb39879">BITS</a>(l,  r,  v)&#160;&#160;&#160;(((v)&lt;&lt;(r)) &amp; (1&lt;&lt;((l)+1))-1)</td></tr>
-<tr class="separator:a32e9fbdee85e9c316c52bb2e9bb39879"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:a3f4e6e5d94fc9e09d1232c318f4bf695" id="r_a3f4e6e5d94fc9e09d1232c318f4bf695"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaudio__driver.html#a3f4e6e5d94fc9e09d1232c318f4bf695">AIC3104Channel</a> { <br />
@@ -133,70 +125,7 @@ Enumerations</h2></td></tr>
 <div class="textblock"><p>Header only C++ driver for the Texas Instruments TLV320AIC3104 low-power stereo audio codec. </p>
 <p>Structured to mirror the arduino-audio-driver <a class="el" href="_t_l_v320_a_i_c3110_8h.html" title="Header only C++ driver for the Texas Instruments TLV320AIC3110 audio codec.">TLV320AIC3110.h</a> driver. NOTE: the AIC3104 is a member of the older "AIC3x" codec family and has a materially different register map than the AIC3110/TLV320AIC31xx family.</p>
 <p>Reference: <a href="https://www.ti.com/lit/ds/symlink/tlv320aic3104.pdf">https://www.ti.com/lit/ds/symlink/tlv320aic3104.pdf</a> </p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a1c64ace20497bf561cd9b8eb95600b7e" name="a1c64ace20497bf561cd9b8eb95600b7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c64ace20497bf561cd9b8eb95600b7e">&#9670;&#160;</a></span>BIT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BIT</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">l, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">v&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(((v) &amp; 0x01) &lt;&lt; (l))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a32e9fbdee85e9c316c52bb2e9bb39879" name="a32e9fbdee85e9c316c52bb2e9bb39879"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32e9fbdee85e9c316c52bb2e9bb39879">&#9670;&#160;</a></span>BITS</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BITS</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">l, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">r, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">v&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;(((v)&lt;&lt;(r)) &amp; (1&lt;&lt;((l)+1))-1)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
