@@ -25,6 +25,22 @@ enum class AIC3104Channel {
   All,
 };
 
+// Make it easier to represent bits from the datasheet.
+// Bits D[l] - D[r] = 0b[v]  l & r are between 7 and 0 inclusive.
+// For example: "D7-D5 set to 010" is `makeBits(7, 5, 0b010)` or
+// `makeBits(7, 5, 2)`.
+// Plain functions (not macros) are used here, unlike ESP-IDF's own
+// single-arg BIT(x) macro (from esp_bit_defs.h), so this header never has
+// to undef/restore anyone else's macro. They live at namespace scope
+// (rather than as class members) so they are fully defined before any
+// static constexpr class member that uses them in its initializer.
+static constexpr uint8_t makeBits(uint8_t l, uint8_t r, uint8_t v) {
+  return (uint8_t)(((v) << (r)) & ((1 << ((l) + 1)) - 1));
+}
+static constexpr uint8_t makeBit(uint8_t l, uint8_t v) {
+  return (uint8_t)(((v) & 0x01) << (l));
+}
+
 /**
  * @brief Header only C++ driver for the TLV320AIC3104 audio codec.
  *
@@ -223,21 +239,7 @@ class TLV320AIC3104 : public ZephyrDriverCommon {
 
   // WHEW!
 
-  // Make it easier to represent bits from the datasheet.
-  // Bits D[l] - D[r] = 0b[v]  l & r are between 7 and 0 inclusive.
-  // For example: "D7-D5 set to 010" is `makeBits(7, 5, 0b010)` or
-  // `makeBits(7, 5, 2)`.
-  // Plain functions (not macros) are used here, unlike ESP-IDF's own
-  // single-arg BIT(x) macro (from esp_bit_defs.h), so this header never
-  // has to undef/restore anyone else's macro.
-  static constexpr uint8_t makeBits(uint8_t l, uint8_t r, uint8_t v) {
-    return (uint8_t)(((v) << (r)) & ((1 << ((l) + 1)) - 1));
-  }
-  static constexpr uint8_t makeBit(uint8_t l, uint8_t v) {
-    return (uint8_t)(((v) & 0x01) << (l));
-  }
-
-  // ---- Bit definitions ----  
+  // ---- Bit definitions ----
   // Codec sample rate select register (NCODEC = NADC = NDAC on this device)
   static constexpr uint8_t NCODEC_1 = 0x0;
   static constexpr uint8_t NCODEC_1_5 = 0x1;
