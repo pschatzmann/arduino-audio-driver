@@ -5,7 +5,7 @@ if (DEFINED ESP_PLATFORM)
     # idf component — header-only, no source files to compile
     idf_component_register(
         INCLUDE_DIRS src
-        REQUIRES hal driver
+        REQUIRES hal driver esp_driver_i2c
     )
     # activate ESP32 I2C
     add_compile_definitions(ESP32 ESP32_CMAKE)
