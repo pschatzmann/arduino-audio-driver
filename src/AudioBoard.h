@@ -114,6 +114,9 @@ static AudioBoard GenericWM8960{AudioDriverWM8960, NoPins};
 static AudioBoard GenericCS43l22{AudioDriverCS43l22, NoPins};
 /// @ingroup audio_driver
 static AudioBoard GenericES8311{AudioDriverES8311, NoPins};
+/// @ingroup audio_driver
+static AudioBoard GenericES8388{AudioDriverES8388, NoPins};
+
 
 }  // namespace audio_driver
 
