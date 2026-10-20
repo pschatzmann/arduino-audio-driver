@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['result_5ffail_0',['RESULT_FAIL',['../_driver_common_8h.html#ab5ec20748e1f8c88ecee1c207b45e181',1,'DriverCommon.h']]],
-  ['result_5fok_1',['RESULT_OK',['../_driver_common_8h.html#a2618c097a9f7213a8b01afbcf0d3936e',1,'DriverCommon.h']]]
+  ['pin_5fwaveshare_5fesp32p4wifi6_5fsd_5fcs_0',['PIN_WAVESHARE_ESP32P4WIFI6_SD_CS',['../_waveshare_e_s_p32_p4_w_i_f_i6_8h.html#a8a2ace4c7a707aedee54657ed9b86403',1,'WaveshareESP32P4WIFI6.h']]]
 ];
