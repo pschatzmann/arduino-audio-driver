@@ -11,6 +11,7 @@
 #include "ESP32S3AISmartSpeaker.h"
 #include "ESP32S3HosyondDisplay.h"
 #include "GmicHaToyMd.h"
+#include "WaveshareESP32P4WIFI6.h"
 #endif
 
 // STM32 boards use STM32-specific pin name macros (e.g. PA0, PB6) that are
