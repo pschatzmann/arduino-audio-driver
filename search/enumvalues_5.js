@@ -54,5 +54,5 @@ var searchData=
   ['esp8388_5finput_5fmic1_51',['ESP8388_INPUT_MIC1',['../namespaceaudio__driver.html#ae38caf100208781cf5c5ce289a9acc83a75022f2ef95008dcb4c6051178ddddc2',1,'audio_driver']]],
   ['esp8388_5finput_5fmic2_52',['ESP8388_INPUT_MIC2',['../namespaceaudio__driver.html#ae38caf100208781cf5c5ce289a9acc83aa3169e57352e49785a5ce05b4ef0afe9',1,'audio_driver']]],
   ['esp8388_5finput_5fmin_53',['ESP8388_INPUT_MIN',['../namespaceaudio__driver.html#ae38caf100208781cf5c5ce289a9acc83aca21043554bb93572aace0a20949a2e1',1,'audio_driver']]],
-  ['expander_54',['EXPANDER',['../namespaceaudio__driver.html#a6b03ddbf1e0f5abd0e46e02555850aafab26645b6d5701d60aeec199f0b820149',1,'audio_driver']]]
+  ['expander_54',['EXPANDER',['../group__audio__driver.html#gga6b03ddbf1e0f5abd0e46e02555850aafab26645b6d5701d60aeec199f0b820149',1,'audio_driver']]]
 ];

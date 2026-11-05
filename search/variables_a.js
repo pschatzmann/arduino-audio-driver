@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['l_5fbeep_5fgen_5faddr_0',['l_beep_gen_addr',['../classaudio__driver_1_1_t_l_v320_d_a_c310x.html#a35a1e46963f55a74f25b0e91fb511e44',1,'audio_driver::TLV320DAC310x::L_BEEP_GEN_ADDR'],['../classaudio__driver_1_1_t_l_v320_a_i_c3110.html#ac684f9aadbeb9162cc465b8f237556d6',1,'audio_driver::TLV320AIC3110::L_BEEP_GEN_ADDR']]],
+  ['l_5fbeep_5fgen_5faddr_0',['L_BEEP_GEN_ADDR',['../classaudio__driver_1_1_t_l_v320_a_i_c3110.html#ac684f9aadbeb9162cc465b8f237556d6',1,'audio_driver::TLV320AIC3110::L_BEEP_GEN_ADDR'],['../classaudio__driver_1_1_t_l_v320_d_a_c310x.html#a35a1e46963f55a74f25b0e91fb511e44',1,'audio_driver::TLV320DAC310x::L_BEEP_GEN_ADDR']]],
   ['l_5fch_5fmute_5fmask_1',['L_CH_MUTE_MASK',['../classaudio__driver_1_1_w_m8962.html#a3c7dad761a67d5fd31b2cdf2c4735f1f',1,'audio_driver::WM8962']]],
-  ['l_5fdig_5fvol_5fctrl_5faddr_2',['l_dig_vol_ctrl_addr',['../classaudio__driver_1_1_t_l_v320_a_i_c3110.html#a0cb133529a5a26e7b5566d0352e3259e',1,'audio_driver::TLV320AIC3110::L_DIG_VOL_CTRL_ADDR'],['../classaudio__driver_1_1_t_l_v320_d_a_c310x.html#a7058b70dd7bc5f6202289ee57ad43bbe',1,'audio_driver::TLV320DAC310x::L_DIG_VOL_CTRL_ADDR']]],
+  ['l_5fdig_5fvol_5fctrl_5faddr_2',['L_DIG_VOL_CTRL_ADDR',['../classaudio__driver_1_1_t_l_v320_a_i_c3110.html#a0cb133529a5a26e7b5566d0352e3259e',1,'audio_driver::TLV320AIC3110::L_DIG_VOL_CTRL_ADDR'],['../classaudio__driver_1_1_t_l_v320_d_a_c310x.html#a7058b70dd7bc5f6202289ee57ad43bbe',1,'audio_driver::TLV320DAC310x::L_DIG_VOL_CTRL_ADDR']]],
   ['ladc_5fvol_5faddr_3',['LADC_VOL_ADDR',['../classaudio__driver_1_1_t_l_v320_a_i_c3104.html#a9080738390546386cbbd4d4ed9641d98',1,'audio_driver::TLV320AIC3104']]],
   ['lagc_5fctrla_5faddr_4',['LAGC_CTRLA_ADDR',['../classaudio__driver_1_1_t_l_v320_a_i_c3104.html#afa15854ab0fbe590106162297702c01c',1,'audio_driver::TLV320AIC3104']]],
   ['lagc_5fctrlb_5faddr_5',['LAGC_CTRLB_ADDR',['../classaudio__driver_1_1_t_l_v320_a_i_c3104.html#ad57d23b722306435a1ec7fc9eacf0d91',1,'audio_driver::TLV320AIC3104']]],

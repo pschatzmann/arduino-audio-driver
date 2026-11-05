@@ -8,7 +8,7 @@ var searchData=
   ['osr_5f256_5',['OSR_256',['../namespaceaudio__driver.html#aca2ce4fcb4240a6f8260639a0d28fef2a59f3fd592d352249f8c45bc11a8ddad8',1,'audio_driver']]],
   ['osr_5f32_6',['OSR_32',['../namespaceaudio__driver.html#aca2ce4fcb4240a6f8260639a0d28fef2ab3beff6f8d7e1ecfb1b813abdda9945c',1,'audio_driver']]],
   ['osr_5f64_7',['OSR_64',['../namespaceaudio__driver.html#aca2ce4fcb4240a6f8260639a0d28fef2a5bd310e1975e0307e1a421fb93d0465c',1,'audio_driver']]],
-  ['output_8',['Output',['../namespaceaudio__driver.html#a541db2b810d671856e3d258a0e184d4fa29c2c02a361c9d7028472e5d92cd4a54',1,'audio_driver']]],
-  ['outputactivelow_9',['OutputActiveLow',['../namespaceaudio__driver.html#a541db2b810d671856e3d258a0e184d4fa39722a156ddb7ff44a1802940965d1b0',1,'audio_driver']]],
+  ['output_8',['Output',['../group__enumerations.html#gga541db2b810d671856e3d258a0e184d4fa29c2c02a361c9d7028472e5d92cd4a54',1,'audio_driver']]],
+  ['outputactivelow_9',['OutputActiveLow',['../group__enumerations.html#gga541db2b810d671856e3d258a0e184d4fa39722a156ddb7ff44a1802940965d1b0',1,'audio_driver']]],
   ['outputpowerdown_10',['OutputPowerDown',['../classaudio__driver_1_1_w_m8731.html#ad9246273e5557405623484e265e54ee8aa120fdf0535145807102b4251a812e06',1,'audio_driver::WM8731']]]
 ];

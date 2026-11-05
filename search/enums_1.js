@@ -16,8 +16,8 @@ var searchData=
   ['aic3110dacprocblock_13',['AIC3110DacProcBlock',['../namespaceaudio__driver.html#ab74140f888eac3aa756e0412ce084296',1,'audio_driver']]],
   ['anactrlbits_14',['AnaCtrlBits',['../classaudio__driver_1_1_s_g_t_l5000.html#ad7b26e935ce6ddfb5a3a4265e0cad367',1,'audio_driver::SGTL5000']]],
   ['analoguepath_15',['AnaloguePath',['../classaudio__driver_1_1_w_m8731.html#a6b860cf62c5223b2629300c473064aed',1,'audio_driver::WM8731']]],
-  ['audiodriverkey_16',['AudioDriverKey',['../namespaceaudio__driver.html#a0e38a8cbaae36dea9c9053a4ee8f9e18',1,'audio_driver']]],
-  ['audiofrequency_17',['audiofrequency',['../classaudio__driver_1_1_w_m8994.html#a258b6134d167e8597ecd8e5d1b4e9443',1,'audio_driver::WM8994::AudioFrequency'],['../classaudio__driver_1_1_c_s43_l22.html#a258b6134d167e8597ecd8e5d1b4e9443',1,'audio_driver::CS43L22::AudioFrequency']]],
+  ['audiodriverkey_16',['AudioDriverKey',['../group__audio__driver.html#ga0e38a8cbaae36dea9c9053a4ee8f9e18',1,'audio_driver']]],
+  ['audiofrequency_17',['AudioFrequency',['../classaudio__driver_1_1_c_s43_l22.html#a258b6134d167e8597ecd8e5d1b4e9443',1,'audio_driver::CS43L22::AudioFrequency'],['../classaudio__driver_1_1_w_m8994.html#a258b6134d167e8597ecd8e5d1b4e9443',1,'audio_driver::WM8994::AudioFrequency']]],
   ['audioi2sformat_18',['AudioI2SFormat',['../namespaceaudio__driver.html#a694abef13450931a2d93b7ece18bbb3a',1,'audio_driver']]],
   ['aw88298mode_19',['AW88298Mode',['../namespaceaudio__driver.html#ad7b79805f3994598721a8755955273f8',1,'audio_driver']]],
   ['aw88298wordsize_20',['AW88298WordSize',['../namespaceaudio__driver.html#ac62033f83f6712308dcf4a5da4cdf59a',1,'audio_driver']]]

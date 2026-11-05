@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['library_0',['Audio Driver Library',['../index.html',1,'']]],
-  ['license_1',['license',['../md_src_2_codecs_2cs42l51_2_l_i_c_e_n_s_e.html',1,'LICENSE'],['../md_src_2_codecs_2wm8978_2_l_i_c_e_n_s_e.html',1,'LICENSE']]]
+  ['desktop_20installation_0',['Desktop Installation',['../dir_23df1af027fc7d466dc76179de02454c.html#autotoc_md10',1,'']]],
+  ['documentation_1',['Documentation',['../index.html#autotoc_md2',1,'Documentation'],['../dir_23df1af027fc7d466dc76179de02454c.html#autotoc_md8',1,'Documentation']]],
+  ['driver_20library_2',['Audio Driver Library',['../index.html',1,'']]]
 ];

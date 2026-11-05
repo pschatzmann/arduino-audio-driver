@@ -1,10 +1,10 @@
 var searchData=
 [
   ['dac_5for_5freg_0',['DAC_OR_REG',['../classaudio__driver_1_1_p_c_m1681.html#a711a3a0a97b983d73268f38f53d8bb82a7c025cfc9eb3c286ef9cd744e1c48283',1,'audio_driver::PCM1681']]],
-  ['dac_5foutput_5fall_1',['DAC_OUTPUT_ALL',['../namespaceaudio__driver.html#a9144c83baaa7ebeaaecb236f9e21d264a9f3f48105f92c53bfcc4d9546f666c43',1,'audio_driver']]],
-  ['dac_5foutput_5fline1_2',['DAC_OUTPUT_LINE1',['../namespaceaudio__driver.html#a9144c83baaa7ebeaaecb236f9e21d264a11a8487d0e17c9ac1d194c4f99974c85',1,'audio_driver']]],
-  ['dac_5foutput_5fline2_3',['DAC_OUTPUT_LINE2',['../namespaceaudio__driver.html#a9144c83baaa7ebeaaecb236f9e21d264ae7351d9cbd1c1c3cd76bf4665e8d0cca',1,'audio_driver']]],
-  ['dac_5foutput_5fnone_4',['DAC_OUTPUT_NONE',['../namespaceaudio__driver.html#a9144c83baaa7ebeaaecb236f9e21d264ab839e055e11786256cd328d1b754a190',1,'audio_driver']]],
+  ['dac_5foutput_5fall_1',['DAC_OUTPUT_ALL',['../namespaceaudio__driver.html#ga9144c83baaa7ebeaaecb236f9e21d264a9f3f48105f92c53bfcc4d9546f666c43',1,'audio_driver']]],
+  ['dac_5foutput_5fline1_2',['DAC_OUTPUT_LINE1',['../namespaceaudio__driver.html#ga9144c83baaa7ebeaaecb236f9e21d264a11a8487d0e17c9ac1d194c4f99974c85',1,'audio_driver']]],
+  ['dac_5foutput_5fline2_3',['DAC_OUTPUT_LINE2',['../namespaceaudio__driver.html#ga9144c83baaa7ebeaaecb236f9e21d264ae7351d9cbd1c1c3cd76bf4665e8d0cca',1,'audio_driver']]],
+  ['dac_5foutput_5fnone_4',['DAC_OUTPUT_NONE',['../namespaceaudio__driver.html#ga9144c83baaa7ebeaaecb236f9e21d264ab839e055e11786256cd328d1b754a190',1,'audio_driver']]],
   ['dacpowerdown_5',['DacPowerDown',['../classaudio__driver_1_1_w_m8731.html#ad9246273e5557405623484e265e54ee8a1ee904cfa806f918d8ec723c047c668d',1,'audio_driver::WM8731']]],
   ['dacselect_6',['DacSelect',['../classaudio__driver_1_1_w_m8731.html#a6b860cf62c5223b2629300c473064aeda0aea773c0d4e69351355a3a50d148658',1,'audio_driver::WM8731']]],
   ['dacsoftmute_7',['DacSoftMute',['../classaudio__driver_1_1_w_m8731.html#a6f750de0043fbf1145db14b0ddda82b4a43851f9d9c7b46ea84aea5250ffacc91',1,'audio_driver::WM8731']]],
@@ -27,8 +27,9 @@ var searchData=
   ['deemphasisdisable_24',['DeEmphasisDisable',['../classaudio__driver_1_1_w_m8731.html#a6f750de0043fbf1145db14b0ddda82b4ab73c596d4235a7e7cb9addc4f7311eda',1,'audio_driver::WM8731']]],
   ['digitalpath_25',['DigitalPath',['../classaudio__driver_1_1_w_m8731.html#a711a3a0a97b983d73268f38f53d8bb82a29ce29375c84878c149d2345022a277e',1,'audio_driver::WM8731']]],
   ['digpower_26',['DigPower',['../classaudio__driver_1_1_s_g_t_l5000.html#a027f8dcea42c1083af384cab05ac0e94aabf263625bf374acb4489592e5b3c5de',1,'audio_driver::SGTL5000']]],
-  ['dsp_27',['dsp',['../namespaceaudio__driver.html#a1ae83a079ed235cdc59ae178215f458fa667ee341257c489c8f4a032a1f38ff14',1,'audio_driver::Dsp'],['../namespaceaudio__driver.html#ad65dc2a41c8b57ed742f8bca78e86517ac0dc8df68b79ed124e7c649d1df58fb5',1,'audio_driver::DSP']]],
-  ['dsp_5fa_28',['DSP_A',['../namespaceaudio__driver.html#a694abef13450931a2d93b7ece18bbb3aa12a20dd0db9940dc1f22da099dd295b9',1,'audio_driver']]],
-  ['dsp_5fb_29',['DSP_B',['../namespaceaudio__driver.html#a694abef13450931a2d93b7ece18bbb3aa43862de876a39462c8182178ff79a06b',1,'audio_driver']]],
-  ['dspmode_30',['DSPMode',['../namespaceaudio__driver.html#abc4adcce44172e3f34c268c1faf89528a01bbd2fca197ac8e5211340f36d625e1',1,'audio_driver']]]
+  ['dsp_27',['DSP',['../namespaceaudio__driver.html#ad65dc2a41c8b57ed742f8bca78e86517ac0dc8df68b79ed124e7c649d1df58fb5',1,'audio_driver']]],
+  ['dsp_28',['Dsp',['../namespaceaudio__driver.html#a1ae83a079ed235cdc59ae178215f458fa667ee341257c489c8f4a032a1f38ff14',1,'audio_driver']]],
+  ['dsp_5fa_29',['DSP_A',['../namespaceaudio__driver.html#a694abef13450931a2d93b7ece18bbb3aa12a20dd0db9940dc1f22da099dd295b9',1,'audio_driver']]],
+  ['dsp_5fb_30',['DSP_B',['../namespaceaudio__driver.html#a694abef13450931a2d93b7ece18bbb3aa43862de876a39462c8182178ff79a06b',1,'audio_driver']]],
+  ['dspmode_31',['DSPMode',['../namespaceaudio__driver.html#abc4adcce44172e3f34c268c1faf89528a01bbd2fca197ac8e5211340f36d625e1',1,'audio_driver']]]
 ];
