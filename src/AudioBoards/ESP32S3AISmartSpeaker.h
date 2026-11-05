@@ -89,10 +89,12 @@ class PinsESP32S3AISmartSpeakerClass : public DriverDeviceInfo {
   bool begin() override {
     AD_LOGD("PinsESP32S3AISmartSpeakerClass::begin");
     bool rc = DriverDeviceInfo::begin();
-    // activate SD CS
+    // SPI SD: CS is active LOW. Select the card permanently, so that SdFat
+    // works with chipSelect = -1 (SD_CHIP_SELECT_MODE 0). With
+    // SD_CHIP_SELECT_MODE 1 the sketch can toggle EXIO4 via sdCsWrite().
     if (sd_active) {
       AD_LOGD("Activate SD CS");
-      tca9555.digitalWrite(EXIO4, true);  // activate SD CS
+      tca9555.digitalWrite(EXIO4, false);  // activate SD CS (active low)
     }
     // activate SDMMC
     if (sdmmc_active) {
@@ -101,7 +103,7 @@ class PinsESP32S3AISmartSpeakerClass : public DriverDeviceInfo {
       if (!SD_MMC.setPins(40, 42, 41, -1, -1, -1)) {
         AD_LOGE("SDMMC setPins failed");
       }
-      tca9555.digitalWrite(EXIO4, true);  // deactivate SD CS
+      tca9555.digitalWrite(EXIO4, true);  // SD mode: DAT3/CS must be HIGH
 #else
       AD_LOGE("SDMMC only supported in Arduino");
 #endif
